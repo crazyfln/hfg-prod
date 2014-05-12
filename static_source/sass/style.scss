@@ -1,0 +1,25 @@
+@import "compass/css3/background-size";
+
+@import "compass/layout.scss";
+
+@include sticky-footer(88px, "#main", "#main-footer", "#footer");
+
+
+@import "registration";
+@import "buttons";
+@import "variables";
+@import "nav";
+@import "footer";
+$bootstrap-sass-asset-helper: false;
+@import "bootstrap";
+
+.container {
+    width: 960px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.clear {
+    clear: both;
+    margin: 0 auto;
+}

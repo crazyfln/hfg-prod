@@ -26,6 +26,15 @@ def _404(request):
     """for testing purposes"""
     raise Http404
 
+def favorites(request):
+    raise Http404
+
+def profile(request):
+    raise Http404
+
+def facility(request):
+    raise Http404
+
 @ajax_request
 @login_required
 def create_customer(request):

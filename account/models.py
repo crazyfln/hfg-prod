@@ -23,3 +23,12 @@ class User(AbstractUser, TimeStampedModel):
         """
 
         raise NotImplemented()
+
+
+
+class HoldingGroup(models.Model):
+    name = models.CharField(max_length=100)
+
+class FacilityDirector(User):
+    phone = models.IntegerField()
+    holding_group = models.ForeignKey(HoldingGroup, related_name="owners")

@@ -48,7 +48,7 @@
         <span>Other Fees</span>
         {% for fee in object.fees.all %}
         <p>
-            <span>{{ fee.name }} : </span>
+        <span>{{ fee.name }} : {{ fee.cost }} </span>
         </p>
         {% endfor %}
     </div>

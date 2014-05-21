@@ -6,8 +6,8 @@ Lightmatter Base Install
 
 
 {% block content %}
-{% load static from staticfiles %}
-<h1>Go forth and build...</h1>
-<img src='{% static 'img/lightmatter-medium.png' %}'/>
+{% for facility in facilities %}
+    {% include 'facility_result.html' with user=request.user facility=facility %}
+{% endfor %}
 
 {% endblock content %}

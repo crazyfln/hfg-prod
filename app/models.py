@@ -54,7 +54,7 @@ class Facility(TimeStampedModel):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('facility', args=(self.slug,))
+        return reverse('facility_details', args=(self.slug,))
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)

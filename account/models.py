@@ -29,6 +29,9 @@ class User(AbstractUser, TimeStampedModel):
 class HoldingGroup(models.Model):
     name = models.CharField(max_length=100)
 
+    def __unicode__(self):
+        return self.name
+
 class FacilityDirector(User):
     phone = models.IntegerField()
     holding_group = models.ForeignKey(HoldingGroup, related_name="owners")

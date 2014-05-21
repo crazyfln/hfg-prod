@@ -8,13 +8,14 @@ from account.models import User, FacilityDirector, HoldingGroup
 
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
-    favorited_by = models.ManyToManyField(User, through='Favorites')
+    favorited_by = models.ManyToManyField(User, through='Favorite')
     facility_types = models.ManyToManyField('FacilityType')
     holding_group = models.ForeignKey(HoldingGroup)
     director_name = models.CharField(max_length=50)
     director_email = models.EmailField(max_length=100)
     director_avatar = models.ImageField(upload_to=
                                         lambda instance, filename: 'director_avatars/' + str(instance.name.replace(' ','_')) + '/')
+    phone = models.IntegerField()
     license = models.CharField(max_length=20)
     city = models.CharField(max_length=50)
     zipcode = models.IntegerField()
@@ -40,7 +41,14 @@ class Facility(TimeStampedModel):
     medication_level_1_cost = models.IntegerField()
     medication_level_2_cost = models.IntegerField()
     medication_level_3_cost = models.IntegerField()
+    capacity = models.IntegerField()
+    vacancies = models.IntegerField()
     
+    languages = models.ManyToManyField('Language', related_name="facilities")
+    conditions = models.ManyToManyField('Condition', related_name="facilities")
+    amenities = models.ManyToManyField('Amenity', related_name="facilities")
+    room_types = models.ManyToManyField('RoomType', related_name="facilities")
+    fees = models.ManyToManyField('Fee', through="FacilityFee")
 
     def __unicode__(self):
         return self.name
@@ -53,9 +61,15 @@ class FacilityFee(TimeStampedModel):
     fee = models.ForeignKey('Fee')
     cost = models.IntegerField()
 
-class Fee(TimeStampedModel):
-    facility = models.ManyToManyField(Facility, through="FacilityFee")
+    def __unicode__(self):
+        return self.facility.name + "-" + self.fee.name
 
+class Fee(TimeStampedModel):
+    name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.name
+    
 class FacilityMessage(TimeStampedModel):
     user = models.ForeignKey(User)
     #<health detail fields>
@@ -70,33 +84,42 @@ class FacilityType(TimeStampedModel):
         return self.name
 
 class Language(TimeStampedModel):
-    facility = models.ManyToManyField(Facility)
     name = models.CharField(max_length=40)
 
-class Conditions(TimeStampedModel):
-    facility = models.ManyToManyField(Facility)
+    def __unicode__(self):
+        return self.name
+    
+class Condition(TimeStampedModel):
     name = models.CharField(max_length=40)
 
-class Amenities(TimeStampedModel):
-    facility = models.ManyToManyField(Facility)
+    def __unicode__(self):
+        return self.name
+    
+class Amenity(TimeStampedModel):
     name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
 
 class RoomType(TimeStampedModel):
     unit_type = models.CharField(max_length="20", choices=(
-                                   ("choice_1","choice_1"),
-                                   ("choice_2","choice_2"),
+                                   ("small room","small room"),
+                                   ("big room","big room"),
                                    ))
     square_footage = models.CharField(max_length="20", choices=(
-                                   ("choice_1","choice_1"),
-                                   ("choice_2","choice_2"),
+                                   ("20 x 50","20 x 50"),
+                                   ("100 x 50","100 x 50"),
                                    ))
     starting_price = models.DecimalField(max_digits=15, decimal_places=2)
-    square_footage = models.CharField(max_length="20", choices=(
+    care_type = models.CharField(max_length="20", choices=(
                                    ("Rent Only","Rent Only"),
                                    ("Rent and Care","Rent and Care"),
                                    ))
 
 
+    def __unicode__(self):
+        return self.unit_type
+    
 
 class FacilityImage(TimeStampedModel):
     facility = models.ForeignKey(Facility)
@@ -129,6 +152,6 @@ class Invoice(TimeStampedModel):
     resident_name = models.CharField(max_length=50)
     amount = models.IntegerField()
 
-class Favorites(TimeStampedModel):
+class Favorite(TimeStampedModel):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)

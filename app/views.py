@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpRespons
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.conf import settings
+from django.views.generic import DetailView
 
 from django.contrib.auth.decorators import login_required
 
@@ -12,6 +13,7 @@ from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
 from .forms import StripeTokenForm, ChargeForm
+from .models import *
 
 
 @render_to('index.html')
@@ -27,14 +29,22 @@ def _404(request):
     raise Http404
 
 def favorites(request):
+    #search page template except with profile bar instead of search
     raise Http404
 
 def profile(request):
     raise Http404
 
-def facility(request):
-    raise Http404
+class Facility(DetailView):
+    model = Facility
+    template_name = 'facility_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(Facility, self).get_context_data(**kwargs)
+        context['all_conditions'] = Condition.objects.all()
+        context['all_amenities'] = Amenity.objects.all()
+        context['all_languages'] = Language.objects.all()
+        return context
 @ajax_request
 @login_required
 def create_customer(request):

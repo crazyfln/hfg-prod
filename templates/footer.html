@@ -1,6 +1,19 @@
-<div id="main-footer"></div>
 <footer id="footer" >
-  {% block footer %}
-  <p>&copy; Company 2012</p>
-  {% endblock %}
+    <div id="main-footer">  
+        <div>
+            <a href="{% url 'index' %}"><span>About Us</span></a>
+            <a href="{% url 'index' %}"><span>Contact Us</span></a>
+            <span>Learn</span>
+            <span>How To Get Reward</span>
+        </div>
+        <div>
+            <span>Copyright &copy; 2014. Home For Grandma. All Rights Reserved.</span>
+            <span>Terms &amp; conditions</span>
+            <span>Privacy Policy</span> 
+        </div>
+        <div>
+            <span>Facebook</span>
+            <span>Twitter</span>
+        </div>
+    </div>
 </footer>

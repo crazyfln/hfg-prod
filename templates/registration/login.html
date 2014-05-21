@@ -23,6 +23,8 @@
         <p class='errors'>Your username and password didn't match. Please try again.</p>
         {% endif %}
         <a href="/account/password/reset">Forgot your password?</a>
+        </br>
+        <a href="{% url 'registration_register' %}">Register a new account</a>
         <div class="clear"></div>
         <button class="replace-this-class">Login</button>
         <!-- replace the above button class with the class(es) you make in _buttons.scss -->

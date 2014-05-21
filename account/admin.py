@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserChangeForm  as DjangoUserChangeForm
 
 import reversion
 
-from .models import User
+from .models import *
 
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -30,3 +30,4 @@ class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
     list_display = ('email', 'first_name', 'last_name', 'created')
 
 admin.site.register(User, UserAdmin)
+admin.site.register(HoldingGroup)

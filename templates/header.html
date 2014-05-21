@@ -1,0 +1,11 @@
+<div>
+    <span>LOGO</span>
+    <span>(626) 522-3432</span>
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}"><span>Profile</span></a>
+        <a href="{% url 'auth_logout' %}"><span>Logout</span></a>
+    {% else %}
+        <a href="{% url 'auth_login' %}"><span>Login</span></a>
+    {% endif %}
+    <span>List your property??</span>
+</div>

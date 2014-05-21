@@ -1,7 +1,8 @@
 */static/*
 *_flymake*
 *.\#*
-
+*.sw
+*.swp
 
 
 # Byte-compiled / optimized / DLL files

@@ -8,7 +8,9 @@
             <p>{% for type in object.facility_types.all %}{{ type.name }} | {% endfor %}</p>
         </div>
         <div id=fav-price">
-            <span>~FAV HEART~</span> | ${{ object.min_price }}
+            <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}"<span {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}>~FAV HEART</span></a>
+
+            <span> | ${{ object.min_price }}</span>
         </div>
     </div>
     </br>

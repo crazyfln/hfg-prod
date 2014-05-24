@@ -6,17 +6,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.conf import settings
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from django.contrib.auth.decorators import login_required
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
-from .forms import StripeTokenForm, ChargeForm
+from .forms import SearchForm, StripeTokenForm, ChargeForm
 from .models import *
-
 
 @render_to('index.html')
 def index(request):
@@ -62,6 +62,44 @@ def facility_favorite(request, slug):
 
     return redirect(request.GET['next'])
 
+class Search(ListView):
+    model = Facility
+    template_name = 'search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Search, self).get_context_data(**kwargs)
+        min_val = self.request.GET.get('min_value', 149)
+        max_val = self.request.GET.get('max_value', 3500)
+        request = self.request.GET.copy()
+        request['min_value'] = min_val
+        request['max_value'] = max_val
+        context['form'] = SearchForm(request)
+        return context
+
+    def get_queryset(self):
+
+        form = SearchForm(self.request.GET)
+
+        if form.is_valid():
+            if form.cleaned_data['query']:
+                q = form.cleaned_data['query']
+                query = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q)
+                result = Facility.objects.filter(query)
+            else:
+                result = Facility.objects.all()
+
+            if form.cleaned_data['facility_type']:
+                result = result.filter( Q(facility_types=form.cleaned_data['facility_type']))
+
+            if form.cleaned_data['room_type']:
+                result = result.filter( Q(room_types=form.cleaned_data['room_type']))
+
+            if form.cleaned_data['amenities']:
+                result = result.filter( Q(amenities=form.cleaned_data['amenities']))
+
+            return result
+        else:
+            return Facility.objects.all()
 
 @ajax_request
 @login_required

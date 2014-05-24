@@ -32,9 +32,9 @@
     <div class="container" id="main">
       {% block content %}
       {% endblock content %}
+    <div id="main-footer"></div>
     </div> <!-- /container -->
 	{% include "footer.html" %}
-
     {% compressed_js 'vendor' %}
     {% compressed_js 'app' %}
     {% block body_media %}

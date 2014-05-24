@@ -15,10 +15,10 @@ class Facility(TimeStampedModel):
     director_email = models.EmailField(max_length=100)
     director_avatar = models.ImageField(upload_to=
                                         lambda instance, filename: 'director_avatars/' + str(instance.name.replace(' ','_')) + '/')
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=10)
     license = models.CharField(max_length=20)
     city = models.CharField(max_length=50)
-    zipcode = models.IntegerField()
+    zipcode = models.CharField(max_length=10)
     min_price = models.IntegerField()
     address = models.CharField(max_length=100)
     state = models.CharField(max_length=2)

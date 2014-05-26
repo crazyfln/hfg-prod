@@ -1,13 +1,33 @@
 {% extends "base.html" %}
 
 {% block title %}
-Lightmatter Base Install
+Home For Grandma
 {% endblock title %}
 
 
 {% block content %}
+
+
 {% for facility in facilities %}
     {% include 'facility_result.html' with user=request.user facility=facility %}
 {% endfor %}
 
+<div class="home-background">
+    <div class="container" id='main'>
+
+    <div class="search-holder" style=''>
+        <div class="transparent-holder"></div>
+        <div class="content-holder">
+            <h1>Find Senior Living</h1>
+        <div class="clear"></div>
+        <!-- Dummy input tag for search bar placed here for you Chris -->
+        <input type="text" placehold='search bar here'>
+        </div>
+        
+    </div>
+    </div>
+</div>
+<div class="container">
+    
+</div>
 {% endblock content %}

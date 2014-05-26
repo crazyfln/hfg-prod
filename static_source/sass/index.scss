@@ -1,0 +1,31 @@
+.home-background {
+    height: 100%;
+    background: image-url('img/home_background.png') no-repeat;
+    background-size: cover;
+}
+
+.search-holder {
+     background-color:rgba(0, 0, 0, .8,);
+    padding:20px 20px 20px 20px;
+    width: 747px;
+    height: 195px;
+    border-radius: 3px;
+    margin: 0 auto;
+    margin-top: 130px;
+
+    .transparent-holder {
+        opacity:.8;
+    }
+    .content-holder {
+
+    }
+
+    h1 {
+        color: $white;
+        font-size: 42px;
+    }
+
+    input {
+
+    }
+}

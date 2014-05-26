@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 
@@ -51,3 +52,10 @@ class RegistrationForm(forms.Form):
         if User.objects.filter(email__iexact=self.cleaned_data['email']):
             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
         return self.cleaned_data['email']
+
+class ProfileForm(ModelForm):
+
+    class Meta:
+        model = User
+
+

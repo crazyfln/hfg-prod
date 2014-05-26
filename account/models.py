@@ -7,9 +7,23 @@ from django.contrib.auth.models import AbstractUser
 from hfg import settings
 
 class User(AbstractUser, TimeStampedModel):
+    
+    phone = models.CharField(max_length=10)
+    searching_for = models.CharField(max_length=30, choices=(
+                                    ('Myself','Myself'),
+                                    ('Family','Family'),
+                                    ('Friend','Friend'),
+                                    ('Client','Client'),
+                                    ('Other','Other'))
+                                    )
+    budget = models.CharField(max_length=30, choices=(
+                                ('1000','1000'),
+                                ('2000','2000'),
+                                ('3000','3000'),
+                                ('Not Sure','Not Sure'))
+                                )
 
-    #custom user fields go here
-    ####
+
     def __unicode__(self):
         if self.get_full_name() == "":
             return self.email
@@ -33,5 +47,4 @@ class HoldingGroup(models.Model):
         return self.name
 
 class FacilityDirector(User):
-    phone = models.IntegerField()
     holding_group = models.ForeignKey(HoldingGroup, related_name="owners")

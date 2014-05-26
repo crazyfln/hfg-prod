@@ -15,6 +15,8 @@ from django.contrib.auth.decorators import login_required
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
+from account.forms import ProfileForm
+
 from .forms import SearchForm, StripeTokenForm, ChargeForm
 from .models import *
 
@@ -32,12 +34,17 @@ def _404(request):
     """for testing purposes"""
     raise Http404
 
-def favorites(request):
-    #search page template except with profile bar instead of search
-    raise Http404
+class Profile(DetailView):
+    model = User
+    template = 'profile.html'
 
-def profile(request):
-    raise Http404
+    def get_context_data(self, **kwargs):
+        context = super(Profile, self).get_context_data(**kwargs)
+        context['form'] = ProfileForm(instance=self.request.user)
+        return context
+
+    def get_object(self):
+        return self.request.user 
 
 class FacilityDetail(DetailView):
     model = Facility
@@ -62,12 +69,20 @@ def facility_favorite(request, slug):
 
     return redirect(request.GET['next'])
 
+class FavoriteList(ListView):
+    model = Facility
+    template_name = 'favorite_list.html'
+
+    def get_queryset(self):
+        return self.request.user.favorites.all()
+
 class Search(ListView):
     model = Facility
     template_name = 'search.html'
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
+        # slider gets its starting value from the form min/max_value field values, form needs values for those fields. Initializing with request.GET was overriding initial values in form class. If there's a cleaner way I'd love to find it.
         min_val = self.request.GET.get('min_value', 149)
         max_val = self.request.GET.get('max_value', 3500)
         request = self.request.GET.copy()
@@ -89,14 +104,17 @@ class Search(ListView):
                 result = Facility.objects.all()
 
             if form.cleaned_data['facility_type']:
-                result = result.filter( Q(facility_types=form.cleaned_data['facility_type']))
+                result = result.filter(facility_types=form.cleaned_data['facility_type'])
 
             if form.cleaned_data['room_type']:
-                result = result.filter( Q(room_types=form.cleaned_data['room_type']))
+                result = result.filter(room_types=form.cleaned_data['room_type'])
 
             if form.cleaned_data['amenities']:
-                result = result.filter( Q(amenities=form.cleaned_data['amenities']))
+                result = result.filter(amenities=form.cleaned_data['amenities'])
 
+            min_price = form.cleaned_data['min_value']
+            max_price = form.cleaned_data['max_value']
+            result = result.filter(min_price__gte=min_price, min_price__lte=max_price)
             return result
         else:
             return Facility.objects.all()

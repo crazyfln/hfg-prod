@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'profile_nav.html' with user=request.user %}
+    {{ form.as_p }}
+
+
+{% endblock content %}

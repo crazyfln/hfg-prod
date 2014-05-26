@@ -5,27 +5,49 @@
 }
 
 .search-holder {
-     background-color:rgba(0, 0, 0, .8,);
-    padding:20px 20px 20px 20px;
-    width: 747px;
-    height: 195px;
-    border-radius: 3px;
-    margin: 0 auto;
-    margin-top: 130px;
+   background-color:rgba(0, 0, 0, .8,);
+   padding:20px 20px 20px 20px;
+   width: 747px;
+   height: 195px;
+   border-radius: 3px;
+   margin: 0 auto;
+   margin-top: 130px;
 
-    .transparent-holder {
-        opacity:.8;
-    }
-    .content-holder {
+   .transparent-holder {
+    opacity:.8;
+}
+.content-holder {
 
-    }
+}
 
-    h1 {
-        color: $white;
-        font-size: 42px;
-    }
+h1 {
+    color: $white;
+    font-size: 42px;
+}
 
-    input {
+input {
 
+}
+}
+
+.home-info-holder {
+    background-color: $white;
+
+    .home-info {
+        float:left;
+
+        p.secondary {
+            font-size:22px;
+        }
+        p.primary {
+            font-size: 18px;
+        }
     }
 }
+
+.featured-listings {
+    background-color: $grey-background;
+
+    
+}
+

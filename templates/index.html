@@ -1,13 +1,75 @@
 {% extends "base.html" %}
 
 {% block title %}
-Lightmatter Base Install
+Home For Grandma
 {% endblock title %}
 
 
 {% block content %}
+
+
 {% for facility in facilities %}
-    {% include 'facility_result.html' with user=request.user facility=facility %}
+{% include 'facility_result.html' with user=request.user facility=facility %}
 {% endfor %}
 
+{% load static from staticfiles %}
+
+
+<div class="home-background">
+  <div class="container" id=''>
+
+    <div class="search-holder" style=''>
+      <div class="transparent-holder"></div>
+      <div class="content-holder">
+        <h1>Find Senior Living</h1>
+        <div class="clear"></div>
+        <!-- Dummy input tag for search bar placed here for you Chris -->
+        <input class='left' type="text" placeholder='Search by ...'>
+        <!-- self reminder for Greg, need to style the select holder and have 
+        a  transparent select input for custom selects -->
+        <div class="select-holder">
+        <select class='left' name="" id="">
+          <option value="">Some Option</option>
+        </select>
+        </div>
+        <button class='button-blue left'><img src='{% static 'img/icon_search.png' %}'/></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="home-info-holder padder-40">
+  <div class="container">
+    <div class="col-md-4 home-info">
+      <center>
+        <img src='{% static 'img/icon_reward.png' %}'/>
+        <p class='bold secondary'>$200 Reward</p>
+        <p class='primary'>other text here</p>
+      </center>
+    </div>
+    <div class="col-md-4 home-info">
+      <center>
+        <img src='{% static 'img/icon_family.png' %}'/>
+        <p class='bold secondary'>$200 Reward</p>
+        <p class='primary'>other text here</p>
+      </center>
+    </div>
+    <div class="col-md-4 home-info">
+      <center>
+        <img src='{% static 'img/icon_waitlist.png' %}'/>
+        <p class='bold secondary'>$200 Reward</p>
+        <p class='primary'>other text here</p>
+      </center>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+<div class="featured-listings padder-80">
+  <div class="container">
+    <center>
+      <h1>Featured Listings</h1>
+    </center>
+    {% include 'snippets/listing_preview.html' %} 
+  </div>
+</div>
 {% endblock content %}

@@ -8,9 +8,6 @@ Home For Grandma
 {% load static from staticfiles %}
 
 
-{% for facility in facilities %}
-{% include 'facility_result.html' with user=request.user facility=facility %}
-{% endfor %}
 
 <!-- registration modal -->
 <div class="modal fade" id="Registration-Modal" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
@@ -156,7 +153,10 @@ Home For Grandma
     <center>
       <h1>Featured Listings</h1>
     </center>
-    {% include 'snippets/listing_preview.html' %} 
+    
+{% for facility in facilities %}
+    {% include 'snippets/listing_preview.html' with user=request.user facility=facility %} 
+{% endfor %}
   </div>
 </div>
 {% endblock content %}

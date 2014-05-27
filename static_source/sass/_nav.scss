@@ -1,1 +1,21 @@
 //header scss goes here.
+
+
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #000;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    img {
+    }
+
+    button {
+    margin: 0 5px 0 5px;
+    }
+
+    p {
+        margin: 12px 20px 0 0;
+        color: $secondary;
+    }
+}

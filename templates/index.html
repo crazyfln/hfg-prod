@@ -1,13 +1,17 @@
 {% extends "base.html" %}
-
-{% block title %} Home For Grandma {% endblock title %}
+{% block title %}
+Home For Grandma
+{% endblock title %}
 
 
 {% block content %}
-  
+{% load static from staticfiles %}
+
+
 {% for facility in facilities %}
-  {% include 'facility_result.html' with user=request.user facility=facility %}
+{% include 'facility_result.html' with user=request.user facility=facility %}
 {% endfor %}
+
 <!-- registration modal -->
 <div class="modal fade" id="Registration-Modal" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -57,8 +61,7 @@
             </tr>
           </table>
           <button class="replace-this-class">Submit</button>
-            <!-- replace the above button class with the class(es) you make in _buttons.scss -->
-
+          <!-- replace the above button class with the class(es) you make in _buttons.scss -->
         </form>
       </div>
     </div>
@@ -75,28 +78,85 @@
       <div class="modal-body">
         <form method="post" action="{% url "django.contrib.auth.views.login" %}{% if next %}?next={{next}}{% endif %}">
           {% csrf_token %} 
-            <table> 
-              <tr> 
-                <td><label for="id_username"> Email</label></td> 
-              </tr> 
-                <tr> <td>{{ login_form.username }}</td> 
-              </tr> 
-                <tr> <td>{{ login_form.password.label_tag }}</td>
-              </tr>
-                <tr> <td>{{ login_form.password }}</td>
-              </tr> 
+          <table> 
+            <tr> 
+              <td><label for="id_username"> Email</label></td> 
+            </tr> 
+            <tr> <td>{{ login_form.username }}</td> 
+            </tr> 
+            <tr> <td>{{ login_form.password.label_tag }}</td>
+            </tr>
+            <tr> <td>{{ login_form.password }}</td>
+            </tr> 
           </table> 
         </table>
-          {% if form.errors %} 
-            <p class='errors'>Your username and password didn't match. Please try again.</p> 
-          {% endif %} 
-            <a href="/account/password/reset">Forgot your password?</a> 
-            </br> 
-            <a href="{% url 'registration_register' %}">Register a new account</a> 
-            <button class="replace-this-class">Login</button> <!-- replace the above button class with the class(es) you make in _buttons.scss --> 
-        </form> 
-      </div>
+        {% if form.errors %} 
+        <p class='errors'>Your username and password didn't match. Please try again.</p> 
+        {% endif %} 
+        <a href="/account/password/reset">Forgot your password?</a> 
+      </br> 
+      <a href="{% url 'registration_register' %}">Register a new account</a> 
+      <button class="replace-this-class">Login</button> <!-- replace the above button class with the class(es) you make in _buttons.scss --> 
+    </form> 
+  </div>
+</div>
+</div>
+</div>
+
+<div class="home-background">
+  <div class="container" id=''>
+    <div class="search-holder" style=''>
+      <div class="transparent-holder"></div>
+      <div class="content-holder">
+        <h1>Find Senior Living</h1>
+        <div class="clear"></div>
+        <!-- Dummy input tag for search bar placed here for you Chris -->
+        <input class='left' type="text" placeholder='Search by ...'>
+<!-- self reminder for Greg, need to style the select holder and have 
+  a  transparent select input for custom selects -->
+  <div class="select-holder">
+    <select class='left' name="" id="">
+      <option value="">Some Option</option>
+    </select>
+  </div>
+  <button class='button-blue left'><img src='{% static 'img/icon_search.png' %}'/></button>
+</div>
+</div>
+
+</div>
+</div>
+<div class="home-info-holder padder-40">
+  <div class="container">
+    <div class="col-md-4 home-info">
+      <center>
+        <img src='{% static 'img/icon_reward.png' %}'/>
+        <p class='bold secondary'>$200 Reward</p>
+        <p class='primary'>other text here</p>
+      </center>
     </div>
+    <div class="col-md-4 home-info">
+      <center>
+        <img src='{% static 'img/icon_family.png' %}'/>
+        <p class='bold secondary'>$200 Reward</p>
+        <p class='primary'>other text here</p>
+      </center>
+    </div>
+    <div class="col-md-4 home-info">
+      <center>
+        <img src='{% static 'img/icon_waitlist.png' %}'/>
+        <p class='bold secondary'>$200 Reward</p>
+        <p class='primary'>other text here</p>
+      </center>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+<div class="featured-listings padder-80">
+  <div class="container">
+    <center>
+      <h1>Featured Listings</h1>
+    </center>
+    {% include 'snippets/listing_preview.html' %} 
   </div>
 </div>
 {% endblock content %}

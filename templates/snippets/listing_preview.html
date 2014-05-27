@@ -1,0 +1,26 @@
+{% load static from staticfiles %}
+
+
+<!-- loop for the listing preview starts here -->
+<div class="listing-preview">
+
+    <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to 
+    show or head hearts -->
+    <div class="heart-holder"></div>
+
+    <img class='listing-img-small' src='{% static 'img/listing_img_small.png' %}'/>
+    <!-- loop for the tags per listing starts here -->
+    <p class="listing-tag">{some variable tag}</p>
+    <p class="listing-tag">{same variable tag}</p>
+
+    <p class="listing-title">{Listing Title here}</p>
+    <p class="listing-location">{some location}</p>
+
+    <hr>
+    <p class='from'>From</p>
+    <p class="listing-price">{$ some price }</p>
+    <a class='listing-next'href="" class="">{some action}</a>
+    <div class="clear"></div>
+    <hr>
+    <p class="listing-else">{something else}</p>
+</div>

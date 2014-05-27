@@ -1,0 +1,76 @@
+.listing-preview {
+    height:472px;
+    width:342px;
+    background-color: $white;
+    border: 1px solid $border;
+    border-radius: 2px;
+    padding: 15px;
+    position: relative;
+
+    .heart-holder {
+        background: image-url('img/icon_not_hearted.png');
+        height: 21px;
+        width: 22px;
+        position: absolute;
+        top:15px;
+        left: 15px;
+
+        &:hover {
+            cursor:pointer;
+        }
+    }
+
+    .listing-img-small {
+        height: 216px;
+        margin: -15px 0 15px -15px;
+    }
+
+    .listing-tag {
+        color:$secondary;
+        font-size: 13px;
+        text-transform: uppercase;
+        float:left;
+        margin: 0 5px 0 0px;
+    }
+
+    .listing-title {
+        color: $dark;
+        font-size: 21px;
+    }
+
+    .listing-location {
+        color: $light;
+        font-size: 18px;
+    }
+
+    .from {
+        text-transform: uppercase;
+        color: $light;
+        float: left;
+        font-size: 12px;
+        margin: 5px 5px 0 0;
+    }
+
+    .listing-price {
+        color: $secondary;
+        font-size: 18px;
+        float: left;
+    }
+
+    .listing-next {
+        color: $listing-next;
+        float: right;
+        margin: 5px 0 0 0;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+    .listing-else {
+    color: $light;
+    font-size: 14px;
+    }
+}
+
+
+
+

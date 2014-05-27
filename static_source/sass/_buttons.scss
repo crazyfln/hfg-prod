@@ -1,1 +1,23 @@
 //Scss for buttons goes here.
+
+
+%button {
+    height: 40px;
+    padding: 0px 15px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border: none;
+    color: #fff;
+    outline: none;
+    border-radius: 2px;
+}
+
+.button-blue {
+    @extend %button;
+    background-color:$button-blue;
+}
+
+.button-orange {
+    @extend %button;
+    background-color: $button-orange;
+}

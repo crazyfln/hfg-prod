@@ -89,13 +89,7 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        # slider gets its starting value from the form min/max_value field values, form needs values for those fields. Initializing with request.GET was overriding initial values in form class. If there's a cleaner way I'd love to find it.
-        min_val = self.request.GET.get('min_value', 149)
-        max_val = self.request.GET.get('max_value', 3500)
-        request = self.request.GET.copy()
-        request['min_value'] = min_val
-        request['max_value'] = max_val
-        context['form'] = SearchForm(request)
+        context['form'] = SearchForm(self.request.GET)
         return context
 
     def get_queryset(self):
@@ -103,21 +97,16 @@ class Search(ListView):
         form = SearchForm(self.request.GET)
 
         if form.is_valid():
+            query = {}
+            query['facility_types'] = form.cleaned_data.get('facility_type',False)
+            query['room_types'] = form.cleaned_data.get('room_type',False)
+            query['amenities'] = form.cleaned_data.get('amenities',False)
+            result = Facility.objects.all().filter(**{key:value for (key, value) in query.iteritems() if value})
+
             if form.cleaned_data['query']:
                 q = form.cleaned_data['query']
-                query = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q)
-                result = Facility.objects.filter(query)
-            else:
-                result = Facility.objects.all()
-
-            if form.cleaned_data['facility_type']:
-                result = result.filter(facility_types=form.cleaned_data['facility_type'])
-
-            if form.cleaned_data['room_type']:
-                result = result.filter(room_types=form.cleaned_data['room_type'])
-
-            if form.cleaned_data['amenities']:
-                result = result.filter(amenities=form.cleaned_data['amenities'])
+                Qquery = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q)
+                result = result.filter(Qquery)
 
             min_price = form.cleaned_data['min_value']
             max_price = form.cleaned_data['max_value']

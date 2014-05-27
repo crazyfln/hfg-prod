@@ -9,19 +9,20 @@ from hfg import settings
 class User(AbstractUser, TimeStampedModel):
     
     phone = models.CharField(max_length=10)
-    searching_for = models.CharField(max_length=30, choices=(
+    searching_for = models.CharField(max_length=30, blank=True, choices=(
                                     ('Myself','Myself'),
                                     ('Family','Family'),
                                     ('Friend','Friend'),
                                     ('Client','Client'),
                                     ('Other','Other'))
                                     )
-    budget = models.CharField(max_length=30, choices=(
+    budget = models.CharField(max_length=30, blank=True, choices=(
                                 ('1000','1000'),
                                 ('2000','2000'),
                                 ('3000','3000'),
                                 ('Not Sure','Not Sure'))
                                 )
+    conditions = models.ManyToManyField('app.Condition', blank=True, related_name="users")
 
 
     def __unicode__(self):

@@ -29,7 +29,7 @@
     </div>
     <div id="pricing">
         <span>Pricing</span>
-        {% for room in object.room_types.all %}
+        {% for room in rooms %}
         <p>
             <span>{{ room.unit_type }}</span>
             <span>{{ room.square_footage }}</span>
@@ -37,6 +37,7 @@
         </p>
         {% endfor %}
     </div>
+    {% if object.care_type == "Rent and Care" %}
     <div id="care">
         <span>Care</span>
         <p>Level 1 : ${{ object.care_level_1_cost }}</p>
@@ -44,6 +45,7 @@
         <p>Level 3 : ${{ object.care_level_3_cost }}</p>
         <p>Memory : ${{ object.care_memory_cost }}</p>
     </div> 
+    {% endif %}
     <div id="other">
         <span>Other Fees</span>
         {% for fee in object.fees.all %}

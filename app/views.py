@@ -3,27 +3,32 @@ from decimal import *
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseBadRequest
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import DetailView, ListView
+from django.core.urlresolvers import reverse
+from django.views.generic import DetailView, ListView, UpdateView
 
 from django.contrib.auth.decorators import login_required
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
-from account.forms import ProfileForm
+from account.forms import RegistrationForm, ProfileForm
 
 from .forms import SearchForm, StripeTokenForm, ChargeForm
 from .models import *
 
 @render_to('index.html')
 def index(request):
-    facilities = Facility.objects.all()
-    data = {'facilities':facilities}
+    facilities = Facility.objects.filter(shown_on_home=True)
+    data = {'facilities':facilities, 
+            'registration_form':RegistrationForm(),
+            'login_form':AuthenticationForm()            }
+    
     return data
 
 def error(request):
@@ -34,17 +39,18 @@ def _404(request):
     """for testing purposes"""
     raise Http404
 
-class Profile(DetailView):
+class Profile(UpdateView):
     model = User
-    template = 'profile.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(Profile, self).get_context_data(**kwargs)
-        context['form'] = ProfileForm(instance=self.request.user)
-        return context
+    template_name = 'profile.html'
+    form_class = ProfileForm
+    fields = ('first_name','last_name','email','phone','searching_for','budget','conditions')
 
     def get_object(self):
-        return self.request.user 
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse('profile')
+
 
 class FacilityDetail(DetailView):
     model = Facility
@@ -55,6 +61,7 @@ class FacilityDetail(DetailView):
         context['all_conditions'] = Condition.objects.all()
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
+        context['rooms'] = RoomType.objects.filter(facility=self.object)
         return context
 
 @login_required

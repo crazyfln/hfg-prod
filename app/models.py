@@ -47,8 +47,11 @@ class Facility(TimeStampedModel):
     languages = models.ManyToManyField('Language', related_name="facilities")
     conditions = models.ManyToManyField('Condition', related_name="facilities")
     amenities = models.ManyToManyField('Amenity', related_name="facilities")
-    room_types = models.ManyToManyField('RoomType', related_name="facilities")
     fees = models.ManyToManyField('Fee', through="FacilityFee")
+    care_type = models.CharField(max_length="20", choices=(
+                                   ("Rent Only","Rent Only"),
+                                   ("Rent and Care","Rent and Care"),
+                                   ))
 
     def __unicode__(self):
         return self.name
@@ -102,6 +105,7 @@ class Amenity(TimeStampedModel):
         return self.name
 
 class RoomType(TimeStampedModel):
+    facility = models.ForeignKey(Facility, related_name="room_types")
     unit_type = models.CharField(max_length="20", choices=(
                                    ("small room","small room"),
                                    ("big room","big room"),
@@ -111,14 +115,10 @@ class RoomType(TimeStampedModel):
                                    ("100 x 50","100 x 50"),
                                    ))
     starting_price = models.DecimalField(max_digits=15, decimal_places=2)
-    care_type = models.CharField(max_length="20", choices=(
-                                   ("Rent Only","Rent Only"),
-                                   ("Rent and Care","Rent and Care"),
-                                   ))
 
 
     def __unicode__(self):
-        return self.unit_type
+        return str(self.facility) + "-" + self.unit_type +":"+ str(self.starting_price)
     
 
 class FacilityImage(TimeStampedModel):
@@ -153,5 +153,5 @@ class Invoice(TimeStampedModel):
     amount = models.IntegerField()
 
 class Favorite(TimeStampedModel):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name="favorites")
     facility = models.ForeignKey(Facility)

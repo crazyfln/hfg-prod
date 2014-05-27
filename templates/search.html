@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_head %}
-    <link href="{% static 'css/vendor/bootstrap.min.css' %}" rel=stylesheet">
     <link href="{% static 'slider/css/slider.css' %}" rel="stylesheet">
 {% endblock extra_head %}
 
@@ -17,9 +16,4 @@
     </div>
 
 {% endblock content %}
-
-{% block body_media %}
-    <script type="text/javascript" src="{% static 'slider/js/bootstrap-slider.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/slider.js' %}"></script>
-{% endblock body_media %}
 

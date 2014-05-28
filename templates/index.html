@@ -8,7 +8,9 @@ Home For Grandma
 {% load static from staticfiles %}
 
 
-
+{% if messages %}
+  {% include 'snippets/flash_message.html' with messages=messages %}
+{% endif %}
 <!-- registration modal -->
 <div class="modal fade" id="Registration-Modal" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
   <div class="modal-dialog">

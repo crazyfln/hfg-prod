@@ -1,0 +1,13 @@
+
+img.img-responsive{
+    width:100px;
+    height:100px;
+}
+img.img-main-carousel{
+   width:auto;
+   height:400px;   
+   max-height:400px;
+} 
+.selected img {
+     opacity:0.5;
+}

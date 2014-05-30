@@ -28,7 +28,8 @@ def index(request):
     facilities = Facility.objects.filter(shown_on_home=True)
     data = {'facilities':facilities, 
             'registration_form':RegistrationForm(),
-            'login_form':AuthenticationForm()            }
+            'login_form':AuthenticationForm(),
+            'search_form':SearchForm()}
     
     return data
 
@@ -63,6 +64,9 @@ class FacilityDetail(DetailView):
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
         context['rooms'] = RoomType.objects.filter(facility=self.object)
+        areacode, middle, last  = self.object.phone[:3], self.object.phone[3:6], self.object.phone[6:]
+        context['normal_phone'] = "(" + areacode + ") " + middle + "-" + last
+        context['star_phone'] = "(" + areacode + ") " + middle + "-****"
         return context
 
 @login_required
@@ -90,7 +94,10 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        context['form'] = SearchForm(self.request.GET)
+        if 'min_value' in self.request.GET:
+            context['form'] = SearchForm(self.request.GET)
+        else:
+            context['form'] = SearchForm()
         return context
 
     def get_queryset(self):
@@ -127,6 +134,13 @@ class Contact(FormView):
         form.send_email()
         messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
         return HttpResponseRedirect(self.get_success_url())
+
+@ajax_request
+def request_phone(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    phone_request = PhoneRequest(facility=facility, user=request.user)
+    phone_request.save()
+    return {}
 
 @ajax_request
 @login_required

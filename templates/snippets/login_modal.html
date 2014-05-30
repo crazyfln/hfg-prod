@@ -1,0 +1,37 @@
+<div class="modal fade" id="Login-Modal" tabindex="-2" role=".modal" aria-labelledby="Login-ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>Login</span>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url "django.contrib.auth.views.login" %}{% if next %}?next={{next}}{% endif %}">
+          {% csrf_token %}
+          <table>
+            <tr>
+              <td><label for="id_username"> Email</label></td>
+            </tr>
+            <tr>
+              <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+              <td>{{ form.password.label_tag }}</td>
+            </tr>
+            <tr>
+              <td>{{ form.password }}</td>
+            </tr>
+          </table>
+          </table>
+          {% if form.errors %} 
+          <p class='errors'>Your username and password didn't match. Please try again.</p> 
+          {% endif %} 
+          <a href="/account/password/reset">Forgot your password?</a> 
+          </br> 
+          <a href="{% url 'registration_register' %}">Register a new account</a> 
+          <button class="replace-this-class">Login</button> <!-- replace the above button class with the class(es) you make in _buttons.scss -->
+        </form> 
+      </div>
+    </div>
+  </div>
+</div>
+

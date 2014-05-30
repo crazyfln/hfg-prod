@@ -1,0 +1,32 @@
+<div id="facility-carousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+  </ol>
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    {% for image in images %}
+      <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
+        <img class="img-main-carousel" src="{{ image.image.url }}"/>
+      </div>
+    {% endfor %} 
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
+<!-- thumb navigation carousel -->
+<div class="col-md-12 " id="slider-thumbs">
+    <!-- thumb navigation carousel items -->
+    <ul class="list-inline">
+    {% for image in images %}
+        <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
+        <img src="{{ image.image.url }}" class="img-responsive">
+        </a></li>
+   {% endfor %}
+    </ul>
+</div>

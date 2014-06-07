@@ -1,6 +1,8 @@
 from .base import *
 
 DEBUG = True
+PIPELINE_ENABLED = True
+
 
 DATABASES = {
     'default': {

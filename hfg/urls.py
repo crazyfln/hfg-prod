@@ -24,8 +24,7 @@ urlpatterns = patterns('',
 
 
 from django.conf import settings
-#TODO dev
-if settings.DEBUG and getattr(settings, 'PIPELINE_ENABLED', False):
+if settings.DEBUG and not getattr(settings, 'PIPELINE_ENABLED', False):
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += patterns('',

@@ -1,5 +1,4 @@
 from .base import *
-from unipath import Path
 import dj_database_url
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config()
@@ -15,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
-DEBUG = True
+DEBUG = False
 PIPELINE_ENABLED = True
 
 # CACHES = {

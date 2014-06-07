@@ -15,7 +15,7 @@ STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 DEBUG = True
-PIPELINE_ENABLED = True
+
 
 # CACHES = {
 #     'default': {

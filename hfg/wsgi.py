@@ -27,7 +27,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hfg.settings.heroku-staging")
 from django.core.wsgi import get_wsgi_application
 from dj_static import Cling
 
-application = Cling(get_wsgi_application())
+application = Cling(get_wsgi_application(), ignore_debug=True)
 
 
 # Apply WSGI middleware here.

@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
-DEBUG = False
+DEBUG = True
 PIPELINE_ENABLED = True
 
 # CACHES = {

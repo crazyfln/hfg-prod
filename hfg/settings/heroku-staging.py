@@ -12,7 +12,7 @@ ALLOWED_HOSTS = ['*']
 
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = PROJECT_ROOT.child("static")
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 DEBUG = True

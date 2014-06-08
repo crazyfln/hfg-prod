@@ -1,0 +1,30 @@
+<div id="searchbox">
+    <form id="SearchForm" action="{% url 'search' %}" method="get">
+      {{ form.errors }}
+      <div id="searchfield-query">
+        {{ form.query }}
+      </div>
+      <div id="searchfield-facility_type">
+        {{ form.facility_type }}
+      </div>
+      <div id="secondary-search">
+        <div id="searchfield-room_type">
+          {{ form.room_type }}
+        </div>
+        <div id="searchfield-amenities">
+          {{ form.amenities }}
+        </div>
+        <div id="searchfield-hiddenvalues">
+          {{ form.min_value }}
+          {{ form.max_value }}
+        </div>
+        <div id="searchfield-slider">
+          <span>$149 </span>
+          <input id="slider" type="text" class="span2" value="" data-slider-min="149" data-slider-max="4999" data-slider-step="1" data-slider-value="[149,3500]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">
+          <span>$4999</span>
+        </div>
+      </div>
+      <input type="submit" value="Submit" />
+  </form>
+</div>
+

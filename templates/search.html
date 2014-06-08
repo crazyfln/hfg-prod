@@ -6,10 +6,10 @@
 
 
 {% block content %}
-    {% include 'searchbox.html' with form=form %}
+    {% include 'snippets/searchbox.html' with form=form %}
     <div id="search-results">
         {% for listing in object_list %}
-            {% include 'facility_result.html' with user=request.user facility=listing %}
+            {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
         {% empty %}
             <span>Empty</span>
         {% endfor %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Contact Us</h1>
+<p>Have a question or need help? Send us a message.</p>
+
+<form action="{% url 'contact' %}" method='post'>
+  {% csrf_token %}
+  <div>
+    {{ form.name.label_tag }}
+    {{ form.name }}
+    {{ form.name.errors }}
+  </div>
+  <div>
+    {{ form.email.label_tag }}
+    {{ form.email }}
+    {{ form.email.errors }}
+  </div>
+  <div>
+    {{ form.website.label_tag }}
+    {{ form.website }}
+    {{ form.website.errors }}
+  </div>
+  <div>
+    {{ form.message.label_tag }}
+    {{ form.message }}
+    {{ form.message.errors }}
+  </div>
+
+  <button type='submit'>Contact</button>
+</form>
+
+<div id="sidebar">
+  <div id="social-links">
+    <span>twitter</span>
+    <span>facebook</span>
+    <span>g+</span>
+  </div>
+  <div id="address">
+    <p>9868 Las Dr, Temple City, CA, 91780</p>
+    <a href="#"><span>View Map</span></a>
+  </div>
+  <div id="contact-info">
+    <a href="#"><span>info@homeforgrandma.com</span></a>
+    <p>626 226 0023</p>
+  </div>  
+
+</div>
+
+{% endblock content %}

@@ -2,7 +2,9 @@
 from decimal import *
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseBadRequest
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
@@ -10,16 +12,15 @@ from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, ListView, UpdateView
+from django.views.generic import DetailView, ListView, UpdateView, FormView
 
-from django.contrib.auth.decorators import login_required
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
 from account.forms import RegistrationForm, ProfileForm
 
-from .forms import SearchForm, StripeTokenForm, ChargeForm
+from .forms import SearchForm, ContactForm, StripeTokenForm, ChargeForm
 from .models import *
 
 @render_to('index.html')
@@ -27,7 +28,8 @@ def index(request):
     facilities = Facility.objects.filter(shown_on_home=True)
     data = {'facilities':facilities, 
             'registration_form':RegistrationForm(),
-            'login_form':AuthenticationForm()            }
+            'login_form':AuthenticationForm(),
+            'search_form':SearchForm()}
     
     return data
 
@@ -62,6 +64,9 @@ class FacilityDetail(DetailView):
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
         context['rooms'] = RoomType.objects.filter(facility=self.object)
+        areacode, middle, last  = self.object.phone[:3], self.object.phone[3:6], self.object.phone[6:]
+        context['normal_phone'] = "(" + areacode + ") " + middle + "-" + last
+        context['star_phone'] = "(" + areacode + ") " + middle + "-****"
         return context
 
 @login_required
@@ -89,7 +94,10 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        context['form'] = SearchForm(self.request.GET)
+        if 'min_value' in self.request.GET:
+            context['form'] = SearchForm(self.request.GET)
+        else:
+            context['form'] = SearchForm()
         return context
 
     def get_queryset(self):
@@ -114,6 +122,25 @@ class Search(ListView):
             return result
         else:
             return Facility.objects.all()
+
+class Contact(FormView):
+    form_class = ContactForm
+    template_name = 'contact.html'
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def form_valid(self, form):
+        form.send_email()
+        messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
+        return HttpResponseRedirect(self.get_success_url())
+
+@ajax_request
+def request_phone(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    phone_request = PhoneRequest(facility=facility, user=request.user)
+    phone_request.save()
+    return {}
 
 @ajax_request
 @login_required

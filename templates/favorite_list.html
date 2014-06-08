@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'profile_nav.html' with user=request.user %}
+    {% for listing in object_list %}
+        {% include 'facility_result.html' with facility=listing.facility %}
+    {% empty %}
+        <p>You have no favorited facilities</p>
+    {% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% load static from staticfiles %}
+
+<!-- loop for the listing preview starts here -->
+<div class="listing-preview" url="{{ facility.get_absolute_url }}">
+
+    <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to 
+    show or head hearts -->
+    <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
+    {% if user in facility.favorited_by.all %}
+      <div class="heart-holder" style="background-color:red"></div>
+    {% else %}
+      <div class="heart-holder"></div>
+    {% endif %}
+    </a>
+
+    <img class='listing-img-small' src="{% static 'img/listing_img_small.png' %}"/>
+    <!-- loop for the tags per listing starts here -->
+    {% for type in facility.facility_types.all %}
+      <p class="listing-tag">{{ type.name }}</p>
+    {% endfor %}
+
+    <p class="listing-title">{{ facility.name }}</p>
+    <p class="listing-location">{{ facility.city }}</p>
+
+    <hr>
+    <p class='from'>From</p>
+    <p class="listing-price">$ {{ facility.min_price }}</p>
+    <a class='listing-next'href="" class="">{{ facility.care_type }}</a>
+    <div class="clear"></div>
+    <hr>
+    <p class="listing-else">{{ facility.description_short }}</p>
+</div>

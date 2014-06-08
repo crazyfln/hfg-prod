@@ -2,21 +2,36 @@
 from decimal import *
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseBadRequest
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.conf import settings
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect
+from django.core.urlresolvers import reverse
+from django.views.generic import DetailView, ListView, UpdateView, FormView
 
-from django.contrib.auth.decorators import login_required
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
-from .forms import StripeTokenForm, ChargeForm
+from account.forms import RegistrationForm, ProfileForm
 
+from .forms import SearchForm, ContactForm, StripeTokenForm, ChargeForm
+from .models import *
 
 @render_to('index.html')
 def index(request):
-    return {}
+    facilities = Facility.objects.filter(shown_on_home=True)
+    data = {'facilities':facilities, 
+            'registration_form':RegistrationForm(),
+            'login_form':AuthenticationForm(),
+            'search_form':SearchForm()}
+    
+    return data
 
 def error(request):
     """for testing purposes"""
@@ -25,6 +40,107 @@ def error(request):
 def _404(request):
     """for testing purposes"""
     raise Http404
+
+class Profile(UpdateView):
+    model = User
+    template_name = 'profile.html'
+    form_class = ProfileForm
+    fields = ('first_name','last_name','email','phone','searching_for','budget','conditions')
+
+    def get_object(self):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse('profile')
+
+
+class FacilityDetail(DetailView):
+    model = Facility
+    template_name = 'facility_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FacilityDetail, self).get_context_data(**kwargs)
+        context['all_conditions'] = Condition.objects.all()
+        context['all_amenities'] = Amenity.objects.all()
+        context['all_languages'] = Language.objects.all()
+        context['rooms'] = RoomType.objects.filter(facility=self.object)
+        areacode, middle, last  = self.object.phone[:3], self.object.phone[3:6], self.object.phone[6:]
+        context['normal_phone'] = "(" + areacode + ") " + middle + "-" + last
+        context['star_phone'] = "(" + areacode + ") " + middle + "-****"
+        return context
+
+@login_required
+def facility_favorite(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    if request.user in facility.favorited_by.all():
+        favorite = Favorite.objects.get(user=request.user, facility=facility)
+        favorite.delete()
+    else:
+        favorite = Favorite(user=request.user, facility=facility)
+        favorite.save()
+
+    return redirect(request.GET['next'])
+
+class FavoriteList(ListView):
+    model = Facility
+    template_name = 'favorite_list.html'
+
+    def get_queryset(self):
+        return self.request.user.favorites.all()
+
+class Search(ListView):
+    model = Facility
+    template_name = 'search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Search, self).get_context_data(**kwargs)
+        if 'min_value' in self.request.GET:
+            context['form'] = SearchForm(self.request.GET)
+        else:
+            context['form'] = SearchForm()
+        return context
+
+    def get_queryset(self):
+
+        form = SearchForm(self.request.GET)
+
+        if form.is_valid():
+            query = {}
+            query['facility_types'] = form.cleaned_data.get('facility_type',False)
+            query['room_types'] = form.cleaned_data.get('room_type',False)
+            query['amenities'] = form.cleaned_data.get('amenities',False)
+            result = Facility.objects.all().filter(**{key:value for (key, value) in query.iteritems() if value})
+
+            if form.cleaned_data['query']:
+                q = form.cleaned_data['query']
+                Qquery = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q)
+                result = result.filter(Qquery)
+
+            min_price = form.cleaned_data['min_value']
+            max_price = form.cleaned_data['max_value']
+            result = result.filter(min_price__gte=min_price, min_price__lte=max_price)
+            return result
+        else:
+            return Facility.objects.all()
+
+class Contact(FormView):
+    form_class = ContactForm
+    template_name = 'contact.html'
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def form_valid(self, form):
+        form.send_email()
+        messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
+        return HttpResponseRedirect(self.get_success_url())
+
+@ajax_request
+def request_phone(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    phone_request = PhoneRequest(facility=facility, user=request.user)
+    phone_request.save()
+    return {}
 
 @ajax_request
 @login_required

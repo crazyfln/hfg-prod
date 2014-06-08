@@ -35,6 +35,7 @@ PIPELINE_JS = {
             'js/vendor/jquery-1.11.0.min.map',
             'js/vendor/bootstrap.min.js',
             'js/vendor/select2.min.js',
+            'js/vendor/bootstrap-slider.js'
             ),
         'output_filename': 'js/vendor.js',
         'manifest': True,

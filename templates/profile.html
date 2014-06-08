@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'profile_nav.html' with user=request.user %}
+    <form action="{% url 'profile' %}" method="post">
+      {% csrf_token %}
+      {{ form.first_name }}
+      {{ form.last_name }}
+      {{ form.email }}
+      {{ form.phone }}
+      {{ form.searching_for }}
+      {{ form.budget }}
+      {{ form.conditions }}
+      <button type="submit">update</button>
+    </form>
+
+{% endblock content %}

@@ -1,8 +1,9 @@
 */static/*
 *_flymake*
 *.\#*
-
-
+*.sw
+*.swp
+*.swo
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

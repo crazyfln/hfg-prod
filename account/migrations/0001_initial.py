@@ -7,6 +7,7 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+
     needed_by = (
         ("reversion", "0001_initial"),
         ("app", "0001_initial"),
@@ -50,6 +51,21 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['user_id', 'permission_id'])
 
+        # Adding model 'HoldingGroup'
+        db.create_table(u'account_holdinggroup', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+        ))
+        db.send_create_signal(u'account', ['HoldingGroup'])
+
+        # Adding model 'FacilityDirector'
+        db.create_table(u'account_facilitydirector', (
+            (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['account.User'], unique=True, primary_key=True)),
+            ('phone', self.gf('django.db.models.fields.IntegerField')()),
+            ('holding_group', self.gf('django.db.models.fields.related.ForeignKey')(related_name='owners', to=orm['account.HoldingGroup'])),
+        ))
+        db.send_create_signal(u'account', ['FacilityDirector'])
+
 
     def backwards(self, orm):
         # Deleting model 'User'
@@ -61,8 +77,25 @@ class Migration(SchemaMigration):
         # Removing M2M table for field user_permissions on 'User'
         db.delete_table(db.shorten_name(u'account_user_user_permissions'))
 
+        # Deleting model 'HoldingGroup'
+        db.delete_table(u'account_holdinggroup')
+
+        # Deleting model 'FacilityDirector'
+        db.delete_table(u'account_facilitydirector')
+
 
     models = {
+        u'account.facilitydirector': {
+            'Meta': {'object_name': 'FacilityDirector', '_ormbases': [u'account.User']},
+            'holding_group': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'owners'", 'to': u"orm['account.HoldingGroup']"}),
+            'phone': ('django.db.models.fields.IntegerField', [], {}),
+            u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['account.User']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        u'account.holdinggroup': {
+            'Meta': {'object_name': 'HoldingGroup'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
         u'account.user': {
             'Meta': {'object_name': 'User'},
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),

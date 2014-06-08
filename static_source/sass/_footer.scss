@@ -1,1 +1,22 @@
 //footer scss goes here.
+
+#footer {
+    background-color: $footer;
+
+    a {
+        text-decoration: none;
+    }
+
+    p.footer-primary {
+        color: $footer-primary;
+        display:inline;
+        margin: 15px;
+        padding: 15px;
+    }
+
+    p.footer-secondary {
+        color: $footer-secondary;
+        display:inline;
+        margin: 15px;
+    }
+}

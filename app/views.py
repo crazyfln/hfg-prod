@@ -3,6 +3,7 @@ from decimal import *
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseBadRequest
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
@@ -10,9 +11,8 @@ from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, ListView, UpdateView
-
-from django.contrib.auth.decorators import login_required
+from django.views.generic import DetailView, ListView, UpdateView, FormView
+from django.views.decorators.http import require_POST
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
@@ -20,6 +20,8 @@ from annoying.decorators import render_to, ajax_request
 from account.forms import RegistrationForm, ProfileForm
 
 from .forms import SearchForm, StripeTokenForm, ChargeForm
+from .forms import SearchForm, TourRequestForm, ContactForm, StripeTokenForm, ChargeForm
+>>>>>>> Stashed changes
 from .models import *
 
 @render_to('index.html')
@@ -62,7 +64,34 @@ class FacilityDetail(DetailView):
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
         context['rooms'] = RoomType.objects.filter(facility=self.object)
+<<<<<<< Updated upstream
+=======
+
+        try:
+            tour_request = FacilityMessage.objects.get(user=self.request.user, facility=self.object)
+        except ObjectDoesNotExist:
+            context['tour_request_form'] = TourRequestForm(user=self.request.user)
+
+>>>>>>> Stashed changes
         return context
+
+
+@login_required
+def tour_request(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    if request.method == 'POST':
+
+        form = TourRequestForm(request.POST)
+        if form.is_valid():
+            new_request = form.save(commit=False)
+            new_request.user = request.user
+            new_request.facility = facility
+            new_request.save()
+            messages.success(request, "Thanks, someone will be in touch soon")
+        else:
+            print form.errors
+            messages.error(request, "There was a problem with your tour request")
+    return HttpResponseRedirect(facility.get_absolute_url())
 
 @login_required
 def facility_favorite(request, slug):
@@ -115,6 +144,29 @@ class Search(ListView):
         else:
             return Facility.objects.all()
 
+<<<<<<< Updated upstream
+=======
+class Contact(FormView):
+    form_class = ContactForm
+    template_name = 'contact.html'
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def form_valid(self, form):
+        form.send_email()
+        messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
+        return HttpResponseRedirect(self.get_success_url())
+
+@require_POST
+@ajax_request
+def request_phone(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    phone_request = PhoneRequest(facility=facility, user=request.user)
+    phone_request.save()
+    return {}
+
+>>>>>>> Stashed changes
 @ajax_request
 @login_required
 def create_customer(request):

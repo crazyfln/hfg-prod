@@ -7,13 +7,6 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
-
-    needed_by = (
-        ("reversion", "0001_initial"),
-        ("app", "0001_initial"),
-
-    )
-
     def forwards(self, orm):
         # Adding model 'User'
         db.create_table(u'account_user', (
@@ -30,6 +23,27 @@ class Migration(SchemaMigration):
             ('date_joined', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
+            ('phone', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('searching_for', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('budget', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('pay_private_pay', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('pay_longterm_care', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('pay_veterans_benefits', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('pay_medicare', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('pay_medicaid', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('pay_ssi', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_bathing', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_diabetic', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_mobility', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('care_current', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('care_medical_assistance', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_toileting', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_memory_issues', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_diagnosed_memory', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_combinative', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('care_wandering', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('desired_city', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('resident_first_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
         ))
         db.send_create_signal(u'account', ['User'])
 
@@ -51,6 +65,15 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['user_id', 'permission_id'])
 
+        # Adding M2M table for field conditions on 'User'
+        m2m_table_name = db.shorten_name(u'account_user_conditions')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('user', models.ForeignKey(orm[u'account.user'], null=False)),
+            ('condition', models.ForeignKey(orm[u'app.condition'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['user_id', 'condition_id'])
+
         # Adding model 'HoldingGroup'
         db.create_table(u'account_holdinggroup', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -61,7 +84,6 @@ class Migration(SchemaMigration):
         # Adding model 'FacilityDirector'
         db.create_table(u'account_facilitydirector', (
             (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['account.User'], unique=True, primary_key=True)),
-            ('phone', self.gf('django.db.models.fields.IntegerField')()),
             ('holding_group', self.gf('django.db.models.fields.related.ForeignKey')(related_name='owners', to=orm['account.HoldingGroup'])),
         ))
         db.send_create_signal(u'account', ['FacilityDirector'])
@@ -77,6 +99,9 @@ class Migration(SchemaMigration):
         # Removing M2M table for field user_permissions on 'User'
         db.delete_table(db.shorten_name(u'account_user_user_permissions'))
 
+        # Removing M2M table for field conditions on 'User'
+        db.delete_table(db.shorten_name(u'account_user_conditions'))
+
         # Deleting model 'HoldingGroup'
         db.delete_table(u'account_holdinggroup')
 
@@ -88,7 +113,6 @@ class Migration(SchemaMigration):
         u'account.facilitydirector': {
             'Meta': {'object_name': 'FacilityDirector', '_ormbases': [u'account.User']},
             'holding_group': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'owners'", 'to': u"orm['account.HoldingGroup']"}),
-            'phone': ('django.db.models.fields.IntegerField', [], {}),
             u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['account.User']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'account.holdinggroup': {
@@ -98,8 +122,21 @@ class Migration(SchemaMigration):
         },
         u'account.user': {
             'Meta': {'object_name': 'User'},
+            'budget': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'care_bathing': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'care_combinative': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'care_current': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'care_diabetic': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'care_diagnosed_memory': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'care_medical_assistance': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'care_memory_issues': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'care_mobility': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'care_toileting': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'care_wandering': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'conditions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'users'", 'blank': 'True', 'to': u"orm['app.Condition']"}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
@@ -111,8 +148,24 @@ class Migration(SchemaMigration):
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'pay_longterm_care': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pay_medicaid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pay_medicare': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pay_private_pay': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pay_ssi': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pay_veterans_benefits': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'phone': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'searching_for': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
+        },
+        u'app.condition': {
+            'Meta': {'object_name': 'Condition'},
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},

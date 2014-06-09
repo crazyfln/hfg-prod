@@ -8,302 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Facility'
-        db.create_table(u'app_facility', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('holding_group', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.HoldingGroup'])),
-            ('director_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('director_email', self.gf('django.db.models.fields.EmailField')(max_length=100)),
-            ('director_avatar', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
-            ('phone', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('license', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('city', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('zipcode', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('min_price', self.gf('django.db.models.fields.IntegerField')()),
-            ('address', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('state', self.gf('django.db.models.fields.CharField')(max_length=2)),
-            ('slug', self.gf('django_extensions.db.fields.AutoSlugField')(allow_duplicates=False, max_length=50, separator=u'-', blank=True, populate_from=['name', 'zipcode'], overwrite=False)),
-            ('latitude', self.gf('django.db.models.fields.IntegerField')()),
-            ('longitude', self.gf('django.db.models.fields.IntegerField')()),
-            ('shown_on_home', self.gf('django.db.models.fields.BooleanField')()),
-            ('status', self.gf('django.db.models.fields.CharField')(max_length='20')),
-            ('description_short', self.gf('django.db.models.fields.CharField')(max_length=140)),
-            ('description_long', self.gf('django.db.models.fields.CharField')(max_length=1000)),
-            ('care_level_1_cost', self.gf('django.db.models.fields.IntegerField')()),
-            ('care_level_2_cost', self.gf('django.db.models.fields.IntegerField')()),
-            ('care_level_3_cost', self.gf('django.db.models.fields.IntegerField')()),
-            ('care_memory_cost', self.gf('django.db.models.fields.IntegerField')()),
-            ('medication_level_1_cost', self.gf('django.db.models.fields.IntegerField')()),
-            ('medication_level_2_cost', self.gf('django.db.models.fields.IntegerField')()),
-            ('medication_level_3_cost', self.gf('django.db.models.fields.IntegerField')()),
-            ('capacity', self.gf('django.db.models.fields.IntegerField')()),
-            ('vacancies', self.gf('django.db.models.fields.IntegerField')()),
-            ('care_type', self.gf('django.db.models.fields.CharField')(max_length='20')),
-        ))
-        db.send_create_signal(u'app', ['Facility'])
 
-        # Adding M2M table for field facility_types on 'Facility'
-        m2m_table_name = db.shorten_name(u'app_facility_facility_types')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('facility', models.ForeignKey(orm[u'app.facility'], null=False)),
-            ('facilitytype', models.ForeignKey(orm[u'app.facilitytype'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['facility_id', 'facilitytype_id'])
-
-        # Adding M2M table for field languages on 'Facility'
-        m2m_table_name = db.shorten_name(u'app_facility_languages')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('facility', models.ForeignKey(orm[u'app.facility'], null=False)),
-            ('language', models.ForeignKey(orm[u'app.language'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['facility_id', 'language_id'])
-
-        # Adding M2M table for field conditions on 'Facility'
-        m2m_table_name = db.shorten_name(u'app_facility_conditions')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('facility', models.ForeignKey(orm[u'app.facility'], null=False)),
-            ('condition', models.ForeignKey(orm[u'app.condition'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['facility_id', 'condition_id'])
-
-        # Adding M2M table for field amenities on 'Facility'
-        m2m_table_name = db.shorten_name(u'app_facility_amenities')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('facility', models.ForeignKey(orm[u'app.facility'], null=False)),
-            ('amenity', models.ForeignKey(orm[u'app.amenity'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['facility_id', 'amenity_id'])
-
-        # Adding model 'FacilityFee'
-        db.create_table(u'app_facilityfee', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Facility'])),
-            ('fee', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Fee'])),
-            ('cost', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal(u'app', ['FacilityFee'])
-
-        # Adding model 'Fee'
-        db.create_table(u'app_fee', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-        ))
-        db.send_create_signal(u'app', ['Fee'])
-
-        # Adding model 'FacilityMessage'
-        db.create_table(u'app_facilitymessage', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.User'])),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Facility'])),
-            ('budget', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('pay_private_pay', self.gf('django.db.models.fields.BooleanField')()),
-            ('pay_longterm_care', self.gf('django.db.models.fields.BooleanField')()),
-            ('pay_veterans_benefits', self.gf('django.db.models.fields.BooleanField')()),
-            ('pay_medicare', self.gf('django.db.models.fields.BooleanField')()),
-            ('pay_medicaid', self.gf('django.db.models.fields.BooleanField')()),
-            ('pay_ssi', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_bathing', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_diabetic', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_mobility', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('care_current', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('care_medical_assistance', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_toileting', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_memory_issues', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_diagnosed_memory', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_combinative', self.gf('django.db.models.fields.BooleanField')()),
-            ('care_wandering', self.gf('django.db.models.fields.BooleanField')()),
-            ('comments', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('health_description', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('plnned_move_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('move_in_time_frame', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('desired_city', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('searching_for', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('resident_first_name', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('read', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('replied_by', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('replied_datetime', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal(u'app', ['FacilityMessage'])
-
-        # Adding model 'FacilityType'
-        db.create_table(u'app_facilitytype', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-        ))
-        db.send_create_signal(u'app', ['FacilityType'])
-
-        # Adding model 'Language'
-        db.create_table(u'app_language', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=40)),
-        ))
-        db.send_create_signal(u'app', ['Language'])
-
-        # Adding model 'Condition'
-        db.create_table(u'app_condition', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=40)),
-        ))
-        db.send_create_signal(u'app', ['Condition'])
-
-        # Adding model 'Amenity'
-        db.create_table(u'app_amenity', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=40)),
-        ))
-        db.send_create_signal(u'app', ['Amenity'])
-
-        # Adding model 'RoomType'
-        db.create_table(u'app_roomtype', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(related_name='room_types', to=orm['app.Facility'])),
-            ('unit_type', self.gf('django.db.models.fields.CharField')(max_length='20')),
-            ('square_footage', self.gf('django.db.models.fields.CharField')(max_length='20')),
-            ('starting_price', self.gf('django.db.models.fields.DecimalField')(max_digits=15, decimal_places=2)),
-        ))
-        db.send_create_signal(u'app', ['RoomType'])
-
-        # Adding model 'FacilityImage'
-        db.create_table(u'app_facilityimage', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(related_name='images', to=orm['app.Facility'])),
-            ('featured', self.gf('django.db.models.fields.BooleanField')()),
-            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
-        ))
-        db.send_create_signal(u'app', ['FacilityImage'])
-
-        # Adding model 'Inquiry'
-        db.create_table(u'app_inquiry', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('from_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.User'])),
-            ('est_move', self.gf('django.db.models.fields.DateField')()),
-            ('message', self.gf('django.db.models.fields.CharField')(max_length=300)),
-            ('remind', self.gf('django.db.models.fields.BooleanField')()),
-        ))
-        db.send_create_signal(u'app', ['Inquiry'])
-
-        # Adding model 'Invoice'
-        db.create_table(u'app_invoice', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('holding_group', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.HoldingGroup'])),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Facility'])),
-            ('status', self.gf('django.db.models.fields.CharField')(max_length='20')),
-            ('payment_method', self.gf('django.db.models.fields.CharField')(max_length='20')),
-            ('contact_person_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('contact_person_relationship', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('contact_person_phone', self.gf('django.db.models.fields.IntegerField')()),
-            ('contact_person_email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('move_in_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('resident_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('amount', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal(u'app', ['Invoice'])
-
-        # Adding model 'Favorite'
-        db.create_table(u'app_favorite', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.User'])),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Facility'])),
-        ))
-        db.send_create_signal(u'app', ['Favorite'])
-
-        # Adding model 'PhoneRequest'
-        db.create_table(u'app_phonerequest', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.User'])),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Facility'])),
-        ))
-        db.send_create_signal(u'app', ['PhoneRequest'])
-
+        # Changing field 'FacilityMessage.replied_datetime'
+        db.alter_column(u'app_facilitymessage', 'replied_datetime', self.gf('django.db.models.fields.DateTimeField')(null=True))
 
     def backwards(self, orm):
-        # Deleting model 'Facility'
-        db.delete_table(u'app_facility')
 
-        # Removing M2M table for field facility_types on 'Facility'
-        db.delete_table(db.shorten_name(u'app_facility_facility_types'))
-
-        # Removing M2M table for field languages on 'Facility'
-        db.delete_table(db.shorten_name(u'app_facility_languages'))
-
-        # Removing M2M table for field conditions on 'Facility'
-        db.delete_table(db.shorten_name(u'app_facility_conditions'))
-
-        # Removing M2M table for field amenities on 'Facility'
-        db.delete_table(db.shorten_name(u'app_facility_amenities'))
-
-        # Deleting model 'FacilityFee'
-        db.delete_table(u'app_facilityfee')
-
-        # Deleting model 'Fee'
-        db.delete_table(u'app_fee')
-
-        # Deleting model 'FacilityMessage'
-        db.delete_table(u'app_facilitymessage')
-
-        # Deleting model 'FacilityType'
-        db.delete_table(u'app_facilitytype')
-
-        # Deleting model 'Language'
-        db.delete_table(u'app_language')
-
-        # Deleting model 'Condition'
-        db.delete_table(u'app_condition')
-
-        # Deleting model 'Amenity'
-        db.delete_table(u'app_amenity')
-
-        # Deleting model 'RoomType'
-        db.delete_table(u'app_roomtype')
-
-        # Deleting model 'FacilityImage'
-        db.delete_table(u'app_facilityimage')
-
-        # Deleting model 'Inquiry'
-        db.delete_table(u'app_inquiry')
-
-        # Deleting model 'Invoice'
-        db.delete_table(u'app_invoice')
-
-        # Deleting model 'Favorite'
-        db.delete_table(u'app_favorite')
-
-        # Deleting model 'PhoneRequest'
-        db.delete_table(u'app_phonerequest')
-
+        # Changing field 'FacilityMessage.replied_datetime'
+        db.alter_column(u'app_facilitymessage', 'replied_datetime', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 6, 6, 0, 0)))
 
     models = {
         u'account.holdinggroup': {
@@ -438,11 +150,11 @@ class Migration(SchemaMigration):
             'care_mobility': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'care_toileting': ('django.db.models.fields.BooleanField', [], {}),
             'care_wandering': ('django.db.models.fields.BooleanField', [], {}),
-            'comments': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
+            'comments': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'facility': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['app.Facility']"}),
-            'health_description': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
+            'health_description': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'move_in_time_frame': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -452,11 +164,11 @@ class Migration(SchemaMigration):
             'pay_private_pay': ('django.db.models.fields.BooleanField', [], {}),
             'pay_ssi': ('django.db.models.fields.BooleanField', [], {}),
             'pay_veterans_benefits': ('django.db.models.fields.BooleanField', [], {}),
-            'plnned_move_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'planned_move_date': ('django.db.models.fields.DateTimeField', [], {'blank': 'True'}),
             'read': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'replied_by': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'replied_datetime': ('django.db.models.fields.DateTimeField', [], {}),
-            'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'replied_by': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'replied_datetime': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'searching_for': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.User']"})
         },

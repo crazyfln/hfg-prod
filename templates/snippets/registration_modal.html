@@ -1,0 +1,18 @@
+<div class="modal fade" id="Registration-Modal" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>Registration</span>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'registration_register' %}" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="replace-this-class">Submit</button>
+          <!-- replace the above button class with the class(es) you make in _buttons.scss -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -19,6 +19,7 @@ class RegistrationView(SimpleRegistrationView):
     ##Stick extra registration logic here
     def register(self, request, **cleaned_data):
         new_user = super(RegistrationView, self).register(request, **cleaned_data)
+        print "happened"
         new_user.first_name = cleaned_data['first_name']
         new_user.phone = cleaned_data['phone_number']
         new_user.last_name = cleaned_data['last_name']
@@ -29,4 +30,4 @@ class RegistrationView(SimpleRegistrationView):
         """
         Return the url a user should be redirected to after registration
         """
-        return request.GET.get('next', '/')
+        return reverse('index')

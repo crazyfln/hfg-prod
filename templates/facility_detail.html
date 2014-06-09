@@ -98,25 +98,17 @@
           <img src="{{ object.director_avatar.url }}"/>
           <p>{{ object.director_name }}</p>
           <p>Property Manager</p>
-<<<<<<< HEAD
           <p id="phone">{{ obect.get_phone_stars }}</p>
-=======
-          <p id="phone">{{ star_phone }}</p>
->>>>>>> feature/contact
       </div>
       <div id="buttons">
           <p>Click below to display facilities Direct Phone Number</p>
           <button id="show-number-button"> SHOW PHONE NUMER</button>
-<<<<<<< HEAD
           <br />
           {% if tour_request_form %}
             <button class="button-blue" data-toggle="modal" data-target="#tour_describe">REQUEST A TOUR</button>
           {% else %}
             <p>REQUEST A TOUR</p>
           {% endif %}
-=======
-          <p>REQUEST A TOUR</p>
->>>>>>> feature/contact
       </div>
       <div id="reward">
           <p>How to get a $200 Reward for using Home For Grandma</p>
@@ -128,7 +120,6 @@
 
 {% endblock content %}
 {% block body_media %}
-<<<<<<< HEAD
    {% if tour_request_form %}
       {% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
    {% endif %}
@@ -145,18 +136,4 @@
     }); 
     {% endif %}
   </script>
-=======
-<script>
-  {% if user.is_authenticated %}
-  $("#show-number-button").click(function() { 
-    $("#phone").html("{{ normal_phone }}"); 
-    $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
-            type: 'POST',
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
-          
-    });
-  }); 
-  {% endif %}
-</script>
->>>>>>> feature/contact
 {% endblock body_media %}

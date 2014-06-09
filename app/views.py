@@ -21,7 +21,6 @@ from account.forms import RegistrationForm, ProfileForm
 
 from .forms import SearchForm, StripeTokenForm, ChargeForm
 from .forms import SearchForm, TourRequestForm, ContactForm, StripeTokenForm, ChargeForm
->>>>>>> Stashed changes
 from .models import *
 
 @render_to('index.html')
@@ -64,15 +63,12 @@ class FacilityDetail(DetailView):
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
         context['rooms'] = RoomType.objects.filter(facility=self.object)
-<<<<<<< Updated upstream
-=======
 
         try:
             tour_request = FacilityMessage.objects.get(user=self.request.user, facility=self.object)
         except ObjectDoesNotExist:
             context['tour_request_form'] = TourRequestForm(user=self.request.user)
 
->>>>>>> Stashed changes
         return context
 
 
@@ -144,8 +140,6 @@ class Search(ListView):
         else:
             return Facility.objects.all()
 
-<<<<<<< Updated upstream
-=======
 class Contact(FormView):
     form_class = ContactForm
     template_name = 'contact.html'
@@ -166,7 +160,6 @@ def request_phone(request, slug):
     phone_request.save()
     return {}
 
->>>>>>> Stashed changes
 @ajax_request
 @login_required
 def create_customer(request):

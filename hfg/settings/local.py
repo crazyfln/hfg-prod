@@ -2,6 +2,8 @@ from .base import *
 
 DEBUG = True
 
+CONTACT_EMAIL = 'chris@lightmatter.com'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.

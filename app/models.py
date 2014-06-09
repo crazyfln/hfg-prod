@@ -10,7 +10,7 @@ from util.util import file_url
 
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
-    favorited_by = models.ManyToManyField(User, through='Favorite')
+    favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites")
     facility_types = models.ManyToManyField('FacilityType')
     holding_group = models.ForeignKey(HoldingGroup)
     director_name = models.CharField(max_length=50)
@@ -53,6 +53,7 @@ class Facility(TimeStampedModel):
                                    ("Rent Only","Rent Only"),
                                    ("Rent and Care","Rent and Care"),
                                    ))
+    phone_requested_by = models.ManyToManyField(User, through="PhoneRequest", related_name="phone_requests")
 
     def __unicode__(self):
         return self.name
@@ -207,7 +208,7 @@ class RoomType(TimeStampedModel):
     
 
 class FacilityImage(TimeStampedModel):
-    facility = models.ForeignKey(Facility)
+    facility = models.ForeignKey(Facility, related_name="images")
     featured = models.BooleanField()
     image = models.ImageField(upload_to=file_url("facility_images"))
 
@@ -238,5 +239,12 @@ class Invoice(TimeStampedModel):
     amount = models.IntegerField()
 
 class Favorite(TimeStampedModel):
-    user = models.ForeignKey(User, related_name="favorites")
+    user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
+
+class PhoneRequest(TimeStampedModel):
+    user = models.ForeignKey(User)
+    facility = models.ForeignKey(Facility)
+    
+    def __unicode__(self):
+        return str(self.facility) + ":" + str(self.user.get_full_name) + " at: " + str(self.created)

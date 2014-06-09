@@ -13,20 +13,14 @@ Home For Grandma
       <div class="content-holder">
         <h1>Find Senior Living</h1>
         <div class="clear"></div>
-        <!-- Dummy input tag for search bar placed here for you Chris -->
-        <input class='left' type="text" placeholder='Search by ...'>
+        {% include 'snippets/searchbox.html' with form=search_form %}
 <!-- self reminder for Greg, need to style the select holder and have 
   a  transparent select input for custom selects -->
-  <div class="select-holder">
-    <select class='left' name="" id="">
-      <option value="">Some Option</option>
-    </select>
+      </div>
+      <button class='button-blue left'><img src='{% static 'img/icon_search.png' %}'/></button>
+      </div>
+    </div>
   </div>
-  <button class='button-blue left'><img src='{% static 'img/icon_search.png' %}'/></button>
-</div>
-</div>
-
-</div>
 </div>
 <div class="home-info-holder padder-40">
   <div class="container">
@@ -66,3 +60,10 @@ Home For Grandma
   </div>
 </div>
 {% endblock content %}
+{% block body_media %}
+  <script> 
+    $("#secondary-search").hide()
+  </script>
+{% endblock body_media %}
+
+

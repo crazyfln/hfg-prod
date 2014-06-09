@@ -2,6 +2,7 @@
 from decimal import *
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseBadRequest
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -21,6 +22,7 @@ from account.forms import RegistrationForm, ProfileForm
 
 from .forms import SearchForm, StripeTokenForm, ChargeForm
 from .forms import SearchForm, TourRequestForm, ContactForm, StripeTokenForm, ChargeForm
+
 from .models import *
 
 @render_to('index.html')
@@ -28,7 +30,8 @@ def index(request):
     facilities = Facility.objects.filter(shown_on_home=True)
     data = {'facilities':facilities, 
             'registration_form':RegistrationForm(),
-            'login_form':AuthenticationForm()            }
+            'login_form':AuthenticationForm(),
+            'search_form':SearchForm()}
     
     return data
 
@@ -69,6 +72,8 @@ class FacilityDetail(DetailView):
         except ObjectDoesNotExist:
             context['tour_request_form'] = TourRequestForm(user=self.request.user)
 
+        context['normal_phone'] = self.object.get_phone_normal()
+        context['star_phone'] = self.object.get_phone_stars()
         return context
 
 
@@ -114,7 +119,10 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        context['form'] = SearchForm(self.request.GET)
+        if 'min_value' in self.request.GET:
+            context['form'] = SearchForm(self.request.GET)
+        else:
+            context['form'] = SearchForm()
         return context
 
     def get_queryset(self):

@@ -2,7 +2,9 @@ import datetime
 import re
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth import authenticate
+from django.core.mail import send_mail
 from django.forms import ModelForm, widgets
 from django.forms.models import BaseInlineFormSet
 from django.forms.extras.widgets import SelectDateWidget

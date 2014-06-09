@@ -1,24 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div id="listing-header">
-        <div id="listing-name-address">
-            <p>{{ object.name }}</p>
-            <p>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
-            <p>{% for type in object.facility_types.all %}{{ type.name }} | {% endfor %}</p>
-        </div>
-        <div id=fav-price">
-            <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}"<span {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}>~FAV HEART</span></a>
+  <div id="listing-header">
+      <div id="listing-name-address">
+          <p>{{ object.name }}</p>
+          <p>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
+          <p>{% for type in object.facility_types.all %}{{ type.name }} | {% endfor %}</p>
+      </div>
+      <div id=fav-price">
+          <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}"<span {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}>~FAV HEART</span></a>
 
-            <span> | ${{ object.min_price }}</span>
-        </div>
-    </div>
-    </br>
-    </br>
-    <div id="image-carousel">
-        ~~PRETTY IMAGES~~
-    </div>
-    </br>
+          <span> | ${{ object.min_price }}</span>
+      </div>
+  </div>
+  </br>
+  </br>
+    {% include 'snippets/image_carousel.html' with images=object.images.all %}
+  </br>
 
   <div id="desc">
       <span>DESCRIPTION:</span>
@@ -100,17 +98,25 @@
           <img src="{{ object.director_avatar.url }}"/>
           <p>{{ object.director_name }}</p>
           <p>Property Manager</p>
+<<<<<<< HEAD
           <p id="phone">{{ obect.get_phone_stars }}</p>
+=======
+          <p id="phone">{{ star_phone }}</p>
+>>>>>>> feature/contact
       </div>
       <div id="buttons">
           <p>Click below to display facilities Direct Phone Number</p>
           <button id="show-number-button"> SHOW PHONE NUMER</button>
+<<<<<<< HEAD
           <br />
           {% if tour_request_form %}
             <button class="button-blue" data-toggle="modal" data-target="#tour_describe">REQUEST A TOUR</button>
           {% else %}
             <p>REQUEST A TOUR</p>
           {% endif %}
+=======
+          <p>REQUEST A TOUR</p>
+>>>>>>> feature/contact
       </div>
       <div id="reward">
           <p>How to get a $200 Reward for using Home For Grandma</p>
@@ -122,6 +128,7 @@
 
 {% endblock content %}
 {% block body_media %}
+<<<<<<< HEAD
    {% if tour_request_form %}
       {% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
    {% endif %}
@@ -138,4 +145,18 @@
     }); 
     {% endif %}
   </script>
+=======
+<script>
+  {% if user.is_authenticated %}
+  $("#show-number-button").click(function() { 
+    $("#phone").html("{{ normal_phone }}"); 
+    $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
+            type: 'POST',
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+          
+    });
+  }); 
+  {% endif %}
+</script>
+>>>>>>> feature/contact
 {% endblock body_media %}

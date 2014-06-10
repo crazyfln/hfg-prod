@@ -26,7 +26,7 @@ class Facility(TimeStampedModel):
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
     latitude = models.IntegerField()
     longitude = models.IntegerField()
-    shown_on_home = models.BooleanField()
+    shown_on_home = models.BooleanField(default=False)
     status = models.CharField(max_length="20", choices=(
                               ('Vacancies','Vacancies'),
                               ('No Vacancies','No Vacancies'),

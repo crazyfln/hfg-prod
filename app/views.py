@@ -67,13 +67,13 @@ class FacilityDetail(DetailView):
         context['all_languages'] = Language.objects.all()
         context['rooms'] = RoomType.objects.filter(facility=self.object)
 
-        try:
-            tour_request = FacilityMessage.objects.get(user=self.request.user, facility=self.object)
-        except ObjectDoesNotExist:
-            context['tour_request_form'] = TourRequestForm(user=self.request.user)
-
-        context['normal_phone'] = self.object.get_phone_normal()
-        context['star_phone'] = self.object.get_phone_stars()
+        if 'user' in self.request:
+            try:
+                FacilityMessage.objects.get(user=self.request.user, facility=self.object)
+            except ObjectDoesNotExist:
+                context['tour_request_form'] = TourRequestForm(user=self.request.user)
+        else:
+            "Add registration logic"
         return context
 
 

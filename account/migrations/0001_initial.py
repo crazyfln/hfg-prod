@@ -44,6 +44,9 @@ class Migration(SchemaMigration):
             ('care_wandering', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('desired_city', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
             ('resident_first_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('health_description', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('planned_move_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('move_in_time_frame', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
         ))
         db.send_create_signal(u'account', ['User'])
 
@@ -140,6 +143,7 @@ class Migration(SchemaMigration):
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            'health_description': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -147,6 +151,7 @@ class Migration(SchemaMigration):
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'move_in_time_frame': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'pay_longterm_care': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'pay_medicaid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -155,6 +160,7 @@ class Migration(SchemaMigration):
             'pay_ssi': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'pay_veterans_benefits': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'planned_move_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'searching_for': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),

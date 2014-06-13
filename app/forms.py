@@ -75,6 +75,7 @@ class TourRequestForm(ModelForm):
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
 
+
 class StripeTokenForm(forms.Form):
     id = forms.CharField()
 

@@ -29,8 +29,6 @@ from .models import *
 def index(request):
     facilities = Facility.objects.filter(shown_on_home=True)
     data = {'facilities':facilities, 
-            'registration_form':RegistrationForm(),
-            'login_form':AuthenticationForm(),
             'search_form':SearchForm()}
     
     return data
@@ -67,13 +65,12 @@ class FacilityDetail(DetailView):
         context['all_languages'] = Language.objects.all()
         context['rooms'] = RoomType.objects.filter(facility=self.object)
 
-        if 'user' in self.request:
+        if self.request.user.is_authenticated():
             try:
                 FacilityMessage.objects.get(user=self.request.user, facility=self.object)
             except ObjectDoesNotExist:
                 context['tour_request_form'] = TourRequestForm(user=self.request.user)
-        else:
-            "Add registration logic"
+    
         return context
 
 
@@ -104,7 +101,7 @@ def facility_favorite(request, slug):
         favorite = Favorite(user=request.user, facility=facility)
         favorite.save()
 
-    return redirect(request.GET['next'])
+    return HttpResponseRedirect(request.GET['next'])
 
 class FavoriteList(ListView):
     model = Facility

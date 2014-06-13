@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserChangeForm  as DjangoUserChangeForm
 import reversion
 
 from .models import *
+from .forms import *
 
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -22,12 +23,39 @@ class UserCreationForm(DjangoUserCreationForm):
     class Meta:
         model = User
 
+class HoldingGroupInline(admin.TabularInline):
+    model = HoldingGroup
 
 class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
-    add_form = UserCreationForm
+    form = RegistrationAdminForm
+    fieldsets = (
+        ("User", {
+            'fields':( 
+                ('permissions','pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi'),
+                ('first_name','last_name'),
+                ('email','budget'),
+                ('phone','searching_for'),
+                'health_description'
+           ) 
+        }),
+    )
     #list_per_page = 25
     search_fields = ('username', 'email', 'first_name', 'last_name')
-    list_display = ('email', 'first_name', 'last_name', 'created')
+    list_display = ('get_type_of_user', 'get_full_name', 'created', 'last_login')
+#    inlines = [HoldingGroupInline,]
+
+    def get_type_of_user(self, obj):
+        if obj.is_superuser:
+            return "M"
+        elif obj.is_staff:
+            return "P"
+        else:
+            return "U"
+    get_type_of_user.short_description = "Type"
+
+    def get_full_name(self, obj):
+        return obj.get_full_name()
+    get_full_name.short_descripton = "Name"
 
 admin.site.register(User, UserAdmin)
 admin.site.register(HoldingGroup)

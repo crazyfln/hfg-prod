@@ -7,7 +7,7 @@
       <div class="modal-body">
         <form action="{% url 'registration_register' %}" method="POST">
           {% csrf_token %}
-          {{ form.as_p }}
+          {{ registration_form.as_p }}
           <button type="submit" class="replace-this-class">Submit</button>
           <!-- replace the above button class with the class(es) you make in _buttons.scss -->
         </form>

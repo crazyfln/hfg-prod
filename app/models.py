@@ -12,7 +12,7 @@ class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites")
     facility_types = models.ManyToManyField('FacilityType')
-    holding_group = models.ForeignKey(HoldingGroup)
+    holding_group = models.ForeignKey('account.HoldingGroup')
     director_name = models.CharField(max_length=50)
     director_email = models.EmailField(max_length=100)
     director_avatar = models.ImageField(upload_to=file_url("facility_director_images"))
@@ -49,6 +49,7 @@ class Facility(TimeStampedModel):
     conditions = models.ManyToManyField('Condition', related_name="facilities")
     amenities = models.ManyToManyField('Amenity', related_name="facilities")
     fees = models.ManyToManyField('Fee', through="FacilityFee")
+    rooms = models.ManyToManyField('RoomType', through='FacilityRoom')
     care_type = models.CharField(max_length="20", choices=(
                                    ("Rent Only","Rent Only"),
                                    ("Rent and Care","Rent and Care"),
@@ -190,22 +191,24 @@ class Amenity(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-class RoomType(TimeStampedModel):
-    facility = models.ForeignKey(Facility, related_name="room_types")
-    unit_type = models.CharField(max_length="20", choices=(
-                                   ("small room","small room"),
-                                   ("big room","big room"),
-                                   ))
-    square_footage = models.CharField(max_length="20", choices=(
-                                   ("20 x 50","20 x 50"),
-                                   ("100 x 50","100 x 50"),
-                                   ))
+class FacilityRoom(TimeStampedModel):
+    facility = models.ForeignKey(Facility)
+    room_type = models.ForeignKey('RoomType')
+    width = models.CharField(max_length=5)
+    length = models.CharField(max_length=5)
     starting_price = models.DecimalField(max_digits=15, decimal_places=2)
 
+    def get_square_footage(self):
+        return self.width + ' x ' + self.length
 
     def __unicode__(self):
-        return str(self.facility) + "-" + self.unit_type +":"+ str(self.starting_price)
-    
+        return str(self.facility) + '-' + str(self.room_type) + '-' + self.pk
+
+class RoomType(TimeStampedModel):
+    name = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.name  
 
 class FacilityImage(TimeStampedModel):
     facility = models.ForeignKey(Facility, related_name="images")

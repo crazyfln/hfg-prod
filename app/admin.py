@@ -34,8 +34,11 @@ class FacilityAdmin(admin.ModelAdmin):
             'fields':(
                 ('director_name','director_avatar')
                 )}),
-        ("Add Photos", {
+        ("Fields not in wires", {
             'fields':(
+                'min_price',
+                'latitude',
+                'longitude'
                 )}),
         ("Faciity Information", {
             'fields':(
@@ -68,6 +71,8 @@ class FacilityMessageAdmin(admin.ModelAdmin):
     get_user_full_name.short_description = "Sender Name"
 
 admin.site.register(FacilityMessage, FacilityMessageAdmin)
+
+
 
 
 admin.site.register(FacilityType)

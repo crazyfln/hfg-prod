@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 from hfg import settings
 
 class User(AbstractUser, TimeStampedModel):
-    
+
     phone = models.CharField(max_length=10)
     searching_for = models.CharField(max_length=30, blank=True, choices=(
                                     ('Myself','Myself'),
@@ -22,7 +22,6 @@ class User(AbstractUser, TimeStampedModel):
                                 ('3000','3000'),
                                 ('Not Sure','Not Sure'))
                                 )
-    conditions = models.ManyToManyField('app.Condition', blank=True, related_name="users")
 
     pay_private_pay = models.BooleanField(default=False)
     pay_longterm_care = models.BooleanField(default=False)
@@ -55,7 +54,7 @@ class User(AbstractUser, TimeStampedModel):
                                         ('Now','Now'),
                                         ('Soon','Soon'),
                                         ('Later','Later'))
-                                        ) 
+                                        )
 
 
     def __unicode__(self):

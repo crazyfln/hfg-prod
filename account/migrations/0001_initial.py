@@ -7,6 +7,13 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    needed_by = (
+        ("reversion", "0001_initial"),
+        ("app", "0001_initial"),
+
+    )
+
+
     def forwards(self, orm):
         # Adding model 'User'
         db.create_table(u'account_user', (
@@ -68,15 +75,6 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['user_id', 'permission_id'])
 
-        # Adding M2M table for field conditions on 'User'
-        m2m_table_name = db.shorten_name(u'account_user_conditions')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('user', models.ForeignKey(orm[u'account.user'], null=False)),
-            ('condition', models.ForeignKey(orm[u'app.condition'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['user_id', 'condition_id'])
-
         # Adding model 'HoldingGroup'
         db.create_table(u'account_holdinggroup', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -101,9 +99,6 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field user_permissions on 'User'
         db.delete_table(db.shorten_name(u'account_user_user_permissions'))
-
-        # Removing M2M table for field conditions on 'User'
-        db.delete_table(db.shorten_name(u'account_user_conditions'))
 
         # Deleting model 'HoldingGroup'
         db.delete_table(u'account_holdinggroup')
@@ -136,7 +131,6 @@ class Migration(SchemaMigration):
             'care_mobility': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'care_toileting': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'care_wandering': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'conditions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'users'", 'blank': 'True', 'to': u"orm['app.Condition']"}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -165,13 +159,6 @@ class Migration(SchemaMigration):
             'searching_for': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'app.condition': {
-            'Meta': {'object_name': 'Condition'},
-            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},

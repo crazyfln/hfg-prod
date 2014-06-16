@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.forms import UserCreationForm as DjangoUserCreationForm
 from django.contrib.auth.forms import UserChangeForm  as DjangoUserChangeForm
+from django.core.urlresolvers import reverse
+
 
 import reversion
 
@@ -40,9 +42,21 @@ class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
         }),
     )
     #list_per_page = 25
-    search_fields = ('username', 'email', 'first_name', 'last_name')
-    list_display = ('get_type_of_user', 'get_full_name', 'created', 'last_login')
-#    inlines = [HoldingGroupInline,]
+    search_fields = ('email', 'first_name', 'last_name')
+    list_display = ('edit','delete','get_type_of_user', 'get_full_name','email', 'created', 'last_login')
+
+    def edit(self, obj):
+        info = obj._meta.app_label, obj._meta.module_name
+        url = reverse('admin:%s_%s_change' % info, args=(obj.id,))
+        return "<a href='%s'>Edit</a>" % url
+    edit.allow_tags = True
+
+    def delete(self, obj):
+        info = obj._meta.app_label, obj._meta.module_name
+        url = reverse('admin:%s_%s_delete' % info, args=(obj.id,))
+        return "<a href='%s'>Delete</a>" % url
+    delete.allow_tags = True
+ 
 
     def get_type_of_user(self, obj):
         if obj.is_superuser:
@@ -55,7 +69,7 @@ class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
 
     def get_full_name(self, obj):
         return obj.get_full_name()
-    get_full_name.short_descripton = "Name"
+    get_full_name.short_description = "Name"
 
 admin.site.register(User, UserAdmin)
 admin.site.register(HoldingGroup)

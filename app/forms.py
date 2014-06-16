@@ -56,7 +56,6 @@ class TourRequestForm(ModelForm):
     desired_city = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Desired City"}))
     resident_first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}))
 
-
     class Meta:
         model = FacilityMessage
         exclude = ('user','facility','read','replied_by','replied_datetime')
@@ -74,6 +73,19 @@ class TourRequestForm(ModelForm):
             for field in self.fields:
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
+
+class FacilityAdminForm(ModelForm):
+
+    def clean_phone(self):
+        data = self.cleaned_data['phone']
+        numbers = re.findall('\d', data)
+        number = ''.join(str(s) for s in numbers)
+        if not len(number) == 10:
+            raise forms.ValidationError("Phone number must be exactly 10 digits")
+        return number
+
+    class Meta:
+        model = Facility
 
 
 class StripeTokenForm(forms.Form):

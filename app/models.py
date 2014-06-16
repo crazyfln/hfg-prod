@@ -4,7 +4,7 @@ from model_utils.models import TimeStampedModel
 from django_extensions.db.models import AutoSlugField
 from django.core.urlresolvers import reverse
 
-from account.models import User, FacilityDirector, HoldingGroup
+from account.models import User, HoldingGroup
 
 from util.util import file_url
 
@@ -34,7 +34,7 @@ class Facility(TimeStampedModel):
                               ))
     description_short = models.CharField(max_length=140)
     description_long = models.CharField(max_length=1000)
-
+       
     care_level_1_cost = models.IntegerField()
     care_level_2_cost = models.IntegerField()
     care_level_3_cost = models.IntegerField()
@@ -44,7 +44,7 @@ class Facility(TimeStampedModel):
     medication_level_3_cost = models.IntegerField()
     capacity = models.IntegerField()
     vacancies = models.IntegerField()
-
+    
     languages = models.ManyToManyField('Language', related_name="facilities")
     conditions = models.ManyToManyField('Condition', related_name="facilities")
     amenities = models.ManyToManyField('Amenity', related_name="facilities")
@@ -90,7 +90,7 @@ class Fee(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
-
+    
 BUDGET_CHOICES = [
     ('1000','1000'),
     ('2000','2000'),
@@ -164,7 +164,7 @@ class FacilityMessage(TimeStampedModel):
                 continue
             elif hasattr(user, field):
                 setattr(user, field, getattr(self, field))
-        user.save()
+        user.save()   
 
 
 class FacilityType(TimeStampedModel):
@@ -178,13 +178,14 @@ class Language(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
-
+    
 class Condition(TimeStampedModel):
     name = models.CharField(max_length=40)
     users = models.ManyToManyField('account.User', blank=True, related_name="conditions")
+
     def __unicode__(self):
         return self.name
-
+    
 class Amenity(TimeStampedModel):
     name = models.CharField(max_length=40)
 
@@ -202,13 +203,13 @@ class FacilityRoom(TimeStampedModel):
         return self.width + ' x ' + self.length
 
     def __unicode__(self):
-        return str(self.facility) + '-' + str(self.room_type) + '-' + self.pk
+        return str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk)
 
 class RoomType(TimeStampedModel):
     name = models.CharField(max_length=30)
 
     def __unicode__(self):
-        return self.name
+        return self.name  
 
 class FacilityImage(TimeStampedModel):
     facility = models.ForeignKey(Facility, related_name="images")
@@ -222,8 +223,8 @@ class Inquiry(TimeStampedModel):
     remind = models.BooleanField()
 
 class Invoice(TimeStampedModel):
-    holding_group = models.ForeignKey(HoldingGroup) #if we dropped holding group and just had FK with facility, we could get the holding group of the facility right?
-    facility = models.ForeignKey(Facility)
+    # dropped holding_group fk since we can get that from the facility
+    facility = models.ForeignKey(Facility) 
     status = models.CharField(max_length="20", choices=(
                                    ("paid","paid"),
                                    ("unpaid","unpaid"),
@@ -232,14 +233,18 @@ class Invoice(TimeStampedModel):
                                    ("credit","credit"),
                                    ("check","check"),
                                    ))
-    #billed_on = created_on ??
+    billed_on = models.DateTimeField()
+    recieved = models.CharField(max_length=10)
     contact_person_name = models.CharField(max_length=50)
     contact_person_relationship = models.CharField(max_length=100)
-    contact_person_phone = models.IntegerField()
+    contact_person_phone = models.CharField(max_length=10)
     contact_person_email = models.EmailField()
     move_in_date = models.DateTimeField()
     resident_name = models.CharField(max_length=50)
-    amount = models.IntegerField()
+    amount = models.CharField(max_length=15)
+
+    def __unicode__(self):
+        return str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date())
 
 class Favorite(TimeStampedModel):
     user = models.ForeignKey(User)
@@ -248,6 +253,6 @@ class Favorite(TimeStampedModel):
 class PhoneRequest(TimeStampedModel):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
-
+    
     def __unicode__(self):
         return str(self.facility) + ":" + str(self.user.get_full_name) + " at: " + str(self.created)

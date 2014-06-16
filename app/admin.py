@@ -26,7 +26,8 @@ class FacilityAdmin(admin.ModelAdmin):
                 ('name','facility_types','capacity'),
                 ('address','vacancies'),
                 'director_email',
-                ('city','state','zipcode','license','shown_on_home'),
+                ('city','state','zipcode'),
+                ('license','shown_on_home'),
                 'description_short',
                 'description_long'
                 )}),

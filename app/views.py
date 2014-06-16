@@ -185,3 +185,13 @@ def charge_customer(request):
     amount = form.cleaned_data['amount']
     customer.charge(amount, description="hfg")
     return HttpResponseRedirect("/")
+
+
+
+
+
+
+#Greg's new views
+@render_to('receive_reward.html')
+def receive_reward(request):
+    return {}

@@ -9,6 +9,12 @@
 
     .facility-top {
 
+        a.back {
+            color:$secondary;
+            text-transform:uppercase;
+            font-size:12px;
+        }
+
         p.name {
             font-size: 25px;
             color: $dark;
@@ -45,6 +51,7 @@
             color: $dark;
             font-size:22px;
 
+
             span {
                 color: $secondary;
             }
@@ -53,12 +60,14 @@
         p.desc-medium {
             color: $secondary;
             font-size:16px;
-            margin:0 50px 0 0;
+            margin:20px 50px 0 0;
         }
 
-        p.desc {
+        p.description {
             color:$primary;
             font-size:14px;
+            line-height:1.8em;
+
         }
     }
 
@@ -69,6 +78,7 @@
             height: 70px;
             width: 70px;
             float: left;
+            margin: 0 20px 0 0;
         }
 
         p.director-name {
@@ -79,16 +89,19 @@
         p.property-manager {
             color: $light;
             font-size: 14px;
+            margin: 0 0 30px 0;
         }
 
         img#phone {
             float: left;
+            margin: 0 15px 0 0;
         }
 
         p.phone {
             float: left;
             color: $dark;
             font-size:26px;
+
         }
         p.phone-small {
             font-size: 13px;

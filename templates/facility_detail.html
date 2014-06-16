@@ -5,6 +5,7 @@
 <div class="facility-detail">
     <div class="container">
         <div class="facility-top">
+            <a class='back' href=""> < Back to Search</a>
             <p class='name'>{{ object.name }}</p>
             <p class='address'>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
             {% for type in object.facility_types.all %}
@@ -19,10 +20,10 @@
                    {% include 'snippets/image_carousel.html' with images=object.images.all %}
                 </div>
                 <p class='desc-large left'><span>Description</span></p>
-                <p class='desc-large right'>Vacancies: {{ object.vacancies }} </p>
-                <p class='desc-large right'> Capacity: {{ object.capacity }}</p>
+                <p class='desc-large right'>Vacancies: {{ object.vacancies }}</p>
+                <p class='desc-large right'>Capacity: {{ object.capacity }} &nbsp;</p>
                 <div class="clear"></div>
-                <p class="description"><p>{{ object.description_long }}</p></p>
+                <p class="description">{{ object.description_long }}</p>
                 <hr>
 
                 <p class='desc-large'>Pricing</p>
@@ -41,11 +42,12 @@
 
                 <p class='desc-medium left'>Care Levels</p>
                 <p class='desc-medium left'>Price</p>
+                <div class="clear"></div>
                 {% if object.care_type == "Rent and Care" %}
-                <p>Level 1 : ${{ object.care_level_1_cost }}</p>
-                <p>Level 2 : ${{ object.care_level_2_cost }}</p>
-                <p>Level 3 : ${{ object.care_level_3_cost }}</p>
-                <p>Memory : ${{ object.care_memory_cost }}</p>
+                <p class='description'>Level 1 : ${{ object.care_level_1_cost }}</p>
+                <p class='description'>Level 2 : ${{ object.care_level_2_cost }}</p>
+                <p class='description'>Level 3 : ${{ object.care_level_3_cost }}</p>
+                <p class='description'>Memory : ${{ object.care_memory_cost }}</p>
                 {% endif %}
                 <div class="clear"></div>
 

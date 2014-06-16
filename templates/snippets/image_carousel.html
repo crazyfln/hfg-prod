@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <div id="facility-carousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
  <!--  <ol class="carousel-indicators">
@@ -13,10 +14,10 @@
 
   <!-- Controls -->
   <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
+    <img src='{% static 'img/icon_chevron_left.png' %}'/>
   </a>
   <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
+     <img src='{% static 'img/icon_chevron_right.png' %}'/>
   </a>
 </div>
 <!-- thumb navigation carousel -->

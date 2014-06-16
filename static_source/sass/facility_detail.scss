@@ -46,6 +46,9 @@
 
     .facility-left {
         width: 60%;
+        border-right: 1px solid #ccc;
+        padding-right:40px;
+
 
         p.desc-large{
             color: $dark;
@@ -72,6 +75,8 @@
     }
 
     .facility-right {
+        float:left;
+        padding-left:40px;
 
         img#profile {
             border-radius: 50px;
@@ -84,6 +89,7 @@
         p.director-name {
             color: $dark;
             font-size: 20px;
+            margin: 15px 0 0 0;
         }
 
         p.property-manager {
@@ -94,36 +100,55 @@
 
         img#phone {
             float: left;
-            margin: 0 15px 0 0;
+            margin: 25px 15px 0 0;
         }
 
         p.phone {
             float: left;
             color: $dark;
             font-size:26px;
+            margin-top:18px;
 
         }
         p.phone-small {
             font-size: 13px;
             color: $light;
+            margin-top:35px;
         }
 
         button {
-            width: 280px;
-            margin: 15px 0 0 0;
+            width: 100%;
+
         }
+
+        .button-blue {
+            margin-top:0px;
+        }
+        .button-orange {
+            margin-top:15px;
+        }
+
+
 
 // I need to eliminate this second desc-medium its not DRY
-         p.desc-medium {
-            color: $secondary;
-            font-size:16px;
-        }
+p.desc-medium {
+    color: $secondary;
+    font-size:16px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
 
-        p.steps {
-            color: $light;
-            font-size: 13px;
-        }
+p.steps {
+    color: $light;
+    font-size: 13px;
+    margin-bottom:20px;
 
+    a {
+        color:$secondary;
+        text-decoration:none;
     }
+}
+
+}
 }
 

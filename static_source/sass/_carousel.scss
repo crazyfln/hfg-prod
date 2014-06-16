@@ -3,13 +3,28 @@
     margin: 0 0 20px 0;
 }
 
+a.carousel-control {
+    background:none !important;
+    opacity:1 !important;
+    &:hover {
+        opacity:1 !important;
+    }
+    &:focus {
+        opacity:1 !important;
+    }
+
+    img {
+        margin-top: 210px;
+    }
+}
+
 img.img-responsive{
     width:100px;
     height:100px;
 }
 
 .selected img {
-     opacity:0.5;
+ opacity:0.5;
 }
 
 .item {
@@ -17,8 +32,8 @@ img.img-responsive{
     width:670px;
 
     .img-main-carousel {
-         width:auto;
-        height:100%;
-        width:100%;
-    }
+     width:auto;
+     height:100%;
+     width:100%;
+ }
 }

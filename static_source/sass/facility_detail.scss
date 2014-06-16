@@ -1,0 +1,116 @@
+.facility-detail {
+    background-color: $grey-background;
+    margin-top: 100px;
+
+    hr {
+        background-color: $border;
+        height: 1px;
+    }
+
+    .facility-top {
+
+        p.name {
+            font-size: 25px;
+            color: $dark;
+        }
+
+        p.address {
+            font-size: 20px;
+            color: $light;
+        }
+
+        p.type-name {
+            color: $light;
+            font-size: 16px;
+        }
+
+        p.heart {
+            float:right;
+            margin-top: -40px;
+            margin-right: 80px;
+        }
+
+        p.min-price {
+            color: $secondary;
+            font-size: 24px;
+            float:right;
+            margin-top: -50px;
+        }
+    }
+
+    .facility-left {
+        width: 60%;
+
+        p.desc-large{
+            color: $dark;
+            font-size:22px;
+
+            span {
+                color: $secondary;
+            }
+        }
+
+        p.desc-medium {
+            color: $secondary;
+            font-size:16px;
+            margin:0 50px 0 0;
+        }
+
+        p.desc {
+            color:$primary;
+            font-size:14px;
+        }
+    }
+
+    .facility-right {
+
+        img#profile {
+            border-radius: 50px;
+            height: 70px;
+            width: 70px;
+            float: left;
+        }
+
+        p.director-name {
+            color: $dark;
+            font-size: 20px;
+        }
+
+        p.property-manager {
+            color: $light;
+            font-size: 14px;
+        }
+
+        img#phone {
+            float: left;
+        }
+
+        p.phone {
+            float: left;
+            color: $dark;
+            font-size:26px;
+        }
+        p.phone-small {
+            font-size: 13px;
+            color: $light;
+        }
+
+        button {
+            width: 280px;
+            margin: 15px 0 0 0;
+        }
+
+// I need to eliminate this second desc-medium its not DRY
+         p.desc-medium {
+            color: $secondary;
+            font-size:16px;
+        }
+
+        p.steps {
+            color: $light;
+            font-size: 13px;
+        }
+
+    }
+}
+

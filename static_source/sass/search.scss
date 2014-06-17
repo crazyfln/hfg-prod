@@ -1,28 +1,37 @@
 #searchbox {
+    background-color: $white;
 
-   
     input#id_query{
         width:848px;
         float:left;
         height: 40px;
         border: 1px solid $border;
+        border-shadow:none;
         padding-left: 20px;
         color: $primary;
+        background: transparent;
+        @include appearance(none);
+        outline: none;
+        border-radius:4px 0 0 4px;
+      
+        border-bottom: 1px solid #000;
     }
 
      ::-webkit-input-placeholder { /* WebKit browsers */
-            color:$primary;
+        color:$primary;
             //font color does not match placeholder color yet.
-
         }
 
-    #id_facility_type {
-        width:225px;
-        height:40px;
-    }
+        #id_facility_type {
+            width:225px;
+            height:40px !important;
+            float: left;
+            margin: 0 40px 0 0;
+        }
 
-    #id_room_type {
-        width:225px;
-        height:40px;    
+        #id_room_type {
+            width:225px;
+            height:40px; 
+            float: left;   
+        }
     }
-}

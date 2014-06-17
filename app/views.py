@@ -63,7 +63,6 @@ class FacilityDetail(DetailView):
         context['all_conditions'] = Condition.objects.all()
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
-        context['rooms'] = RoomType.objects.filter(facility=self.object)
 
         if self.request.user.is_authenticated():
             try:

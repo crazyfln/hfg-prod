@@ -54,9 +54,9 @@
                 <p class='desc-medium left'>Other Fees</p>
                 <p class='desc-medium left'>Price</p>
                 <div class="clear"></div>
-                {% for fee in object.fees.all %}
+                {% for fee in object.facilityfee_set.all %}
                 <p>
-                    <p>{{ fee.name }} : {{ fee.cost }} </p>
+                    <p>{{ fee.fee.name }} : {{ fee.cost }} </p>
                 </p>
                 {% endfor %}
                 <hr>

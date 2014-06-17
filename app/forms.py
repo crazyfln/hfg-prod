@@ -14,7 +14,8 @@ from django.utils.translation import ugettext_lazy as _
 from .models import *
 
 class SearchForm(forms.Form):
-    query = forms.CharField(required=False)
+    query = forms.CharField(required=False, label='search', 
+                    widget=forms.TextInput(attrs={'placeholder': 'Search'}))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(queryset=Amenity.objects.all(), required=False)

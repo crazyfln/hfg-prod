@@ -1,7 +1,28 @@
 #searchbox {
-    input#id_query{
-        width:300px;
-        
 
+   
+    input#id_query{
+        width:848px;
+        float:left;
+        height: 40px;
+        border: 1px solid $border;
+        padding-left: 20px;
+        color: $primary;
+    }
+
+     ::-webkit-input-placeholder { /* WebKit browsers */
+            color:$primary;
+            //font color does not match placeholder color yet.
+
+        }
+
+    #id_facility_type {
+        width:225px;
+        height:40px;
+    }
+
+    #id_room_type {
+        width:225px;
+        height:40px;    
     }
 }

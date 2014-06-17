@@ -2,58 +2,58 @@
 
 {% block content %}
 
-<div class="contact-background padder-80">
-  
-  <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3303.5259436201477!2d-118.05530899999998!3d34.1072828!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2da51b519d1c7%3A0xf06421694128abea!2s9868+Las+Tunas+Dr!5e0!3m2!1sen!2sus!4v1403031868096" width="600" height="450" frameborder="0" style="border:0"></iframe>
-</div>
-<div class="container padder-100">
+<div class="contact-page">
+  <div class="contact-background padder-80">
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3303.5259436201477!2d-118.05530899999998!3d34.1072828!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2da51b519d1c7%3A0xf06421694128abea!2s9868+Las+Tunas+Dr!5e0!3m2!1sen!2sus!4v1403031868096" width="600" height="450" frameborder="0" style="border:0"></iframe>
+  </div>
+  <div class="container padder-100">
+    <div class="col-sm-7">
+      <h1>Contact Us</h1>
+      <p>Have a question or need help? Send us a message.</p>
+      <hr>
+
+      <form action="{% url 'contact' %}" method='post'>
+        {% csrf_token %}
+        <div>
+          <table>
+            <tr><td> {{ form.name }}</td></tr>
+            <tr><td> {{ form.name.errors }}</td></tr>
+
+            <tr><td> {{ form.email }}</td></tr>
+            <tr><td> {{ form.email.errors }}</td></tr>
+
+            <tr><td> {{ form.website }}</td></tr>
+            <tr><td> {{ form.website.errors }}</td></tr>
+
+            <tr><td> {{ form.message }}</td></tr>
+            <tr><td> {{ form.message.errors }}</td></tr>
+
+          </table>
+        </div>
 
 
+        <button type='submit' class='button-blue'>Contact</button>
 
-
-  <h1>Contact Us</h1>
-  <p>Have a question or need help? Send us a message.</p>
-
-  <form action="{% url 'contact' %}" method='post'>
-    {% csrf_token %}
-    <div>
-      {{ form.name.label_tag }}
-      {{ form.name }}
-      {{ form.name.errors }}
+      </form>
     </div>
-    <div>
-      {{ form.email.label_tag }}
-      {{ form.email }}
-      {{ form.email.errors }}
+    <div class="col-sm-offset-1 col-sm-4">
+      <div id="sidebar">
+        <div id="social-links">
+          <span>twitter</span>
+          <span>facebook</span>
+          <span>g+</span>
+        </div>
+        <div id="address">
+          <p>9868 Las Dr, Temple City, CA, 91780</p>
+          <a href="#"><span>View Map</span></a>
+        </div>
+        <div id="contact-info">
+          <a href="#"><span>info@homeforgrandma.com</span></a>
+          <p>626 226 0023</p>
+        </div>  
+      </div>
     </div>
-    <div>
-      {{ form.website.label_tag }}
-      {{ form.website }}
-      {{ form.website.errors }}
-    </div>
-    <div>
-      {{ form.message.label_tag }}
-      {{ form.message }}
-      {{ form.message.errors }}
-    </div>
-
-    <button type='submit'>Contact</button>
-  </form>
-
-  <div id="sidebar">
-    <div id="social-links">
-      <span>twitter</span>
-      <span>facebook</span>
-      <span>g+</span>
-    </div>
-    <div id="address">
-      <p>9868 Las Dr, Temple City, CA, 91780</p>
-      <a href="#"><span>View Map</span></a>
-    </div>
-    <div id="contact-info">
-      <a href="#"><span>info@homeforgrandma.com</span></a>
-      <p>626 226 0023</p>
-    </div>  
   </div>
 </div>
 

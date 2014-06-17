@@ -23,10 +23,10 @@ class SearchForm(forms.Form):
     max_value = forms.IntegerField(widget=forms.HiddenInput(), initial=3500)#initial value set in __init__
 
 class ContactForm(forms.Form):
-    name = forms.CharField()
-    email = forms.EmailField()
-    website = forms.CharField(required=False)
-    message = forms.CharField()
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    website = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Website'}))
+    message = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Message'}))
 
     def send_email(self):
         message = self.cleaned_data['message'] + "<br />"

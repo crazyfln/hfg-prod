@@ -7,28 +7,38 @@
       <div id="searchfield-query">
         {{ form.query }}
         <button class="button-blue left"><img src='{% static 'img/icon_search.png' %}'/></button>
+        <div class="clear"></div>
       </div>
-
+<p class='search-label'>Property Type</p>
+<p class='search-label'>Room Type:</p>
+<p class='search-label'>Starting From Price</p>
+<div class="clear"></div>
       <div id="searchfield-facility_type">
         {{ form.facility_type }}
       </div>
-      
+
+ 
       <div id="secondary-search">
+
         <div id="searchfield-room_type">
-          {{ form.label_tag }}
+        
           {{ form.room_type }}
         </div>
+        
+        <div id="searchfield-slider">
+          <span>$149 </span>
+          <input id="slider" type="text" class="span2" value="" data-slider-min="149" data-slider-max="4999" data-slider-step="1" data-slider-value="[149,3500]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">
+          <span>$4999</span>
+        </div>
+        <div class="clear"></div>
+        <hr>
+
         <div id="searchfield-amenities">
           {{ form.amenities }}
         </div>
         <div id="searchfield-hiddenvalues">
           {{ form.min_value }}
           {{ form.max_value }}
-        </div>
-        <div id="searchfield-slider">
-          <span>$149 </span>
-          <input id="slider" type="text" class="span2" value="" data-slider-min="149" data-slider-max="4999" data-slider-step="1" data-slider-value="[149,3500]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">
-          <span>$4999</span>
         </div>
       </div>
 

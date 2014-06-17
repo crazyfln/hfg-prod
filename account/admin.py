@@ -25,35 +25,35 @@ class UserCreationForm(DjangoUserCreationForm):
     class Meta:
         model = User
 
-class HoldingGroupInline(admin.TabularInline):
-    model = HoldingGroup
-
 class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
+    search_fields = ('email', 'first_name', 'last_name')
+    list_display = ('edit','delete','get_type_of_user', 'get_full_name','email', 'created', 'last_login')
     form = RegistrationAdminForm
     fieldsets = (
         ("User", {
             'fields':( 
+                'holding_group',
                 ('permissions','pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi'),
                 ('first_name','last_name'),
                 ('email','budget'),
                 ('phone','searching_for'),
-                'health_description'
+                'health_description',
            ) 
         }),
     )
     #list_per_page = 25
-    search_fields = ('email', 'first_name', 'last_name')
-    list_display = ('edit','delete','get_type_of_user', 'get_full_name','email', 'created', 'last_login')
 
     def edit(self, obj):
         info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('admin:%s_%s_change' % info, args=(obj.id,))
+        import ipdb
+        ipdb.set_trace()
+        url = reverse('manager_admin:{0}_{1}_change'.format(info, args=(obj.id,)))
         return "<a href='%s'>Edit</a>" % url
     edit.allow_tags = True
 
     def delete(self, obj):
         info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('admin:%s_%s_delete' % info, args=(obj.id,))
+        url = reverse('manager_admin:{0}_{1}_delete'.format(info, args=(obj.id,)))
         return "<a href='%s'>Delete</a>" % url
     delete.allow_tags = True
  
@@ -71,5 +71,3 @@ class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
         return obj.get_full_name()
     get_full_name.short_description = "Name"
 
-admin.site.register(User, UserAdmin)
-admin.site.register(HoldingGroup)

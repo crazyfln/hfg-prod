@@ -56,15 +56,21 @@ class RegistrationAdminForm(ModelForm):
                                     ('m','Manager')
                                     ))
 
-    def save(self):
-        instance = super(RegistrationAdminForm, self).save()
+    def save(self, commit=True):
+        instance = super(RegistrationAdminForm, self).save(commit=False)
         user_type = self.cleaned_data['permissions']
         if user_type == 'm':
             instance.is_superuser = True
             instance.is_staff = True
         elif user_type == 'p':
             instance.is_staff = True
-        instance.save()
+            instance.is_superuser = False
+        else:
+            instance.is_staff = False
+            instance.is_superuser = False
+        if commit:
+            instance.save()
+        return instance
 
     class Meta:
         model = User

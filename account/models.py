@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 from hfg import settings
 
 class User(AbstractUser, TimeStampedModel):
-
+    
     phone = models.CharField(max_length=10)
     searching_for = models.CharField(max_length=30, blank=True, choices=(
                                     ('Myself','Myself'),
@@ -54,8 +54,15 @@ class User(AbstractUser, TimeStampedModel):
                                         ('Now','Now'),
                                         ('Soon','Soon'),
                                         ('Later','Later'))
-                                        )
+                                        ) 
 
+    holding_group = models.ForeignKey('HoldingGroup', related_name="owners", null=True,blank=True)
+
+    def is_provider(self):
+        if self.holding_group:
+            return True
+        else:
+            return False
 
     def __unicode__(self):
         if self.get_full_name() == "":
@@ -79,5 +86,3 @@ class HoldingGroup(models.Model):
     def __unicode__(self):
         return self.name
 
-class FacilityDirector(User):
-    holding_group = models.ForeignKey(HoldingGroup, related_name="owners")

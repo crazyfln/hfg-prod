@@ -34,15 +34,52 @@
         }
 
         input {
-           @include contact-input;
+            @include contact-input;
         }
 
         input#id_email {
-           @include contact-input;
+            @include contact-input;
         }
 
         input#id_name {
-           @include contact-input;
+            @include contact-input;
         }
     }
+
+    img {
+        margin-right:25px;
+    }
+
+    img:nth-child(3) {
+        margin-right:0px;
+    }
+
+    p.side-info  {
+        font-size:16px;
+        color: $light;
+
+    }
+
+    a {
+        color:$secondary;
+        font-size:16px;
+        margin: 0 0 10px 0;
+    }
+    hr {
+        margin: 30px 0 30px 0;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

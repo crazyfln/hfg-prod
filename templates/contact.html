@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+ {% load static from staticfiles %}
 
 {% block content %}
 
@@ -40,18 +41,21 @@
     <div class="col-sm-offset-1 col-sm-4">
       <div id="sidebar">
         <div id="social-links">
-          <span>twitter</span>
-          <span>facebook</span>
-          <span>g+</span>
+          <a href=''><img src='{% static 'img/icon_twitter.png' %}'/></a>
+          <a href=''><img src='{% static 'img/icon_facebook.png' %}'/></a>
+          <a href=''><img src='{% static 'img/icon_google_plus.png' %}'/></a>
         </div>
+        <hr>
         <div id="address">
-          <p>9868 Las Dr, Temple City, CA, 91780</p>
+          <p class='side-info'>9868 Las Dr, Temple City, CA, 91780</p>
           <a href="#"><span>View Map</span></a>
         </div>
+        <hr>
         <div id="contact-info">
           <a href="#"><span>info@homeforgrandma.com</span></a>
-          <p>626 226 0023</p>
+          <p class='side-info'>626 226 0023</p>
         </div>  
+        <hr>
       </div>
     </div>
   </div>

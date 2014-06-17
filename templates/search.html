@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_head %}
-    <link href="{% static 'slider/css/slider.css' %}" rel="stylesheet">
+<link href="{% static 'slider/css/slider.css' %}" rel="stylesheet">
 {% endblock extra_head %}
 
 
 {% block content %}
+<div class="container">
     {% include 'snippets/searchbox.html' with form=form %}
     <div id="search-results">
         {% for listing in object_list %}
-            {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
+        {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
         {% empty %}
-            <span>Empty</span>
+        <span>Empty</span>
         {% endfor %}
     </div>
+</div>
 
 {% endblock content %}
 

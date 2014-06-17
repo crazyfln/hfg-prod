@@ -202,6 +202,10 @@ class FacilityRoom(TimeStampedModel):
     def get_square_footage(self):
         return self.width + ' x ' + self.length
 
+    def get_area(self):
+        area = int(width) + int(length)
+        return str(area)
+
     def __unicode__(self):
         return str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk)
 

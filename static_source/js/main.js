@@ -41,7 +41,6 @@ $(document).ready(function(){
         e.stopPropagation();
         heartImg = $(this).children('img')
         heartImg.toggle()
-        console.log($(this).attr('url'));
         $.ajax({
             url:$(this).attr('url'),
             error: function(){

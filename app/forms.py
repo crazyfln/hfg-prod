@@ -26,7 +26,7 @@ class ContactForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     website = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Website'}))
-    message = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Message'}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Message'}))
 
     def send_email(self):
         message = self.cleaned_data['message'] + "<br />"

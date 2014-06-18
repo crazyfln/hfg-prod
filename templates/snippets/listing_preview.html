@@ -7,7 +7,7 @@
     show or head hearts -->
     <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
     {% if user in facility.favorited_by.all %}
-      <div class="heart-holder" style="background-color:red"></div>
+      <div class="heart-holder" style="background-color:#008185"></div>
     {% else %}
       <div class="heart-holder"></div>
     {% endif %}

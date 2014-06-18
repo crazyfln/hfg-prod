@@ -50,6 +50,11 @@
         li {
             float:left;
             margin-right: 30px;
+
+            label {
+                color:$light;
+                margin:0 0 0 10px;
+            }
         }
     }
 

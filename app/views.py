@@ -194,3 +194,7 @@ def charge_customer(request):
 @render_to('receive_reward.html')
 def receive_reward(request):
     return {}
+
+@render_to('financial_resources.html')
+def financial_resources(requeset):
+    return {}

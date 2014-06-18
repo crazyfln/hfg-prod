@@ -18,6 +18,7 @@ $bootstrap-sass-asset-helper: false;
 @import "receive_reward";
 @import "facility_detail";
 @import "search";
+@import "contact";
 
 
 //global rules and helper classes
@@ -50,12 +51,15 @@ h1, h2, h3, h4, h5, h6 {
 .secondary {
     color: $secondary;
 }
+.margin-right-0 {
+    margin-right:0px;
+}
 
 .margin-top-20 {
     margin-top:20px;
 }
 
-.padder-top-20 {
+.padder-top-20 {        
     padding-top: 20px;
 }
 

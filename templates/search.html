@@ -12,7 +12,7 @@
         {% for listing in object_list %}
         {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
         {% empty %}
-        <span>Empty</span>
+        <center><h2 class='empty'>We're sorry, no facilities matched your search. Try again!</h2></center>
         {% endfor %}
     </div>
 </div>

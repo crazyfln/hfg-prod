@@ -18,6 +18,7 @@
     {% for type in facility.facility_types.all %}
       <p class="listing-tag">{{ type.name }}</p>
     {% endfor %}
+    <div class="clear"></div>
 
     <p class="listing-title">{{ facility.name }}</p>
     <p class="listing-location">{{ facility.city }}</p>

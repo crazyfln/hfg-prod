@@ -1,5 +1,7 @@
-#searchbox {
+.searchbox {
     background-color: $white;
+
+
     button {
         height:55px;
     }
@@ -9,6 +11,14 @@
         margin: 0 150px 10px 0;
         text-transform: uppercase;
         color: $light;    
+    }
+
+    .margin-right-20 {
+        margin-right:20px;
+    }
+
+    li {
+        list-style:none;
     }
 
     .search-label-long {
@@ -32,95 +42,127 @@
 
     }
 
-     ::-webkit-input-placeholder { /* WebKit browsers */
-        color:$primary;
-            //font color does not match placeholder color yet.
-        }
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:$primary;
+//font color does not match placeholder color yet.
+}
 
-        //scss for property type 
-        #id_facility_type {
-            width:225px;
-            height:40px !important;
-            float: left;
-            
-        }
+//scss for property type 
+#id_facility_type {
+    width:225px;
+    height:40px !important;
+    float: left;
 
-        //scss for room type selector
-        #id_room_type {
-            width:225px;
-            height:40px; 
-            float: left;   
-        }
+}
 
+//scss for room type selector
+#id_room_type {
+    width:225px;
+    height:40px; 
+    float: left;   
+}
 
+.searchfield-room_type-holder, .searchfield-facility_type-holder {
+    height: 50px;
+    width: 225px;
+    border: 1px solid $border;
+    float:left;
+    position: relative;
+    margin: 0 40px 0 0;
 
-
-        .searchfield-room_type-holder, .searchfield-facility_type-holder {
-            height: 50px;
-            width: 225px;
-            border: 1px solid $border;
-            float:left;
-            position: relative;
-            margin: 0 40px 0 0;
-
-            select {
-                position: absolute;
-                background: transparent;
-                top: 0;
-                width: 100%;
-                padding-left: 30px;
-                height: 100%;
-                border: 0;
-                z-index: 2;
-                @include appearance(none);
-                outline:none;
-            }
-        }
-
-      
-
-        //scss for slider
-        #searchfield-slider {
-            float:left;
-
-            .slider {
-                margin-right:15px;
-                width:245px !important;
-            }
-            span {
-                 color: $light;
-            }
-
-            span:first-child {
-                margin-left: 14px;
-                margin-right: 15px;
-
-            }
-
-            // span:nth-child(2) {
-            //     margin-left: 15px;
-            // } //not working
-
-            .slider-selection {
-                background-image:none;
-                background-color:$secondary;
-
-            }
-            .slider-handle  {
-                background-image:none;
-                background-color:$white;
-                border: 1px solid $border;
-                border-radius: 3px;
-                width: 10px;
-                opacity: 1;
-
-                
-            }
-
-            .slider-handle {
-                &:nth-child(3) {
-                    margin-left:0px;
-                }
-            }
-        }
+    select {
+        position: absolute;
+        background: transparent;
+        top: 0;
+        width: 100%;
+        padding-left: 30px;
+        height: 100%;
+        border: 0;
+        z-index: 2;
+        @include appearance(none);
+        outline:none;
     }
+}
+
+
+
+//scss for slider
+#searchfield-slider {
+    float:left;
+
+    .slider {
+        margin-right:15px;
+        width:245px !important;
+    }
+    span {
+        color: $light;
+    }
+
+    span:first-child {
+        margin-left: 14px;
+        margin-right: 15px;
+
+    }
+
+// span:nth-child(2) {
+//     margin-left: 15px;
+// } //not working
+
+.slider-selection {
+    background-image:none;
+    background-color:$secondary;
+
+}
+.slider-handle  {
+    background-image:none;
+    background-color:$white;
+    border: 1px solid $border;
+    border-radius: 3px;
+    width: 10px;
+    opacity: 1;
+
+
+}
+
+.slider-handle {
+    &:nth-child(3) {
+        margin-left:0px;
+    }
+}
+}
+}
+
+.searchbox-home {
+    width:708px;
+    height:55px;
+    background-color:transparent;
+
+    .searchfield-facility_type-holder {
+        margin-right:0px;
+        height:55px;
+    }
+
+    input#id_query {
+        width:430px;
+        background-color:#fff;
+    }
+
+    #id_facility_type {
+        margin-top: 7px;
+    }
+
+    button {
+        margin:0px;
+        float:left;
+        height: 56px;
+    }
+
+    .searchfield-facility_type-holder {
+        background-color:#E0E7E7;
+        border-radius: 1px;
+    }
+}
+
+
+
+

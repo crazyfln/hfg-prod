@@ -1,5 +1,5 @@
 {% load static from staticfiles %}
-<div id="searchbox">
+<div class="searchbox">
 
   <form id="SearchForm" action="{% url 'search' %}" method="get">
     {{ form.errors }}
@@ -33,7 +33,8 @@
       </div>
       <div class="clear"></div>
       <hr>
-      <div id="searchfield-amenities">
+      <p class='search-label margin-right-20'>Amenities</p>
+      <div id="searchfield-amenities ">
         {{ form.amenities }}
       </div>
       <div id="searchfield-hiddenvalues">

@@ -198,3 +198,7 @@ def receive_reward(request):
 @render_to('financial_resources.html')
 def financial_resources(requeset):
     return {}
+
+@render_to('about.html')
+def about(request):
+    return{}

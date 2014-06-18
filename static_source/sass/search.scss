@@ -1,6 +1,12 @@
+#search-results {
+
+    h2.empty {
+        color: $secondary;
+        margin-top:80px;
+    }
+}
 .searchbox {
     background-color: $white;
-
 
     button {
         height:55px;
@@ -39,12 +45,16 @@
         border-radius:4px 0 0 4px;
         margin: 0 0 20px 0;
         border-bottom:1px solid $border;
-
+    }
+    ul#id_amenities {
+        li {
+            float:left;
+            margin-right: 30px;
+        }
     }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
     color:$primary;
-//font color does not match placeholder color yet.
 }
 
 //scss for property type 
@@ -120,8 +130,6 @@
     border-radius: 3px;
     width: 10px;
     opacity: 1;
-
-
 }
 
 .slider-handle {
@@ -129,6 +137,8 @@
         margin-left:0px;
     }
 }
+
+
 }
 }
 

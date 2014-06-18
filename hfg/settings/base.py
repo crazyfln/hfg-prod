@@ -201,6 +201,6 @@ SOUTH_TESTS_MIGRATE = False
 GRAPPELLI_ADMIN_TITLE = 'hfg'
 
 GRAPPELLI_INDEX_DASHBOARD = {
-    'app.admin.manager_admin' : 'hfg.manager_dashboard.CustomIndexDashboard',
-    'app.admin.provider_admin' : 'hfg.provider_dashboard.CustomIndexDashboard',
+    'app.admin.manager_admin':'hfg.manager_dashboard.CustomIndexDashboard',
+    'app.admin.provider_admin':'hfg.provider_dashboard.CustomIndexDashboard',
 }

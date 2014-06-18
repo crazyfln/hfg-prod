@@ -3,8 +3,9 @@ from django.contrib.admin.sites import AdminSite
 import reversion
 
 from django.forms import CheckboxSelectMultiple
-from account.models import User
+from account.models import User, HoldingGroup
 from account.admin import UserAdmin
+from util.util import list_button
 from .models import *
 from .forms import FacilityAdminForm
 
@@ -73,18 +74,14 @@ class FacilityAdmin(admin.ModelAdmin):
 
     
     def edit(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('manager_admin:{0}_{1}_change'.format(info, args=(obj.id,)))
-        return "<a href='%s'>Edit</a>" % url
+        return list_button(self, obj, "change", "Edit")
     edit.allow_tags = True
     
     def note(self, obj):
         return "note"
 
     def delete(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('manager_admin:{0}_{1}_delete'.format(info, args=(obj.id,)))
-        return "<a href='%s'>Delete</a>" % url
+        return list_button(self, obj,"delete","Delete")
     delete.allow_tags = True
                 
 manager_admin.register(Facility, FacilityAdmin)
@@ -93,10 +90,7 @@ class FacilityMessageAdmin(admin.ModelAdmin):
     list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','replied_by','replied_datetime']
 
     def message(self, obj):
-        info = self.admin_site.name, obj._meta.app_label, obj._meta.module_name
-        url = reverse('{0}:{1}_{2}_change'.format(*info), args=(obj.id))
-        comment_display = obj.comments[:20]
-        return "<a href='{0}'>{1}</a>".format(url, comment_display)
+        return list_button(self,obj,"change", obj.comments[:20])
     message.allow_tags = True
 
 
@@ -137,34 +131,41 @@ class InvoiceAdmin(admin.ModelAdmin):
     get_recieved.short_description = "recieved"
 
     def edit(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('manager_admin:%s_%s_change' % info, args=(obj.id,))
-        return "<a href='%s'>Edit</a>" % url
+        return list_button(self,obj,"change","Edit")
     edit.allow_tags = True
     
     def note(self, obj):
         return "note"
 
     def delete(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('manager_admin:%s_%s_delete' % info, args=(obj.id,))
-        return "<a href='%s'>Delete</a>" % url
+        return list_button(self,obj,"delete","Delete")
     delete.allow_tags = True
 
 manager_admin.register(Invoice, InvoiceAdmin)
 manager_admin.register(User, UserAdmin)
+manager_admin.register(HoldingGroup)
 ## PROVIDER ADMIN ##
 
 class ProviderAdmin(AdminSite):
     def has_permission(self, request):
-        if request.user.holding_group:
-            return request.user.is_active and request.user.is_staff
-        else: 
-            return False
+        return request.user.is_active and request.user.is_staff and request.user.is_provider()
 
+provider_admin = ProviderAdmin(name="provider_admin")
+
+class FacilityProviderProxy(Facility):
+    class Meta:
+        proxy = True
 
 class FacilityProviderAdmin(FacilityAdmin):
     list_display = ['edit','delete','pk','name','status','get_messages','get_visibility']
+
+    def has_add_permission(self, request):
+        return request.user.is_active and request.user.is_staff and request.user.is_provider()
+
+    def has_change_permission(self, request, obj=None):
+        if obj and obj.holding_group != request.user.holding_group:
+            return False
+        return request.user.is_active and request.user.is_staff and request.user.is_provider()
 
     def get_messages(self, obj):
         return "not implemented"
@@ -175,21 +176,15 @@ class FacilityProviderAdmin(FacilityAdmin):
     get_visibility.short_description = "Visibility"
 
     def edit(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('admin:%s_%s_change' % info, args=(obj.id,))
-        return "<a href='%s'>Edit</a>" % url
+        return list_button(self,obj,"change","Edit")
     edit.allow_tags = True
 
     def delete(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('admin:%s_%s_delete' % info, args=(obj.id,))
-        return "<a href='%s'>Delete</a>" % url
+        return list_button(self,obj,"delete","Delete")
     delete.allow_tags = True
 
     def queryset(self, request):
         query = super(FacilityProviderAdmin, self).queryset(request)
         return query.filter(holding_group=request.user.holding_group)
 
-provider_admin = ProviderAdmin(name="provider_admin")
-provider_admin.register(Facility, FacilityProviderAdmin)
-
+provider_admin.register(FacilityProviderProxy, FacilityProviderAdmin)

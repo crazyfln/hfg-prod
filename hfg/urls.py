@@ -18,10 +18,10 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
 
     url(r'^admin/filebrowser/', include(site.urls)),
+    url(r'^provider/', include(provider_admin.urls)),
+    url(r'^manager/', include(manager_admin.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
 #    url(r'^admin/', include(admin.site.urls)),
-    url(r'^manager/', include(manager_admin.urls)),
-    url(r'^provider/', include(provider_admin.urls)),
     url(r"^payments/", include("payments.urls")),
 )
 

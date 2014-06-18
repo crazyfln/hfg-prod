@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 
 import reversion
 
+from util.util import list_button
 from .models import *
 from .forms import *
 
@@ -42,21 +43,13 @@ class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
         }),
     )
     #list_per_page = 25
-
     def edit(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        import ipdb
-        ipdb.set_trace()
-        url = reverse('manager_admin:{0}_{1}_change'.format(info, args=(obj.id,)))
-        return "<a href='%s'>Edit</a>" % url
+        return list_button(self,obj,"change","Edit")
     edit.allow_tags = True
 
     def delete(self, obj):
-        info = obj._meta.app_label, obj._meta.module_name
-        url = reverse('manager_admin:{0}_{1}_delete'.format(info, args=(obj.id,)))
-        return "<a href='%s'>Delete</a>" % url
+        return list_button(self, obj,"delete","Delete") 
     delete.allow_tags = True
- 
 
     def get_type_of_user(self, obj):
         if obj.is_superuser:

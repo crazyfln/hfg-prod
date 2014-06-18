@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
 import reversion
+from django.shortcuts import get_object_or_404
 
 from django.forms import CheckboxSelectMultiple
 from account.models import User, HoldingGroup
@@ -87,12 +88,17 @@ class FacilityAdmin(admin.ModelAdmin):
 manager_admin.register(Facility, FacilityAdmin)
 
 class FacilityMessageAdmin(admin.ModelAdmin):
-    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','replied_by','replied_datetime']
+    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_replied']
 
     def message(self, obj):
         return list_button(self,obj,"change", obj.comments[:20])
     message.allow_tags = True
 
+    def get_replied(self, obj):
+        if obj and not obj.replied_by and not obj.replied_datetime:
+            return "-"
+        return str(obj.replied_by) + "-" + str(obj.replied_datetime.date())
+    get_replied.short_description = "Sent to Facility"
 
     def get_holding_group(self, obj):
         return obj.facility.holding_group
@@ -168,23 +174,46 @@ class FacilityProviderAdmin(FacilityAdmin):
         return request.user.is_active and request.user.is_staff and request.user.is_provider()
 
     def get_messages(self, obj):
-        return "not implemented"
+        msgs = obj.facilitymessage_set.all()
+        unread = msgs.filter(read_provider=False)
+        display = str(len(msgs)) + " (" + str(len(unread)) + " Unread)"
+        meta = FacilityMessageProviderProxy.objects.model._meta
+        info = self.admin_site.name, meta.app_label, meta.module_name, "changelist"
+        url = reverse('{0}:{1}_{2}_{3}'.format(*info)) + "?q=" + str(obj.slug)
+        return "<a href='{0}'>{1}</a>".format(url, display)
+    get_messages.allow_tags = True
     get_messages.short_description = "Messages"
 
     def get_visibility(self, obj):
         return "not implemented"
     get_visibility.short_description = "Visibility"
 
-    def edit(self, obj):
-        return list_button(self,obj,"change","Edit")
-    edit.allow_tags = True
-
-    def delete(self, obj):
-        return list_button(self,obj,"delete","Delete")
-    delete.allow_tags = True
-
     def queryset(self, request):
         query = super(FacilityProviderAdmin, self).queryset(request)
         return query.filter(holding_group=request.user.holding_group)
 
 provider_admin.register(FacilityProviderProxy, FacilityProviderAdmin)
+
+class FacilityMessageProviderProxy(FacilityMessage):
+    class Meta:
+        proxy = True
+
+class FacilityMessageProviderAdmin(FacilityMessageAdmin):
+    list_display = ['created','facility','get_user_full_name', 'message','get_replied']
+
+
+    def has_change_permission(self, request, obj=None):
+        if obj and obj.facility.holding_group != request.user.holding_group:
+            return False
+        return request.user.is_active and request.user.is_provider() and request.user.is_staff
+
+    def queryset(self, request):
+        query = super(FacilityMessageProviderAdmin, self).queryset(request)
+        if 'q' in request.GET:
+            q = request.GET['q']
+            if q:
+                facility = get_object_or_404(FacilityProviderProxy, slug=q)
+                query = query.filter(facility=facility)
+        return query.filter(facility__holding_group=request.user.holding_group)
+
+provider_admin.register(FacilityMessageProviderProxy, FacilityMessageProviderAdmin)

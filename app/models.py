@@ -152,7 +152,8 @@ class FacilityMessage(TimeStampedModel):
 
     resident_first_name = models.CharField(max_length=30, blank=True)
 
-    read = models.BooleanField(default=False)
+    read_manager = models.BooleanField(default=False)
+    read_provider = models.BooleanField(default=False)
     replied_by = models.CharField(max_length=20, blank=True)
     replied_datetime = models.DateTimeField(blank=True, null=True)
 

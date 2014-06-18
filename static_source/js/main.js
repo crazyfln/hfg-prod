@@ -1,9 +1,9 @@
 $(document).ready(function(){
-
-  $('.listing-preview').click(function() {
+  $('.listing-preview').click(function(e) {
     url = $(this).attr("url");
     window.location.href=url;
-  });  
+  });
+
   $('[id^=carousel-selector-]').click(function () {
     var id_selector = $(this).attr("id");
     var id = id_selector.substr(id_selector.length - 1);
@@ -35,3 +35,18 @@ $(document).ready(function(){
      $('[id^=carousel-selector-' + id + ']').addClass('selected');
    });
   });
+
+    $('.heart-holder').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        heartImg = $(this).children('img')
+        heartImg.toggle()
+        console.log($(this).attr('url'));
+        $.ajax({
+            url:$(this).attr('url'),
+            error: function(){
+                alert('There was an error, the facility was not favorited')
+                heartImg.toggle()
+            },
+        });
+    });

@@ -105,9 +105,10 @@
                 <p>
                     {% if condition in object.conditions.all %}
                     <!-- if this facility handles this type of condition -->
-                    <span>{{ condition.name }}</span>
+                     <img src='{% static 'img/icon_small_check.png' %}'/>
+                    <span class='margin-left-10'>{{ condition.name }}</span>
                     {% else %}
-                    <span style="color:gray">{{ condition.name }}</span>
+                    <span class='margin-left-26' style="color:gray">{{ condition.name }}</span>
                     {% endif %}
                 </p>
 
@@ -127,9 +128,10 @@
                 <p>
                     {% if amenity in object.amenities.all %}
                     <!-- if this facility handles this type of condition -->
-                    <span>{{ amenity.name }}</span>
+                    <img src='{% static 'img/icon_small_check.png' %}'/>
+                    <span class='margin-left-10'>{{ amenity.name }}</span>
                     {% else %}
-                    <span style="color:gray">{{ amenity.name }}</span>
+                    <span class='margin-left-26' style="color:gray">{{ amenity.name }}</span>
                     {% endif %}
                 </p>
                 {% endfor %}
@@ -146,9 +148,10 @@
                 <p>
                     {% if language in object.languages.all %}
                     <!-- if this facility handles this type of condition -->
-                    <span>{{ language.name }}</span>
+                     <img src='{% static 'img/icon_small_check.png' %}'/>
+                    <span class='margin-left-10'>{{ language.name }}</span>
                     {% else %}
-                    <span style="color:gray">{{ language.name }}</span>
+                    <span class='margin-left-26' style="color:gray">{{ language.name }}</span>
                     {% endif %}
                 </p>
                 {% endfor %}

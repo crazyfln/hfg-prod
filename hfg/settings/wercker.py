@@ -1,7 +1,16 @@
 from .base import *
+from unipath import Path
 import dj_database_url
+
+
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config()
+DATABASES = {
+    'default': dj_database_url.config(
+        env="WERCKER_POSTGRESQL_URL",
+        default="sqlite:///local_db.sqlite"
+    )
+}
+
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -11,11 +20,11 @@ ALLOWED_HOSTS = ['*']
 
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = PROJECT_ROOT.child("static")
 STATIC_URL = '/static/'
 
 DEBUG = True
-PIPELINE_ENABLED = True
+PIPELINE_ENABLED = False
 
 # CACHES = {
 #     'default': {
@@ -40,43 +49,38 @@ PIPELINE_ENABLED = True
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 
-MIDDLEWARE_CLASSES += (
-    'django.middleware.gzip.GZipMiddleware',
-    'pipeline.middleware.MinifyHTMLMiddleware',
-)
+# MIDDLEWARE_CLASSES += (
+#     'django.middleware.gzip.GZipMiddleware',
+#     'pipeline.middleware.MinifyHTMLMiddleware',
+# )
 
-SECRET_KEY = get_env_setting('SECRET_KEY')
+SECRET_KEY = "testing"
 
 #TODO:
 #set secret key as env variable??
 #media root??
 #cache settings??
 
-DEFAULT_FILE_STORAGE = 'app.storage.S3PipelineStorage'
-AWS_QUERYSTRING_AUTH = False
-MEDIA_URL = "https://s3-us-west-2.amazonaws.com/hfg/"
+# DEFAULT_FILE_STORAGE = 'app.storage.S3PipelineStorage'
+# AWS_QUERYSTRING_AUTH = False
+# MEDIA_URL = "https://s3-us-west-2.amazonaws.com/greenbook/"
 
 #put the cloudfront distro here
 #AWS_S3_CUSTOM_DOMAIN = "foo.cloudfront.net"
 
 
-
-EMAIL_BACKEND = 'django_mandrill.mail.backends.mandrillbackend.EmailBackend'
-MANDRILL_API_KEY = get_env_setting('MANDRILL_APIKEY')
-
-STRIPE_PUBLIC_KEY = get_env_setting('STRIPE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = get_env_setting('STRIPE_SECRET_KEY')
-
-AWS_ACCESS_KEY_ID = get_env_setting('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = get_env_setting('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = get_env_setting('AWS_STORAGE_BUCKET_NAME')
-
-
-
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
+# TEMPLATE_LOADERS = (
+#     ('django.template.loaders.cached.Loader', (
+#         'django.template.loaders.filesystem.Loader',
+#         'django.template.loaders.app_directories.Loader',
+#     )),
+# )
+
+
+STRIPE_PUBLIC_KEY = ""
+STRIPE_SECRET_KEY = ""
+
+AWS_ACCESS_KEY_ID = ""
+AWS_SECRET_ACCESS_KEY = ""
+AWS_STORAGE_BUCKET_NAME = ""

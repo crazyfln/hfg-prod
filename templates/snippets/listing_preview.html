@@ -13,7 +13,19 @@
     {% endif %}
     </a>
 
+    <!-- {% for facility.image in images %}
+      <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
+        <img class="img-main-carousel" src="{{ image.image.url }}"/>
+      </div>
+    {% endfor %}  -->
+
+   
+
     <img class='listing-img-small' src="{% static 'img/listing_img_small.png' %}"/>
+     {% for x in facility.phone.all %}
+    {{ x.phone }}
+    {% endfor %}
+
     <!-- loop for the tags per listing starts here -->
     {% for type in facility.facility_types.all %}
       <p class="listing-tag">{{ type.name }}</p>

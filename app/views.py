@@ -90,7 +90,6 @@ def tour_request(request, slug):
             new_request.save()
             messages.success(request, "Thanks, someone will be in touch soon")
         else:
-            print form.errors
             messages.error(request, "There was a problem with your tour request")
     return HttpResponseRedirect(facility.get_absolute_url())
 

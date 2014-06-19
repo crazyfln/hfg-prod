@@ -48,6 +48,8 @@
       <span>Other Fees</span>
       {% for fee in object.fees.all %}
       <p>
+      ob
+
       <span>{{ fee.name }} : {{ fee.cost }} </span>
       </p>
       {% endfor %}
@@ -98,7 +100,7 @@
           <img src="{{ object.director_avatar.url }}"/>
           <p>{{ object.director_name }}</p>
           <p>Property Manager</p>
-          <p id="phone">{{ obect.get_phone_stars }}</p>
+          <p id="phone">{{ object.get_phone_stars }}</p>
       </div>
       <div id="buttons">
           <p>Click below to display facilities Direct Phone Number</p>
@@ -124,8 +126,8 @@
       {% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
    {% endif %}
 
-  <script>
-    {% if user.is_authenticated %}
+  {% if user.is_authenticated %}
+    <script>
     $("#show-number-button").click(function() { 
       $("#phone").html("{{ object.get_phone_normal }}"); 
       $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
@@ -134,6 +136,6 @@
             
       });
     }); 
-    {% endif %}
-  </script>
+    </script>
+  {% endif %}
 {% endblock body_media %}

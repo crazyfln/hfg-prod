@@ -29,7 +29,7 @@ class FacilityImageInline(admin.TabularInline):
 class FacilityRoomInline(admin.TabularInline):
     model = FacilityRoom
 
-class FacilityAdmin(admin.ModelAdmin):
+class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
     form = FacilityAdminForm
     list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group']
     fieldsets = (
@@ -73,18 +73,6 @@ class FacilityAdmin(admin.ModelAdmin):
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
 
-    
-    def edit(self, obj):
-        return list_button(self, obj, "change", "Edit")
-    edit.allow_tags = True
-    
-    def note(self, obj):
-        return "note"
-
-    def delete(self, obj):
-        return list_button(self, obj,"delete","Delete")
-    delete.allow_tags = True
-                
 manager_admin.register(Facility, FacilityAdmin)
 
 class FacilityMessageAdmin(admin.ModelAdmin):
@@ -110,20 +98,14 @@ class FacilityMessageAdmin(admin.ModelAdmin):
 
 manager_admin.register(FacilityMessage, FacilityMessageAdmin)
 
-#admin.site.register(FacilityType)
-#admin.site.register(Fee)
-#admin.site.register(Language)
-#admin.site.register(Condition)
-#admin.site.register(Amenity)
-#admin.site.register(RoomType)
-
-class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['edit','note','delete','pk','facility','billed_on','get_recieved','status','payment_method']
+class InvoiceAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
+    list_display = ['edit','note','delete','pk','facility','billed_on','get_amount','get_recieved','status','payment_method']
     fieldsets = (
         (None, {
             'fields':(
                 'facility',
-                ('billed_on','recieved'),
+                ('amount','recieved'),
+                'billed_on',
                 ('status','payment_method'),
                 ('resident_name','move_in_date'),
                 ('contact_person_name','contact_person_relationship'),
@@ -132,24 +114,22 @@ class InvoiceAdmin(admin.ModelAdmin):
         }),
     )
 
+    def get_amount(self, obj):
+        return "$" + str(obj.amount)
+    get_amount.short_description = "Billed"
+
     def get_recieved(self, obj):
         return "$"+obj.recieved
-    get_recieved.short_description = "recieved"
+    get_recieved.short_description = "Recieved"
 
-    def edit(self, obj):
-        return list_button(self,obj,"change","Edit")
-    edit.allow_tags = True
-    
-    def note(self, obj):
-        return "note"
-
-    def delete(self, obj):
-        return list_button(self,obj,"delete","Delete")
-    delete.allow_tags = True
+    class Meta:
+        verbose_name = "Bill"
+        verbose_name_plural = "Income Management"
 
 manager_admin.register(Invoice, InvoiceAdmin)
 manager_admin.register(User, UserAdmin)
 manager_admin.register(HoldingGroup)
+
 ## PROVIDER ADMIN ##
 
 class ProviderAdmin(AdminSite):
@@ -157,21 +137,45 @@ class ProviderAdmin(AdminSite):
         return request.user.is_active and request.user.is_staff and request.user.is_provider()
 
 provider_admin = ProviderAdmin(name="provider_admin")
+class ProviderEditMixin(object):
+    def has_change_permission(self, request, obj=None):
+        if obj and obj.facility.holding_group != request.user.holding_group:
+            return False
+        return request.user.is_active and request.user.is_provider() and request.user.is_staff
+
+class ProviderAddMixin(object):
+    def has_add_permission(self, request):
+        return request.user.is_active and request.user.is_staff and request.user.is_provider()
 
 class FacilityProviderProxy(Facility):
     class Meta:
         proxy = True
+        verbose_name = "Facility"
+        verbose_name_plural = "Facilities"
 
-class FacilityProviderAdmin(FacilityAdmin):
-    list_display = ['edit','delete','pk','name','status','get_messages','get_visibility']
-
-    def has_add_permission(self, request):
-        return request.user.is_active and request.user.is_staff and request.user.is_provider()
-
+class FacilityFeeProviderInline(FacilityFeeInline):
+    model = FacilityFee
+    extra = 1 
     def has_change_permission(self, request, obj=None):
-        if obj and obj.holding_group != request.user.holding_group:
-            return False
-        return request.user.is_active and request.user.is_staff and request.user.is_provider()
+        return True
+
+    def has_add_permission(self, request, obj=None):
+        return True
+
+class FacilityImageProviderInline(FacilityImageInline):
+    model = FacilityImage
+    def has_change_permission(self, request, obj=None):
+        return True
+
+class FacilityRoomProviderInline(FacilityRoomInline):
+    model = FacilityRoom
+    def has_change_permission(self, request, obj=None):
+        return True
+
+class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
+    list_display = ['edit','delete','pk','name','status','get_messages','get_visibility']
+    inlines = [FacilityFeeProviderInline, FacilityImageProviderInline, FacilityRoomProviderInline]
+
 
     def get_messages(self, obj):
         msgs = obj.facilitymessage_set.all()
@@ -197,23 +201,54 @@ provider_admin.register(FacilityProviderProxy, FacilityProviderAdmin)
 class FacilityMessageProviderProxy(FacilityMessage):
     class Meta:
         proxy = True
+        verbose_name = "Message"
+        verbose_name_plural = "Message Center"
 
-class FacilityMessageProviderAdmin(FacilityMessageAdmin):
+class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
     list_display = ['created','facility','get_user_full_name', 'message','get_replied']
-
-
-    def has_change_permission(self, request, obj=None):
-        if obj and obj.facility.holding_group != request.user.holding_group:
-            return False
-        return request.user.is_active and request.user.is_provider() and request.user.is_staff
 
     def queryset(self, request):
         query = super(FacilityMessageProviderAdmin, self).queryset(request)
         if 'q' in request.GET:
             q = request.GET['q']
-            if q:
-                facility = get_object_or_404(FacilityProviderProxy, slug=q)
-                query = query.filter(facility=facility)
+            facility = get_object_or_404(FacilityProviderProxy, slug=q)
+            query = query.filter(facility=facility)
         return query.filter(facility__holding_group=request.user.holding_group)
 
 provider_admin.register(FacilityMessageProviderProxy, FacilityMessageProviderAdmin)
+
+class InvoiceProviderProxy(Invoice):
+    class Meta:
+        proxy = True
+        verbose_name = "Billing Details"
+        verbose_name_plural = "Billing History"
+
+class InvoiceProviderAdmin(ProviderEditMixin, InvoiceAdmin):
+    list_display = ['facility','billed_on','get_amount','resident_name','move_in_date','get_case_number']
+
+    def get_case_number(self,obj):
+        return list_button(self,obj,'change',obj.pk)
+    get_case_number.allow_tags = True
+    get_case_number.short_description = "Case Number"
+    
+
+    def queryset(self, request):
+        query = super(InvoiceProviderAdmin, self).queryset(request)
+        return query.filter(facility__holding_group=request.user.holding_group)
+        
+
+provider_admin.register(InvoiceProviderProxy, InvoiceProviderAdmin)
+
+class EditButtonMixin(object):
+    def edit(self, obj):
+        return list_button(self,obj,"change","Edit")
+    edit.allow_tags = True
+
+class NoteButtonMixin(object):
+    def note(self, obj):
+        return "note"
+
+class DeleteButtonMixin(object):
+    def delete(self, obj):
+        return list_button(self,obj,"delete","Delete")
+    delete.allow_tags = True

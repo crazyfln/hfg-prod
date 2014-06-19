@@ -77,6 +77,11 @@ class Facility(TimeStampedModel):
         parts = self.get_phone_parts()
         return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
 
+    class Meta:
+        verbose_name = "Facility"
+        verbose_name_plural = "Listing Management"
+
+
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)
     fee = models.ForeignKey('Fee')
@@ -167,6 +172,10 @@ class FacilityMessage(TimeStampedModel):
                 setattr(user, field, getattr(self, field))
         user.save()   
 
+    class Meta:
+        verbose_name = "Message"
+        verbose_name_plural = "Message Center"
+
 
 class FacilityType(TimeStampedModel):
     name = models.CharField(max_length=50)
@@ -250,6 +259,9 @@ class Invoice(TimeStampedModel):
 
     def __unicode__(self):
         return str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date())
+    class Meta:
+        verbose_name = "Claim"
+        verbose_name_plural = "Income Management"
 
 class Favorite(TimeStampedModel):
     user = models.ForeignKey(User)

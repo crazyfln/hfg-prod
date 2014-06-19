@@ -23,15 +23,15 @@ class User(AbstractUser, TimeStampedModel):
                                 ('Not Sure','Not Sure'))
                                 )
 
-    pay_private_pay = models.BooleanField(default=False)
-    pay_longterm_care = models.BooleanField(default=False)
-    pay_veterans_benefits = models.BooleanField(default=False)
-    pay_medicare = models.BooleanField(default=False)
-    pay_medicaid = models.BooleanField(default=False)
-    pay_ssi = models.BooleanField(default=False)
+    pay_private_pay = models.BooleanField(default=False, blank=True)
+    pay_longterm_care = models.BooleanField(default=False, blank=True)
+    pay_veterans_benefits = models.BooleanField(default=False, blank=True)
+    pay_medicare = models.BooleanField(default=False, blank=True)
+    pay_medicaid = models.BooleanField(default=False, blank=True)
+    pay_ssi = models.BooleanField(default=False, blank=True)
 
-    care_bathing = models.BooleanField(default=False)
-    care_diabetic = models.BooleanField(default=False)
+    care_bathing = models.BooleanField(default=False, blank=True)
+    care_diabetic = models.BooleanField(default=False, blank=True)
     care_mobility = models.CharField(max_length=30, blank=True, choices=(
                                     ('Mobile','Mobile'),
                                     ('Immobile','Immobile'))
@@ -40,12 +40,12 @@ class User(AbstractUser, TimeStampedModel):
                                     ('Alone','Alone'),
                                     ('With Family','With Family'))
                                     )
-    care_medical_assistance = models.BooleanField(default=False)
-    care_toileting = models.BooleanField(default=False)
-    care_memory_issues = models.BooleanField(default=False)
-    care_diagnosed_memory = models.BooleanField(default=False)
-    care_combinative = models.BooleanField(default=False)
-    care_wandering = models.BooleanField(default=False)
+    care_medical_assistance = models.BooleanField(default=False, blank=True)
+    care_toileting = models.BooleanField(default=False, blank=True)
+    care_memory_issues = models.BooleanField(default=False, blank=True)
+    care_diagnosed_memory = models.BooleanField(default=False, blank=True)
+    care_combinative = models.BooleanField(default=False, blank=True)
+    care_wandering = models.BooleanField(default=False, blank=True)
     desired_city = models.CharField(max_length=30, blank=True)
     resident_first_name = models.CharField(max_length=30, blank=True)
     health_description = models.CharField(max_length=500, blank=True)
@@ -78,6 +78,9 @@ class User(AbstractUser, TimeStampedModel):
 
         raise NotImplemented()
 
+    class Meta:
+        verbose_name = "Account"
+        verbose_name_plural = "Account Management"
 
 
 class HoldingGroup(models.Model):

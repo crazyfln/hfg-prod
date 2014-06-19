@@ -21,7 +21,7 @@ def random_string(length):
     alphanumeric = string.letters + string.digits
     return "".join(random.choice(alphanumeric) for i in range(length))
 
-def list_button(self, obj, page, button_display, get_arguments=None): 
+def list_button(self, obj, page, button_display): 
     info = self.admin_site.name, obj._meta.app_label, obj._meta.module_name, page 
     url = reverse('{0}:{1}_{2}_{3}'.format(*info), args=(obj.id,)) 
     return "<a href='{0}'>{1}</a>".format(url, button_display) 

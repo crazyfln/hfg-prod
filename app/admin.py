@@ -7,25 +7,13 @@ from django.forms import CheckboxSelectMultiple
 from account.models import User, HoldingGroup
 from account.admin import UserAdmin
 from util.util import list_button
+from .admin_mixins import *
 from .models import *
 from .forms import FacilityAdminForm
 
 # class YourModelAdmin(reversion.VersionAdmin):
 #     pass
 
-class EditButtonMixin(object):
-    def edit(self, obj):
-        return list_button(self,obj._meta, "change","Edit", obj.id)
-    edit.allow_tags = True
-
-class NoteButtonMixin(object):
-    def note(self, obj):
-        return "note"
-
-class DeleteButtonMixin(object):
-    def delete(self, obj):
-        return list_button(self, obj._meta, "delete", "Delete", obj.id)
-    delete.allow_tags = True
 
 class ManagerAdmin(AdminSite):
     def has_permission(self, request):

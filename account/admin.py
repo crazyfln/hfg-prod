@@ -9,6 +9,7 @@ from model_utils import Choices
 import reversion
 
 from util.util import list_button
+from app.admin_mixins import *
 from .models import *
 from .forms import *
 
@@ -94,7 +95,7 @@ class RegistrationAdminForm(UserPermissionSaveMixin, ModelForm):
         model = User
 
 
-class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
+class UserAdmin(EditButtonMixin, DeleteButtonMixin, reversion.VersionAdmin, DjangoUserAdmin):
     search_fields = ('email', 'first_name', 'last_name')
     list_display = ('edit','delete','get_type_of_user', 'get_full_name','email', 'created', 'last_login', 'get_last_ip')
     form = RegistrationAdminForm
@@ -126,13 +127,6 @@ class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
     )
 
     #list_per_page = 25
-    def edit(self, obj):
-        return list_button(self,obj,"change","Edit")
-    edit.allow_tags = True
-
-    def delete(self, obj):
-        return list_button(self, obj,"delete","Delete") 
-    delete.allow_tags = True
 
     def get_type_of_user(self, obj):
         if obj.is_superuser:

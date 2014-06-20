@@ -24,12 +24,20 @@
 
     <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
 
+    {% if messages %}
+      {% include 'snippets/flash_message.html' with messages=messages %}
+    {% endif %}
+
     {% block header %}
     <header class="navbar navbar-inverse navbar-fixed-top">
         {% include 'header.html' %}
     </header>
     {% endblock header %}
 
+    {% if not user.is_authenticated %}
+      {% include 'snippets/login_modal.html' with form=login_form %}
+      {% include 'snippets/registration_modal.html' with form=registration_form %}
+    {% endif %}
     
    <!--  <div class="container" id="main"> -->
 

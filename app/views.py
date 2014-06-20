@@ -13,14 +13,16 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, UpdateView, FormView
-
+from django.views.decorators.http import require_POST
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
 from account.forms import RegistrationForm, ProfileForm
 
-from .forms import SearchForm, ContactForm, StripeTokenForm, ChargeForm
+from .forms import SearchForm, StripeTokenForm, ChargeForm
+from .forms import SearchForm, TourRequestForm, ContactForm, StripeTokenForm, ChargeForm
+
 from .models import *
 
 @render_to('index.html')
@@ -64,10 +66,32 @@ class FacilityDetail(DetailView):
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
         context['rooms'] = RoomType.objects.filter(facility=self.object)
-        areacode, middle, last  = self.object.phone[:3], self.object.phone[3:6], self.object.phone[6:]
-        context['normal_phone'] = "(" + areacode + ") " + middle + "-" + last
-        context['star_phone'] = "(" + areacode + ") " + middle + "-****"
+
+        if 'user' in self.request:
+            try:
+                FacilityMessage.objects.get(user=self.request.user, facility=self.object)
+            except ObjectDoesNotExist:
+                context['tour_request_form'] = TourRequestForm(user=self.request.user)
+        else:
+            "Add registration logic"
         return context
+
+
+@login_required
+def tour_request(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    if request.method == 'POST':
+
+        form = TourRequestForm(request.POST)
+        if form.is_valid():
+            new_request = form.save(commit=False)
+            new_request.user = request.user
+            new_request.facility = facility
+            new_request.save()
+            messages.success(request, "Thanks, someone will be in touch soon")
+        else:
+            messages.error(request, "There was a problem with your tour request")
+    return HttpResponseRedirect(facility.get_absolute_url())
 
 @login_required
 def facility_favorite(request, slug):
@@ -135,6 +159,7 @@ class Contact(FormView):
         messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
         return HttpResponseRedirect(self.get_success_url())
 
+@require_POST
 @ajax_request
 def request_phone(request, slug):
     facility = get_object_or_404(Facility, slug=slug)

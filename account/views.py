@@ -29,4 +29,4 @@ class RegistrationView(SimpleRegistrationView):
         """
         Return the url a user should be redirected to after registration
         """
-        return request.GET.get('next', '/')
+        return reverse('index')

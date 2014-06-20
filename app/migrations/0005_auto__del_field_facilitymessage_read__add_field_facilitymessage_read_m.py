@@ -8,19 +8,31 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding M2M table for field users on 'Condition'
-        m2m_table_name = db.shorten_name(u'app_condition_users')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('condition', models.ForeignKey(orm[u'app.condition'], null=False)),
-            ('user', models.ForeignKey(orm[u'account.user'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['condition_id', 'user_id'])
+        # Deleting field 'FacilityMessage.read'
+        db.delete_column(u'app_facilitymessage', 'read')
+
+        # Adding field 'FacilityMessage.read_manager'
+        db.add_column(u'app_facilitymessage', 'read_manager',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
+
+        # Adding field 'FacilityMessage.read_provider'
+        db.add_column(u'app_facilitymessage', 'read_provider',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Removing M2M table for field users on 'Condition'
-        db.delete_table(db.shorten_name(u'app_condition_users'))
+        # Adding field 'FacilityMessage.read'
+        db.add_column(u'app_facilitymessage', 'read',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
+
+        # Deleting field 'FacilityMessage.read_manager'
+        db.delete_column(u'app_facilitymessage', 'read_manager')
+
+        # Deleting field 'FacilityMessage.read_provider'
+        db.delete_column(u'app_facilitymessage', 'read_provider')
 
 
     models = {
@@ -175,7 +187,8 @@ class Migration(SchemaMigration):
             'pay_ssi': ('django.db.models.fields.BooleanField', [], {}),
             'pay_veterans_benefits': ('django.db.models.fields.BooleanField', [], {}),
             'planned_move_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'read': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'read_manager': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'read_provider': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'replied_by': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
             'replied_datetime': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -227,18 +240,19 @@ class Migration(SchemaMigration):
         },
         u'app.invoice': {
             'Meta': {'object_name': 'Invoice'},
-            'amount': ('django.db.models.fields.IntegerField', [], {}),
+            'amount': ('django.db.models.fields.CharField', [], {'max_length': '15'}),
+            'billed_on': ('django.db.models.fields.DateTimeField', [], {}),
             'contact_person_email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'contact_person_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'contact_person_phone': ('django.db.models.fields.IntegerField', [], {}),
+            'contact_person_phone': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             'contact_person_relationship': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'facility': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['app.Facility']"}),
-            'holding_group': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.HoldingGroup']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'move_in_date': ('django.db.models.fields.DateTimeField', [], {}),
             'payment_method': ('django.db.models.fields.CharField', [], {'max_length': "'20'"}),
+            'recieved': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             'resident_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'status': ('django.db.models.fields.CharField', [], {'max_length': "'20'"})
         },

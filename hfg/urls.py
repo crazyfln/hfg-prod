@@ -2,7 +2,8 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-admin.autodiscover()
+from app.admin import manager_admin, provider_admin
+#admin.autodiscover()
 
 from filebrowser.sites import site
 
@@ -17,8 +18,10 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
 
     url(r'^admin/filebrowser/', include(site.urls)),
+    url(r'^provider/', include(provider_admin.urls)),
+    url(r'^manager/', include(manager_admin.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+#    url(r'^admin/', include(admin.site.urls)),
     url(r"^payments/", include("payments.urls")),
 )
 

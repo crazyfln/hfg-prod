@@ -78,8 +78,12 @@ class Facility(TimeStampedModel):
         return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
 
     def get_featured_image(self):
-        return self.images.get(featured = True)
-        
+        return self.images.get(featured = True) 
+
+    class Meta:
+        verbose_name = "Facility"
+        verbose_name_plural = "Listing Management"
+
 
 
 class FacilityFee(TimeStampedModel):
@@ -95,6 +99,9 @@ class Fee(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Additional Fees"
     
 BUDGET_CHOICES = [
     ('1000','1000'),
@@ -157,7 +164,8 @@ class FacilityMessage(TimeStampedModel):
 
     resident_first_name = models.CharField(max_length=30, blank=True)
 
-    read = models.BooleanField(default=False)
+    read_manager = models.BooleanField(default=False)
+    read_provider = models.BooleanField(default=False)
     replied_by = models.CharField(max_length=20, blank=True)
     replied_datetime = models.DateTimeField(blank=True, null=True)
 
@@ -171,6 +179,10 @@ class FacilityMessage(TimeStampedModel):
                 setattr(user, field, getattr(self, field))
         user.save()   
 
+    class Meta:
+        verbose_name = "Message"
+        verbose_name_plural = "Message Center"
+
 
 class FacilityType(TimeStampedModel):
     name = models.CharField(max_length=50)
@@ -178,11 +190,17 @@ class FacilityType(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Types of Facilities"
+
 class Language(TimeStampedModel):
     name = models.CharField(max_length=40)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Languages"
     
 class Condition(TimeStampedModel):
     name = models.CharField(max_length=40)
@@ -190,12 +208,18 @@ class Condition(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Conditions"
     
 class Amenity(TimeStampedModel):
     name = models.CharField(max_length=40)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Amenities"
 
 class FacilityRoom(TimeStampedModel):
     facility = models.ForeignKey(Facility)
@@ -219,6 +243,9 @@ class RoomType(TimeStampedModel):
 
     def __unicode__(self):
         return self.name  
+
+    class Meta:
+        verbose_name_plural = "Types of Rooms"
 
 class FacilityImage(TimeStampedModel):
     facility = models.ForeignKey(Facility, related_name="images")
@@ -254,6 +281,9 @@ class Invoice(TimeStampedModel):
 
     def __unicode__(self):
         return str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date())
+    class Meta:
+        verbose_name = "Claim"
+        verbose_name_plural = "Income Management"
 
 class Favorite(TimeStampedModel):
     user = models.ForeignKey(User)

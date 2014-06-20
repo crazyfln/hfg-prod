@@ -129,8 +129,8 @@
       {% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
    {% endif %}
 
-  <script>
-    {% if user.is_authenticated %}
+  {% if user.is_authenticated %}
+    <script>
     $("#show-number-button").click(function() { 
       $("#phone_number").html("{{ object.get_phone_normal }}"); 
       $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
@@ -139,6 +139,6 @@
             
       });
     }); 
-    {% endif %}
-  </script>
+    </script>
+  {% endif %}
 {% endblock body_media %}

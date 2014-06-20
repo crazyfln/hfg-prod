@@ -15,13 +15,16 @@ $bootstrap-sass-asset-helper: false;
 @import "index";
 @import "listing_preview";
 @import "carousel";
-
+@import "receive_reward";
+@import "facility_detail";
+@import "search";
+@import "contact";
 
 
 //global rules and helper classes
 
-.container {
-    width: 1040px;
+.container, .container-fluid, {
+    width: 1040px !important;
     margin: 0 auto;
 }
 
@@ -48,8 +51,15 @@ h1, h2, h3, h4, h5, h6 {
 .secondary {
     color: $secondary;
 }
+.margin-right-0 {
+    margin-right:0px;
+}
 
-.padder-top-20 {
+.margin-top-20 {
+    margin-top:20px;
+}
+
+.padder-top-20 {        
     padding-top: 20px;
 }
 
@@ -65,6 +75,18 @@ h1, h2, h3, h4, h5, h6 {
 .padder-80{
     padding-top: 80px;
     padding-bottom: 80px;
+}
+
+.padder-100{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+.background-white {
+    background-color: $white;
+}
+
+.background-beige {
+    background-color: $beige-background;
 }
 
 

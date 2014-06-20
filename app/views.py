@@ -13,22 +13,22 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, UpdateView, FormView
-
+from django.views.decorators.http import require_POST
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 
 from account.forms import RegistrationForm, ProfileForm
 
-from .forms import SearchForm, ContactForm, StripeTokenForm, ChargeForm
+from .forms import SearchForm, StripeTokenForm, ChargeForm
+from .forms import SearchForm, TourRequestForm, ContactForm, StripeTokenForm, ChargeForm
+
 from .models import *
 
 @render_to('index.html')
 def index(request):
     facilities = Facility.objects.filter(shown_on_home=True)
     data = {'facilities':facilities, 
-            'registration_form':RegistrationForm(),
-            'login_form':AuthenticationForm(),
             'search_form':SearchForm()}
     
     return data
@@ -63,11 +63,27 @@ class FacilityDetail(DetailView):
         context['all_conditions'] = Condition.objects.all()
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
-        context['rooms'] = RoomType.objects.filter(facility=self.object)
-        areacode, middle, last  = self.object.phone[:3], self.object.phone[3:6], self.object.phone[6:]
-        context['normal_phone'] = "(" + areacode + ") " + middle + "-" + last
-        context['star_phone'] = "(" + areacode + ") " + middle + "-****"
+
+        if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
+                context['tour_request_form'] = TourRequestForm(user=self.request.user)
         return context
+
+
+@login_required
+def tour_request(request, slug):
+    facility = get_object_or_404(Facility, slug=slug)
+    if request.method == 'POST':
+
+        form = TourRequestForm(request.POST)
+        if form.is_valid():
+            new_request = form.save(commit=False)
+            new_request.user = request.user
+            new_request.facility = facility
+            new_request.save()
+            messages.success(request, "Thanks, someone will be in touch soon")
+        else:
+            messages.error(request, "There was a problem with your tour request")
+    return HttpResponseRedirect(facility.get_absolute_url())
 
 @login_required
 def facility_favorite(request, slug):
@@ -79,7 +95,7 @@ def facility_favorite(request, slug):
         favorite = Favorite(user=request.user, facility=facility)
         favorite.save()
 
-    return redirect(request.GET['next'])
+    return HttpResponseRedirect(request.GET['next'])
 
 class FavoriteList(ListView):
     model = Facility
@@ -135,6 +151,7 @@ class Contact(FormView):
         messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
         return HttpResponseRedirect(self.get_success_url())
 
+@require_POST
 @ajax_request
 def request_phone(request, slug):
     facility = get_object_or_404(Facility, slug=slug)
@@ -162,3 +179,17 @@ def charge_customer(request):
     amount = form.cleaned_data['amount']
     customer.charge(amount, description="hfg")
     return HttpResponseRedirect("/")
+
+
+
+
+
+
+#Greg's new views
+@render_to('receive_reward.html')
+def receive_reward(request):
+    return {}
+
+@render_to('financial_resources.html')
+def financial_resources(requeset):
+    return {}

@@ -1,0 +1,22 @@
+
+{% load static from staticfiles %}
+<div class="searchbox searchbox-home">
+
+    <form id="SearchForm" action="{% url 'search' %}" method="get">
+        {{ form.errors }}
+
+        <div id="searchfield-query">
+            {{ form.query }}
+
+        </div>
+
+
+        <div id="searchfield-facility_type">
+            <div class="searchfield-facility_type-holder">
+                {{ form.facility_type }}
+            </div>
+        </div>
+        <button class="button-blue left"><img src='{% static 'img/icon_search.png' %}'/></button>
+    </form>
+</div>
+

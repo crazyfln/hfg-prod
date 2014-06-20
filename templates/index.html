@@ -6,102 +6,6 @@ Home For Grandma
 
 {% block content %}
 {% load static from staticfiles %}
-
-
-{% if messages %}
-  {% include 'snippets/flash_message.html' with messages=messages %}
-{% endif %}
-<!-- registration modal -->
-<div class="modal fade" id="Registration-Modal" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span>Registration</span>
-      </div>
-      <div class="modal-body">
-        <form action='/account/register/{% if next %}?next={{ next }}{% endif %}' method="POST">
-          {% csrf_token %}
-          <table>
-            <tr>
-              <td> {{ form.first_name.label_tag }}</td>
-            </tr>
-            <tr>
-              <td> {{ form.first_name }}</td>
-            </tr>
-            <tr>
-              <td> {{ form.first_name.errors }}</td>
-            </tr>
-            <tr>
-              <td> {{ form.last_name.label_tag }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.last_name }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.last_name.errors }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.email.label_tag }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.email }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.email.errors }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.password1.label_tag }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.password1 }}</td>
-            </tr>
-            <tr>
-              <td> {{ registration_form.password1.errors }}</td>
-            </tr>
-          </table>
-          <button class="replace-this-class">Submit</button>
-          <!-- replace the above button class with the class(es) you make in _buttons.scss -->
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- login modal -->
-<div class="modal fade" id="Login-Modal" tabindex="-2" role=".modal" aria-labelledby="Login-ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span>Login</span>
-      </div>
-      <div class="modal-body">
-        <form method="post" action="{% url "django.contrib.auth.views.login" %}{% if next %}?next={{next}}{% endif %}">
-          {% csrf_token %} 
-          <table> 
-            <tr> 
-              <td><label for="id_username"> Email</label></td> 
-            </tr> 
-            <tr> <td>{{ login_form.username }}</td> 
-            </tr> 
-            <tr> <td>{{ login_form.password.label_tag }}</td>
-            </tr>
-            <tr> <td>{{ login_form.password }}</td>
-            </tr> 
-          </table> 
-        </table>
-        {% if form.errors %} 
-        <p class='errors'>Your username and password didn't match. Please try again.</p> 
-        {% endif %} 
-        <a href="/account/password/reset">Forgot your password?</a> 
-      </br> 
-      <a href="{% url 'registration_register' %}">Register a new account</a> 
-      <button class="replace-this-class">Login</button> <!-- replace the above button class with the class(es) you make in _buttons.scss --> 
-    </form> 
-  </div>
-</div>
-</div>
-</div>
-
 <div class="home-background">
   <div class="container" id=''>
     <div class="search-holder" style=''>
@@ -109,18 +13,38 @@ Home For Grandma
       <div class="content-holder">
         <h1>Find Senior Living</h1>
         <div class="clear"></div>
-        {% include 'snippets/searchbox.html' with form=search_form %}
-<!-- self reminder for Greg, need to style the select holder and have 
-  a  transparent select input for custom selects -->
-      </div>
-      <button class='button-blue left'><img src='{% static 'img/icon_search.png' %}'/></button>
+
+        {% include 'snippets/searchbox_home.html' with form=search_form %}
       </div>
     </div>
   </div>
 </div>
-<div class="home-info-holder padder-40">
+
+
+<div class="home-info-holder padder-40 background-beige">
   <div class="container">
-    <div class="col-md-4 home-info">
+    <div class="col-sm-6">
+      <div class="desc-boxes">
+        <img class='left' src='{% static 'img/image_home_left.png' %}'/>
+        <p class="desc-main">A gift for move in</p>
+        <p class="desc-minor">Receive a $200 Reward when you move into a HomeForGrandma.com property.</p>
+        <a href='' class='learn'>Learn more</a>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="desc-boxes">
+        <img class='left' src='{% static 'img/image_home_right.png' %}'/>
+        <p class="desc-main">You can rely on us</p>
+        <p class="desc-minor">Our counselors can help with financial planning and applying for Government Benefits.</p>
+        <a href='' class='learn'>Learn more</a>
+      </div>
+    </div>
+  </div>
+
+
+
+    <!-- <div class="col-md-4 home-info">
       <center>
         <img src='{% static 'img/icon_reward.png' %}'/>
         <p class='bold secondary'>$200 Reward</p>
@@ -140,26 +64,29 @@ Home For Grandma
         <p class='bold secondary'>$200 Reward</p>
         <p class='primary'>other text here</p>
       </center>
+    </div> -->
+
+
+    <div class="clear"></div>
+  </div>
+
+
+  <div class="featured-listings padder-80">
+    <div class="container">
+      <center>
+        <h1>Featured Listings</h1>
+      </center>
+
+      {% for facility in facilities %}
+      {% include 'snippets/listing_preview.html' with user=request.user facility=facility %} 
+      {% endfor %}
     </div>
   </div>
-  <div class="clear"></div>
-</div>
-<div class="featured-listings padder-80">
-  <div class="container">
-    <center>
-      <h1>Featured Listings</h1>
-    </center>
-    
-{% for facility in facilities %}
-    {% include 'snippets/listing_preview.html' with user=request.user facility=facility %} 
-{% endfor %}
-  </div>
-</div>
-{% endblock content %}
-{% block body_media %}
+  {% endblock content %}
+  {% block body_media %}
   <script> 
-    $("#secondary-search").hide()
+  $("#secondary-search").hide()
   </script>
-{% endblock body_media %}
+  {% endblock body_media %}
 
 

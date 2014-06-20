@@ -49,10 +49,37 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
         return self.cleaned_data['email']
 
+class RegistrationAdminForm(ModelForm):
+    permissions = forms.ChoiceField(choices=(
+                                    ('u','User'),
+                                    ('p','Provider'),
+                                    ('m','Manager')
+                                    ))
+
+    def save(self, commit=True):
+        instance = super(RegistrationAdminForm, self).save(commit=False)
+        user_type = self.cleaned_data['permissions']
+        if user_type == 'm':
+            instance.is_superuser = True
+            instance.is_staff = True
+        elif user_type == 'p':
+            instance.is_staff = True
+            instance.is_superuser = False
+        else:
+            instance.is_staff = False
+            instance.is_superuser = False
+        if commit:
+            instance.save()
+        return instance
+
+    class Meta:
+        model = User
+
+
 class ProfileForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name','last_name','email','phone','searching_for','budget','conditions')
+        fields = ('first_name','last_name','email','phone','searching_for','budget')
 
 

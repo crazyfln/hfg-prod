@@ -21,8 +21,13 @@ def random_string(length):
     alphanumeric = string.letters + string.digits
     return "".join(random.choice(alphanumeric) for i in range(length))
 
-def list_button(self, obj, page, button_display): 
-    info = self.admin_site.name, obj._meta.app_label, obj._meta.module_name, page 
-    url = reverse('{0}:{1}_{2}_{3}'.format(*info), args=(obj.id,)) 
+def list_button(self, meta, page, button_display, obj_id=None, query=None): 
+    info = self.admin_site.name, meta.app_label, meta.module_name, page 
+    string = '{0}:{1}_{2}_{3}'.format(*info)
+    if obj_id:
+        url = reverse(string, args=(obj_id,)) 
+    else:
+        url = reverse(string)
+    if query:
+        url += query
     return "<a href='{0}'>{1}</a>".format(url, button_display) 
-

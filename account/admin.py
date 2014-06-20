@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm as DjangoUserCreationForm
 from django.contrib.auth.forms import UserChangeForm  as DjangoUserChangeForm
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-
+from model_utils import Choices
 
 import reversion
 
@@ -12,15 +12,20 @@ from util.util import list_button
 from .models import *
 from .forms import *
 
+MANAGER = 'M'
+PROVIDER = 'P'
+USER = 'U'
+PERMISSION_CHOICES =((USER, _('User')),(PROVIDER,_('Provider')), (MANAGER, _('Manager')))
+
 class UserPermissionSaveMixin(object):
 
-    def save(self, commit=True):
-        instance = super(UserPermissionSaveMixin, self).save(commit=False)
+    def save(self, commit=True, *args, **kwargs):
+        instance = super(UserPermissionSaveMixin, self).save(commit=False, *args, **kwargs)
         user_type = self.cleaned_data['permissions']
-        if user_type == 'm':
+        if user_type == MANAGER:
             instance.is_superuser = True
             instance.is_staff = True
-        elif user_type == 'p':
+        elif user_type == PROVIDER:
             instance.is_staff = True
             instance.is_superuser = False
         else:
@@ -31,11 +36,7 @@ class UserPermissionSaveMixin(object):
         return instance
 
 class UserCreationForm(UserPermissionSaveMixin, DjangoUserCreationForm):
-    permissions = forms.ChoiceField(choices=(
-                                    ('u','User'),
-                                    ('p','Provider'),
-                                    ('m','Manager')
-                                    ))
+    permissions = forms.ChoiceField(choices=PERMISSION_CHOICES)
     email = forms.EmailField(label=_("E-mail"), required=True)
     password1 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password"))
@@ -81,11 +82,7 @@ class UserCreationForm(UserPermissionSaveMixin, DjangoUserCreationForm):
         model = User
 
 class RegistrationAdminForm(UserPermissionSaveMixin, ModelForm):
-    permissions = forms.ChoiceField(choices=(
-                                    ('u','User'),
-                                    ('p','Provider'),
-                                    ('m','Manager')
-                                    ))
+    permissions = forms.ChoiceField(choices=PERMISSION_CHOICES)
 
     def __init__(self, *args, **kwargs):
         self.permission = kwargs.pop('permission', None)
@@ -139,11 +136,11 @@ class UserAdmin(reversion.VersionAdmin, DjangoUserAdmin):
 
     def get_type_of_user(self, obj):
         if obj.is_superuser:
-            return "M"
+            return MANAGER
         elif obj.is_staff:
-            return "P"
+            return PROVIDER
         else:
-            return "U"
+            return USER
     get_type_of_user.short_description = "Type"
 
     def get_full_name(self, obj):

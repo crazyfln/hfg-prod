@@ -13,6 +13,20 @@ from .forms import FacilityAdminForm
 # class YourModelAdmin(reversion.VersionAdmin):
 #     pass
 
+class EditButtonMixin(object):
+    def edit(self, obj):
+        return list_button(self,obj._meta, "change","Edit", obj.id)
+    edit.allow_tags = True
+
+class NoteButtonMixin(object):
+    def note(self, obj):
+        return "note"
+
+class DeleteButtonMixin(object):
+    def delete(self, obj):
+        return list_button(self, obj._meta, "delete", "Delete", obj.id)
+    delete.allow_tags = True
+
 class ManagerAdmin(AdminSite):
     def has_permission(self, request):
         return request.user.is_active and request.user.is_staff and request.user.is_superuser
@@ -79,7 +93,7 @@ class FacilityMessageAdmin(admin.ModelAdmin):
     list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_replied']
 
     def message(self, obj):
-        return list_button(self,obj,"change", obj.comments[:20])
+        return list_button(self,obj._meta,"change", obj.comments[:20], obj_id=obj.id)
     message.allow_tags = True
 
     def get_replied(self, obj):
@@ -134,18 +148,23 @@ manager_admin.register(HoldingGroup)
 
 class ProviderAdmin(AdminSite):
     def has_permission(self, request):
-        return request.user.is_active and request.user.is_staff and request.user.is_provider()
+        return request.user.is_active and request.user.is_provider()
 
 provider_admin = ProviderAdmin(name="provider_admin")
 class ProviderEditMixin(object):
-    def has_change_permission(self, request, obj=None):
-        if obj and obj.facility.holding_group != request.user.holding_group:
-            return False
-        return request.user.is_active and request.user.is_provider() and request.user.is_staff
+    def has_change_permission(self, request, obj=None): 
+        if obj:
+            if obj._meta.model_name == "facilityproviderproxy":
+                if obj.holding_group != request.user.holding_group:
+                    return False
+            elif obj._meta.model_name == "facilitymessageproxy":
+                if obj.facility.holding_group != request.user.holding_group:
+                    return False
+        return request.user.is_active and request.user.is_provider()
 
 class ProviderAddMixin(object):
     def has_add_permission(self, request):
-        return request.user.is_active and request.user.is_staff and request.user.is_provider()
+        return request.user.is_active and request.user.is_provider()
 
 class FacilityProviderProxy(Facility):
     class Meta:
@@ -167,6 +186,9 @@ class FacilityImageProviderInline(FacilityImageInline):
     def has_change_permission(self, request, obj=None):
         return True
 
+    def has_add_permission(self, request, obj=None):
+        return True
+
 class FacilityRoomProviderInline(FacilityRoomInline):
     model = FacilityRoom
     def has_change_permission(self, request, obj=None):
@@ -182,9 +204,8 @@ class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
         unread = msgs.filter(read_provider=False)
         display = str(len(msgs)) + " (" + str(len(unread)) + " Unread)"
         meta = FacilityMessageProviderProxy.objects.model._meta
-        info = self.admin_site.name, meta.app_label, meta.module_name, "changelist"
-        url = reverse('{0}:{1}_{2}_{3}'.format(*info)) + "?q=" + str(obj.slug)
-        return "<a href='{0}'>{1}</a>".format(url, display)
+        query = "?q=" + str(obj.slug)
+        return list_button(self,meta,'changelist',display,query=query)
     get_messages.allow_tags = True
     get_messages.short_description = "Messages"
 
@@ -227,11 +248,10 @@ class InvoiceProviderAdmin(ProviderEditMixin, InvoiceAdmin):
     list_display = ['facility','billed_on','get_amount','resident_name','move_in_date','get_case_number']
 
     def get_case_number(self,obj):
-        return list_button(self,obj,'change',obj.pk)
+        return list_button(self,obj._meta,'change',obj.id,obj_id=obj.id)
     get_case_number.allow_tags = True
     get_case_number.short_description = "Case Number"
     
-
     def queryset(self, request):
         query = super(InvoiceProviderAdmin, self).queryset(request)
         return query.filter(facility__holding_group=request.user.holding_group)
@@ -239,16 +259,3 @@ class InvoiceProviderAdmin(ProviderEditMixin, InvoiceAdmin):
 
 provider_admin.register(InvoiceProviderProxy, InvoiceProviderAdmin)
 
-class EditButtonMixin(object):
-    def edit(self, obj):
-        return list_button(self,obj,"change","Edit")
-    edit.allow_tags = True
-
-class NoteButtonMixin(object):
-    def note(self, obj):
-        return "note"
-
-class DeleteButtonMixin(object):
-    def delete(self, obj):
-        return list_button(self,obj,"delete","Delete")
-    delete.allow_tags = True

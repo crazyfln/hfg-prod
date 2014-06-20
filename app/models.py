@@ -95,6 +95,9 @@ class Fee(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Additional Fees"
     
 BUDGET_CHOICES = [
     ('1000','1000'),
@@ -183,11 +186,17 @@ class FacilityType(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Types of Facilities"
+
 class Language(TimeStampedModel):
     name = models.CharField(max_length=40)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Languages"
     
 class Condition(TimeStampedModel):
     name = models.CharField(max_length=40)
@@ -195,12 +204,18 @@ class Condition(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Conditions"
     
 class Amenity(TimeStampedModel):
     name = models.CharField(max_length=40)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Types of Amenities"
 
 class FacilityRoom(TimeStampedModel):
     facility = models.ForeignKey(Facility)
@@ -224,6 +239,9 @@ class RoomType(TimeStampedModel):
 
     def __unicode__(self):
         return self.name  
+
+    class Meta:
+        verbose_name_plural = "Types of Rooms"
 
 class FacilityImage(TimeStampedModel):
     facility = models.ForeignKey(Facility, related_name="images")

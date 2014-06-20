@@ -129,6 +129,12 @@ class InvoiceAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.Mo
         verbose_name_plural = "Income Management"
 
 manager_admin.register(Invoice, InvoiceAdmin)
+manager_admin.register(FacilityType)
+manager_admin.register(RoomType)
+manager_admin.register(Fee)
+manager_admin.register(Language)
+manager_admin.register(Amenity)
+manager_admin.register(Condition)
 manager_admin.register(User, UserAdmin)
 manager_admin.register(HoldingGroup)
 

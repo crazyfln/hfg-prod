@@ -9,7 +9,13 @@ ul.list-inline {
 }
 
 #slider-thumbs {
-    padding: 0 0 0 0;
+    padding: 0;
+
+    ul.list-inline {
+        li {
+            padding:6px;
+        }
+    }
 }
 
 a.carousel-control {

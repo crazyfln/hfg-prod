@@ -4,9 +4,8 @@
 
 @include sticky-footer(257px, "#main", "#main-footer", "#footer");
 
-
-@import "registration";
 @import "variables";
+@import "registration";
 @import "buttons";
 @import "footer";
 $bootstrap-sass-asset-helper: false;

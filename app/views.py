@@ -29,8 +29,6 @@ from .models import *
 def index(request):
     facilities = Facility.objects.filter(shown_on_home=True)
     data = {'facilities':facilities, 
-            'registration_form':RegistrationForm(),
-            'login_form':AuthenticationForm(),
             'search_form':SearchForm()}
     
     return data
@@ -65,15 +63,9 @@ class FacilityDetail(DetailView):
         context['all_conditions'] = Condition.objects.all()
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
-        context['rooms'] = RoomType.objects.filter(facility=self.object)
 
-        if 'user' in self.request:
-            try:
-                FacilityMessage.objects.get(user=self.request.user, facility=self.object)
-            except ObjectDoesNotExist:
+        if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
                 context['tour_request_form'] = TourRequestForm(user=self.request.user)
-        else:
-            "Add registration logic"
         return context
 
 
@@ -103,7 +95,7 @@ def facility_favorite(request, slug):
         favorite = Favorite(user=request.user, facility=facility)
         favorite.save()
 
-    return redirect(request.GET['next'])
+    return HttpResponseRedirect(request.GET['next'])
 
 class FavoriteList(ListView):
     model = Facility
@@ -187,3 +179,17 @@ def charge_customer(request):
     amount = form.cleaned_data['amount']
     customer.charge(amount, description="hfg")
     return HttpResponseRedirect("/")
+
+
+
+
+
+
+#Greg's new views
+@render_to('receive_reward.html')
+def receive_reward(request):
+    return {}
+
+@render_to('financial_resources.html')
+def financial_resources(requeset):
+    return {}

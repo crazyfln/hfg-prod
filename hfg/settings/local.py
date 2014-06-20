@@ -1,7 +1,6 @@
 from .base import *
 
 DEBUG = True
-PIPELINE_ENABLED = True
 
 
 CONTACT_EMAIL = 'chris@lightmatter.com'
@@ -74,7 +73,7 @@ DEVSERVER_MODULES = (
     'devserver.modules.profile.LineProfilerModule',
 )
 
-TEMPLATE_STRING_IF_INVALID = "BAD TEMPLATE VARIABLE"
+#TEMPLATE_STRING_IF_INVALID = "BAD TEMPLATE VARIABLE"
 SECRET_KEY = "&)y$vgj8lzxlexal31dcd(^ua(0yf95)f^b@$=*to5s)*eznxq"
 
 STRIPE_PUBLIC_KEY = ""

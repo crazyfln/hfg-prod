@@ -17,6 +17,8 @@ urlpatterns = patterns('app.views',
     url(r'^contact/$', Contact.as_view(), name='contact'),
     url(r'^profile/$', Profile.as_view(), name='profile'),
     url(r'^create_customer/', 'create_customer', name='create_customer'),
+    url(r'^receive_reward/', 'receive_reward', name='receive_reward'),
+    url(r'^financial_resources/', 'financial_resources', name='finacial_resources'),
     (r'^$', TemplateView.as_view(template_name="index.html")),
 )
 

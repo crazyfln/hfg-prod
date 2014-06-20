@@ -87,6 +87,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.contrib.messages.context_processors.messages",
                                "django.core.context_processors.media",
                                "app.context_processors.settings",
+                               'account.context_processors.forms',
                                'social.apps.django_app.context_processors.backends',
                                'social.apps.django_app.context_processors.login_redirect',
 )
@@ -198,3 +199,8 @@ from hfg.settings.app import *
 SOUTH_TESTS_MIGRATE = False
 
 GRAPPELLI_ADMIN_TITLE = 'hfg'
+
+GRAPPELLI_INDEX_DASHBOARD = {
+    'app.admin.manager_admin':'hfg.manager_dashboard.CustomIndexDashboard',
+    'app.admin.provider_admin':'hfg.provider_dashboard.CustomIndexDashboard',
+}

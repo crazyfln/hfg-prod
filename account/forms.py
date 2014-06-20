@@ -13,12 +13,12 @@ class RegistrationForm(forms.Form):
     """
     username = forms.CharField(widget=forms.HiddenInput,required=False)
 
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    phone_number = forms.CharField()
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Phone Number'}))
 
-    email = forms.EmailField(label=_("E-mail"), required=True)
-    password1 = forms.CharField(widget=forms.PasswordInput,
+    email = forms.EmailField(label=_("E-mal"), required=True, widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}),
                                 label=_("Password"))
 
 

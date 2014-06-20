@@ -63,19 +63,12 @@
 }
 
 //scss for property type 
-#id_facility_type {
+#id_facility_type, #id_room_type {
     width:225px;
     height:40px !important;
     float: left;
-
 }
 
-//scss for room type selector
-#id_room_type {
-    width:225px;
-    height:40px; 
-    float: left;   
-}
 
 .searchfield-room_type-holder, .searchfield-facility_type-holder {
     height: 50px;

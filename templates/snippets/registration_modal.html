@@ -2,13 +2,29 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <span>Registration</span>
+        <center><h3>Registration</h3></center>
       </div>
       <div class="modal-body">
         <form action="{% url 'registration_register' %}" method="POST">
           {% csrf_token %}
-          {{ registration_form.as_p }}
-          <button type="submit" class="replace-this-class">Submit</button>
+          <table>
+            <tr>
+              <td>{{ registration_form.first_name }}</td>
+            </tr>
+            <tr>
+              <td>{{ registration_form.last_name }}</td>
+            </tr>
+            <tr>
+              <td>{{ registration_form.phone_number }}</td>
+            </tr>
+            <tr>
+              <td>{{ registration_form.email }}</td>
+            </tr>
+            <tr>
+              <td>{{ registration_form.password1 }}</td>
+            </tr>
+          </table>
+          <button type="submit" class="button-blue">Submit</button>
           <!-- replace the above button class with the class(es) you make in _buttons.scss -->
         </form>
       </div>

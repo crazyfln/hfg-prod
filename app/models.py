@@ -77,9 +77,13 @@ class Facility(TimeStampedModel):
         parts = self.get_phone_parts()
         return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
 
+    def get_featured_image(self):
+        return self.images.get(featured = True) 
+
     class Meta:
         verbose_name = "Facility"
         verbose_name_plural = "Listing Management"
+
 
 
 class FacilityFee(TimeStampedModel):

@@ -16,8 +16,11 @@
     }
 
     img {
-        min-width:324px;
+        min-width: 324px;
         margin: -15px 0 15px -15px;
+        max-width: 324px;
+        min-height: 215px;
+        max-height: 215px;
     }
 
     .listing-img-small {

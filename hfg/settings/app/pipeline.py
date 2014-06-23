@@ -31,12 +31,11 @@ PIPELINE_JS = {
 
     'vendor': {
         'source_filenames': (
-            'js/vendor/jquery-1.11.0.min.js',
-            'js/vendor/jquery-1.11.0.min.map',
+            'js/vendor/jquery-1.11.1.min.js',
             'js/vendor/bootstrap.min.js',
-            'js/vendor/select2.min.js',
+            'js/vendor/select2.js',
             'js/vendor/bootstrap-slider.js'
-            ),
+        ),
         'output_filename': 'js/vendor.js',
         'manifest': True,
     }

@@ -1,13 +1,54 @@
 
+.facility-carousel {
+    margin: 0 0 20px 0;
+}
+
+ul.list-inline {
+    padding: 20px;
+    border: 1px solid $border;
+}
+
+#slider-thumbs {
+    padding: 0;
+
+    ul.list-inline {
+        li {
+            padding:6px;
+        }
+    }
+}
+
+a.carousel-control {
+    background:none !important;
+    opacity:1 !important;
+    &:hover {
+        opacity:1 !important;
+    }
+    &:focus {
+        opacity:1 !important;
+    }
+
+    img {
+        margin-top: 210px;
+    }
+}
+
 img.img-responsive{
     width:100px;
     height:100px;
 }
-img.img-main-carousel{
-   width:auto;
-   height:400px;   
-   max-height:400px;
-} 
+
 .selected img {
-     opacity:0.5;
+ opacity:0.5;
+}
+
+.item {
+    height:450px;
+    width:670px;
+
+    .img-main-carousel {
+     width:auto;
+     height:100%;
+     width:100%;
+ }
 }

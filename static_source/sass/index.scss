@@ -42,11 +42,38 @@
 }
 
 .home-info-holder {
-  background-color: $white;
 
-  img {
-    margin: 0 0 20px 0;
+  .desc-boxes {
+    background-color:$white;
+    height: 207px;
+    img {
+      margin: 0 20px 0 0;
+    }
+
+    .desc-main {
+      font-size:24px;
+      color:$secondary;
+      padding-top:20px;
+
+
+    }
+    .desc-minor {
+      font-size:14px;
+      color:$black;
+    }
+    a {
+      font-size: 12px;
+      text-decoration:none;
+      color:$black;
+      position: absolute;
+      bottom: 20px;
+    }
+
   }
+
+  // img {
+  //   margin: 0 0 20px 0;
+  // }
 
   .home-info {
     float:left;

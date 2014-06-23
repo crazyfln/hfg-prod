@@ -1,4 +1,4 @@
-<div class="modal fade" id="Login-Modal" tabindex="-2" role=".modal" aria-labelledby="Login-ModalLabel" aria-hidden="true">
+<div class="modal fade" id="Login-Modal" tabindex="-2" role="dialog" aria-labelledby="Login-ModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -17,16 +17,15 @@
           </table>
 
           </table>
-          {% if form.errors %} 
-          <p class='errors'>Your username and password didn't match. Please try again.</p> 
-          {% endif %} 
-          <a href="/account/password/reset">Forgot your password?</a> 
-          </br> 
-          <button class='button-orange' data-toggle="modal" data-target="#Registration-Modal">New? Register an account</button> 
+          {% if form.errors %}
+          <p class='errors'>Your username and password didn't match. Please try again.</p>
+          {% endif %}
+          <a href="/account/password/reset">Forgot your password?</a>
+          </br>
+          <button class='button-orange' data-toggle="modal" data-target="#Registration-Modal">New? Register an account</button>
           <button class="button-blue">Login </button> <!-- replace the above button class with the class(es) you make in _buttons.scss -->
-        </form> 
+        </form>
       </div>
     </div>
   </div>
 </div>
-

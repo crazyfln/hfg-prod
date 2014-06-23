@@ -14,7 +14,7 @@ class Facility(TimeStampedModel):
     facility_types = models.ManyToManyField('FacilityType')
     holding_group = models.ForeignKey('account.HoldingGroup')
     director_name = models.CharField(max_length=50)
-    director_email = models.EmailField(max_length=100)
+    director_email = models.EmailField(max_length=100, blank=True)
     director_avatar = models.ImageField(upload_to=file_url("facility_director_images"))
     phone = models.CharField(max_length=10)
     license = models.CharField(max_length=20)
@@ -24,16 +24,16 @@ class Facility(TimeStampedModel):
     address = models.CharField(max_length=100)
     state = models.CharField(max_length=2)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
-    latitude = models.IntegerField()
-    longitude = models.IntegerField()
+    latitude = models.IntegerField(blank=True, default=0)
+    longitude = models.IntegerField(blank=True, default=0)
     shown_on_home = models.BooleanField(default=False)
     status = models.CharField(max_length="20", choices=(
                               ('Vacancies','Vacancies'),
                               ('No Vacancies','No Vacancies'),
                               ('Dormant', 'Dormant'), # think dormant is being removed
                               ))
-    description_short = models.CharField(max_length=140)
-    description_long = models.CharField(max_length=1000)
+    description_short = models.CharField(max_length=140, blank=True)
+    description_long = models.CharField(max_length=1000, blank=True)
        
     care_level_1_cost = models.IntegerField()
     care_level_2_cost = models.IntegerField()
@@ -45,9 +45,9 @@ class Facility(TimeStampedModel):
     capacity = models.IntegerField()
     vacancies = models.IntegerField()
     
-    languages = models.ManyToManyField('Language', related_name="facilities")
-    conditions = models.ManyToManyField('Condition', related_name="facilities")
-    amenities = models.ManyToManyField('Amenity', related_name="facilities")
+    languages = models.ManyToManyField('Language', related_name="facilities", blank=True)
+    conditions = models.ManyToManyField('Condition', related_name="facilities", blank=True)
+    amenities = models.ManyToManyField('Amenity', related_name="facilities", blank=True)
     fees = models.ManyToManyField('Fee', through="FacilityFee")
     rooms = models.ManyToManyField('RoomType', through='FacilityRoom')
     care_type = models.CharField(max_length="20", choices=(

@@ -71,7 +71,7 @@ class Facility(TimeStampedModel):
 
     def get_director_avatar_url(self):
         if self.director_avatar:
-            return self.self.director_avatar.url
+            return self.director_avatar.url
         else:
             return ""
 

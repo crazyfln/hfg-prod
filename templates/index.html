@@ -76,17 +76,20 @@ Home For Grandma
       <center>
         <h1>Featured Listings</h1>
       </center>
-
       {% for facility in facilities %}
-      {% include 'snippets/listing_preview.html' with user=request.user facility=facility %} 
+        {% if forloop.counter0|divisibleby:"3" or forloop.first %}
+          <div class="row">
+        {% endif %}
+        {% include 'snippets/listing_preview.html' with user=request.user facility=facility %}
+        {% if forloop.counter|divisibleby:"3" or forloop.last  %}
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
   {% endblock content %}
   {% block body_media %}
-  <script> 
+  <script>
   $("#secondary-search").hide()
   </script>
   {% endblock body_media %}
-
-

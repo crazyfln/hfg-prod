@@ -148,7 +148,7 @@ class FacilityMessage(TimeStampedModel):
     care_current = models.CharField(max_length=30, blank=True, choices=CARE_CURRENT_CHOICES)
 
     care_medical_assistance = models.BooleanField()
-    care_toileting = models.BooleanField()`
+    care_toileting = models.BooleanField()
     care_memory_issues = models.BooleanField()
     care_diagnosed_memory = models.BooleanField()
     care_combinative = models.BooleanField()

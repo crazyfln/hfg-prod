@@ -10,19 +10,19 @@ from util.util import file_url
 
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
-    favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites")
-    facility_types = models.ManyToManyField('FacilityType')
-    holding_group = models.ForeignKey('account.HoldingGroup')
-    director_name = models.CharField(max_length=50)
+    favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites", blank=True)
+    facility_types = models.ManyToManyField('FacilityType', blank=True)
+    holding_group = models.ForeignKey('account.HoldingGroup', blank=True)
+    director_name = models.CharField(max_length=50, blank=True)
     director_email = models.EmailField(max_length=100, blank=True)
-    director_avatar = models.ImageField(upload_to=file_url("facility_director_images"))
-    phone = models.CharField(max_length=10)
-    license = models.CharField(max_length=20)
-    city = models.CharField(max_length=50)
-    zipcode = models.CharField(max_length=10)
-    min_price = models.IntegerField()
-    address = models.CharField(max_length=100)
-    state = models.CharField(max_length=2)
+    director_avatar = models.ImageField(upload_to=file_url("facility_director_images"), blank=True)
+    phone = models.CharField(max_length=10, blank=True)
+    license = models.CharField(max_length=20, blank=True)
+    city = models.CharField(max_length=50, blank=True)
+    zipcode = models.CharField(max_length=10, blank=True)
+    min_price = models.IntegerField(default=0, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=2, blank=True)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
     latitude = models.IntegerField(blank=True, default=0)
     longitude = models.IntegerField(blank=True, default=0)
@@ -34,27 +34,27 @@ class Facility(TimeStampedModel):
                               ))
     description_short = models.CharField(max_length=140, blank=True)
     description_long = models.CharField(max_length=1000, blank=True)
-       
-    care_level_1_cost = models.IntegerField()
-    care_level_2_cost = models.IntegerField()
-    care_level_3_cost = models.IntegerField()
-    care_memory_cost = models.IntegerField()
-    medication_level_1_cost = models.IntegerField()
-    medication_level_2_cost = models.IntegerField()
-    medication_level_3_cost = models.IntegerField()
-    capacity = models.IntegerField()
-    vacancies = models.IntegerField()
-    
+
+    care_level_1_cost = models.IntegerField(default=0)
+    care_level_2_cost = models.IntegerField(default=0)
+    care_level_3_cost = models.IntegerField(default=0)
+    care_memory_cost = models.IntegerField(default=0)
+    medication_level_1_cost = models.IntegerField(default=0)
+    medication_level_2_cost = models.IntegerField(default=0)
+    medication_level_3_cost = models.IntegerField(default=0)
+    capacity = models.IntegerField(default=0)
+    vacancies = models.IntegerField(default=0)
+
     languages = models.ManyToManyField('Language', related_name="facilities", blank=True)
     conditions = models.ManyToManyField('Condition', related_name="facilities", blank=True)
     amenities = models.ManyToManyField('Amenity', related_name="facilities", blank=True)
-    fees = models.ManyToManyField('Fee', through="FacilityFee")
-    rooms = models.ManyToManyField('RoomType', through='FacilityRoom')
+    fees = models.ManyToManyField('Fee', through="FacilityFee", blank=True)
+    rooms = models.ManyToManyField('RoomType', through='FacilityRoom', blank=True)
     care_type = models.CharField(max_length="20", choices=(
                                    ("Rent Only","Rent Only"),
                                    ("Rent and Care","Rent and Care"),
                                    ))
-    phone_requested_by = models.ManyToManyField(User, through="PhoneRequest", related_name="phone_requests")
+    phone_requested_by = models.ManyToManyField(User, through="PhoneRequest", related_name="phone_requests", blank=True)
 
     def __unicode__(self):
         return self.name
@@ -78,7 +78,7 @@ class Facility(TimeStampedModel):
         return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
 
     def get_featured_image(self):
-        return self.images.get(featured = True) 
+        return self.images.get(featured = True)
 
     class Meta:
         verbose_name = "Facility"
@@ -102,7 +102,7 @@ class Fee(TimeStampedModel):
 
     class Meta:
         verbose_name_plural = "Types of Additional Fees"
-    
+
 BUDGET_CHOICES = [
     ('1000','1000'),
     ('2000','2000'),
@@ -148,7 +148,7 @@ class FacilityMessage(TimeStampedModel):
     care_current = models.CharField(max_length=30, blank=True, choices=CARE_CURRENT_CHOICES)
 
     care_medical_assistance = models.BooleanField()
-    care_toileting = models.BooleanField()
+    care_toileting = models.BooleanField()`
     care_memory_issues = models.BooleanField()
     care_diagnosed_memory = models.BooleanField()
     care_combinative = models.BooleanField()
@@ -177,7 +177,7 @@ class FacilityMessage(TimeStampedModel):
                 continue
             elif hasattr(user, field):
                 setattr(user, field, getattr(self, field))
-        user.save()   
+        user.save()
 
     class Meta:
         verbose_name = "Message"
@@ -201,7 +201,7 @@ class Language(TimeStampedModel):
 
     class Meta:
         verbose_name_plural = "Types of Languages"
-    
+
 class Condition(TimeStampedModel):
     name = models.CharField(max_length=40)
     users = models.ManyToManyField('account.User', blank=True, related_name="conditions")
@@ -211,7 +211,7 @@ class Condition(TimeStampedModel):
 
     class Meta:
         verbose_name_plural = "Types of Conditions"
-    
+
 class Amenity(TimeStampedModel):
     name = models.CharField(max_length=40)
 
@@ -242,7 +242,7 @@ class RoomType(TimeStampedModel):
     name = models.CharField(max_length=30)
 
     def __unicode__(self):
-        return self.name  
+        return self.name
 
     class Meta:
         verbose_name_plural = "Types of Rooms"
@@ -260,7 +260,7 @@ class Inquiry(TimeStampedModel):
 
 class Invoice(TimeStampedModel):
     # dropped holding_group fk since we can get that from the facility
-    facility = models.ForeignKey(Facility) 
+    facility = models.ForeignKey(Facility)
     status = models.CharField(max_length="20", choices=(
                                    ("paid","paid"),
                                    ("unpaid","unpaid"),
@@ -292,6 +292,6 @@ class Favorite(TimeStampedModel):
 class PhoneRequest(TimeStampedModel):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
-    
+
     def __unicode__(self):
         return str(self.facility) + ":" + str(self.user.get_full_name) + " at: " + str(self.created)

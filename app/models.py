@@ -69,6 +69,12 @@ class Facility(TimeStampedModel):
         number_parts.append(self.phone[6:])
         return number_parts
 
+    def get_director_avatar_url(self):
+        if self.director_avatar:
+            return self.self.director_avatar.url
+        else:
+            return ""
+
     def get_phone_stars(self,):
         parts = self.get_phone_parts()
         return "(" + parts[0] + ") " + parts[1] + "-****"

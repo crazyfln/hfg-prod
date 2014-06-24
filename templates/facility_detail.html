@@ -87,7 +87,7 @@
 
                 <div class="row">
                     <div class="col-xs-4">
-                        
+
                         {% for fee in object.fees.all %}
                         {% if forloop.first %}
                         <p class='desc-medium'>Other Fees</p>
@@ -97,7 +97,7 @@
                     </div>
 
                     <div class="col-xs-4">
-                     
+
                         {% for fee in object.fees.all %}
                         {% if forloop.first %}
                         <p class='desc-medium'>Price</p>
@@ -176,13 +176,13 @@
             </div>
 
             <div class="facility-right right">
-                <img id='profile' src="{{ object.director_avatar.url }}"/>
+                <img id='profile' src="{{ object.get_director_avatar_url }}"/>
                 <div class="manager-holder left">
                     <p class='director-name left'>{{ object.director_name }}</p>
                     <div class="clear"></div>
                     <p class='property-manager'>Property Manager</p>
                 </div>
-                <div class="clear"></div>                
+                <div class="clear"></div>
                 <img id='phone' src='{% static 'img/icon_phone.png' %}'/>
                 <p id="phone_number" class='phone'>{{ object.get_phone_stars }}</p> <!-- ID necessary for JS -->
                 <div class="clear"></div>
@@ -212,14 +212,14 @@
 
 {% if user.is_authenticated %}
 <script>
-$("#show-number-button").click(function() { 
-    $("#phone_number").html("{{ object.get_phone_normal }}"); 
+$("#show-number-button").click(function() {
+    $("#phone_number").html("{{ object.get_phone_normal }}");
     $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
         type: 'POST',
         data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
 
     });
-}); 
+});
 </script>
 {% endif %}
 {% endblock body_media %}

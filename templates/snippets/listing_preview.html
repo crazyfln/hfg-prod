@@ -1,7 +1,7 @@
 {% load static from staticfiles %}
-
+<div class="col-sm-4">
 <!-- loop for the listing preview starts here -->
-<div class="listing-preview col-sm-4" url="{{ facility.get_absolute_url }}">
+<div class="listing-preview" url="{{ facility.get_absolute_url }}">
 
     <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to
     show or head hearts -->
@@ -47,3 +47,4 @@
       <hr>
       <p class="listing-else">{{ facility.description_short }}</p>
   </div>
+</div>

@@ -14,7 +14,7 @@
           <div class="row">
         {% endif %}
         {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
-        {% if forloop.counter|divisibleby:"3" %}
+        {% if forloop.counter|divisibleby:"3" or forloop.last %}
           </div>
         {% endif %}
         {% empty %}

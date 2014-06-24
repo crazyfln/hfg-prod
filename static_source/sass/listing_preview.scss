@@ -1,31 +1,25 @@
 .listing-preview {
     height:472px;
-    width:326px;
     background-color: $white;
     border: 1px solid $border;
     border-radius: 2px;
-    padding: 15px;
-    position: relative;
-    float: left;
+    padding-left: 15px;
+    padding-right:15px;
     cursor:pointer;
-    margin-right: 15px;
-    margin-bottom:25px;
+    margin-bottom: 15px;
 
-    &:nth-child(3n) {
-        margin-right: 0px;
-    }
+    
 
     img {
-        min-width: 324px;
-        margin: -15px 0 15px -15px;
-        max-width: 324px;
-        min-height: 215px;
-        max-height: 215px;
+        width: 315px;
+        margin-left:-15px;
+        height: 215px;
+        margin-bottom: 15px;
     }
 
-    .listing-img-small {
-        height: 226px;
-    }
+    // .listing-img-small {
+    //     height: 226px;
+    // }
 
     .heart-holder {
         background: image-url('img/icon_not_hearted.png');
@@ -33,7 +27,7 @@
         width: 22px;
         position: absolute;
         top:15px;
-        left: 15px;
+        left: 25px;
 
         &:hover {
             cursor:pointer;

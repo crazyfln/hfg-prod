@@ -1,5 +1,5 @@
 {% load static from staticfiles %}
-<div class="col-sm-4">
+<div class="col-xs-4">
 <!-- loop for the listing preview starts here -->
 <div class="listing-preview" url="{{ facility.get_absolute_url }}">
 
@@ -41,7 +41,7 @@
 
       <hr>
       <p class='from'>From</p>
-      <p class="listing-price">$ {{ facility.min_price }}</p>
+      <p class="listing-price">${{ facility.min_price }}</p>
       <a class='listing-next'href="" class="">{{ facility.care_type }}</a>
       <div class="clear"></div>
       <hr>

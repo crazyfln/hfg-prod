@@ -16,7 +16,7 @@
         float:left;
         margin: 0 150px 10px 0;
         text-transform: uppercase;
-        color: $light;    
+        color: $light;
     }
 
     .margin-right-20 {
@@ -57,86 +57,84 @@
         }
     }
 
-::-webkit-input-placeholder { /* WebKit browsers */
-    color:$primary;
-}
-
-//scss for property type 
-#id_facility_type, #id_room_type {
-    width:225px;
-    height:40px !important;
-    float: left;
-}
-
-
-.searchfield-room_type-holder, .searchfield-facility_type-holder {
-    height: 50px;
-    width: 225px;
-    border: 1px solid $border;
-    float:left;
-    position: relative;
-    margin: 0 40px 0 0;
-    background-color: #f8f8f8;
-
-    select {
-        position: absolute;
-        top: 0;
-        width: 223px !important;
-        padding-left: 30px;
-        height: 100%;
-        border: 0;
-        z-index: 2;
-        @include appearance(none);
-        outline:none;
-    }
-}
-
-
-
-//scss for slider
-#searchfield-slider {
-    float:left;
-
-    .slider {
-        margin-right:15px;
-        width:245px !important;
-    }
-    span {
-        color: $light;
+    ::-webkit-input-placeholder { /* WebKit browsers */
+        color:$primary;
     }
 
-    span:first-child {
-        margin-left: 14px;
-        margin-right: 15px;
-
+    //scss for property type
+    #id_facility_type, #id_room_type {
+        width:225px;
+        height:40px !important;
+        float: left;
     }
 
-// span:nth-child(2) {
-//     margin-left: 15px;
-// } //not working
 
-.slider-selection {
-    background-image:none;
-    background-color:$secondary;
+    .searchfield-room_type-holder, .searchfield-facility_type-holder {
+        height: 50px;
+        width: 225px;
+        border: 1px solid $border;
+        float:left;
+        position: relative;
+        margin: 0 40px 0 0;
+        background-color: #f8f8f8;
 
-}
-.slider-handle  {
-    background-image:none;
-    background-color:$white;
-    border: 1px solid $border;
-    border-radius: 3px;
-    width: 10px;
-    opacity: 1;
-}
-
-.slider-handle {
-    &:nth-child(3) {
-        margin-left:0px;
+        select {
+            position: absolute;
+            top: 0;
+            width: 223px !important;
+            padding-left: 30px;
+            height: 100%;
+            border: 0;
+            z-index: 2;
+            @include appearance(none);
+            outline:none;
+        }
     }
-}
 
 
-}
+
+    //scss for slider
+    #searchfield-slider {
+        float:left;
+
+        .slider {
+            margin-right:15px;
+            width:245px !important;
+        }
+        span {
+            color: $light;
+        }
+
+        span:first-child {
+            margin-left: 14px;
+            margin-right: 15px;
+
+        }
+
+        // span:nth-child(2) {
+            //     margin-left: 15px;
+            // } //not working
+
+                 .slider-selection {
+            background-image:none;
+            background-color:$secondary;
+
+        }
+        .slider-handle  {
+            background-image:none;
+            background-color:$white;
+            border: 1px solid $border;
+            border-radius: 3px;
+            width: 10px;
+            opacity: 1;
+        }
+
+        .slider-handle {
+            &:nth-child(3) {
+                margin-left:0px;
+            }
+        }
+    }
 }
 
 .searchbox-home {
@@ -169,7 +167,3 @@
         border-radius: 1px;
     }
 }
-
-
-
-

@@ -31,13 +31,13 @@
                 <p class='desc-large'>Pricing</p>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <p class='desc-medium '>Room Type</p>
                         {% for room in object.facilityroom_set.all %}
                         <p><span>{{ room.room_type }}</span></p>
                         {% endfor %}
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <p class='desc-medium '>Square Feet</p>
                         {% for room in object.facilityroom_set.all %}
                         <p><span>{{ room.get_square_footage }}</span></p>
@@ -45,7 +45,7 @@
 
 
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <p class='desc-medium '>Price</p>
                         {% for room in object.facilityroom_set.all %}
                         <p><span> ${{ room.starting_price }}</span></p>
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <p class='desc-medium'>Care Levels</p>
                         {% if object.care_type == "Rent and Care" %}
                         <p class='description'>Level 1 :</p>
@@ -63,7 +63,7 @@
                         <p class='description'>Memory:</p>
                         {% endif %}
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <p class='desc-medium'>Price</p>
                         {% if object.care_type == "Rent and Care" %}
                         <p class='description'> ${{ object.care_level_1_cost }}</p>
@@ -75,14 +75,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <p class='desc-medium'>Other Fees</p>
                         {% for fee in object.fees.all %}
                         <p>{{ fee.name }} :</p>
                         {% endfor %}
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <p class='desc-medium'>Price</p>
                         {% for fee in object.fees.all %}
                         <p>{{ fee.cost }} </p>
@@ -92,13 +92,13 @@
                 <hr>
 
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-xs-5">
                         <p class='desc-medium'>Accepts Residents With</p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
 
                         {% for condition in all_conditions %}
                         <p>
@@ -116,12 +116,12 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-xs-5">
                         <p class='desc-medium'>Features &amp; Amenities</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
 
                         {% for amenity in all_amenities %}
                         <p>
@@ -137,12 +137,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-xs-5">
                         <p class='desc-medium'>Language Spoken</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         {% for language in all_languages %}
                         <p>
                             {% if language in object.languages.all %}

@@ -1,9 +1,9 @@
 {% load static from staticfiles %}
 
 <!-- loop for the listing preview starts here -->
-<div class="listing-preview" url="{{ facility.get_absolute_url }}">
+<div class="listing-preview col-sm-4" url="{{ facility.get_absolute_url }}">
 
-    <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to 
+    <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to
     show or head hearts -->
     <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
         {% if user in facility.favorited_by.all %}
@@ -24,12 +24,12 @@
       <!-- <img class='listing-img-small' src="{% static 'img/listing_img_small.png' %}"/> -->
 
 
-      <img src='{{ facility.get_featured_image.image.url }}'/>   
-    
+      <img src='{{ facility.get_featured_image.image.url }}'/>
+
 
 
       <!-- loop for the tags per listing starts here -->
-      
+
       <div class="clear"></div>
       {% for type in facility.facility_types.all %}
       <p class="listing-tag">{{ type.name }}</p>

@@ -9,8 +9,14 @@
 <div class="container padder-100">
     {% include 'snippets/searchbox.html' with form=form %}
     <div id="search-results">
-        {% for listing in object_list %}
+      {% for listing in object_list %}
+        {% if forloop.counter0|divisibleby:"3" %}
+          <div class="row">
+        {% endif %}
         {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
+        {% if forloop.counter|divisibleby:"3" %}
+          </div>
+        {% endif %}
         {% empty %}
         <center><h2 class='empty'>We're sorry, no facilities matched your search. Try again!</h2></center>
         {% endfor %}
@@ -18,4 +24,3 @@
 </div>
 
 {% endblock content %}
-

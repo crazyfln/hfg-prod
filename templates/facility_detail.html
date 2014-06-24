@@ -9,9 +9,10 @@
             <p class='name'>{{ object.name }}</p>
             <p class='address'>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
             {% for type in object.facility_types.all %}
-            <p class='type-name'>{{ type.name }} | </p>
+            <p class='type-name left'>{{ type.name }} &nbsp; </p>
             {% endfor %}
-            <p class='min-price'> ${{ object.min_price }}</p>
+            <div class="clear"></div>
+            <p class='min-price'>${{ object.min_price }}</p>
             <p class='heart'><a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}" {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}><img src='{% static 'img/icon_not_hearted.png' %}'/></a><p>
                 <hr>
             </div>
@@ -32,22 +33,31 @@
 
                 <div class="row">
                     <div class="col-xs-4">
-                        <p class='desc-medium '>Room Type</p>
+
                         {% for room in object.facilityroom_set.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium '>Room Type</p>
+                        {% endif %}
                         <p><span>{{ room.room_type }}</span></p>
                         {% endfor %}
                     </div>
                     <div class="col-xs-4">
-                        <p class='desc-medium '>Square Feet</p>
+
                         {% for room in object.facilityroom_set.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium '>Square Feet</p>
+                        {% endif %}
                         <p><span>{{ room.get_square_footage }}</span></p>
                         {% endfor %}
 
 
                     </div>
                     <div class="col-xs-4">
-                        <p class='desc-medium '>Price</p>
+
                         {% for room in object.facilityroom_set.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium '>Price</p>
+                        {% endif %}
                         <p><span> ${{ room.starting_price }}</span></p>
                         {% endfor %}
                     </div>
@@ -55,8 +65,9 @@
 
                 <div class="row">
                     <div class="col-xs-4">
-                        <p class='desc-medium'>Care Levels</p>
+
                         {% if object.care_type == "Rent and Care" %}
+                        <p class='desc-medium'>Care Levels</p>
                         <p class='description'>Level 1 :</p>
                         <p class='description'>Level 2 :</p>
                         <p class='description'>Level 3 :</p>
@@ -64,9 +75,9 @@
                         {% endif %}
                     </div>
                     <div class="col-xs-4">
-                        <p class='desc-medium'>Price</p>
                         {% if object.care_type == "Rent and Care" %}
-                        <p class='description'> ${{ object.care_level_1_cost }}</p>
+                        <p class='desc-medium'>Price</p>
+                        <p class='description'>${{ object.care_level_1_cost }}</p>
                         <p class='description'>${{ object.care_level_2_cost }}</p>
                         <p class='description'>${{ object.care_level_3_cost }}</p>
                         <p class='description'>${{ object.care_memory_cost }}</p>
@@ -76,15 +87,21 @@
 
                 <div class="row">
                     <div class="col-xs-4">
-                        <p class='desc-medium'>Other Fees</p>
+                        
                         {% for fee in object.fees.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium'>Other Fees</p>
+                        {% endif %}
                         <p>{{ fee.name }} :</p>
                         {% endfor %}
                     </div>
 
                     <div class="col-xs-4">
-                        <p class='desc-medium'>Price</p>
+                     
                         {% for fee in object.fees.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium'>Price</p>
+                        {% endif %}
                         <p>{{ fee.cost }} </p>
                         {% endfor %}
                     </div>

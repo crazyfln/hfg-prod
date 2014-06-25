@@ -9,7 +9,7 @@ from account.admin import UserAdmin
 from util.util import list_button
 from .admin_mixins import *
 from .models import *
-from .forms import FacilityAdminForm
+from .forms import FacilityAdminForm, FacilityProviderForm
 
 # class YourModelAdmin(reversion.VersionAdmin):
 #     pass
@@ -194,6 +194,7 @@ class FacilityRoomProviderInline(FacilityRoomInline):
 class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
     list_display = ['edit','delete','pk','name','status','get_messages','get_visibility']
     inlines = [FacilityFeeProviderInline, FacilityImageProviderInline, FacilityRoomProviderInline]
+    form = FacilityProviderForm
 
 
     def get_messages(self, obj):
@@ -209,10 +210,25 @@ class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
     def get_visibility(self, obj):
         return "not implemented"
     get_visibility.short_description = "Visibility"
+    
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super(FacilityProviderAdmin, self).get_fieldsets(request, obj)
+        for fieldset in fieldsets:
+            newfields = []
+            for field in fieldset[1]['fields']:
+                if not field == 'holding_group':
+                    newfields.append(field)
+            fieldset[1]['fields'] = tuple(newfields)
+        return fieldsets
+
 
     def queryset(self, request):
         query = super(FacilityProviderAdmin, self).queryset(request)
         return query.filter(holding_group=request.user.holding_group)
+
+    def save_model(self, request, obj, form, change):
+        obj.holding_group = request.user.holding_group
+        obj.save() 
 
 provider_admin.register(FacilityProviderProxy, FacilityProviderAdmin)
 

@@ -110,10 +110,7 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        if 'min_value' in self.request.GET:
-            context['form'] = SearchForm(self.request.GET)
-        else:
-            context['form'] = SearchForm()
+        context['form'] = SearchForm(self.request.GET)
         return context
 
     def get_queryset(self):

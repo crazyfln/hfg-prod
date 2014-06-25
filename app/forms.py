@@ -88,6 +88,10 @@ class FacilityAdminForm(ModelForm):
     class Meta:
         model = Facility
 
+class FacilityProviderForm(FacilityAdminForm):
+
+    class Meta:
+        exclude = ('holding_group',)
 
 class StripeTokenForm(forms.Form):
     id = forms.CharField()

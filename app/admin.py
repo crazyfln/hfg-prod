@@ -188,6 +188,9 @@ class FacilityRoomProviderInline(FacilityRoomInline):
     def has_change_permission(self, request, obj=None):
         return True
 
+    def has_add_permission(self, request, obj=None):
+        return True
+
 class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
     list_display = ['edit','delete','pk','name','status','get_messages','get_visibility']
     inlines = [FacilityFeeProviderInline, FacilityImageProviderInline, FacilityRoomProviderInline]

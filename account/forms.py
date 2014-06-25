@@ -5,7 +5,17 @@ from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 
+from django.contrib.auth.forms import AuthenticationForm as DjangoAuthenticationForm
+
 User = get_user_model()
+
+
+class AuthenticationForm(DjangoAuthenticationForm):
+
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+
+
 
 class RegistrationForm(forms.Form):
     """

@@ -12,9 +12,9 @@
             <p class='type-name'>{{ type.name }} | </p>
             {% endfor %}
             <p class='min-price'> ${{ object.min_price }}</p>
-            <p class='heart'><a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}" {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}><img src='{% static 'img/icon_not_hearted.png' %}'/></a><p>
-                <hr>
-            </div>
+            <div url="{% url 'favorite' object.slug %}" class="heart-holder"><img {% if not user in object.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
+            <hr>
+        </div>
             <div class="facility-left left">
                 <div id="image-carousel">
                    {% include 'snippets/image_carousel.html' with images=object.images.all %}

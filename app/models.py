@@ -12,7 +12,7 @@ class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites", blank=True)
     facility_types = models.ManyToManyField('FacilityType', blank=True)
-    holding_group = models.ForeignKey('account.HoldingGroup', blank=True)
+    holding_group = models.ForeignKey('account.HoldingGroup', blank=True, null=True)
     director_name = models.CharField(max_length=50, blank=True)
     director_email = models.EmailField(max_length=100, blank=True)
     director_avatar = models.ImageField(upload_to=file_url("facility_director_images"), blank=True)

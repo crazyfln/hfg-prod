@@ -1,10 +1,33 @@
 .registration-box {
     height: 100%;
-    padding: 30px;
-    border: 1px solid #ccc;
-    background-color: #DCDCDC;
-    width: 45%;
+    border: 1px solid $border;
+    background-color: $white;
+    width: 400px;
     margin: 0 auto;
+    padding-top:20px;
+    padding-bottom:20px;
+
+
+    input {
+        width: 100%;
+        border: 1px solid $border;
+    }
+
+    table {
+        width:100%;
+    }
+
+
+    h3 {
+        color:$secondary;
+        margin-bottom: 20px;
+    }
+
+    a {
+        color:$secondary;
+        margin-top: 15px;
+        display:block;
+    }
 
 }
 
@@ -14,6 +37,13 @@
 
 .modal {
 
+    .modal-header {
+        border-bottom:none;
+    }
+    .modal-content {
+        width:400px;
+    }
+
     h3 {
         color:$secondary;
     }
@@ -21,19 +51,40 @@
     .modal-body {
         padding: 15px 0 15px 0;
     }
+
     table {
         width:100%;
     }
 
     a {
         margin-left:15px;
+        display:block;
+        margin-top:15px;
+        color:$secondary;
     }
+
     button {
-        margin:15px 0 15px 15px;
+        margin:0px 0 15px 0px;
     }
-
-
+    .login-b {
+        margin-left: 25px;
+    }
+    .submit-b {
+        margin-top:25px;
+    }
 }
+
+.login-b {
+    margin-left: 25px;
+    margin-right:25px;
+}
+
+a.push {
+    display:block;
+    margin-bottom:15px;
+    margin-bottom:15px;
+}
+
 
 
 %abstract-form-dimensions {
@@ -42,7 +93,10 @@
     color: $light;
     padding-left: 20px;
     outline:none;
-    border: 1px solid
+    border: 1px solid $border;
+    margin-top: -1px;
+    border-left:none;
+    border-right:none;
 
 }
 
@@ -66,7 +120,7 @@
     @extend %abstract-form-dimensions;
 }
 
-#id_username {
+#id_username{
     @extend %abstract-form-dimensions;
 }
 
@@ -101,8 +155,12 @@
 }
 
 
+
+
+
 ul.errorlist {
-    padding-left: 0px;
+    padding-left: 10px;
+    padding-top:10px;
     li {
 
         list-style: none;
@@ -112,4 +170,13 @@ ul.errorlist {
 
 p.errors {
     color: red;
+    padding-left: 10px;
+    padding-top:10px;
+
 }
+
+
+
+
+
+

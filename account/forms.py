@@ -17,9 +17,14 @@ class RegistrationForm(forms.Form):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     phone_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Phone Number'}))
 
-    email = forms.EmailField(label=_("E-mal"), required=True, widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    email = forms.EmailField(label=_("E-mail"), required=True, widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}),
                                 label=_("Password"))
+
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password Confirm'}),
+                                label=_("Password"))
+    
+
 
 
     def clean(self):
@@ -30,6 +35,11 @@ class RegistrationForm(forms.Form):
         field.
 
         """
+
+        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+                raise forms.ValidationError(_("The two password fields didn't match."))
+
         username = (self.cleaned_data.get('email', "bad@email.com").split("@")[0]).lower()
         username = re.sub('\W', "", username)
 

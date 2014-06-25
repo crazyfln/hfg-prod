@@ -1,11 +1,9 @@
 $(document).ready(function(){
-    min_val = $('#id_min_value').attr('value')
-    max_val = $('#id_max_value').attr('value')
-    $('#min-slide-value').html('$'+min_val)
-    $('#max-slide-value').html('$'+max_val)
-    start_val = [min_val, max_val]
-    var first
-    var second
+    min_val = $('#id_min_value').attr('value');
+    max_val = $('#id_max_value').attr('value');
+    $('#min-slide-value').html('$'+min_val);
+    $('#max-slide-value').html('$'+max_val);
+    start_val = [min_val, max_val];
     first_regex = /^(\d{1,})\s/;
     second_regex = /(\d{1,})$/;
 

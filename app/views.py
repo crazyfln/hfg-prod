@@ -20,8 +20,7 @@ from annoying.decorators import render_to, ajax_request
 
 from account.forms import RegistrationForm, ProfileForm
 
-from .forms import SearchForm, StripeTokenForm, ChargeForm
-from .forms import SearchForm, TourRequestForm, ContactForm, StripeTokenForm, ChargeForm
+from .forms import *
 
 from .models import *
 
@@ -111,6 +110,8 @@ class Search(ListView):
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
         context['form'] = SearchForm(self.request.GET)
+        context['real_min_val'] = SEARCH_MIN_VAL_INITIAL
+        context['real_max_val'] = SEARCH_MAX_VAL_INITIAL
         return context
 
     def get_queryset(self):

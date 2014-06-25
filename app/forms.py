@@ -19,8 +19,8 @@ class SearchForm(forms.Form):
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
-    min_value = forms.IntegerField(widget=forms.HiddenInput(), initial=149)
-    max_value = forms.IntegerField(widget=forms.HiddenInput(), initial=3500)#initial value set in __init__
+    min_value = forms.IntegerField(widget=forms.HiddenInput(), initial=500)
+    max_value = forms.IntegerField(widget=forms.HiddenInput(), initial=6000)
 
 class ContactForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}))

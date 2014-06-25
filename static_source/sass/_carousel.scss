@@ -1,6 +1,8 @@
 
 .facility-carousel {
     margin: 0 0 20px 0;
+
+
 }
 
 ul.list-inline {
@@ -12,6 +14,7 @@ ul.list-inline {
     padding: 0;
 
     ul.list-inline {
+        margin-left:0px;
         li {
             padding:6px;
         }
@@ -39,7 +42,7 @@ img.img-responsive{
 }
 
 .selected img {
- opacity:0.5;
+   opacity:0.5;
 }
 
 .item {
@@ -47,8 +50,11 @@ img.img-responsive{
     width:670px;
 
     .img-main-carousel {
-     width:auto;
-     height:100%;
-     width:100%;
- }
+       width:auto;
+       height:100%;
+       width:617px;
+       min-height: 100%;
+       max-height:100%;
+
+   }
 }

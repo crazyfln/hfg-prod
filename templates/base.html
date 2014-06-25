@@ -35,10 +35,20 @@
     {% endblock header %}
 
     {% if not user.is_authenticated %}
-      {% include 'snippets/login_modal.html' with form=login_form %}
-      {% include 'snippets/registration_modal.html' %}
+<div class="modal fade" id="Login-Modal" tabindex="-2" role="dialog" aria-labelledby="Login-ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <center>
+      <div class="modal-content">
+        <div class="modal-header">
+          {% include 'snippets/login_modal.html' with form=login_form %}
+        </div>
+      </div>
+    </center>
+  </div>
+</div>
+{% include 'snippets/registration_modal.html' %}
     {% endif %}
-    
+
    <!--  <div class="container" id="main"> -->
 
       {% block content %}

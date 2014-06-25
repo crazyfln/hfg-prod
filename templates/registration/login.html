@@ -4,31 +4,7 @@
 
 <div id='main' class="background-beige padder-100 margin-top-80">
     <div class="registration-box">
-        <center> <h3>Login to Your Account</h3></center>
-        <form method="post" action="{% url "django.contrib.auth.views.login" %}{% if next %}?next={{next}}{% endif %}">
-            {% csrf_token %}
-            <table>
-                <tr>
-                    <td>{{ form.username }}</td>
-                </tr>
-                <tr>
-                </tr>
-                <tr>
-                    <td>{{ form.password }}</td>
-                </tr>
-            </table>
-            {% if form.errors %}
-            <center><p class='errors'>Your username and password didn't match. Please try again.</p></center>
-            {% endif %}
-
-            <center>
-                <a class='push' href="/account/password/reset">Forgot your password?</a>
-                <div class="clear"></div>
-                <button class="button-blue left login-b">Login</button>
-            </center>
-            <!-- replace the above button class with the class(es) you make in _buttons.scss -->
-        </form>
-        <a href="{% url 'registration_register' %}"><button class='button-orange'>New? Register an account</button></a>
+      {% include 'snippets/login_modal.html' with form=form %}
     </div>
 </div>
 

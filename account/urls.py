@@ -5,7 +5,11 @@ from .forms import AuthenticationForm
 
 urlpatterns = patterns('',
     url(r'^register/$', RegistrationView.as_view(), name='registration_register'),
-    url(r'^account/login/$', 'django.contrib.auth.views.login', {'authentication_form': AuthenticationForm, 'template_name': 'registration/login.html'}),
+    (r'^login/$', 'django.contrib.auth.views.login', {'authentication_form': AuthenticationForm,
+                                                              'template_name': 'registration/login.html',
+                                                          }),
+
+
 )
 
 

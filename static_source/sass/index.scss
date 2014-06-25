@@ -62,11 +62,16 @@
       color:$black;
     }
     a {
-      font-size: 12px;
+      font-size: 14px;
       text-decoration:none;
       color:$black;
       position: absolute;
       bottom: 20px;
+      right: 190px;
+
+      &:hover {
+        color:$secondary;
+      }
     }
 
   }

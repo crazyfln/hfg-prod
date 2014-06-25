@@ -64,7 +64,7 @@
     //scss for property type
     #id_facility_type, #id_room_type {
         width:225px;
-        height:40px !important;
+        height:50px !important;
         float: left;
     }
 
@@ -149,11 +149,7 @@
 
     input#id_query {
         width:430px;
-        background-color:#fff;
-    }
-
-    #id_facility_type {
-        margin-top: 7px;
+        background-color:#f8f8f8;
     }
 
     button {
@@ -163,7 +159,7 @@
     }
 
     .searchfield-facility_type-holder {
-        background-color:#E0E7E7;
+        background-color:#f8f8f8;
         border-radius: 1px;
     }
 }

@@ -229,10 +229,10 @@ class Amenity(TimeStampedModel):
 
 class FacilityRoom(TimeStampedModel):
     facility = models.ForeignKey(Facility)
-    room_type = models.ForeignKey('RoomType')
-    width = models.CharField(max_length=5)
-    length = models.CharField(max_length=5)
-    starting_price = models.DecimalField(max_digits=15, decimal_places=2)
+    room_type = models.ForeignKey('RoomType', blank=True, null=True)
+    width = models.CharField(max_length=5, blank=True, null=True)
+    length = models.CharField(max_length=5, blank=True, null=True)
+    starting_price = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
 
     def get_square_footage(self):
         return self.width + ' x ' + self.length

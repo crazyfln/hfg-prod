@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse
 
-from .forms import RegistrationForm
-from django.contrib.auth.forms import AuthenticationForm
+from .forms import RegistrationForm, AuthenticationForm
 
 def forms(request):
     forms = {}

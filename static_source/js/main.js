@@ -34,6 +34,14 @@ $(document).ready(function(){
      $('[id^=carousel-selector-]').removeClass('selected');
      $('[id^=carousel-selector-' + id + ']').addClass('selected');
    });
+
+    $('.heart-holder').on('click', function(e) {
+        e.stopPropagation();
+        if ($(this).data('logged_in') == 'no'){
+            $('#Login-Modal').modal('show')
+        }
+    });
+
   });
 
     $('.heart-holder').on('click', function(e) {

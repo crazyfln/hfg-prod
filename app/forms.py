@@ -89,10 +89,13 @@ class FacilityAdminForm(ModelForm):
 
     class Meta:
         model = Facility
+        widgets = {
+            'description_long':forms.Textarea,
+        }
 
 class FacilityProviderForm(FacilityAdminForm):
 
-    class Meta:
+    class Meta(FacilityAdminForm.Meta):
         exclude = ('holding_group',)
 
 class StripeTokenForm(forms.Form):

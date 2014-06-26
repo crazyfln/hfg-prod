@@ -5,13 +5,19 @@
 
     <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to
     show or head hearts -->
-    <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
-        {% if user in facility.favorited_by.all %}
-        <div class="heart-holder" style="background-color:#008185"></div>
-        {% else %}
-        <div class="heart-holder"></div>
-        {% endif %}
-    </a>
+    {% if user.is_authenticated %}
+      <!-- WHEN MERGING AJAXFAVORITES replace what's inside this conditional with that-->
+      <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
+          {% if user in facility.favorited_by.all %}
+          <div class="heart-holder" style="background-color:#008185"></div>
+          {% else %}
+          <div class="heart-holder"></div>
+          {% endif %}
+      </a>
+    {% else %}
+   
+      <div  class="heart-holder" data-toggle="modal" data-target="#Login-Modal"></div>
+    {% endif %}
 
     <!-- {% for facility.image in images %}
       <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">

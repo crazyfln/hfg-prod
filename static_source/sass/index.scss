@@ -67,6 +67,11 @@
       color:$black;
       position: absolute;
       bottom: 20px;
+      right: 190px;
+
+      &:hover {
+        color:$secondary;
+      }
     }
 
   }

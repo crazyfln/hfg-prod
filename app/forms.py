@@ -12,6 +12,8 @@ from django.forms.extras.widgets import SelectDateWidget
 from django.utils.translation import ugettext_lazy as _
 
 from .models import *
+SEARCH_MIN_VAL_INITIAL = "500"
+SEARCH_MAX_VAL_INITIAL = "6000"
 
 class SearchForm(forms.Form):
     query = forms.CharField(required=False, label='search', 
@@ -19,8 +21,8 @@ class SearchForm(forms.Form):
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
-    min_value = forms.IntegerField(widget=forms.HiddenInput(), initial=149)
-    max_value = forms.IntegerField(widget=forms.HiddenInput(), initial=3500)#initial value set in __init__
+    min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
+    max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
 
 class ContactForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}))
@@ -88,6 +90,10 @@ class FacilityAdminForm(ModelForm):
     class Meta:
         model = Facility
 
+class FacilityProviderForm(FacilityAdminForm):
+
+    class Meta:
+        exclude = ('holding_group',)
 
 class StripeTokenForm(forms.Form):
     id = forms.CharField()

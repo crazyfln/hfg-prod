@@ -4,9 +4,8 @@
 
 @include sticky-footer(257px, "#main", "#main-footer", "#footer");
 
-
-@import "registration";
 @import "variables";
+@import "registration";
 @import "buttons";
 @import "footer";
 $bootstrap-sass-asset-helper: false;
@@ -19,11 +18,12 @@ $bootstrap-sass-asset-helper: false;
 @import "facility_detail";
 @import "search";
 @import "contact";
+@import "about";
 
 
 //global rules and helper classes
 
-.container, .container-fluid, {
+.container {
     width: 1040px !important;
     margin: 0 auto;
 }
@@ -61,6 +61,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .padder-top-20 {        
     padding-top: 20px;
+}
+
+.margin-top-80 {
+    margin-top: 80px; 
 }
 
 .padder-top-40 {

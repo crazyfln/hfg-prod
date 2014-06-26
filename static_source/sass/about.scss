@@ -1,0 +1,20 @@
+
+.about {
+
+    .background {
+        background:image-url('img/about_background.png');
+        height:585px;
+        background-size: cover;
+    }
+
+    h2 {
+        color: $secondary;
+        margin: 0 0 40px 0;
+    }
+
+    p {
+        line-height: 1.9em;
+        color: $light;
+        font-size: 16px;
+    }
+}

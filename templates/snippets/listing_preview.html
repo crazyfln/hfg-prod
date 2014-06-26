@@ -5,7 +5,7 @@
 
     <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to 
     show or head hearts -->
-    <div url="{% url 'favorite' facility.slug %}" logged_in='yes' class="heart-holder"><img {% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
+    <div class="heart-holder" data-url="{% url 'favorite' facility.slug %}" data-logged_in='yes'><img {% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
 
     <img class='listing-img-small' src="{% static 'img/listing_img_small.png' %}"/>
     <!-- loop for the tags per listing starts here -->

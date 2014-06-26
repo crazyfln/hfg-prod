@@ -39,11 +39,11 @@ $(document).ready(function(){
     $('.heart-holder').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        if ($(this).attr('logged_in') == 'yes'){
+        if ($(this).attr('data-logged_in') == 'yes'){
             heartImg = $(this).children('img')
             heartImg.toggle()
             $.ajax({
-                url:$(this).attr('url'),
+                url:$(this).attr('data-url'),
                 error: function(){
                     alert('There was an error, the facility was not favorited')
                     heartImg.toggle()

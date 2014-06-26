@@ -12,10 +12,6 @@
             <p class='type-name left'>{{ type.name }} &nbsp; </p>
             {% endfor %}
             <p class='min-price'> ${{ object.min_price }}</p>
-            <hr>
-        </div>
-            <div class="clear"></div>
-            <p class='min-price'>${{ object.min_price }}</p>
             {% if user.is_authenticated %}
               <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'><img {% if not user in object.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
             {% else %}

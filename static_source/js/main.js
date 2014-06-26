@@ -39,13 +39,15 @@ $(document).ready(function(){
     $('.heart-holder').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        heartImg = $(this).children('img')
-        heartImg.toggle()
-        $.ajax({
-            url:$(this).attr('url'),
-            error: function(){
-                alert('There was an error, the facility was not favorited')
-                heartImg.toggle()
-            },
-        });
+        if ($(this).attr('logged_in') == 'yes'){
+            heartImg = $(this).children('img')
+            heartImg.toggle()
+            $.ajax({
+                url:$(this).attr('url'),
+                error: function(){
+                    alert('There was an error, the facility was not favorited')
+                    heartImg.toggle()
+                },
+            });
+        }
     });

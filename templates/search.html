@@ -26,3 +26,17 @@
 </div>
 
 {% endblock content %}
+{% block body_media %}
+  <script>
+    min_val = $('#id_min_value').attr('value');
+    if (min_val == undefined){
+      min_val = {{ real_min_val }};
+    }
+    max_val = $('#id_max_value').attr('value');
+    if (max_val == undefined){
+      max_val = {{ real_max_val }};
+    }
+
+  </script>
+
+{% endblock body_media %}

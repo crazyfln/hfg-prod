@@ -1,6 +1,5 @@
 $(document).ready(function(){
-    min_val = $('#id_min_value').attr('value');
-    max_val = $('#id_max_value').attr('value');
+    /* min and max val set on search.html body_media block */
     $('#min-slide-value').html('$'+min_val);
     $('#max-slide-value').html('$'+max_val);
     start_val = [min_val, max_val];

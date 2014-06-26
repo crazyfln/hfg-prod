@@ -125,17 +125,16 @@ class Search(ListView):
             query['amenities'] = form.cleaned_data.get('amenities',False)
             result = Facility.objects.all().filter(**{key:value for (key, value) in query.iteritems() if value})
 
-            #room_type = form.cleaned_data.get('room_type',False)
-            #if room_type:
-            #    result = result.filter(facilityroom__room_type=room_type)
-
             if form.cleaned_data['query']:
                 q = form.cleaned_data['query']
                 Qquery = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q)
                 result = result.filter(Qquery)
-
-            min_price = form.cleaned_data['min_value']
-            max_price = form.cleaned_data['max_value']
+            min_price = form.cleaned_data.get('min_value')
+            if not min_price:
+                min_price = SEARCH_MIN_VAL_INITIAL
+            max_price = form.cleaned_data.get('max_value')
+            if not max_price:
+                max_price = SEARCH_MAX_VAL_INITIAL
             result = result.filter(min_price__gte=min_price, min_price__lte=max_price)
             return result
         else:

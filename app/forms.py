@@ -95,7 +95,7 @@ class FacilityAdminForm(ModelForm):
 
 class FacilityProviderForm(FacilityAdminForm):
 
-    class Meta:
+    class Meta(FacilityAdminForm.Meta):
         exclude = ('holding_group',)
 
 class StripeTokenForm(forms.Form):

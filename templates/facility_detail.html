@@ -16,7 +16,7 @@
             {% if user.is_authenticated %}
               <p class='heart'><a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}" {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}><img src='{% static 'img/icon_not_hearted.png' %}'/></a><p>
             {% else %}
-              <div  class="heart-holder" logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_not_hearted.png' %}'/></div>
+              <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_not_hearted.png' %}'/></div>
             {% endif %}
                 <hr>
             </div>

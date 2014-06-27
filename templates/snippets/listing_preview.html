@@ -38,7 +38,7 @@
 
       <div class="clear"></div>
       {% for type in facility.facility_types.all %}
-      <p class="listing-tag">{{ type.name|truncatechars:9 }}</p>
+      <p class="listing-tag">{{ type.name|truncatechars:15 }}</p>
       {% endfor %}
       <div class="clear"></div>
 

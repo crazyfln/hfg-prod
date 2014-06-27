@@ -1,5 +1,6 @@
 from model_mommy import mommy
 from django.test import TestCase, Client, RequestFactory
+from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 
@@ -14,6 +15,7 @@ class ViewTest(TestCase):
         self.factory = RequestFactory()
         self.client = Client()
         self.user = mommy.make('account.User', password="password")
+        self.anonymous_user = AnonymousUser()
 
     def test_index_get(self):
         """
@@ -37,6 +39,7 @@ class ViewTest(TestCase):
         facility_url = reverse('facility_details', 
                                 kwargs={'slug':facility.slug})
         request = self.factory.get(facility_url)
+        request.user = self.anonymous_user
         response = FacilityDetail.as_view()(request, slug=facility.slug) 
         self.assertEqual(response.status_code, 200)
 
@@ -90,7 +93,52 @@ class ViewTest(TestCase):
         request.user = self.user
         response = facility_favorite(request, slug=facility.slug)
         self.assertEqual(response.status_code, 302)
-        
+ 
+class ModelMethodTest(TestCase):
+    def setUp(self):
+        self.facility = mommy.make('app.Facility')
+
+    def test_facility_absolute_url(self):
+        self.assertEqual(reverse('facility_details', args=(self.facility.slug,)), self.facility.get_absolute_url())
+
+#waiting on merge for this to work
+#    def test_facility_favorite_url(self):
+#        self.assertEqual(reverse('favorite', args=(self.facility.slug,)), self.facility.get_favorite_url())
+
+    def test_facility_get_phone_parts(self):
+        self.facility.phone = "1113334444"
+        first_part = self.facility.phone[:3]
+        second_part = self.facility.phone[3:6]
+        third_part = self.facility.phone[6:]
+        method_return = self.facility.get_phone_parts()
+        self.assertEqual(first_part, method_return[0])
+        self.assertEqual(second_part, method_return[1])
+        self.assertEqual(third_part, method_return[2])       
+
+    def test_facility_get_phone_stars(self):
+        self.facility.phone = "1113334444"
+        parts = self.facility.get_phone_parts()
+        test_stars = "(" + parts[0] + ") " + parts[1] + "-****"
+        self.assertEqual(self.facility.get_phone_stars(), test_stars)
+
+    def test_facility_get_phone_normal(self):
+        self.facility.phone = "1113334444"
+        parts = self.facility.get_phone_parts()
+        test_phone = "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
+        self.assertEqual(self.facility.get_phone_normal(), test_phone)
+
+    def test_facility_get_featured_image(self):
+        featured_image = mommy.make('app.FacilityImage', facility=self.facility, featured=True)
+        regular_images = mommy.make('app.FacilityImage', facility=self.facility, featured=False, _quantity=3)
+        self.assertEqual(self.facility.get_featured_image(), featured_image)
+
+    def test_facility_get_director_avatar_url_false(self):
+        self.facility.director_avatar = None
+        self.assertEqual(self.facility.get_director_avatar_url(), "")
+
+#    def test_facility_get_director_avatar_url_true(self):
+#        self.assertEqual(self.facility.get_director_avatar_url(), self.facility.director_avatar.url)
+
 class FunctionalityTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()

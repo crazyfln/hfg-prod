@@ -94,7 +94,7 @@ class ViewTest(TestCase):
         response = facility_favorite(request, slug=facility.slug)
         self.assertEqual(response.status_code, 302)
  
-class ModelMethodTest(TestCase):
+class FacilityModelMethodTest(TestCase):
     def setUp(self):
         self.facility = mommy.make('app.Facility')
 
@@ -138,6 +138,16 @@ class ModelMethodTest(TestCase):
 
 #    def test_facility_get_director_avatar_url_true(self):
 #        self.assertEqual(self.facility.get_director_avatar_url(), self.facility.director_avatar.url)
+
+class UserModelMethodTest(TestCase):
+    def setUp(self):
+        self.holding_group = mommy.make('account.HoldingGroup')
+        self.regular_user = mommy.make('account.User')
+        self.hg_user = mommy.make('account.User', holding_group=self.holding_group)
+        
+    def test_is_provider(self):
+        self.assertTrue(self.hg_user.is_provider())
+        self.assertFalse(self.regular_user.is_provider())
 
 class FunctionalityTest(TestCase):
     def setUp(self):

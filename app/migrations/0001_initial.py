@@ -28,7 +28,7 @@ class Migration(SchemaMigration):
             ('slug', self.gf('django_extensions.db.fields.AutoSlugField')(allow_duplicates=False, max_length=50, separator=u'-', blank=True, populate_from=['name', 'zipcode'], overwrite=False)),
             ('latitude', self.gf('django.db.models.fields.IntegerField')()),
             ('longitude', self.gf('django.db.models.fields.IntegerField')()),
-            ('shown_on_home', self.gf('django.db.models.fields.BooleanField')()),
+            ('shown_on_home', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('status', self.gf('django.db.models.fields.CharField')(max_length='20')),
             ('description_short', self.gf('django.db.models.fields.CharField')(max_length=140)),
             ('description_long', self.gf('django.db.models.fields.CharField')(max_length=1000)),
@@ -125,16 +125,16 @@ class Migration(SchemaMigration):
             ('care_diagnosed_memory', self.gf('django.db.models.fields.BooleanField')()),
             ('care_combinative', self.gf('django.db.models.fields.BooleanField')()),
             ('care_wandering', self.gf('django.db.models.fields.BooleanField')()),
-            ('comments', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('health_description', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('plnned_move_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('comments', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('health_description', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('planned_move_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('move_in_time_frame', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('desired_city', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('desired_city', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
             ('searching_for', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('resident_first_name', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('resident_first_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
             ('read', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('replied_by', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('replied_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('replied_by', self.gf('django.db.models.fields.CharField')(max_length=20, blank=True)),
+            ('replied_datetime', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'app', ['FacilityMessage'])
 
@@ -174,15 +174,25 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'app', ['Amenity'])
 
+        # Adding model 'FacilityRoom'
+        db.create_table(u'app_facilityroom', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
+            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
+            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Facility'])),
+            ('room_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.RoomType'])),
+            ('width', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('length', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('starting_price', self.gf('django.db.models.fields.DecimalField')(max_digits=15, decimal_places=2)),
+        ))
+        db.send_create_signal(u'app', ['FacilityRoom'])
+
         # Adding model 'RoomType'
         db.create_table(u'app_roomtype', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('facility', self.gf('django.db.models.fields.related.ForeignKey')(related_name='room_types', to=orm['app.Facility'])),
-            ('unit_type', self.gf('django.db.models.fields.CharField')(max_length='20')),
-            ('square_footage', self.gf('django.db.models.fields.CharField')(max_length='20')),
-            ('starting_price', self.gf('django.db.models.fields.DecimalField')(max_digits=15, decimal_places=2)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
         ))
         db.send_create_signal(u'app', ['RoomType'])
 
@@ -286,6 +296,9 @@ class Migration(SchemaMigration):
         # Deleting model 'Amenity'
         db.delete_table(u'app_amenity')
 
+        # Deleting model 'FacilityRoom'
+        db.delete_table(u'app_facilityroom')
+
         # Deleting model 'RoomType'
         db.delete_table(u'app_roomtype')
 
@@ -331,6 +344,7 @@ class Migration(SchemaMigration):
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            'health_description': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -338,6 +352,7 @@ class Migration(SchemaMigration):
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'move_in_time_frame': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'pay_longterm_care': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'pay_medicaid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -346,6 +361,7 @@ class Migration(SchemaMigration):
             'pay_ssi': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'pay_veterans_benefits': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'planned_move_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'searching_for': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
@@ -400,7 +416,8 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             'phone_requested_by': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'phone_requests'", 'symmetrical': 'False', 'through': u"orm['app.PhoneRequest']", 'to': u"orm['account.User']"}),
-            'shown_on_home': ('django.db.models.fields.BooleanField', [], {}),
+            'rooms': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['app.RoomType']", 'through': u"orm['app.FacilityRoom']", 'symmetrical': 'False'}),
+            'shown_on_home': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'slug': ('django_extensions.db.fields.AutoSlugField', [], {'allow_duplicates': 'False', 'max_length': '50', 'separator': "u'-'", 'blank': 'True', 'populate_from': "['name', 'zipcode']", 'overwrite': 'False'}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
             'status': ('django.db.models.fields.CharField', [], {'max_length': "'20'"}),
@@ -438,11 +455,11 @@ class Migration(SchemaMigration):
             'care_mobility': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'care_toileting': ('django.db.models.fields.BooleanField', [], {}),
             'care_wandering': ('django.db.models.fields.BooleanField', [], {}),
-            'comments': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
+            'comments': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'facility': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['app.Facility']"}),
-            'health_description': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
+            'health_description': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'move_in_time_frame': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -452,13 +469,24 @@ class Migration(SchemaMigration):
             'pay_private_pay': ('django.db.models.fields.BooleanField', [], {}),
             'pay_ssi': ('django.db.models.fields.BooleanField', [], {}),
             'pay_veterans_benefits': ('django.db.models.fields.BooleanField', [], {}),
-            'plnned_move_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'planned_move_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'read': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'replied_by': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'replied_datetime': ('django.db.models.fields.DateTimeField', [], {}),
-            'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'replied_by': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'replied_datetime': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'resident_first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'searching_for': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.User']"})
+        },
+        u'app.facilityroom': {
+            'Meta': {'object_name': 'FacilityRoom'},
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            'facility': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['app.Facility']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'length': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'room_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['app.RoomType']"}),
+            'starting_price': ('django.db.models.fields.DecimalField', [], {'max_digits': '15', 'decimal_places': '2'}),
+            'width': ('django.db.models.fields.CharField', [], {'max_length': '5'})
         },
         u'app.facilitytype': {
             'Meta': {'object_name': 'FacilityType'},
@@ -527,12 +555,9 @@ class Migration(SchemaMigration):
         u'app.roomtype': {
             'Meta': {'object_name': 'RoomType'},
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            'facility': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'room_types'", 'to': u"orm['app.Facility']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'square_footage': ('django.db.models.fields.CharField', [], {'max_length': "'20'"}),
-            'starting_price': ('django.db.models.fields.DecimalField', [], {'max_digits': '15', 'decimal_places': '2'}),
-            'unit_type': ('django.db.models.fields.CharField', [], {'max_length': "'20'"})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},

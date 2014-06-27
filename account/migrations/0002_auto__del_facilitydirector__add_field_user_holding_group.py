@@ -8,39 +8,28 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'User.health_description'
-        db.add_column(u'account_user', 'health_description',
-                      self.gf('django.db.models.fields.CharField')(default='', max_length=500, blank=True),
-                      keep_default=False)
+        # Deleting model 'FacilityDirector'
+        db.delete_table(u'account_facilitydirector')
 
-        # Adding field 'User.planned_move_date'
-        db.add_column(u'account_user', 'planned_move_date',
-                      self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True),
-                      keep_default=False)
-
-        # Adding field 'User.move_in_time_frame'
-        db.add_column(u'account_user', 'move_in_time_frame',
-                      self.gf('django.db.models.fields.CharField')(default='', max_length=30, blank=True),
+        # Adding field 'User.holding_group'
+        db.add_column(u'account_user', 'holding_group',
+                      self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='owners', null=True, to=orm['account.HoldingGroup']),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'User.health_description'
-        db.delete_column(u'account_user', 'health_description')
+        # Adding model 'FacilityDirector'
+        db.create_table(u'account_facilitydirector', (
+            ('holding_group', self.gf('django.db.models.fields.related.ForeignKey')(related_name='owners', to=orm['account.HoldingGroup'])),
+            (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['account.User'], unique=True, primary_key=True)),
+        ))
+        db.send_create_signal(u'account', ['FacilityDirector'])
 
-        # Deleting field 'User.planned_move_date'
-        db.delete_column(u'account_user', 'planned_move_date')
-
-        # Deleting field 'User.move_in_time_frame'
-        db.delete_column(u'account_user', 'move_in_time_frame')
+        # Deleting field 'User.holding_group'
+        db.delete_column(u'account_user', 'holding_group_id')
 
 
     models = {
-        u'account.facilitydirector': {
-            'Meta': {'object_name': 'FacilityDirector', '_ormbases': [u'account.User']},
-            'holding_group': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'owners'", 'to': u"orm['account.HoldingGroup']"}),
-            u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['account.User']", 'unique': 'True', 'primary_key': 'True'})
-        },
         u'account.holdinggroup': {
             'Meta': {'object_name': 'HoldingGroup'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -59,7 +48,6 @@ class Migration(SchemaMigration):
             'care_mobility': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'care_toileting': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'care_wandering': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'conditions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'users'", 'blank': 'True', 'to': u"orm['app.Condition']"}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -67,6 +55,7 @@ class Migration(SchemaMigration):
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
             'health_description': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
+            'holding_group': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'owners'", 'null': 'True', 'to': u"orm['account.HoldingGroup']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -88,13 +77,6 @@ class Migration(SchemaMigration):
             'searching_for': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'app.condition': {
-            'Meta': {'object_name': 'Condition'},
-            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},

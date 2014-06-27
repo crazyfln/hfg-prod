@@ -13,18 +13,38 @@ Home For Grandma
       <div class="content-holder">
         <h1>Find Senior Living</h1>
         <div class="clear"></div>
-        {% include 'snippets/searchbox.html' with form=search_form %}
-<!-- self reminder for Greg, need to style the select holder and have 
-  a  transparent select input for custom selects -->
-      </div>
-      <button class='button-blue left'><img src='{% static 'img/icon_search.png' %}'/></button>
+
+        {% include 'snippets/searchbox_home.html' with form=search_form %}
       </div>
     </div>
   </div>
 </div>
-<div class="home-info-holder padder-40">
+
+
+<div class="home-info-holder padder-40 background-beige">
   <div class="container">
-    <div class="col-md-4 home-info">
+    <div class="col-xs-6">
+      <div class="desc-boxes">
+        <img class='left' src='{% static 'img/image_home_left.png' %}'/>
+        <p class="desc-main">A gift for move in</p>
+        <p class="desc-minor">Receive a $200 Reward when you move into a HomeForGrandma.com property.</p>
+        <a href='/receive_reward' class='learn'>Learn more</a>
+      </div>
+    </div>
+
+    <div class="col-xs-6">
+      <div class="desc-boxes">
+        <img class='left' src='{% static 'img/image_home_right.png' %}'/>
+        <p class="desc-main">You can rely on us</p>
+        <p class="desc-minor">Our counselors can help with financial planning and applying for Government Benefits.</p>
+        <a href='/financial_resources' class='learn'>Learn more</a>
+      </div>
+    </div>
+  </div>
+
+
+
+    <!-- <div class="col-md-4 home-info">
       <center>
         <img src='{% static 'img/icon_reward.png' %}'/>
         <p class='bold secondary'>$200 Reward</p>
@@ -44,26 +64,32 @@ Home For Grandma
         <p class='bold secondary'>$200 Reward</p>
         <p class='primary'>other text here</p>
       </center>
+    </div> -->
+
+
+    <div class="clear"></div>
+  </div>
+
+
+  <div class="featured-listings padder-80">
+    <div class="container">
+      <center>
+        <h1>Featured Listings</h1>
+      </center>
+      {% for facility in facilities %}
+        {% if forloop.counter0|divisibleby:"3" or forloop.first %}
+          <div class="row">
+        {% endif %}
+        {% include 'snippets/listing_preview.html' with user=request.user facility=facility %}
+        {% if forloop.counter|divisibleby:"3" or forloop.last  %}
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
   </div>
-  <div class="clear"></div>
-</div>
-<div class="featured-listings padder-80">
-  <div class="container">
-    <center>
-      <h1>Featured Listings</h1>
-    </center>
-    
-{% for facility in facilities %}
-    {% include 'snippets/listing_preview.html' with user=request.user facility=facility %} 
-{% endfor %}
-  </div>
-</div>
-{% endblock content %}
-{% block body_media %}
-  <script> 
-    $("#secondary-search").hide()
+  {% endblock content %}
+  {% block body_media %}
+  <script>
+  $("#secondary-search").hide()
   </script>
-{% endblock body_media %}
-
-
+  {% endblock body_media %}

@@ -20,8 +20,7 @@ from annoying.decorators import render_to, ajax_request
 
 from account.forms import RegistrationForm, ProfileForm
 
-from .forms import SearchForm, StripeTokenForm, ChargeForm
-from .forms import SearchForm, TourRequestForm, ContactForm, StripeTokenForm, ChargeForm
+from .forms import *
 
 from .models import *
 
@@ -29,8 +28,6 @@ from .models import *
 def index(request):
     facilities = Facility.objects.filter(shown_on_home=True)
     data = {'facilities':facilities, 
-            'registration_form':RegistrationForm(),
-            'login_form':AuthenticationForm(),
             'search_form':SearchForm()}
     
     return data
@@ -65,15 +62,9 @@ class FacilityDetail(DetailView):
         context['all_conditions'] = Condition.objects.all()
         context['all_amenities'] = Amenity.objects.all()
         context['all_languages'] = Language.objects.all()
-        context['rooms'] = RoomType.objects.filter(facility=self.object)
 
-        if 'user' in self.request:
-            try:
-                FacilityMessage.objects.get(user=self.request.user, facility=self.object)
-            except ObjectDoesNotExist:
+        if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
                 context['tour_request_form'] = TourRequestForm(user=self.request.user)
-        else:
-            "Add registration logic"
         return context
 
 
@@ -90,7 +81,6 @@ def tour_request(request, slug):
             new_request.save()
             messages.success(request, "Thanks, someone will be in touch soon")
         else:
-            print form.errors
             messages.error(request, "There was a problem with your tour request")
     return HttpResponseRedirect(facility.get_absolute_url())
 
@@ -104,7 +94,7 @@ def facility_favorite(request, slug):
         favorite = Favorite(user=request.user, facility=facility)
         favorite.save()
 
-    return redirect(request.GET['next'])
+    return HttpResponseRedirect(request.GET['next'])
 
 class FavoriteList(ListView):
     model = Facility
@@ -119,10 +109,9 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        if 'min_value' in self.request.GET:
-            context['form'] = SearchForm(self.request.GET)
-        else:
-            context['form'] = SearchForm()
+        context['form'] = SearchForm(self.request.GET)
+        context['real_min_val'] = SEARCH_MIN_VAL_INITIAL
+        context['real_max_val'] = SEARCH_MAX_VAL_INITIAL
         return context
 
     def get_queryset(self):
@@ -132,7 +121,7 @@ class Search(ListView):
         if form.is_valid():
             query = {}
             query['facility_types'] = form.cleaned_data.get('facility_type',False)
-            query['room_types'] = form.cleaned_data.get('room_type',False)
+            query['facilityroom__room_type'] = form.cleaned_data.get('room_type',False)
             query['amenities'] = form.cleaned_data.get('amenities',False)
             result = Facility.objects.all().filter(**{key:value for (key, value) in query.iteritems() if value})
 
@@ -140,9 +129,12 @@ class Search(ListView):
                 q = form.cleaned_data['query']
                 Qquery = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q)
                 result = result.filter(Qquery)
-
-            min_price = form.cleaned_data['min_value']
-            max_price = form.cleaned_data['max_value']
+            min_price = form.cleaned_data.get('min_value')
+            if not min_price:
+                min_price = SEARCH_MIN_VAL_INITIAL
+            max_price = form.cleaned_data.get('max_value')
+            if not max_price:
+                max_price = SEARCH_MAX_VAL_INITIAL
             result = result.filter(min_price__gte=min_price, min_price__lte=max_price)
             return result
         else:
@@ -188,3 +180,21 @@ def charge_customer(request):
     amount = form.cleaned_data['amount']
     customer.charge(amount, description="hfg")
     return HttpResponseRedirect("/")
+
+
+
+
+
+
+#Greg's new views
+@render_to('receive_reward.html')
+def receive_reward(request):
+    return {}
+
+@render_to('financial_resources.html')
+def financial_resources(requeset):
+    return {}
+
+@render_to('about.html')
+def about(request):
+    return{}

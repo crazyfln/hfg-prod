@@ -1,19 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_head %}
-    <link href="{% static 'slider/css/slider.css' %}" rel="stylesheet">
+<link href="{% static 'slider/css/slider.css' %}" rel="stylesheet">
 {% endblock extra_head %}
 
 
 {% block content %}
+<div class="background-beige">
+<div class="container padder-100">
     {% include 'snippets/searchbox.html' with form=form %}
-    <div id="search-results">
-        {% for listing in object_list %}
-            {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
+    <div id="search-results ">
+      {% for listing in object_list %}
+        {% if forloop.counter0|divisibleby:"3" %}
+          <div class="row">
+        {% endif %}
+        {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
+        {% if forloop.counter|divisibleby:"3" or forloop.last %}
+          </div>
+        {% endif %}
         {% empty %}
-            <span>Empty</span>
+        <center><h2 class='empty'>We're sorry, no facilities matched your search. Try again!</h2></center>
         {% endfor %}
     </div>
+</div>
+</div>
 
 {% endblock content %}
+{% block body_media %}
+  <script>
+    min_val = $('#id_min_value').attr('value');
+    if (min_val == undefined){
+      min_val = {{ real_min_val }};
+    }
+    max_val = $('#id_max_value').attr('value');
+    if (max_val == undefined){
+      max_val = {{ real_max_val }};
+    }
 
+  </script>
+
+{% endblock body_media %}

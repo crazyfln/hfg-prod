@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from registration.backends.simple.views import RegistrationView as SimpleRegistrationView
 from registration.backends.default.views import RegistrationView as DefaultRegistrationView
-
+from django.core.urlresolvers import reverse
 
 from .forms import RegistrationForm
 
@@ -19,7 +19,6 @@ class RegistrationView(SimpleRegistrationView):
     ##Stick extra registration logic here
     def register(self, request, **cleaned_data):
         new_user = super(RegistrationView, self).register(request, **cleaned_data)
-        print "happened"
         new_user.first_name = cleaned_data['first_name']
         new_user.phone = cleaned_data['phone_number']
         new_user.last_name = cleaned_data['last_name']

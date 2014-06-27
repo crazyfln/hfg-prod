@@ -1,139 +1,231 @@
 {% extends 'base.html' %}
+{%load static from staticfiles %}
 
 {% block content %}
-  <div id="listing-header">
-      <div id="listing-name-address">
-          <p>{{ object.name }}</p>
-          <p>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
-          <p>{% for type in object.facility_types.all %}{{ type.name }} | {% endfor %}</p>
-      </div>
-      <div id=fav-price">
-          <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}"<span {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}>~FAV HEART</span></a>
+<div class="facility-detail">
+    <div class="container padder-100">
+        <div class="facility-top">
+            <a class='back' href="/search"> < Back to Search</a>
+            <p class='name'>{{ object.name }}</p>
+            <p class='address'>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
+            {% for type in object.facility_types.all %}
+            <p class='type-name left'>{{ type.name }} &nbsp; </p>
+            {% endfor %}
+            <div class="clear"></div>
+            <p class='min-price'>${{ object.min_price }}</p>
+            {% if user.is_authenticated %}
+              <p class='heart'><a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}" {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}><img src='{% static 'img/icon_not_hearted.png' %}'/></a><p>
+            {% else %}
+              <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_not_hearted.png' %}'/></div>
+            {% endif %}
+                <hr>
+            </div>
+            <div class="facility-left left">
+                <div id="image-carousel">
+                    {% include 'snippets/image_carousel.html' with images=object.images.all %}
+                </div>
+                <p class='desc-large left'><span>Description</span></p>
+                <p class='desc-large right'>Vacancies: {{ object.vacancies }}</p>
+                <p class='desc-large right'>Capacity: {{ object.capacity }} &nbsp;</p>
+                <div class="clear"></div>
+                <p class="description">{{ object.description_long }}</p>
+                <hr>
 
-          <span> | ${{ object.min_price }}</span>
-      </div>
-  </div>
-  </br>
-  </br>
-    {% include 'snippets/image_carousel.html' with images=object.images.all %}
-  </br>
 
-  <div id="desc">
-      <span>DESCRIPTION:</span>
-      <p>{{ object.description_long }}</p>
-  </div>
-  <div id="vacancies">
-      <span>Capacity: {{ object.capacity }}</span> <span>Vacancies: {{ object.vacancies }}</span>
-  </div>
-  <div id="pricing">
-      <span>Pricing</span>
-      {% for room in rooms %}
-      <p>
-          <span>{{ room.unit_type }}</span>
-          <span>{{ room.square_footage }}</span>
-          <span>${{ room.starting_price }}</span>
-      </p>
-      {% endfor %}
-  </div>
-  {% if object.care_type == "Rent and Care" %}
-  <div id="care">
-      <span>Care</span>
-      <p>Level 1 : ${{ object.care_level_1_cost }}</p>
-      <p>Level 2 : ${{ object.care_level_2_cost }}</p>
-      <p>Level 3 : ${{ object.care_level_3_cost }}</p>
-      <p>Memory : ${{ object.care_memory_cost }}</p>
-  </div> 
-  {% endif %}
-  <div id="other">
-      <span>Other Fees</span>
-      {% for fee in object.fees.all %}
-      <p>
-      <span>{{ fee.name }} : {{ fee.cost }} </span>
-      </p>
-      {% endfor %}
-  </div>
-  <div id="conditions">
-      <span>Accepts Residents With</span>
-      {% for condition in all_conditions %}
-      <p>
-          {% if condition in object.conditions.all %}
-              <!-- if this facility handles this type of condition -->
-              <span>{{ condition.name }}</span>
-          {% else %}
-              <span style="color:gray">{{ condition.name }}</span>
-          {% endif %}
-      </p>
-      {% endfor %}
-  </div>
-  <div id="amenities">
-      <span>Features &amp; Amenities</span>
-      {% for amenity in all_amenities %}
-      <p>
-          {% if amenity in object.amenities.all %}
-              <!-- if this facility handles this type of condition -->
-              <span>{{ amenity.name }}</span>
-          {% else %}
-              <span style="color:gray">{{ amenity.name }}</span>
-          {% endif %}
-      </p>
-      {% endfor %}
-  </div>
-  <div id="langeuages">
-      <span>Language Spoken</span>
-      {% for language in all_languages %}
-      <p>
-          {% if language in object.languages.all %}
-              <!-- if this facility handles this type of condition -->
-              <span>{{ language.name }}</span>
-          {% else %}
-              <span style="color:gray">{{ language.name }}</span>
-          {% endif %}
-      </p>
-      {% endfor %}
-  </div>
-  </br>
-  </br>
-  <div id="sidebar">
-      <div id="director-info">
-          <img src="{{ object.director_avatar.url }}"/>
-          <p>{{ object.director_name }}</p>
-          <p>Property Manager</p>
-          <p id="phone">{{ obect.get_phone_stars }}</p>
-      </div>
-      <div id="buttons">
-          <p>Click below to display facilities Direct Phone Number</p>
-          <button id="show-number-button"> SHOW PHONE NUMER</button>
-          <br />
-          {% if tour_request_form %}
-            <button class="button-blue" data-toggle="modal" data-target="#tour_describe">REQUEST A TOUR</button>
-          {% else %}
-            <p>REQUEST A TOUR</p>
-          {% endif %}
-      </div>
-      <div id="reward">
-          <p>How to get a $200 Reward for using Home For Grandma</p>
-          <p>1. Contact facility for a tour.</p>
-          <p>2. Mention <a href="Homeforgrandma.com">Homeforgrandma.com</a></p>
-          <p>3. After you move in, Call 1-800-223-4232 or <a href="#">Claim Reward Online</a></p>
-      </div>
-  </div>
+
+                <p class='desc-large'>Pricing</p>
+
+                <div class="row">
+                    <div class="col-xs-4">
+
+                        {% for room in object.facilityroom_set.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium '>Room Type</p>
+                        {% endif %}
+                        <p><span>{{ room.room_type }}</span></p>
+                        {% endfor %}
+                    </div>
+                    <div class="col-xs-4">
+
+                        {% for room in object.facilityroom_set.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium '>Square Feet</p>
+                        {% endif %}
+                        <p><span>{{ room.get_square_footage }}</span></p>
+                        {% endfor %}
+
+
+                    </div>
+                    <div class="col-xs-4">
+
+                        {% for room in object.facilityroom_set.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium '>Price</p>
+                        {% endif %}
+                        <p><span> ${{ room.starting_price }}</span></p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4">
+
+                        {% if object.care_type == "Rent and Care" %}
+                        <p class='desc-medium'>Care Levels</p>
+                        <p class='description'>Level 1 :</p>
+                        <p class='description'>Level 2 :</p>
+                        <p class='description'>Level 3 :</p>
+                        <p class='description'>Memory:</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-4">
+                        {% if object.care_type == "Rent and Care" %}
+                        <p class='desc-medium'>Price</p>
+                        <p class='description'>${{ object.care_level_1_cost }}</p>
+                        <p class='description'>${{ object.care_level_2_cost }}</p>
+                        <p class='description'>${{ object.care_level_3_cost }}</p>
+                        <p class='description'>${{ object.care_memory_cost }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4">
+
+                        {% for fee in object.fees.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium'>Other Fees</p>
+                        {% endif %}
+                        <p>{{ fee.name }} :</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-xs-4">
+
+                        {% for fee in object.fees.all %}
+                        {% if forloop.first %}
+                        <p class='desc-medium'>Price</p>
+                        {% endif %}
+                        <p>{{ fee.cost }} </p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-xs-5">
+                        <p class='desc-medium'>Accepts Residents With</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4">
+
+                        {% for condition in all_conditions %}
+                        <p>
+                            {% if condition in object.conditions.all %}
+                            <!-- if this facility handles this type of condition -->
+                            <img src='{% static 'img/icon_small_check.png' %}'/>
+                            <span class='margin-left-10'>{{ condition.name }}</span>
+                            {% else %}
+                            <span class='margin-left-26' style="color:gray">{{ condition.name }}</span>
+                            {% endif %}
+                        </p>
+
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <p class='desc-medium'>Features &amp; Amenities</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+
+                        {% for amenity in all_amenities %}
+                        <p>
+                            {% if amenity in object.amenities.all %}
+                            <!-- if this facility handles this type of condition -->
+                            <img src='{% static 'img/icon_small_check.png' %}'/>
+                            <span class='margin-left-10'>{{ amenity.name }}</span>
+                            {% else %}
+                            <span class='margin-left-26' style="color:gray">{{ amenity.name }}</span>
+                            {% endif %}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <p class='desc-medium'>Language Spoken</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        {% for language in all_languages %}
+                        <p>
+                            {% if language in object.languages.all %}
+                            <!-- if this facility handles this type of condition -->
+                            <img src='{% static 'img/icon_small_check.png' %}'/>
+                            <span class='margin-left-10'>{{ language.name }}</span>
+                            {% else %}
+                            <span class='margin-left-26' style="color:gray">{{ language.name }}</span>
+                            {% endif %}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="facility-right right">
+                <img id='profile' src="{{ object.get_director_avatar_url }}"/>
+                <div class="manager-holder left">
+                    <p class='director-name left'>{{ object.director_name }}</p>
+                    <div class="clear"></div>
+                    <p class='property-manager'>Property Manager</p>
+                </div>
+                <div class="clear"></div>
+                <img id='phone' src='{% static 'img/icon_phone.png' %}'/>
+                <p id="phone_number" class='phone'>{{ object.get_phone_stars }}</p> <!-- ID necessary for JS -->
+                <div class="clear"></div>
+                <p class='phone-small'>Click below to display facilities Direct Phone Number</p>
+                <button id="show-number-button" class='button-blue'>Show Phone Number</button> <!-- id necessary for js -->
+                <div class="clear"></div>
+                {% if not tour_request %} <!-- This is displayed if a user can submit a tour request -->
+                <!-- <button class='button-orange' data-toggle="modal" data-target="#tour_describe">Request A tour</button> -->
+                {% else %} <!-- if user cannot submit tour request -->
+                <button class='button-gray'>Request A tour</button>
+                {% endif %}
+                <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>
+                <p class='steps'>1. Contact facility for a tour.</p>
+                <p class='steps'>2. Mention <a href="/">Homeforgrandma.com</a></p>
+                <p class='steps'>3. After you move in, Call 1-800-223-4232 <br>or <a href="/contact">Claim Reward Online</a></p>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
 {% block body_media %}
-   {% if tour_request_form %}
-      {% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
-   {% endif %}
+{% if tour_request_form %}
+{% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
+{% endif %}
 
-  <script>
+<script>
+$("#show-number-button").click(function() {
     {% if user.is_authenticated %}
-    $("#show-number-button").click(function() { 
-      $("#phone").html("{{ object.get_phone_normal }}"); 
+      $("#phone_number").html("{{ object.get_phone_normal }}");
       $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
-              type: 'POST',
-              data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
-            
-      });
-    }); 
-    {% endif %}
-  </script>
+          type: 'POST',
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+
+     });
+   {% else %}
+    $('#Login-Modal').modal('show')
+   {% endif %}
+});
+</script>
 {% endblock body_media %}

@@ -12,20 +12,23 @@ from django.forms.extras.widgets import SelectDateWidget
 from django.utils.translation import ugettext_lazy as _
 
 from .models import *
+SEARCH_MIN_VAL_INITIAL = "500"
+SEARCH_MAX_VAL_INITIAL = "6000"
 
 class SearchForm(forms.Form):
-    query = forms.CharField(required=False)
+    query = forms.CharField(required=False, label='search', 
+                    widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Facility Name'}))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
-    amenities = forms.ModelMultipleChoiceField(queryset=Amenity.objects.all(), required=False)
-    min_value = forms.IntegerField(widget=forms.HiddenInput(), initial=149)
-    max_value = forms.IntegerField(widget=forms.HiddenInput(), initial=3500)#initial value set in __init__
+    amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
+    min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
+    max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
 
 class ContactForm(forms.Form):
-    name = forms.CharField()
-    email = forms.EmailField()
-    website = forms.CharField(required=False)
-    message = forms.CharField()
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    website = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Website'}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Message'}))
 
     def send_email(self):
         message = self.cleaned_data['message'] + "<br />"
@@ -56,7 +59,6 @@ class TourRequestForm(ModelForm):
     desired_city = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Desired City"}))
     resident_first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}))
 
-
     class Meta:
         model = FacilityMessage
         exclude = ('user','facility','read','replied_by','replied_datetime')
@@ -74,6 +76,27 @@ class TourRequestForm(ModelForm):
             for field in self.fields:
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
+
+class FacilityAdminForm(ModelForm):
+
+    def clean_phone(self):
+        data = self.cleaned_data['phone']
+        numbers = re.findall('\d', data)
+        number = ''.join(str(s) for s in numbers)
+        if not len(number) == 10:
+            raise forms.ValidationError("Phone number must be exactly 10 digits")
+        return number
+
+    class Meta:
+        model = Facility
+        widgets = {
+            'description_long':forms.Textarea,
+        }
+
+class FacilityProviderForm(FacilityAdminForm):
+
+    class Meta(FacilityAdminForm.Meta):
+        exclude = ('holding_group',)
 
 class StripeTokenForm(forms.Form):
     id = forms.CharField()

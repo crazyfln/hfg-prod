@@ -76,7 +76,8 @@
         float:left;
         position: relative;
         margin: 0 40px 0 0;
-        background-color: #f8f8f8;
+         background:image-url('img/select_dropdown.png') no-repeat;
+        background-position:200px;
 
         select {
             position: absolute;
@@ -88,8 +89,12 @@
             z-index: 2;
             @include appearance(none);
             outline:none;
+            background: transparent;
+            -webkit-appearance: none;
         }
     }
+
+    
 
 
 
@@ -145,6 +150,8 @@
     .searchfield-facility_type-holder {
         margin-right:0px;
         height:55px;
+        background-color: #DFE6E6;
+        border-radius: 1px;
     }
 
     input#id_query {
@@ -156,10 +163,5 @@
         margin:0px;
         float:left;
         height: 56px;
-    }
-
-    .searchfield-facility_type-holder {
-        background-color:#f8f8f8;
-        border-radius: 1px;
     }
 }

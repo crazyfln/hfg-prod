@@ -1,22 +1,22 @@
 {% load static from staticfiles %}
 <div class="col-xs-4">
-<!-- loop for the listing preview starts here -->
-<div class="listing-preview" url="{{ facility.get_absolute_url }}">
+  <!-- loop for the listing preview starts here -->
+  <div class="listing-preview" url="{{ facility.get_absolute_url }}">
 
     <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to
     show or head hearts -->
     {% if user.is_authenticated %}
-      <!-- WHEN MERGING AJAXFAVORITES replace what's inside this conditional with that-->
-      <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
-          {% if user in facility.favorited_by.all %}
-          <div class="heart-holder" style="background-color:#008185"></div>
-          {% else %}
-          <div class="heart-holder"></div>
-          {% endif %}
-      </a>
+    <!-- WHEN MERGING AJAXFAVORITES replace what's inside this conditional with that-->
+    <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
+      {% if user in facility.favorited_by.all %}
+      <div class="heart-holder" style="background-color:#008185"></div>
+      {% else %}
+      <div class="heart-holder"></div>
+      {% endif %}
+    </a>
     {% else %}
-   
-      <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"></div>
+
+    <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"></div>
     {% endif %}
 
     <!-- {% for facility.image in images %}
@@ -37,9 +37,11 @@
       <!-- loop for the tags per listing starts here -->
 
       <div class="clear"></div>
-      {% for type in facility.facility_types.all %}
-      <p class="listing-tag">{{ type.name|truncatechars:15 }}</p>
-      {% endfor %}
+      <div class='truncate-extra listing-tag'>
+        {% for type in facility.facility_types.all %}
+        {{ type.name }}
+        {% endfor %}
+      </div>
       <div class="clear"></div>
 
       <p class="listing-title">{{ facility.name|truncatechars:25 }}</p>
@@ -52,5 +54,5 @@
       <div class="clear"></div>
       <hr>
       <p class="listing-else">{{ facility.description_short|truncatechars:28 }}</p>
+    </div>
   </div>
-</div>

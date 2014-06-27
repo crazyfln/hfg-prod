@@ -214,16 +214,18 @@
 {% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
 {% endif %}
 
-{% if user.is_authenticated %}
 <script>
 $("#show-number-button").click(function() {
-    $("#phone_number").html("{{ object.get_phone_normal }}");
-    $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
-        type: 'POST',
-        data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+    {% if user.is_authenticated %}
+      $("#phone_number").html("{{ object.get_phone_normal }}");
+      $.ajax({url: "{% url 'request_phone' slug=object.slug %}",
+          type: 'POST',
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
 
-    });
+     });
+   {% else %}
+    $('#Login-Modal').modal('show')
+   {% endif %}
 });
 </script>
-{% endif %}
 {% endblock body_media %}

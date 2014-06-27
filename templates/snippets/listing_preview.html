@@ -42,7 +42,7 @@
       {% endfor %}
       <div class="clear"></div>
 
-      <p class="listing-title">{{ facility.name }}</p>
+      <p class="listing-title">{{ facility.name|truncatechars:25 }}</p>
       <p class="listing-location">{{ facility.city }}</p>
 
       <hr>
@@ -51,6 +51,6 @@
       <p class='listing-next'href="" class="">{{ facility.care_type }}</p>
       <div class="clear"></div>
       <hr>
-      <p class="listing-else">{{ facility.description_short }}</p>
+      <p class="listing-else">{{ facility.description_short|truncatechars:28 }}</p>
   </div>
 </div>

@@ -20,6 +20,7 @@ urlpatterns = patterns('app.views',
     url(r'^receive_reward/', 'receive_reward', name='receive_reward'),
     url(r'^financial_resources/', 'financial_resources', name='finacial_resources'),
     url(r'^about/', 'about', name='about'),
+    url(r'^home_video/', 'home_video', name='home_video'),
     (r'^$', TemplateView.as_view(template_name="index.html")),
 )
 

@@ -198,3 +198,7 @@ def financial_resources(requeset):
 @render_to('about.html')
 def about(request):
     return{}
+
+@render_to('home_video.html')
+def home_video(request):
+    return{}

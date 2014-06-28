@@ -4,6 +4,23 @@
   height: 524px;
 }
 
+.play {
+  float:left;
+}
+
+.play-holder {
+  background-color:rgba(0, 0, 0, .8,);
+  width:300px;
+  height: 60px;
+  margin-top: 20px;
+  color:#fff;
+
+
+}
+
+.larger-font {
+  font-size: 24px;
+}
 .search-holder {
   background-color:rgba(0, 0, 0, .8,);
   padding:20px 20px 20px 20px;
@@ -11,11 +28,16 @@
   height: 195px;
   border-radius: 3px;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 130px;
 
   .transparent-holder {
     opacity:.8;
+
   }
+
+  
+
+
 
   input[type='text'] {
     width: 400px;

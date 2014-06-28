@@ -15,10 +15,21 @@ Home For Grandma
         <div class="clear"></div>
 
         {% include 'snippets/searchbox_home.html' with form=search_form %}
+        <!-- <center><iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></center> -->
       </div>
     </div>
+
+    <center>
+    <a href='/home_video' style='text-decoration:none; color:#fff;'><div class="play-holder">
+       <img class='play' src='{% static 'img/play_button.png' %}'/>
+    <div class="transparent-holder">
+      <p class='padding-top-15 larger-font'>Who We Are</p>
+    </div></a>
+  </center>
+   
+    </div>
   </div>
-</div>
+</div>  
 
 
 <div class="home-info-holder padder-40 background-beige">
@@ -77,16 +88,22 @@ Home For Grandma
         <h1>Featured Listings</h1>
       </center>
       {% for facility in facilities %}
-        {% if forloop.counter0|divisibleby:"3" or forloop.first %}
-          <div class="row">
+      {% if forloop.counter0|divisibleby:"3" or forloop.first %}
+      <div class="row">
         {% endif %}
         {% include 'snippets/listing_preview.html' with user=request.user facility=facility %}
         {% if forloop.counter|divisibleby:"3" or forloop.last  %}
-          </div>
-        {% endif %}
+      </div>
+      {% endif %}
       {% endfor %}
     </div>
+
   </div>
+
+
+
+
+
   {% endblock content %}
   {% block body_media %}
   <script>

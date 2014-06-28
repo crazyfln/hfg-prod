@@ -191,8 +191,8 @@ def charge_customer(request):
 def receive_reward(request):
     return {}
 
-@render_to('financial_resources.html')
-def financial_resources(requeset):
+@render_to('making_move.html')
+def making_move(requeset):
     return {}
 
 @render_to('about.html')

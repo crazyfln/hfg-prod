@@ -6,7 +6,7 @@
   <div class="container padder-100" style='padding-top: 200px;'>
     <!-- {% include 'profile_nav.html' with user=request.user %} -->
     <!-- <ul class="nav nav-tabs" role="tablist">
-        <li class='' id='favorite-list'><a href="{% url 'favorite_list' %}" role="tab" data-toggle="tab">Favorites</a></li>
+        <li class='' id='favorite-list'><a href="" role="tab" data-toggle="tab">Favorites</a></li>
         <li class='' id='profile-list'><a href="{% url 'profile' %}" role="tab" data-toggle="tab">My Profile</a></li>
         <li class='' id='reset-list'><a href="{% url 'auth_password_reset' %}" role="tab" data-toggle="tab">Reset Password</a></li>
       </ul> -->
@@ -25,8 +25,12 @@
       <div class="tab-content">
         <div class="tab-pane" id="favorites">
 
-          {% for listing in object_list %}
-          {% include 'snippets/listing_preview.html' with facility=listing.facility %} 
+
+          
+
+
+          {% for listing in favorites_list %}
+            {% include 'snippets/listing_preview.html' with facility=listing %} 
 
           {% empty %}
           <p>You have no favorited facilities</p>

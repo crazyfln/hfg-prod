@@ -49,6 +49,11 @@ class Profile(UpdateView):
     def get_object(self):
         return self.request.user
 
+    def get_context_data(self, **kwargs):
+        context = super(Profile, self).get_context_data(**kwargs)
+        context['favorites_list'] = self.object.favorites.all()
+        return context
+
     def get_success_url(self):
         return reverse('profile')
 
@@ -95,13 +100,6 @@ def facility_favorite(request, slug):
         favorite.save()
 
     return HttpResponseRedirect(request.GET['next'])
-
-class FavoriteList(ListView):
-    model = Facility
-    template_name = 'favorite_list.html'
-
-    def get_queryset(self):
-        return self.request.user.favorites.all()
 
 class Search(ListView):
     model = Facility

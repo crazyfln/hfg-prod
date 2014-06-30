@@ -160,11 +160,20 @@ a.push {
 //modal custom inputs below for requesting
 //a tour
 
-//textarea
+//textarea mixin
+
+@mixin modal-textarea {
+   border: 1px solid $border;
+   padding-top:10px;
+   text-align:center;
+}
+
 #id_health_description {
-    border: 1px solid $border;
-    padding-top:10px;
-    text-align:center;
+    @include modal-textarea;
+}
+
+#id_comments {
+  @include modal-textarea;
 }
 
 #tour-request-form {
@@ -188,14 +197,14 @@ a.push {
 
 //inptu mixin
 @mixin tour-input {
- width:259px;
- height: 40px;
- color: $light;
- outline:none;
- border: 1px solid $border;
- padding-left: 15px;
- margin: 0 0 15px 0;
- border-radius: 4px;
+   width:259px;
+   height: 40px;
+   color: $light;
+   outline:none;
+   border: 1px solid $border;
+   padding-left: 15px;
+   margin: 0 0 15px 0;
+   border-radius: 4px;
 }
 
 #id_planned_move_date {

@@ -14,9 +14,11 @@
             <div class="clear"></div>
             <p class='min-price'>${{ object.min_price }}</p>
             {% if user.is_authenticated %}
-              <p class='heart'><a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}" {% if request.user in object.favorited_by.all %} style="color:pink" {% else %} style="color:gray" {% endif %}><img src='{% static 'img/icon_not_hearted.png' %}'/></a><p>
+
+              <p class='heart'><a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}"> {% if request.user in object.favorited_by.all %} <img src='{% static 'img/icon_not_hearted.png' %}'/> {% else %} <img src='{% static 'img/icon_hearted.png' %}'/> {% endif %}</a><p>
+
             {% else %}
-              <div class="heart heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_not_hearted.png' %}'/></div>
+              <div class="heart heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_hearted.png' %}'/></div>
 
             {% endif %}
                 <hr>
@@ -198,7 +200,7 @@
                 {% if not tour_request %} <!-- This is displayed if a user can submit a tour request -->
                 <button class='button-orange' data-toggle="modal" data-target="#tour_describe">Request A tour</button>
                 {% else %} <!-- if user cannot submit tour request -->
-                
+
                 <button class='button-gray'>Request A tour</button>
                 {% endif %}
                 <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>

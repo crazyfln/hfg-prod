@@ -1,9 +1,26 @@
 .home-background {
-  background: image-url('img/home_background.png') no-repeat;
+  background: image-url('img/home_background_2.png') no-repeat;
   background-size: cover;
   height: 524px;
 }
 
+.play {
+  float:left;
+}
+
+.play-holder {
+  background-color:rgba(0, 0, 0, .8,);
+  width:300px;
+  height: 60px;
+  margin-top: 20px;
+  color:#fff;
+
+
+}
+
+.larger-font {
+  font-size: 24px;
+}
 .search-holder {
   background-color:rgba(0, 0, 0, .8,);
   padding:20px 20px 20px 20px;
@@ -15,7 +32,12 @@
 
   .transparent-holder {
     opacity:.8;
+
   }
+
+  
+
+
 
   input[type='text'] {
     width: 400px;
@@ -42,11 +64,43 @@
 }
 
 .home-info-holder {
-  background-color: $white;
 
-  img {
-    margin: 0 0 20px 0;
+  .desc-boxes {
+    background-color:$white;
+    height: 207px;
+    img {
+      margin: 0 20px 0 0;
+    }
+
+    .desc-main {
+      font-size:24px;
+      color:$secondary;
+      padding-top:20px;
+
+
+    }
+    .desc-minor {
+      font-size:14px;
+      color:$black;
+    }
+    a.learn-more {
+      font-size: 12px;
+      text-decoration:none;
+      color:$black;
+      position: absolute;
+      bottom: 20px;
+      right: 190px;
+
+      &:hover {
+        color:$secondary;
+      }
+    }
+
   }
+
+  // img {
+  //   margin: 0 0 20px 0;
+  // }
 
   .home-info {
     float:left;

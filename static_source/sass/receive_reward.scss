@@ -1,0 +1,65 @@
+.receive-reward, .financial-resources{
+
+    .background {
+        background:image-url("img/receive_reward_background.png") no-repeat;
+        height:390px;
+        background-size: cover;
+    }
+
+    h1, h2, h3, h4 {
+        color: $white;
+        display:inline-block;
+        margin: 5px;
+    }
+
+    h1 {
+        background-color: $button-orange;
+        font-size: 70px;
+        padding: 10px 40px 10px 40px;
+
+    }
+
+    h3 {
+        background-color: $secondary;
+        font-size: 36px;
+        padding: 10px 40px 10px 40px;
+    }
+
+    h4 {
+        background-color: $button-orange;
+        margin-left: 0px;
+        font-size: 38px;
+        padding: 5px;
+        border-radius: 4px;
+
+    }
+
+    p {
+        font-size: 27px;
+        span {
+            color: $button-orange;
+        }
+    }
+
+    ul {
+        li {
+            font-size: 25px;
+        }
+    }
+
+
+
+    p.confirm {
+        font-size:57px;
+        color:$secondary;
+    }
+    .small {
+        font-size: 27px;
+        color:$secondary;
+    }
+
+    .policy {
+        color:$black;
+        font-size:21px;
+    }
+}

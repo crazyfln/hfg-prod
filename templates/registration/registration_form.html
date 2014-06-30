@@ -6,55 +6,59 @@
 
 {% block content %}
 
+<div id='' class="background-beige padder-100 margin-top-80">
   <div class="registration-box">
-    <h1>Signup</h1>
+    <center> <h3>Register</h3></center>
+
     <form action='/account/register/{% if next %}?next={{ next }}{% endif %}' method="POST">
       {% csrf_token %}
+
       <table>
         <tr>
-          <td> {{ form.email.label_tag }}</td>
+          <td>{{ form.first_name }}</td>
         </tr>
         <tr>
-          <td> {{ form.email }}</td>
+          <td>{{ form.first_name.errors }}</td>
         </tr>
         <tr>
-          <td> {{ form.email.errors }}</td>
+          <td>{{ form.last_name }}</td>
         </tr>
         <tr>
-          <td> {{ form.password1.label_tag }}</td>
+          <td>{{ form.last_name.errors }}</td>
         </tr>
         <tr>
-          <td> {{ form.password1 }}</td>
+          <td>{{ form.phone_number }}</td>
         </tr>
         <tr>
-          <td> {{ form.password1.errors }}</td>
+          <td>{{ form.phone_number.errors }}</td>
         </tr>
         <tr>
-          <td> {{ form.password2.label_tag }}</td>
+          <td>{{ form.email }}</td>
         </tr>
         <tr>
-          <td> {{ form.password2 }}</td>
+          <td>{{ form.email.errors }}</td>
         </tr>
         <tr>
-          <td> {{ form.password2.errors }}</td>
+          <td>{{ form.password1 }}</td>
         </tr>
         <tr>
-          <td>{{ form.tos }} {{ form.tos.label_tag }}</td>
+          <td>{{ form.password1.errors }}</td>
         </tr>
         <tr>
-          <td> {{ form.tos.errors }}</td>
+          <td>{{ form.password2 }}</td>
+        </tr>
+        <tr>
+          <td>{{ form.password2.errors }}</td>
         </tr>
       </table>
-      <div class="clear"></div>
 
-      <button class="replace-this-class">Submit</button>
-        <!-- replace the above button class with the class(es) you make in _buttons.scss -->
 
       <div class="clear"></div>
-      <p class='registration'>Or Login with Facebok</p>
-      <a href='/login/facebook'><img src='{% static 'img/button_fb.png' %}'/></a>
+
+      <center><button class="button-blue submit-b">Submit</button></center>
     </form>
   </div>
+</div>
 
 {% endblock content %}
 {% block body_media %}

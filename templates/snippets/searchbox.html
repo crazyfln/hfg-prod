@@ -1,30 +1,53 @@
-<div id="searchbox">
-    <form id="SearchForm" action="{% url 'search' %}" method="get">
-      {{ form.errors }}
-      <div id="searchfield-query">
-        {{ form.query }}
-      </div>
-      <div id="searchfield-facility_type">
+{% load static from staticfiles %}
+<div class="searchbox">
+
+  <form id="SearchForm" action="{% url 'search' %}" method="get">
+    {{ form.errors }}
+
+    <div id="searchfield-query">
+      {{ form.query }}
+      <button class="button-blue left"><img src='{% static 'img/icon_search.png' %}'/></button>
+      <!-- <input type="submit" value="Submit" /> -->
+      <!-- silenced this input and using button-blue above as the submit trigger for search -->
+      <div class="clear"></div>
+    </div>
+    <p class='search-label'>Property Type:</p>
+    <p class='search-label'>Room Type:</p>
+    <p class='search-label search-label-long'>Starting From Price:</p>
+    <div class="clear"></div>
+    <div id="searchfield-facility_type">
+      <div class="searchfield-facility_type-holder">
         {{ form.facility_type }}
       </div>
-      <div id="secondary-search">
-        <div id="searchfield-room_type">
+    </div>
+    <div id="secondary-search">
+      <div id="searchfield-room_type">
+        <div class="searchfield-room_type-holder">
           {{ form.room_type }}
         </div>
-        <div id="searchfield-amenities">
-          {{ form.amenities }}
-        </div>
-        <div id="searchfield-hiddenvalues">
-          {{ form.min_value }}
-          {{ form.max_value }}
-        </div>
-        <div id="searchfield-slider">
-          <span>$149 </span>
-          <input id="slider" type="text" class="span2" value="" data-slider-min="149" data-slider-max="4999" data-slider-step="1" data-slider-value="[149,3500]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">
-          <span>$4999</span>
-        </div>
       </div>
-      <input type="submit" value="Submit" />
+      <div id="searchfield-slider">
+        <span id='min-slide-value'>$149 </span>
+        <input id="slider" type="text" class="span2" value="" data-slider-min="{{ real_min_val }}" data-slider-max="{{ real_max_val }}" data-slider-step="1" data-slider-value="[{{ real_min_val }}, {{ real_max_val }}]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">
+        <span id='max-slide-value'>$4999</span>
+      </div>
+      <div class="clear"></div>
+      <hr>
+      <p class='search-label margin-right-20'>Amenities</p>
+      <div id="searchfield-amenities ">
+        {{ form.amenities }}
+        <div class="clear"></div>
+      </div>
+      <hr>
+
+      <div id="searchfield-hiddenvalues">
+        {{ form.min_value }}
+        {{ form.max_value }}
+      </div>
+    </div>
+
+
+    
   </form>
 </div>
 

@@ -1,13 +1,25 @@
 .listing-preview {
     height:472px;
-    width:342px;
     background-color: $white;
     border: 1px solid $border;
     border-radius: 2px;
-    padding: 15px;
-    position: relative;
-    float: left;
-    margin: 15px 15px 15px 15px;
+    padding-left: 15px;
+    padding-right:15px;
+    cursor:pointer;
+    margin-bottom: 15px;
+
+    
+
+    img {
+        width: 315px;
+        margin-left:-15px;
+        height: 215px;
+        margin-bottom: 15px;
+    }
+
+    // .listing-img-small {
+    //     height: 226px;
+    // }
 
     .heart-holder {
         background: image-url('img/icon_not_hearted.png');
@@ -15,17 +27,14 @@
         width: 22px;
         position: absolute;
         top:15px;
-        left: 15px;
+        left: 25px;
 
         &:hover {
             cursor:pointer;
         }
     }
 
-    .listing-img-small {
-        height: 216px;
-        margin: -15px 0 15px -15px;
-    }
+
 
     .listing-tag {
         color:$secondary;
@@ -33,6 +42,16 @@
         text-transform: uppercase;
         float:left;
         margin: 0 5px 0 0px;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        height: 1em;
+        white-space: nowrap;
+    }
+    .truncate-extra {
+        text-overflow:ellipsis;
+        overflow:hidden;
+        width: 200px;
+        display:block;
     }
 
     .listing-title {
@@ -68,8 +87,8 @@
     }
 
     .listing-else {
-    color: $light;
-    font-size: 14px;
+        color: $light;
+        font-size: 14px;
     }
 }
 

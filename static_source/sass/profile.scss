@@ -1,5 +1,10 @@
 .profile {
 
+    h3#favorites {
+        color: $secondary;
+        margin-left: 20px;
+    }
+
     .name-holder {
         border-left: 1px solid $border;
         border-right: 1px solid $border;
@@ -46,7 +51,7 @@
     .tab-content {
 
 
-        .tab-pane, #profile{
+        .tab-pane, #profile,{
 
             button {
                 float:right;

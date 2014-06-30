@@ -32,7 +32,6 @@
 }
 
 
-
 .modal {
 
     .modal-header {
@@ -155,6 +154,83 @@ a.push {
 #id_phone {
     height:40px;
 }
+
+
+
+//modal custom inputs below for requesting
+//a tour
+
+//textarea
+#id_health_description {
+    border: 1px solid $border;
+    padding-top:10px;
+    text-align:center;
+}
+
+#tour-request-form {
+
+    .modal-content {
+        width:330px;
+    }
+
+    .modal-header {
+        padding-bottom:0px;
+    }
+
+    hr {
+        margin: 5px;
+    }
+
+    button {
+        width: 259px;
+    }
+}
+
+//inptu mixin
+@mixin tour-input {
+   width:259px;
+   height: 40px;
+   color: $light;
+   outline:none;
+   border: 1px solid $border;
+   padding-left: 15px;
+   margin: 0 0 15px 0;
+   border-radius: 4px;
+}
+
+#id_planned_move_date {
+    @include tour-input;
+}
+
+#id_desired_city {
+    @include tour-input;
+}
+
+#id_resident_first_name {
+    @include tour-input;
+}
+
+.modal-select-holder {
+    height:40px; 
+    width: 259px;
+    background:image-url('img/select_dropdown.png') no-repeat;
+    background-position:240px;
+
+    select {
+        height: 100%;
+        width: 100%;
+        background-color:transparent;
+        outline:none;
+        -webkit-appearance: none;
+        color: $light;
+        padding-left:10px;
+        border: 1px solid $border;
+    }
+}
+
+
+
+
 
 ul.errorlist {
     padding-left: 10px;

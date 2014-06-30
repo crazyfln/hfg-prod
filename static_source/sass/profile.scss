@@ -1,8 +1,10 @@
 .profile {
 
-    ul.nav {
+    ul.nav, .nav-tags {
+        background-color:$grey-background;
 
         li {
+
 
             img {
                 z-index: 1;
@@ -12,11 +14,14 @@
             }
             a {
                 padding-left: 35px;
+                 background-color:$grey-background !important;
             }
         }
 
+
         li.active {
             border-bottom: 2px solid $secondary !important;
+
 
         }
     }

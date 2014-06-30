@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+//not working yet
+   $('#profile-list a').click(function (e) {
+      e.preventDefault()
+      $(this).tab('show')
+    })
+
+
   $('.listing-preview').click(function() {
     url = $(this).attr("url");
     window.location.href=url;
@@ -22,7 +29,7 @@ $(document).ready(function(){
     $('.carousel').carousel('prev');
   });
 
-   $('.carousel').carousel({
+  $('.carousel').carousel({
     pause: "hover"
   });
 
@@ -36,10 +43,12 @@ $(document).ready(function(){
    });
 
     $('.heart-holder').on('click', function(e) {
-        e.stopPropagation();
-        if ($(this).data('logged_in') == 'no'){
-            $('#Login-Modal').modal('show')
-        }
+      e.stopPropagation();
+      if ($(this).data('logged_in') == 'no'){
+        $('#Login-Modal').modal('show')
+      }
     });
+
+
 
   });

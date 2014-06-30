@@ -1,17 +1,81 @@
 {% extends 'base.html' %}
+{%load static from staticfiles %}
 
 {% block content %}
-    {% include 'profile_nav.html' with user=request.user %}
-    <form action="{% url 'profile' %}" method="post">
-      {% csrf_token %}
-      {{ form.first_name }}
-      {{ form.last_name }}
-      {{ form.email }}
-      {{ form.phone }}
-      {{ form.searching_for }}
-      {{ form.budget }}
-      {{ form.conditions }}
-      <button type="submit">update</button>
-    </form>
+<div class="profile">
+  <div class="container padder-100" style='padding-top: 200px;'>
+    <!-- {% include 'profile_nav.html' with user=request.user %} -->
+    <!-- <ul class="nav nav-tabs" role="tablist">
+        <li class='' id='favorite-list'><a href="{% url 'favorite_list' %}" role="tab" data-toggle="tab">Favorites</a></li>
+        <li class='' id='profile-list'><a href="{% url 'profile' %}" role="tab" data-toggle="tab">My Profile</a></li>
+        <li class='' id='reset-list'><a href="{% url 'auth_password_reset' %}" role="tab" data-toggle="tab">Reset Password</a></li>
+      </ul> -->
+
+
+      <h3>{{ user.get_full_name }}</h3>
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class='active'><img src='{% static 'img/icon_tabs_heart.png' %}'/><a href="#favorites" role="tab" data-toggle="tab">My Favorites</a></li>
+        <li><img src='{% static 'img/icon_tabs_profile.png' %}'/><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+        <li><img src='{% static 'img/icon_tabs_check.png' %}'/><a href="#reset" role="tab" data-toggle="tab">Reset Password</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane" id="favorites">
+
+        </div>
+        <div class="tab-pane" id="profile">
+         <form action="{% url 'profile' %}" method="post">
+
+
+          {% csrf_token %}
+<div class="table-holder"> 
+          <table>
+            <tr>
+              <td>{{form.first_name.label_tag }}</td>
+              <td>{{form.last_name.label_tag }}</td>
+              <td>{{form.email.label_tag }}</td>
+            </tr>
+            <tr>
+              <td>{{ form.first_name }}</td>
+              <td>{{ form.last_name }}</td>
+              <td>{{ form.email }}</td>
+            </tr>
+            <tr>
+              <td>{{form.phone.label_tag}}</td>
+              <td>{{form.searching_for.label_tag}}</td>
+            </tr>
+            <tr>
+              <td>{{ form.phone }}</td>
+
+              <td>
+                <div class="searching-for-holder">{{ form.searching_for }}</div>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ form.budget.label_tag }}</td>
+              <td>{{ form.conditions.label_tag }}</td>
+            </tr>
+            <tr>
+              <td><div class="budget-holder">{{ form.budget }}</div></td>
+              <td>{{ form.conditions }}</td>
+            </tr>
+          </table>
+          </div>
+          
+          
+
+
+          <button class='button-blue' type="submit">update</button>
+        </form>
+      </div>
+      <div class="tab-pane" id="reset">Reset your password</div>
+    </div>
+
+
+  </div>
+</div>
 
 {% endblock content %}

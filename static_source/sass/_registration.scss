@@ -31,9 +31,7 @@
 
 }
 
-#id_first_name {
 
-}
 
 .modal {
 
@@ -152,6 +150,10 @@ a.push {
 
 #id_phone_number {
     @extend %abstract-form-dimensions;
+}
+
+#id_phone {
+    height:40px;
 }
 
 

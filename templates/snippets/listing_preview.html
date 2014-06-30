@@ -9,9 +9,9 @@
     <!-- WHEN MERGING AJAXFAVORITES replace what's inside this conditional with that-->
     <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
       {% if user in facility.favorited_by.all %}
-      <div class="heart-holder" style="background-color:#008185"></div>
+      <div class="heart-holder empty" style=""></div>
       {% else %}
-      <div class="heart-holder"></div>
+      <div class="heart-holder full"></div>
       {% endif %}
     </a>
     {% else %}

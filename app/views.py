@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpRespons
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -52,6 +52,7 @@ class Profile(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(Profile, self).get_context_data(**kwargs)
         context['favorites_list'] = self.object.favorites.all()
+        context['password_reset_form'] = PasswordChangeForm(self.object)
         return context
 
     def get_success_url(self):

@@ -79,7 +79,7 @@
         </form>
       </div>
       <div class="tab-pane" id="reset">
-        {% include 'registration/password_change_form.html' %}
+        {% include 'registration/password_change_form.html' with form=password_reset_form %}
       </div>
     </div>
 

@@ -57,29 +57,35 @@
           <h4 class="modal-title" id="myModalLabel">Budget Requirements</h4>
         </div>
         <div class="modal-body">
-          {{ form.budget }}
-          <p>Financial Payment Options</p>
-          {{ form.pay_private_pay.label_tag }}
+          <div class="modal-select-holder">
+            {{ form.budget }}
+          </div>
+
+          
+          <div class="align-left">
+            <p>Financial Payment Options</p>
           {{ form.pay_private_pay }}
+          {{ form.pay_private_pay.label_tag }}
           <br />
-          {{ form.pay_longterm_care.label_tag }}
           {{ form.pay_longterm_care }}
+          {{ form.pay_longterm_care.label_tag }}
           <br />
-          {{ form.pay_veterans_benefits.label_tag }}
           {{ form.pay_veterans_benefits }}
+          {{ form.pay_veterans_benefits.label_tag }}
           <br />
-          {{ form.pay_medicare.label_tag }}
           {{ form.pay_medicare }}
+          {{ form.pay_medicare.label_tag }}
           <br />
-          {{ form.pay_medicaid.label_tag }}
           {{ form.pay_medicaid }}
+          {{ form.pay_medicaid.label_tag }}
           <br />
-          {{ form.pay_ssi.label_tag }}
           {{ form.pay_ssi }}
+          {{ form.pay_ssi.label_tag }}
+          </div>
           <br />
         </div>
-          <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_search">BACK</button>
-          <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">NEXT</button>
+        <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_search">BACK</button>
+        <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">NEXT</button>
       </div>
     </center>
   </div>

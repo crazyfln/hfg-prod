@@ -188,14 +188,14 @@ a.push {
 
 //inptu mixin
 @mixin tour-input {
-   width:259px;
-   height: 40px;
-   color: $light;
-   outline:none;
-   border: 1px solid $border;
-   padding-left: 15px;
-   margin: 0 0 15px 0;
-   border-radius: 4px;
+ width:259px;
+ height: 40px;
+ color: $light;
+ outline:none;
+ border: 1px solid $border;
+ padding-left: 15px;
+ margin: 0 0 15px 0;
+ border-radius: 4px;
 }
 
 #id_planned_move_date {
@@ -228,9 +228,26 @@ a.push {
     }
 }
 
+.align-left {
+    text-align:left;
+    margin-left: 36px;
+
+    p {
+        margin-left:0px;
+    }
+
+    label {
+        bottom: 10px;
+        margin-left: 7px;
+        color: $light;
+        font-weight: 500;
+    }
+}
 
 
-
+#id_pay_private_pay {
+// -webkit-appearance: none;
+}
 
 ul.errorlist {
     padding-left: 10px;

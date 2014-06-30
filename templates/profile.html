@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{%load static from staticfiles %}
+{% load static from staticfiles %}
 
 {% block content %}
 <div class="profile">
@@ -27,6 +27,7 @@
 
           {% for listing in object_list %}
           {% include 'snippets/listing_preview.html' with facility=listing.facility %} 
+
           {% empty %}
           <p>You have no favorited facilities</p>
           {% endfor %}
@@ -77,7 +78,9 @@
           <button class='button-blue' type="submit">update</button>
         </form>
       </div>
-      <div class="tab-pane" id="reset">Reset your password</div>
+      <div class="tab-pane" id="reset">
+        {% include 'registration/password_change_form.html' %}
+      </div>
     </div>
 
 

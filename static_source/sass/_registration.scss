@@ -156,10 +156,6 @@ a.push {
     height:40px;
 }
 
-
-
-
-
 ul.errorlist {
     padding-left: 10px;
     padding-top:10px;
@@ -174,6 +170,17 @@ p.errors {
     color: red;
     padding-left: 10px;
     padding-top:10px;
+
+}
+
+.password-change {
+    h3 {
+        color: $secondary;
+        margin-bottom: 20px;
+    }
+    p {
+        color: $light;
+    }
 
 }
 

@@ -25,44 +25,50 @@
       <div class="tab-content">
         <div class="tab-pane" id="favorites">
 
+          {% for listing in object_list %}
+          {% include 'snippets/listing_preview.html' with facility=listing.facility %} 
+          {% empty %}
+          <p>You have no favorited facilities</p>
+          {% endfor %}
+
         </div>
         <div class="tab-pane" id="profile">
          <form action="{% url 'profile' %}" method="post">
 
 
           {% csrf_token %}
-<div class="table-holder"> 
-          <table>
-            <tr>
-              <td>{{form.first_name.label_tag }}</td>
-              <td>{{form.last_name.label_tag }}</td>
-              <td>{{form.email.label_tag }}</td>
-            </tr>
-            <tr>
-              <td>{{ form.first_name }}</td>
-              <td>{{ form.last_name }}</td>
-              <td>{{ form.email }}</td>
-            </tr>
-            <tr>
-              <td>{{form.phone.label_tag}}</td>
-              <td>{{form.searching_for.label_tag}}</td>
-            </tr>
-            <tr>
-              <td>{{ form.phone }}</td>
+          <div class="table-holder"> 
+            <table>
+              <tr>
+                <td>{{form.first_name.label_tag }}</td>
+                <td>{{form.last_name.label_tag }}</td>
+                <td>{{form.email.label_tag }}</td>
+              </tr>
+              <tr>
+                <td>{{ form.first_name }}</td>
+                <td>{{ form.last_name }}</td>
+                <td>{{ form.email }}</td>
+              </tr>
+              <tr>
+                <td>{{form.phone.label_tag}}</td>
+                <td>{{form.searching_for.label_tag}}</td>
+              </tr>
+              <tr>
+                <td>{{ form.phone }}</td>
 
-              <td>
-                <div class="searching-for-holder">{{ form.searching_for }}</div>
-              </td>
-            </tr>
-            <tr>
-              <td>{{ form.budget.label_tag }}</td>
-              <td>{{ form.conditions.label_tag }}</td>
-            </tr>
-            <tr>
-              <td><div class="budget-holder">{{ form.budget }}</div></td>
-              <td>{{ form.conditions }}</td>
-            </tr>
-          </table>
+                <td>
+                  <div class="searching-for-holder">{{ form.searching_for }}</div>
+                </td>
+              </tr>
+              <tr>
+                <td>{{ form.budget.label_tag }}</td>
+                <td>{{ form.conditions.label_tag }}</td>
+              </tr>
+              <tr>
+                <td><div class="budget-holder">{{ form.budget }}</div></td>
+                <td>{{ form.conditions }}</td>
+              </tr>
+            </table>
           </div>
           
           

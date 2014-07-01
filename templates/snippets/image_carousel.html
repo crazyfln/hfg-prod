@@ -1,35 +1,55 @@
 {% load static from staticfiles %}
+
+
 <div id="facility-carousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
- <!--  <ol class="carousel-indicators">
-  </ol> -->
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-    {% for image in images %}
-      <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
-        <img class="img-main-carousel" src="{{ image.image.url }}"/>
-      </div>
-    {% endfor %} 
+<!--  <ol class="carousel-indicators">
+</ol> -->
+<!-- Wrapper for slides -->
+<div class="carousel-inner">
+  {% for image in images %}
+  <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
+    <img class="img-main-carousel" src="{{ image.image.url }}"/>
   </div>
+  {% endfor %} 
+</div>
 
-  <!-- Controls -->
-  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-    <img src='{% static 'img/icon_chevron_left.png' %}'/>
-  </a>
-  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-     <img src='{% static 'img/icon_chevron_right.png' %}'/>
-  </a>
+<!-- Controls -->
+<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+  <img src='{% static 'img/icon_chevron_left.png' %}'/>
+</a>
+<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+  <img src='{% static 'img/icon_chevron_right.png' %}'/>
+</a>
+</div>
+
+
+<div id="facility-map" class='hide'>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.8634132276015!2d-73.99160970000001!3d40.74303090000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a4596437af%3A0x7d14de8172c5f7f2!2s42+W+24th+St!5e0!3m2!1sen!2sus!4v1404228143481" width="600" height="450" frameborder="0" style="border:0"></iframe>
 </div>
 <!-- thumb navigation carousel -->
-<div class="col-md-12 " id="slider-thumbs">
+
+<div class="col-md-12" id='count-map'> 
+  <div class="col-md-6 count" style='border-right: 1px solid #ccc; height: 100%;'>
+    <center>
+      <img src='{% static 'img/icon_camera.png' %}'/>
+      <p>Count</p>
+    </center></div>
+    <div class="col-md-6 map">
+      <center>
+        <img src='{% static 'img/icon_map.png' %}'/>
+        <p>Map</p>
+      </center>
+    </div>
+  </div>
+  <div class="col-md-12 " id="slider-thumbs">
     <!-- thumb navigation carousel items -->
     <ul class="list-inline">
-    {% for image in images %}
-        <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
+      {% for image in images %}
+      <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
         <img src="{{ image.image.url }}" class="img-responsive">
-        </a></li>
-   {% endfor %}
+      </a></li>
+      {% endfor %}
     </ul>
-
-</div>
+  </div>
 

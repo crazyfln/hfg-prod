@@ -5,8 +5,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpRespons
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.db.models import Q
@@ -48,6 +48,12 @@ class Profile(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super(Profile, self).get_context_data(**kwargs)
+        context['favorites_list'] = self.object.favorites.all()
+        context['password_reset_form'] = PasswordChangeForm(self.object)
+        return context
 
     def get_success_url(self):
         return reverse('profile')
@@ -102,13 +108,6 @@ def facility_favorite(request, slug):
         favorite.save()
 
     return HttpResponseRedirect(request.GET['next'])
-
-class FavoriteList(ListView):
-    model = Facility
-    template_name = 'favorite_list.html'
-
-    def get_queryset(self):
-        return self.request.user.favorites.all()
 
 class Search(ListView):
     model = Facility

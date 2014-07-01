@@ -2,7 +2,6 @@
 .facility-carousel {
     margin: 0 0 20px 0;
 
-
 }
 
 ul.list-inline {
@@ -14,6 +13,7 @@ ul.list-inline {
    background-color:$grey-background;
    height: 60px;
    width: 100%;
+   cursor:pointer;
 
    img {
     margin-right:10px;

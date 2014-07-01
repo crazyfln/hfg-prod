@@ -1,5 +1,19 @@
 $(document).ready(function(){
 
+ $('.count').click(function() {
+    $('#facility-map').hide()
+    $('#facility-carousel').show()
+  })
+
+
+  $('.map').click(function() {
+    $('#facility-carousel').hide()
+    $('#facility-map').removeClass('hide')
+    $('#facility-map').show()
+
+  })
+
+
 //not working yet
    $('#profile-list a').click(function (e) {
       e.preventDefault()

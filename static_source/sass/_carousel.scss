@@ -10,6 +10,23 @@ ul.list-inline {
     border: 1px solid $border;
 }
 
+#count-map {
+   background-color:$grey-background;
+   height: 60px;
+   width: 100%;
+
+   img {
+    margin-right:10px;
+   }
+
+   p {
+    color: $dark;
+    font-size:14px;
+    display:inline-block;
+    margin-top:20px;
+   }
+}
+
 #slider-thumbs {
     padding: 0;
 

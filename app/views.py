@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.db.models import Q
@@ -56,6 +56,13 @@ class Profile(UpdateView):
 class FacilityDetail(DetailView):
     model = Facility
     template_name = 'facility_detail.html'
+
+    def get_object(self, queryset=None):
+        self.object = super(FacilityDetail, self).get_object(queryset)
+        if self.object.visibility:
+            return self.object
+        else:
+            raise PermissionDenied("This facility is not currently visible to the public")
 
     def get_context_data(self, **kwargs):
         context = super(FacilityDetail, self).get_context_data(**kwargs)
@@ -135,10 +142,10 @@ class Search(ListView):
             max_price = form.cleaned_data.get('max_value')
             if not max_price:
                 max_price = SEARCH_MAX_VAL_INITIAL
-            result = result.filter(min_price__gte=min_price, min_price__lte=max_price)
+            result = result.filter(min_price__gte=min_price, min_price__lte=max_price, visibility=True)
             return result
         else:
-            return Facility.objects.all()
+            return Facility.objects.all().filter(visibility=True)
 
 class Contact(FormView):
     form_class = ContactForm
@@ -159,6 +166,17 @@ def request_phone(request, slug):
     phone_request = PhoneRequest(facility=facility, user=request.user)
     phone_request.save()
     return {}
+
+def change_facility_visibility(request, pk):
+    if request.user.is_provider():
+        facility = get_object_or_404(Facility, pk=pk)
+        facility.visibility = not facility.visibility
+        facility.save()
+        info = request.GET['admin_site'], request.GET['app_label'], request.GET['module_name']
+        string = '{0}:{1}_{2}_changelist'.format(*info)
+        return HttpResponseRedirect(reverse(string))
+    else:
+        raise PermissionDenied()
 
 @ajax_request
 @login_required

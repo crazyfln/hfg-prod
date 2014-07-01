@@ -27,11 +27,6 @@ class Facility(TimeStampedModel):
     latitude = models.IntegerField(blank=True, default=0)
     longitude = models.IntegerField(blank=True, default=0)
     shown_on_home = models.BooleanField(default=False)
-    status = models.CharField(max_length="20", choices=(
-                              ('Vacancies','Vacancies'),
-                              ('No Vacancies','No Vacancies'),
-                              ('Dormant', 'Dormant'), # think dormant is being removed
-                              ))
     description_short = models.CharField(max_length=140, blank=True)
     description_long = models.CharField(max_length=1000, blank=True)
 
@@ -55,6 +50,7 @@ class Facility(TimeStampedModel):
                                    ("Rent and Care","Rent and Care"),
                                    ))
     phone_requested_by = models.ManyToManyField(User, through="PhoneRequest", related_name="phone_requests", blank=True)
+    visibility = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name
@@ -85,6 +81,12 @@ class Facility(TimeStampedModel):
 
     def get_featured_image(self):
         return self.images.get(featured = True)
+
+    def get_vacancy_status(self):
+        if self.vacancies > 0:
+            return "Vacancies"
+        else:
+            return "No Vacancies"
 
     class Meta:
         verbose_name = "Facility"

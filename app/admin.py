@@ -4,6 +4,7 @@ import reversion
 from django.shortcuts import get_object_or_404
 
 from django.forms import CheckboxSelectMultiple
+import datetime
 from account.models import User, HoldingGroup
 from account.admin import UserAdmin
 from util.util import list_button
@@ -37,6 +38,7 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
     fieldsets = (
         ("Facility Information", {
             'fields':(
+                'visibility',
                 'holding_group', 
                 ('name','facility_types','capacity'),
                 ('address','vacancies'),
@@ -74,6 +76,18 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
+    def get_monthly_total(self):
+        today = datetime.datetime.now()
+        last_month = today - datetime.timedelta(days=30)
+
+        facilities_this_month = Facility.objects.filter(created__gte=last_month)
+        return len(facilities_this_month)
+
+    def changelist_view(self, request, extra_context=None):
+        context = {
+            'monthly_total':self.get_monthly_total(),   
+        }
+        return super(FacilityAdmin, self).changelist_view(request, extra_context=context)
 
 manager_admin.register(Facility, FacilityAdmin)
 
@@ -192,7 +206,7 @@ class FacilityRoomProviderInline(FacilityRoomInline):
         return True
 
 class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
-    list_display = ['edit','delete','pk','name','status','get_messages','get_visibility']
+    list_display = ['edit','delete','pk','name','get_status','get_messages','get_visibility']
     inlines = [FacilityFeeProviderInline, FacilityImageProviderInline, FacilityRoomProviderInline]
     form = FacilityProviderForm
 
@@ -207,9 +221,23 @@ class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
     get_messages.allow_tags = True
     get_messages.short_description = "Messages"
 
+    def get_status(self, obj):
+        return obj.get_vacancy_status()
+    get_status.short_description = "Status"
+
     def get_visibility(self, obj):
-        return "not implemented"
-    get_visibility.short_description = "Visibility"
+        if obj.visibility:
+            display = "Yes"
+        else:
+            display = "No"
+        url = reverse('change_facility_visibility', args=(obj.pk,))
+        url += "?admin_site=" + self.admin_site.name
+        url += "&app_label=" + obj._meta.app_label
+        url += "&module_name=" + obj._meta.module_name
+        return '<a href="{0}">{1}</a>'.format(url, display)
+
+    get_visibility.short_description = "Published"
+    get_visibility.allow_tags = True
     
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(FacilityProviderAdmin, self).get_fieldsets(request, obj)

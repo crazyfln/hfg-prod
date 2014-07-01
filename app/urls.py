@@ -22,6 +22,7 @@ urlpatterns = patterns('app.views',
     url(r'^about/', 'about', name='about'),
     url(r'^home_video/', 'home_video', name='home_video'),
     (r'^$', TemplateView.as_view(template_name="index.html")),
+    url(r'^provider/change_facility_visibility/(?P<pk>[-\w]+)/$', 'change_facility_visibility', name='change_facility_visibility'),
 )
 
 from .signals import * #ensure that the signals are attatched via import

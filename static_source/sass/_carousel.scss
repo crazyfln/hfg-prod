@@ -1,7 +1,11 @@
 
-.facility-carousel {
-    margin: 0 0 20px 0;
 
+#facility-map {
+  margin-bottom: -5px;
+
+  iframe {
+    width: 100%;
+  }
 }
 
 ul.list-inline {

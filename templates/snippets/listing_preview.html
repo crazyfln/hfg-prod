@@ -3,15 +3,14 @@
   <!-- loop for the listing preview starts here -->
   <div class="listing-preview" url="{{ facility.get_absolute_url }}">
 
-    <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to
-    show or head hearts -->
+
     {% if user.is_authenticated %}
     <!-- WHEN MERGING AJAXFAVORITES replace what's inside this conditional with that-->
     <a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}">
       {% if user in facility.favorited_by.all %}
-      <div class="heart-holder empty" style=""></div>
+      <div class="heart-holder full" style=""></div>
       {% else %}
-      <div class="heart-holder full"></div>
+      <div class="heart-holder empty"></div>
       {% endif %}
     </a>
     {% else %}
@@ -19,15 +18,20 @@
     <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"></div>
     {% endif %}
 
-    <!-- {% for facility.image in images %}
+    {% comment %} 
+
+    unsure what this is
+
+ <!-- {% for facility.image in images %}
       <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
         <img class="img-main-carousel" src="{{ image.image.url }}"/>
       </div>
       {% endfor %}  -->
-
-
-
       <!-- <img class='listing-img-small' src="{% static 'img/listing_img_small.png' %}"/> -->
+
+      {% endcomment %}
+
+
 
 
       <img src='{{ facility.get_featured_image.image.url }}'/>

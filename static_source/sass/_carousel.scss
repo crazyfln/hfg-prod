@@ -1,13 +1,34 @@
 
-.facility-carousel {
-    margin: 0 0 20px 0;
 
+#facility-map {
+  margin-bottom: -5px;
 
+  iframe {
+    width: 100%;
+  }
 }
 
 ul.list-inline {
     padding: 18px;
     border: 1px solid $border;
+}
+
+#count-map {
+   background-color:$grey-background;
+   height: 60px;
+   width: 100%;
+   cursor:pointer;
+
+   img {
+    margin-right:10px;
+   }
+
+   p {
+    color: $dark;
+    font-size:14px;
+    display:inline-block;
+    margin-top:20px;
+   }
 }
 
 #slider-thumbs {

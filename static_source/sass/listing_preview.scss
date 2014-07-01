@@ -22,7 +22,7 @@
     // }
 
     .heart-holder {
-        background: image-url('img/icon_not_hearted.png');
+
         height: 21px;
         width: 22px;
         position: absolute;
@@ -32,6 +32,14 @@
         &:hover {
             cursor:pointer;
         }
+    }
+
+    .empty {
+        background: image-url('img/icon_not_hearted.png');
+    }
+
+    .full {
+        background: image-url('img/icon_hearted.png');
     }
 
 

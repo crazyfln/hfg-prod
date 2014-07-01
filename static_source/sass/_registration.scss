@@ -32,7 +32,6 @@
 }
 
 
-
 .modal {
 
     .modal-header {
@@ -95,65 +94,132 @@ a.push {
     margin-top: -1px;
     border-left:none;
     border-right:none;
-
 }
 
-#id_first_name {
-    @extend %abstract-form-dimensions;
+%abstract-form-with-border {
+   border-left: 1px solid $border;
+   border-right: 1px solid $border;
 }
 
-#id_last_name {
-    @extend %abstract-form-dimensions;
-}
 
-#id_email {
-    @extend %abstract-form-dimensions;
-}
-
-#id_password1 {
-    @extend %abstract-form-dimensions;
-}
-
-#id_password2 {
-    @extend %abstract-form-dimensions;
-}
-
-#id_username{
-    @extend %abstract-form-dimensions;
-}
-
-#id_password {
-    @extend %abstract-form-dimensions;
-}
-
-#id_name {
-
-    @extend %abstract-form-dimensions;
-}
-
-#id_party_type {
-    @extend %abstract-form-dimensions;
-
-}
-
-#id_new_password1 {
-    @extend %abstract-form-dimensions;
-}
-
-#id_new_password2 {
-    @extend %abstract-form-dimensions;
-}
-
-#id_old_password {
-    @extend %abstract-form-dimensions;
-}
-
-#id_phone_number {
+#id_first_name, #id_last_name, #id_email, #id_password1, #id_password2, #id_username, #id_password, #id_name, #id_party_type,
+#id_new_password1, #id_new_password2, #id_old_password, #id_phone_number   {
     @extend %abstract-form-dimensions;
 }
 
 #id_phone {
     height:40px;
+}
+
+
+//custom inputs for forgot password flow 
+#id_old_password, #id_new_password1, #id_new_password2 {
+    @extend %abstract-form-dimensions;
+    @extend %abstract-form-with-border;
+}
+
+
+
+
+
+// modal custom inputs below for requesting
+// a tour
+
+// textarea mixin
+@mixin modal-textarea {
+    border: 1px solid $border;
+    padding-top:10px;
+    text-align:center;
+}
+
+#id_health_description {
+    @include modal-textarea;
+}
+
+#id_comments {
+    @include modal-textarea;
+}
+
+#tour-request-form {
+
+    .modal-content {
+        width:330px;
+    }
+
+    .modal-header {
+        padding-bottom:0px;
+    }
+
+    hr {
+        margin: 5px;
+    }
+
+    button {
+        width: 259px;
+    }
+}
+
+//input mixin
+@mixin tour-input {
+    width:259px;
+    height: 40px;
+    color: $light;
+    outline:none;
+    border: 1px solid $border;
+    padding-left: 15px;
+    margin: 0 0 15px 0;
+    border-radius: 4px;
+}
+
+#id_planned_move_date {
+    @include tour-input;
+}
+
+#id_desired_city {
+    @include tour-input;
+}
+
+#id_resident_first_name {
+    @include tour-input;
+}
+
+.modal-select-holder {
+    height:40px; 
+    width: 259px;
+    background:image-url('img/select_dropdown.png') no-repeat;
+    background-position:240px;
+
+    select {
+        height: 100%;
+        width: 100%;
+        background-color:transparent;
+        outline:none;
+        -webkit-appearance: none;
+        color: $light;
+        padding-left:10px;
+        border: 1px solid $border;
+    }
+}
+
+.align-left {
+    text-align:left;
+    margin-left: 36px;
+
+    p {
+        margin-left:0px;
+    }
+
+    label {
+        bottom: 10px;
+        margin-left: 7px;
+        color: $light;
+        font-weight: 500;
+    }
+}
+
+
+#id_pay_private_pay {
+// -webkit-appearance: none;
 }
 
 ul.errorlist {
@@ -181,8 +247,11 @@ p.errors {
     p {
         color: $light;
     }
-
 }
+
+
+
+
 
 
 

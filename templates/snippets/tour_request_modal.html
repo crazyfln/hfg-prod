@@ -62,27 +62,33 @@
           </div>
 
           
+          
           <div class="align-left">
-            <p>Financial Payment Options</p>
-
+            <p id='f-o'>Financial Payment Options</p>
+            <div class="clear"></div>
             {{ form.pay_private_pay }}
-            {{ form.pay_private_pay.label_tag }} 
-            <p>test</p>
-            <br />
+            {{ form.pay_private_pay.label_tag }}
+            <p>Private Pay</p>
+            <div class="clear"></div>
             {{ form.pay_longterm_care }}
             {{ form.pay_longterm_care.label_tag }}
-            <br />
+            <p>Longterm Care Insurance</p>
+            <div class="clear"></div>
             {{ form.pay_veterans_benefits }}
             {{ form.pay_veterans_benefits.label_tag }}
-            <br />
+            <p>Veterans Benefits</p>
+            <div class="clear"></div>
             {{ form.pay_medicare }}
             {{ form.pay_medicare.label_tag }}
-            <br />
+            <p>Medicare</p>
+            <div class="clear"></div>
             {{ form.pay_medicaid }}
             {{ form.pay_medicaid.label_tag }}
-            <br />
+            <p>Medicaide</p>
+            <div class="clear"></div>
             {{ form.pay_ssi }}
             {{ form.pay_ssi.label_tag }}
+            <p>SSI</p>
           </div>
           <br />
         </div>
@@ -154,8 +160,8 @@
           {{ form.comments }}
           <br />
         </div>
-          <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">BACK</button>
-          <button type="submit" class="button-blue">Submit Tour Request</button>
+        <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">BACK</button>
+        <button type="submit" class="button-blue">Submit Tour Request</button>
       </div>
     </center>
   </div>

@@ -1,8 +1,4 @@
 $(document).ready(function(){
-    $('.listing-preview').click(function(e) {
-        url = $(this).attr("url");
-        window.location.href=url;
-    });
 
     $('[id^=carousel-selector-]').click(function () {
         var id_selector = $(this).attr("id");

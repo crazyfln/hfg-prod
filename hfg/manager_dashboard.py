@@ -12,6 +12,8 @@ from django.core.urlresolvers import reverse
 from grappelli.dashboard import modules, Dashboard
 from grappelli.dashboard.utils import get_admin_site_name
 
+import datetime
+from app.models import Facility
 
 class CustomIndexDashboard(Dashboard):
     """
@@ -20,9 +22,15 @@ class CustomIndexDashboard(Dashboard):
     
     def init_with_context(self, context):
         site_name = get_admin_site_name(context)
+
+        today = datetime.datetime.now()
+        last_month = today - datetime.timedelta(days=30)
+        facilities_this_month = Facility.objects.filter(created__gte=last_month)
+        num_facilities_this_month = str(len(facilities_this_month))
         
         self.children.append(modules.ModelList(
             title="Administration",
+            pre_content=num_facilities_this_month + " Facilities added this month",
             column=1,
             collapsible=False,
             models=('app.models.Facility','app.models.FacilityMessage','app.models.Invoice','account.models.User')

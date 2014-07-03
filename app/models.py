@@ -8,6 +8,8 @@ from account.models import User, HoldingGroup
 
 from util.util import file_url
 
+from urllib import quote_plus 
+
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites", blank=True)
@@ -56,6 +58,8 @@ class Facility(TimeStampedModel):
                                    ))
     phone_requested_by = models.ManyToManyField(User, through="PhoneRequest", related_name="phone_requests", blank=True)
 
+
+
     def __unicode__(self):
         return self.name
 
@@ -85,6 +89,13 @@ class Facility(TimeStampedModel):
 
     def get_featured_image(self):
         return self.images.get(featured = True)
+
+
+    def get_encoded_address(self):
+        # import pdb;
+        # pdb.set_trace()
+        return quote_plus(",".join([self.address, self.city, self.state, self.zipcode]))
+
 
     class Meta:
         verbose_name = "Facility"

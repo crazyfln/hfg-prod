@@ -3,14 +3,13 @@
 <!-- loop for the listing preview starts here -->
 <a href="{{ facility.get_absolute_url }}">
   <div class="listing-preview">
-
     <!-- snippet will go here for a saved or unsaved heart. so will if user is authenticated logic to
     show or head hearts -->
     {% if user.is_authenticated %}
       <div class="heart-holder" data-url="{% url 'favorite' facility.slug %}" data-logged_in='yes'><img {% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
     {% else %}
-   
-      <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"></div>
+
+    <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"></div>
     {% endif %}
 
     <!-- {% for facility.image in images %}
@@ -31,21 +30,24 @@
       <!-- loop for the tags per listing starts here -->
 
       <div class="clear"></div>
-      {% for type in facility.facility_types.all %}
-      <p class="listing-tag">{{ type.name }}</p>
-      {% endfor %}
+      <div class='truncate-extra listing-tag'>
+        {% for type in facility.facility_types.all %}
+        {{ type.name }}
+        {% endfor %}
+      </div>
       <div class="clear"></div>
 
-      <p class="listing-title">{{ facility.name }}</p>
+      <p class="listing-title">{{ facility.name|truncatechars:25 }}</p>
       <p class="listing-location">{{ facility.city }}</p>
 
       <hr>
       <p class='from'>From</p>
       <p class="listing-price">${{ facility.min_price }}</p>
-      <a class='listing-next'href="" class="">{{ facility.care_type }}</a>
+      <p class='listing-next'href="" class="">{{ facility.care_type }}</p>
       <div class="clear"></div>
       <hr>
-      <p class="listing-else">{{ facility.description_short }}</p>
+      <p class="listing-else">{{ facility.description_short|truncatechars:28 }}</p>
+    </div>
   </div>
 </a>
 </div>

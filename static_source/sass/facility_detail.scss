@@ -1,5 +1,5 @@
 .facility-detail {
-    background-color: $grey-background;
+    background-color: $beige-background;
     
 
     hr {
@@ -39,7 +39,7 @@
             font-size: 16px;
         }
 
-        p.heart {
+        .heart {
             float:right;
             margin-top: -40px;
             margin-right: 80px;
@@ -60,8 +60,9 @@
 
 
         p.desc-large{
-            color: $dark;
+            color: $secondary;
             font-size:22px;
+
 
 
             span {

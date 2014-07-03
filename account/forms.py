@@ -69,6 +69,14 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
         return self.cleaned_data['email']
 
+    def clean_phone_number(self):
+        data = self.cleaned_data['phone_number']
+        numbers = re.findall('\d', data)
+        number = ''.join(str(s) for s in numbers)
+        if not len(number) == 10:
+            raise forms.ValidationError("Phone number must be exactly 10 digits")
+        return number
+
 class RegistrationAdminForm(ModelForm):
     permissions = forms.ChoiceField(choices=(
                                     ('u','User'),

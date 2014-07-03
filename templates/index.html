@@ -15,10 +15,21 @@ Home For Grandma
         <div class="clear"></div>
 
         {% include 'snippets/searchbox_home.html' with form=search_form %}
+        <!-- <center><iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></center> -->
       </div>
     </div>
+
+    <center>
+    <a href='/home_video' style='text-decoration:none; color:#fff;'><div class="play-holder">
+       <img class='play' src='{% static 'img/play_button.png' %}'/>
+    <div class="transparent-holder">
+      <p class='padding-top-15 larger-font'>Who We Are</p>
+    </div></a>
+  </center>
+   
+    </div>
   </div>
-</div>
+</div>  
 
 
 <div class="home-info-holder padder-40 background-beige">
@@ -26,18 +37,18 @@ Home For Grandma
     <div class="col-xs-6">
       <div class="desc-boxes">
         <img class='left' src='{% static 'img/image_home_left.png' %}'/>
-        <p class="desc-main">A gift for move in</p>
-        <p class="desc-minor">Receive a $200 Reward when you move into a HomeForGrandma.com property.</p>
-        <a href='/receive_reward' class='learn'>Learn more</a>
+        <a href='/receive_reward'><p class="desc-main">A gift for move in</p></a>
+        <a href='/receive_reward'><p class="desc-minor">Receive a $200 Reward when you move into a HomeForGrandma.com property.</p></a>
+        <a class='learn-more' href='/receive_reward'>Learn more</a>
       </div>
     </div>
 
     <div class="col-xs-6">
       <div class="desc-boxes">
         <img class='left' src='{% static 'img/image_home_right.png' %}'/>
-        <p class="desc-main">You can rely on us</p>
-        <p class="desc-minor">Our counselors can help with financial planning and applying for Government Benefits.</p>
-        <a href='/financial_resources' class='learn'>Learn more</a>
+        <a href='/making_move'><p class="desc-main">Making the Move</p></a>
+        <a href='/making_move'><p class="desc-minor">Talking to your loved one about the benefits of Assisted Living</p></a>
+        <a class='learn-more'href='/making_move'>Learn more</a>
       </div>
     </div>
   </div>
@@ -77,16 +88,22 @@ Home For Grandma
         <h1>Featured Listings</h1>
       </center>
       {% for facility in facilities %}
-        {% if forloop.counter0|divisibleby:"3" or forloop.first %}
-          <div class="row">
+      {% if forloop.counter0|divisibleby:"3" or forloop.first %}
+      <div class="row">
         {% endif %}
         {% include 'snippets/listing_preview.html' with user=request.user facility=facility %}
         {% if forloop.counter|divisibleby:"3" or forloop.last  %}
-          </div>
-        {% endif %}
+      </div>
+      {% endif %}
       {% endfor %}
     </div>
+
   </div>
+
+
+
+
+
   {% endblock content %}
   {% block body_media %}
   <script>

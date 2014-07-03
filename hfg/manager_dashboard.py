@@ -20,17 +20,17 @@ class CustomIndexDashboard(Dashboard):
     Custom index dashboard for www.
     """
     
-    def init_with_context(self, context):
-        site_name = get_admin_site_name(context)
-
+    def get_facilities_this_month(self):
         today = datetime.datetime.now()
         last_month = today - datetime.timedelta(days=30)
         facilities_this_month = Facility.objects.filter(created__gte=last_month)
-        num_facilities_this_month = str(len(facilities_this_month))
+        return str(len(facilities_this_month))
+
+    def init_with_context(self, context):
+        site_name = get_admin_site_name(context)
         
         self.children.append(modules.ModelList(
             title="Administration",
-            pre_content=num_facilities_this_month + " Facilities added this month",
             column=1,
             collapsible=False,
             models=('app.models.Facility','app.models.FacilityMessage','app.models.Invoice','account.models.User')
@@ -46,6 +46,7 @@ class CustomIndexDashboard(Dashboard):
         # append a recent actions module
         self.children.append(modules.RecentActions(
             _('Recent Actions'),
+            pre_content=self.get_facilities_this_month() + " Facilities added this month",
             limit=5,
             collapsible=False,
             column=2,

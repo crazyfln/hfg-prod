@@ -62,6 +62,7 @@ class TourRequestForm(ModelForm):
     class Meta:
         model = FacilityMessage
         exclude = ('user','facility','read','replied_by','replied_datetime')
+        widgets = {'planned_move_date': forms.TextInput(attrs={'placeholder': 'Date', 'class':''})}
     
     def save(self, commit=True):
         new_request = super(TourRequestForm, self).save(commit=False)

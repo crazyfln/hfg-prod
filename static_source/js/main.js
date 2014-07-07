@@ -49,7 +49,6 @@ $(document).ready(function(){
 
     $('#facility-carousel').on('slid.bs.carousel', function (e) {
      var id = $('.item.active').data('slide-number');
-     console.log(id)
      id = parseInt(id);
      $('#carousel-current-image-number').html(id);
      $('[id^=carousel-selector-]').removeClass('selected');

@@ -7,8 +7,30 @@
         </div>
         <div class="modal-body">
 
-            <button type="submit" class="button-blue submit-b">Create Request</button>
+          <form action="{% url '' %}" method='post'>
+            {% csrf_token %}
+            <div>
+              <table>
+                <tr><td> {{ form.first_name }}</td></tr>
+                <tr><td> {{ form.first_name.errors }}</td></tr>
+
+                
+
+                
+
+              </table>
+            </div>
+
+
+            <button type="submit" class="button-blue submit-b">Create</button>
+
           </form>
+
+
+
+
+
+          
 
         </div>
       </div>

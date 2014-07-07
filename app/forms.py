@@ -24,6 +24,21 @@ class SearchForm(forms.Form):
     min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
     max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
 
+class ListPropertyForm(forms.Form):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First Name'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'Email'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Description'}))
+
+    def send_email(self):
+        message = self.cleaned_data['descprtion'] + "<br/>"
+        who = self.cleaned_data['first_name']
+        send_mail(
+                subject="Home For Grandma: Listing Request from" + who,
+                message = message + "from: " + who,
+                from_email=self.cleaned_data['email'],
+                )
+
 class ContactForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
@@ -35,7 +50,7 @@ class ContactForm(forms.Form):
         who = self.cleaned_data['name']
         site = self.cleaned_data['website']
         send_mail(
-                subject="Home For Gradma: contact us message from " + who,
+                subject="Home For Grandma: contact us message from " + who,
                 message= message + "from: " + who + "of - " + site, 
                 from_email=self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL]

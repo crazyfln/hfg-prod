@@ -64,5 +64,6 @@ $(document).ready(function(){
     });
 
 
+    $('#id_planned_move_date').datepicker();
 
   });

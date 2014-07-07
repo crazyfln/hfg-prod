@@ -35,8 +35,11 @@ $(document).ready(function(){
         e.preventDefault();
         e.stopPropagation();
         if ($(this).data('logged_in') == 'yes'){
+
+            // $(this).css('background', 'url(img/icon_hearted.png)')
             heartImg = $(this).children('img')
             heartImg.toggle()
+
             $.ajax({
                 url:$(this).data('url'),
                 error: function(){

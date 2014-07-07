@@ -8,7 +8,7 @@
 <!-- Wrapper for slides -->
 <div class="carousel-inner">
   {% for image in images %}
-  <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
+  <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter }}">
     <img class="img-main-carousel" src="{{ image.image.url }}"/>
   </div>
   {% endfor %} 
@@ -33,15 +33,19 @@
   <div class="col-md-6 count" style='border-right: 1px solid #ccc; height: 100%;'>
     <center>
       <img src='{% static 'img/icon_camera.png' %}'/>
-      <p>Count</p>
-    </center></div>
-    <div class="col-md-6 map">
-      <center>
-        <img src='{% static 'img/icon_map.png' %}'/>
-        <p>Map</p>
-      </center>
-    </div>
+      <p id="carousel-image-numbers">
+        <span id="carousel-current-image-number">1</span>
+        <span id="carousel-total-image-number"> / {{ images|length }}</span>
+      </p>
+    </center>
   </div>
+  <div class="col-md-6 map">
+    <center>
+      <img src='{% static 'img/icon_map.png' %}'/>
+      <p>Map</p>
+    </center>
+  </div>
+</div>
   <div class="col-md-12 " id="slider-thumbs">
     <!-- thumb navigation carousel items -->
     <ul class="list-inline">

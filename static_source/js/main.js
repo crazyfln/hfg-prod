@@ -25,15 +25,6 @@ $(document).ready(function(){
     url = $(this).attr("url");
     window.location.href=url;
   });  
-  $('[id^=carousel-selector-]').click(function () {
-    var id_selector = $(this).attr("id");
-    var id = id_selector.substr(id_selector.length - 1);
-    id = parseInt(id);
-    $('#facility-carousel').carousel(id);
-    $('[id^=carousel-selector-]').removeClass('selected');
-    $(this).addClass('selected');
-  }); 
-
 
   $('.right').click(function() {
     $('.carousel').carousel('next');
@@ -47,14 +38,27 @@ $(document).ready(function(){
     pause: "hover"
   });
 
+  $('[id^=carousel-selector-]').click(function () {
+    var id_selector = $(this).attr("id");
+    var id = id_selector.substr(id_selector.length - 1);
+    id = parseInt(id);
+    $('#facility-carousel').carousel(id);
+    $('[id^=carousel-selector-]').removeClass('selected');
+    $(this).addClass('selected');
+  }); 
 
-    // when the carousel slides, auto update
-    $('#facility-carousel').on('slid', function (e) {
+    $('#facility-carousel').on('slid.bs.carousel', function (e) {
      var id = $('.item.active').data('slide-number');
+     console.log(id)
      id = parseInt(id);
+     $('#carousel-current-image-number').html(id);
      $('[id^=carousel-selector-]').removeClass('selected');
      $('[id^=carousel-selector-' + id + ']').addClass('selected');
    });
+
+
+
+    // when the carousel slides, auto update
 
     $('.heart-holder').on('click', function(e) {
       e.stopPropagation();

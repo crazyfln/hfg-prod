@@ -20,6 +20,7 @@ urlpatterns = patterns('app.views',
     url(r'^making_move/', 'making_move', name='making_move'),
     url(r'^about/', 'about', name='about'),
     url(r'^home_video/', 'home_video', name='home_video'),
+    url(r'^list_property/', ListProperty.as_view(), name='list_property'),
     (r'^$', TemplateView.as_view(template_name="index.html")),
 )
 

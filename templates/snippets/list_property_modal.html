@@ -7,16 +7,14 @@
         </div>
         <div class="modal-body">
 
-          <form action="{% url 'contact' %}" method='post'>
+          <form action="{% url 'list_property' %}" method='post'>
             {% csrf_token %}
             <div>
               <table>
                 <tr><td> {{ form.first_name }}</td></tr>
                 <tr><td> {{ form.first_name.errors }}</td></tr>
 
-                
-
-                
+          
 
               </table>
             </div>

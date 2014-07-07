@@ -63,6 +63,22 @@ $(document).ready(function(){
       }
     });
 
+    $('#edit_manager_note_form').submit(function() {
+      console.log('boop')
+      $.ajax({
+        data: $(this).serialize(),
+        type: $(this).attr('method'),
+        url: $(this).attr('action'),
+        success: function(response) {
+          close()
+          },
+        error: function() {
+          alert('Something went wrong, your message was not saved')
+        }
+      });
+      return false;
+    });
+
 
 
   });

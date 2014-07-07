@@ -93,6 +93,24 @@ class FacilityAdminForm(ModelForm):
             'description_long':forms.Textarea,
         }
 
+class EditManagerNoteFacilityForm(ModelForm):
+
+    class Meta:
+        model = Facility
+        fields = ('manager_note',)
+        widgets = {
+            'manager_note':forms.Textarea,
+        }
+
+class EditManagerNoteInvoiceForm(ModelForm):
+
+    class Meta:
+        model = Invoice
+        fields = ('manager_note',)
+        widgets = {
+            'manager_note':forms.Textarea,
+        }
+
 class FacilityProviderForm(FacilityAdminForm):
 
     class Meta(FacilityAdminForm.Meta):

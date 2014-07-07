@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'payments',
     'manifesto',
     'social.apps.django_app.default',
+    'liststyle',
     'app',
     'account',
 )

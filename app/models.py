@@ -51,6 +51,7 @@ class Facility(TimeStampedModel):
                                    ))
     phone_requested_by = models.ManyToManyField(User, through="PhoneRequest", related_name="phone_requests", blank=True)
     visibility = models.BooleanField(default=True)
+    manager_note = models.CharField(max_length=1000, blank=True, null=True)
 
     def __unicode__(self):
         return self.name
@@ -289,6 +290,7 @@ class Invoice(TimeStampedModel):
     move_in_date = models.DateTimeField()
     resident_name = models.CharField(max_length=50)
     amount = models.CharField(max_length=15)
+    manager_note = models.CharField(max_length=1000, blank=True, null=True)
 
     def __unicode__(self):
         return str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date())

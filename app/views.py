@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.db.models import Q
@@ -176,6 +176,29 @@ def change_facility_visibility(request, pk):
         return HttpResponseRedirect(reverse(string))
     else:
         raise PermissionDenied()
+
+class EditManagerNoteFacility(UpdateView):
+    model = Facility
+    template_name = 'manager_note.html'
+    form_class = EditManagerNoteFacilityForm
+    fields = ('manager_note',)
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            return super(EditManagerNoteFacility, self).get(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            self.success_url = request.get_full_path()
+            return super(EditManagerNoteFacility, self).post(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
+
+class EditManagerNoteInvoice(EditManagerNoteFacility):
+    model = Invoice
+    form_class = EditManagerNoteInvoiceForm
 
 @ajax_request
 @login_required

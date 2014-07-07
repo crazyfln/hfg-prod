@@ -22,6 +22,9 @@ urlpatterns = patterns('app.views',
     url(r'^home_video/', 'home_video', name='home_video'),
     (r'^$', TemplateView.as_view(template_name="index.html")),
     url(r'^provider/change_facility_visibility/(?P<pk>[-\w]+)/$', 'change_facility_visibility', name='change_facility_visibility'),
+    url(r'^manager/facility_note/(?P<pk>[-\w]+)/$', EditManagerNoteFacility.as_view(), name='edit_manager_note_facility'),
+    url(r'^manager/invoice_note/(?P<pk>[-\w]+)/$', EditManagerNoteInvoice.as_view(), name='edit_manager_note_invoice'),
+
 )
 
 from .signals import * #ensure that the signals are attatched via import

@@ -3,9 +3,10 @@ from django.contrib.admin.sites import AdminSite
 import reversion
 import datetime
 from django.shortcuts import get_object_or_404
-
+from django.utils.translation import ugettext_lazy as _
 from django.forms import CheckboxSelectMultiple
 import datetime
+from liststyle.admin import ListStyleAdminMixin
 from account.models import User, HoldingGroup
 from account.admin import UserAdmin
 from util.util import list_button
@@ -90,28 +91,30 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
         }
         return super(FacilityAdmin, self).changelist_view(request, extra_context=context)
 
+
 manager_admin.register(Facility, FacilityAdmin)
 
-def make_read(modeladmin, request, queryset):
-    queryset.update(read_manager=True)
-make_read.short_description = "Mark messages as read"
+class UnreadFilter(admin.SimpleListFilter):
+    title = _('View All/Unread/Read')
+    parameter_name = 'read_manager'
+    def lookups(self, request, model_admin):
+        return (
+            ('unread', _('View Unread Messages Only')),
+            ('read', _('View Read Messages Only')),
+        )
 
-def make_unread(modeladmin, request, queryset):
-    queryset.update(read_manager=False)
-make_unread.short_description = "Mark messages as unread"
+    def queryset(self, request, queryset):
+        if self.value() == 'unread':
+            return queryset.filter(read_manager=False)
+        elif self.value() == 'read':
+            return queryset.filter(read_manager=True)
 
-def send_to_facility(modeladmin, request, queryset):
-    queryset.update(replied_by=request.user.first_name, replied_datetime=datetime.datetime.now())
-send_to_facility.short_description = "Send to Facility"
-
-def unsend_to_facility(modeladmin, request, queryset):
-    queryset.update(replied_by="", replied_datetime=None)
-unsend_to_facility.short_description = "Unsend messages"
-
-class FacilityMessageAdmin(admin.ModelAdmin):
+class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_replied']
-    actions = [make_read, make_unread, send_to_facility, unsend_to_facility]
+    actions = ['make_read', 'make_unread', 'send_to_facility', 'unsend_to_facility']
     ordering = ['-read_manager','-modified']
+    list_filter = (UnreadFilter,)
+    search_fields = ['facility__name', 'facility__holding_group__name']
 
     def message(self, obj):
         return list_button(self,obj._meta,"change", obj.comments[:20], obj_id=obj.id)
@@ -131,10 +134,54 @@ class FacilityMessageAdmin(admin.ModelAdmin):
         return obj.user.get_full_name()
     get_user_full_name.short_description = "Sender Name"
 
+    #Actions
+    def make_read(self, request, queryset):
+        queryset.update(read_manager=True)
+    make_read.short_description = "Mark messages as read"
+
+    def make_unread(self, request, queryset):
+        queryset.update(read_manager=False)
+    make_unread.short_description = "Mark messages as unread"
+
+    def send_to_facility(self, request, queryset):
+        queryset.update(replied_by=request.user.first_name, replied_datetime=datetime.datetime.now())
+        message_string = "{0} messages were sent to providers".format(str(len(queryset)))
+        self.message_user(request, message_string)
+    send_to_facility.short_description = "Send to Facility"
+
+    def unsend_to_facility(self, request, queryset):
+        queryset.update(replied_by="", replied_datetime=None)
+    unsend_to_facility.short_description = "Unsend messages"
+
+    def get_row_css(self, obj, index):
+        if not obj.read_manager:
+            return 'strong'
+        return ''
+
 manager_admin.register(FacilityMessage, FacilityMessageAdmin)
+
+class InvoiceMonthFilter(admin.SimpleListFilter):
+    title = _('View Recent Bills')
+    parameter_name = 'created'
+    def lookups(self, request, model_admin):
+        return (
+            ('1month', _('View bills created in past month')),
+            ('3month', _('View bills created in past 3 months')),
+        )
+
+    def queryset(self, request, queryset):
+        today = datetime.datetime.now()
+        one_month_ago = today - datetime.timedelta(days=30)
+        three_months_ago = today - datetime.timedelta(days=90)
+
+        if self.value() == '1month':
+            return queryset.filter(created__gte=one_month_ago)
+        elif self.value() == '3month':
+            return queryset.filter(created__gte=three_months_ago)
 
 class InvoiceAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
     list_display = ['edit','note','delete','pk','facility','billed_on','get_amount','get_recieved','status','payment_method']
+    list_filter = (InvoiceMonthFilter,)
     fieldsets = (
         (None, {
             'fields':(
@@ -294,6 +341,7 @@ class FacilityMessageProviderProxy(FacilityMessage):
 
 class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
     list_display = ['created','get_facility','get_user_full_name','get_user_email', 'message','get_replied']
+    actions = None
 
     def queryset(self, request):
         query = super(FacilityMessageProviderAdmin, self).queryset(request)

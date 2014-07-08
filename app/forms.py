@@ -12,6 +12,7 @@ from django.forms.extras.widgets import SelectDateWidget
 from django.utils.translation import ugettext_lazy as _
 
 from .models import *
+from .facility_message_mixin import SEARCHING_FOR_CHOICES, BUDGET_CHOICES, MOBILITY_CHOICES, CARE_CURRENT_CHOICES, MOVE_IN_TIME_FRAME_CHOICES
 SEARCH_MIN_VAL_INITIAL = "500"
 SEARCH_MAX_VAL_INITIAL = "6000"
 
@@ -57,14 +58,14 @@ class ContactForm(forms.Form):
                 )
             
 BUDGET_CHOICES_EMPTY = [('','Budget')] + BUDGET_CHOICES
-CARE_MOBILITY_CHOICES_EMPTY = [('','Mobility')] + CARE_MOBILITY_CHOICES
+MOBILITY_CHOICES_EMPTY = [('','Mobility')] + MOBILITY_CHOICES
 CARE_CURRENT_CHOICES_EMPTY = [('','Current Living Situation')] + CARE_CURRENT_CHOICES
 MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN_TIME_FRAME_CHOICES
 SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for?' %39)] + SEARCHING_FOR_CHOICES
 
 class TourRequestForm(ModelForm):
     budget = forms.ChoiceField(choices=BUDGET_CHOICES_EMPTY, required=False) 
-    care_mobility = forms.ChoiceField(choices=CARE_MOBILITY_CHOICES_EMPTY, required=False)
+    care_mobility = forms.ChoiceField(choices=MOBILITY_CHOICES_EMPTY, required=False)
     care_current = forms.ChoiceField(choices=CARE_CURRENT_CHOICES_EMPTY, required=False)
     move_in_time_frame = forms.ChoiceField(choices=MOVE_IN_TIME_FRAME_CHOICES_EMPTY, required=False)
     searching_for = forms.ChoiceField(choices=SEARCHING_FOR_CHOICES_EMPTY, required=False)

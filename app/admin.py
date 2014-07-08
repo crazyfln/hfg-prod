@@ -110,7 +110,7 @@ class UnreadFilter(admin.SimpleListFilter):
             return queryset.filter(read_manager=True)
 
 class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
-    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_replied']
+    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_manager', 'get_replied']
     actions = ['make_read', 'make_unread', 'send_to_facility', 'unsend_to_facility']
     ordering = ['-read_manager','-modified']
     list_filter = (UnreadFilter,)
@@ -119,6 +119,13 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     def message(self, obj):
         return list_button(self,obj._meta,"change", obj.comments[:20], obj_id=obj.id)
     message.allow_tags = True
+
+    def get_read_manager(self, obj):
+        if obj.read_manager:
+            return "Read"
+        else:
+            return "Unread"
+    get_read_manager.short_description = "read"
 
     def get_replied(self, obj):
         if obj and not obj.replied_by and not obj.replied_datetime:
@@ -134,6 +141,7 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
         return obj.user.get_full_name()
     get_user_full_name.short_description = "Sender Name"
 
+    
     #Actions
     def make_read(self, request, queryset):
         queryset.update(read_manager=True)
@@ -152,6 +160,17 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     def unsend_to_facility(self, request, queryset):
         queryset.update(replied_by="", replied_datetime=None)
     unsend_to_facility.short_description = "Unsend messages"
+
+    def queryset(self, request):
+        query = super(FacilityMessageAdmin, self).queryset(request)
+        return query.order_by('-read_manager', 'modified')
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        message = get_object_or_404(FacilityMessage, id=object_id)
+        if not message.read_manager:
+            message.read_manager = True
+            message.save()
+        return super(FacilityMessageAdmin, self).change_view(request, object_id, form_url, extra_context)
 
     def get_row_css(self, obj, index):
         if not obj.read_manager:

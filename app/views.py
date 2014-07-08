@@ -153,9 +153,9 @@ class Contact(FormView):
 
 class ListProperty(FormView):
     form_class = ListPropertyForm
-    template_name = 'snippets/list_property_modal.html'
+    # template_name = 'snippets/list_property_modal.html'
 
-    def get_success_url(self):
+    def get_success_url(self, request, **cleaned_data):
         return reverse('index')
 
     def form_valid(self, form):

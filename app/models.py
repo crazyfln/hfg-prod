@@ -8,6 +8,8 @@ from account.models import User, HoldingGroup
 
 from util.util import file_url
 
+from urllib import quote_plus 
+
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites", blank=True)
@@ -53,6 +55,8 @@ class Facility(TimeStampedModel):
     visibility = models.BooleanField(default=True)
     manager_note = models.CharField(max_length=1000, blank=True, null=True)
 
+
+
     def __unicode__(self):
         return self.name
 
@@ -88,6 +92,10 @@ class Facility(TimeStampedModel):
             return "Vacancies"
         else:
             return "No Vacancies"
+
+    def get_encoded_address(self):
+        return quote_plus(",".join([self.address, self.city, self.state, self.zipcode]))
+
 
     class Meta:
         verbose_name = "Facility"

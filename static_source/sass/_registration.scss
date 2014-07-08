@@ -4,8 +4,7 @@
     background-color: $white;
     width: 400px;
     margin: 0 auto;
-    padding-top:20px;
-    padding-bottom:20px;
+    padding: 20px 30px 20px 30px;
 
 
     input {
@@ -201,12 +200,24 @@ a.push {
     }
 }
 
+
+
 .align-left {
     text-align:left;
     margin-left: 36px;
 
+    p#f-o {
+        margin-bottom: 20px;
+        margin-top: 10px;
+        color: $dark;
+        margin-left: 6px;
+    }
     p {
-        margin-left:0px;
+        float:left;
+        margin-top: -15px;
+        margin-left: 10px;
+        color: $light;
+        margin-bottom:20px;
     }
 
     label {
@@ -214,6 +225,7 @@ a.push {
         margin-left: 7px;
         color: $light;
         font-weight: 500;
+        float:left;
     }
 }
 

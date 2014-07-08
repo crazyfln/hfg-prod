@@ -25,7 +25,11 @@
 
 
 <div id="facility-map" class='hide'>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.8634132276015!2d-73.99160970000001!3d40.74303090000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a4596437af%3A0x7d14de8172c5f7f2!2s42+W+24th+St!5e0!3m2!1sen!2sus!4v1404228143481" width="600" height="450" frameborder="0" style="border:0"></iframe>
+
+  <iframe width="600" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDYGAWilv_2-qUyeUClcIMYwBI9tKLXWBo&q={{ facility.get_encoded_address }}&zoom=19"></iframe>
+
+
+
 </div>
 <!-- thumb navigation carousel -->
 
@@ -33,7 +37,6 @@
   <div class="col-md-6 count" style='border-right: 1px solid #ccc; height: 100%;'>
     <center>
       <img src='{% static 'img/icon_camera.png' %}'/>
-      <p id="carousel-image-numbers">
         <span id="carousel-current-image-number">1</span>
         <span id="carousel-total-image-number"> / {{ images|length }}</span>
       </p>
@@ -42,7 +45,7 @@
   <div class="col-md-6 map">
     <center>
       <img src='{% static 'img/icon_map.png' %}'/>
-      <p>Map</p>
+      <p>Map View</p>
     </center>
   </div>
 </div>

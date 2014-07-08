@@ -76,6 +76,10 @@ class TourRequestForm(ModelForm):
             for field in self.fields:
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
+        for field in self.fields:
+            if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
+                self.fields[field].label = ""
+            
 
 class FacilityAdminForm(ModelForm):
 

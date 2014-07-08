@@ -158,6 +158,18 @@ class Contact(FormView):
         messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
         return HttpResponseRedirect(self.get_success_url())
 
+class ListProperty(FormView):
+    form_class = ListPropertyForm
+    template_name = 'snippets/list_property_modal.html'
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def form_valid(self, form):
+        form.send_email()
+        messages.success(self.request, 'Thanks for requesting to list your property')
+        return HttpResponseRedirect(self.get_success_url())
+
 @require_POST
 @ajax_request
 def request_phone(request, slug):

@@ -1,0 +1,30 @@
+<div class="modal fade" id="List-Property-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <center>
+      <div class="modal-content">
+        <div class="modal-header">
+          <center><h3>List Your Property</h3></center>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'list_property' %}" method='post'>
+            {% csrf_token %}
+            <div>
+              <table>
+                <tr><td> {{ form.first_name }}</td></tr>
+                <tr><td> {{ form.first_name.errors }}</td></tr>
+                <tr><td> {{ form.last_name }}</td></tr>
+                <tr><td> {{ form.first_name.errors }}</td></tr>
+                <tr><td> {{ form.email }}</td></tr>
+                <tr><td> {{ form.email.errors }}</td></tr>
+                <tr><td> {{ form.description }}</td></tr>
+                <tr><td> {{ form.description.errors }}</td></tr>
+              </table>
+            </div>
+            <button type="submit" class="button-blue submit-b">Create</button>
+          </form>
+        </div>
+      </div>
+    </center>
+  </div>
+</div>
+

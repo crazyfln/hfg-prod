@@ -88,10 +88,7 @@ class Facility(TimeStampedModel):
         return self.images.get(featured = True)
 
     def get_vacancy_status(self):
-        if self.vacancies > 0:
-            return "Vacancies"
-        else:
-            return "No Vacancies"
+        return "Vacancies" if self.vacancies > 0 else "No Vacancies"
 
     def get_encoded_address(self):
         return quote_plus(",".join([self.address, self.city, self.state, self.zipcode]))
@@ -126,8 +123,8 @@ class FacilityMessage(TimeStampedModel, FacilityMessageFieldMixin):
 
     comments = models.CharField(max_length=500, blank=True)
 
-    read_manager = models.BooleanField(default=False)
-    read_provider = models.BooleanField(default=False)
+    read_by_manager = models.BooleanField(default=False)
+    read_by_provider = models.BooleanField(default=False)
     replied_by = models.CharField(max_length=20, blank=True)
     replied_datetime = models.DateTimeField(blank=True, null=True)
 
@@ -142,7 +139,7 @@ class FacilityMessage(TimeStampedModel, FacilityMessageFieldMixin):
         user.save()
 
     def __unicode__(self):
-        return str(self.facility.name) + "-" + str(self.user.get_full_name())+ "-" + str(self.created.date())
+        return "-".join(str(self.facility.name), str(self.user.get_full_name()), str(self.created.date()))
 
     class Meta:
         verbose_name = "Message"

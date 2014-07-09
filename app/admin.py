@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
 import reversion
 import datetime
+import urllib
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.forms import CheckboxSelectMultiple
@@ -96,7 +97,7 @@ manager_admin.register(Facility, FacilityAdmin)
 
 class UnreadFilter(admin.SimpleListFilter):
     title = _('View All/Unread/Read')
-    parameter_name = 'read_manager'
+    parameter_name = 'read_by_manager'
     def lookups(self, request, model_admin):
         return (
             ('unread', _('View Unread Messages Only')),
@@ -112,7 +113,7 @@ class UnreadFilter(admin.SimpleListFilter):
 class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_manager', 'get_replied']
     actions = ['make_read', 'make_unread', 'send_to_facility', 'unsend_to_facility']
-    ordering = ['-read_manager','-modified']
+    ordering = ['-read_by_manager','-modified']
     list_filter = (UnreadFilter,)
     search_fields = ['facility__name', 'facility__holding_group__name']
 
@@ -121,10 +122,7 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     message.allow_tags = True
 
     def get_read_manager(self, obj):
-        if obj.read_manager:
-            return "Read"
-        else:
-            return "Unread"
+        return "Read" if obj.read_by_manager else "unread"
     get_read_manager.short_description = "read"
 
     def get_replied(self, obj):
@@ -216,18 +214,12 @@ class InvoiceAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.Mo
     )
 
     def get_amount(self, obj):
-        if obj.amount:
-            amount = str(obj.amount)
-        else:
-            amount = "0"
+        amount = obj.amount or "0"
         return "$" + amount
     get_amount.short_description = "Billed"
 
     def get_recieved(self, obj):
-        if obj.recieved:
-            amount = str(obj.recieved)
-        else:
-            amount = "0"
+        amount = obj.recieved or "0"
         return "$" + amount
     get_recieved.short_description = "Recieved"
 
@@ -305,7 +297,7 @@ class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
 
     def get_messages(self, obj):
         msgs = obj.facilitymessage_set.all()
-        unread = msgs.filter(read_provider=False)
+        unread = msgs.filter(read_by_provider=False)
         display = str(len(msgs)) + " (" + str(len(unread)) + " Unread)"
         meta = FacilityMessageProviderProxy.objects.model._meta
         query = "?facility=" + str(obj.slug)
@@ -318,14 +310,13 @@ class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
     get_status.short_description = "Status"
 
     def get_visibility(self, obj):
-        if obj.visibility:
-            display = "Yes"
-        else:
-            display = "No"
+        display = "Yes" if obj.visibility else "No"
         url = reverse('change_facility_visibility', args=(obj.pk,))
-        url += "?admin_site=" + self.admin_site.name
-        url += "&app_label=" + obj._meta.app_label
-        url += "&module_name=" + obj._meta.module_name
+        query = {'admin_site':self.admin_site.name,
+            "app_label":obj._meta.app_label,
+            "module_name":obj._meta.module_name
+        }
+        url = url + "?" + urllib.urlencode(query)
         return '<a href="{0}">{1}</a>'.format(url, display)
 
     get_visibility.short_description = "Published"
@@ -365,14 +356,12 @@ class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
     def queryset(self, request):
         query = super(FacilityMessageProviderAdmin, self).queryset(request)
         query = query.filter(replied_by__isnull=False, replied_datetime__isnull=False)
-        if 'facility' in request.GET:
-            q = request.GET['facility']
-            facility = get_object_or_404(FacilityProviderProxy, slug=q)
-            query = query.filter(facility=facility)
-        if 'user' in request.GET:
-            q = request.GET['user']
-            user = get_object_or_404(User, pk=q)
-            query = query.filter(user=user)
+        q = request.GET.get('facility', "")
+        facility = get_object_or_404(FacilityProviderProxy, slug=q)
+        query = query.filter(facility=facility)
+        q = request.GET.get('user', "")
+        user = get_object_or_404(User, pk=q)
+        query = query.filter(user=user)
         return query.filter(facility__holding_group=request.user.holding_group)
 
     def get_user_email(self, obj):

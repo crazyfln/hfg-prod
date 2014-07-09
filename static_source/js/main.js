@@ -67,7 +67,6 @@ $(document).ready(function(){
     });
 
     $('#edit_manager_note_form').submit(function() {
-      console.log('boop')
       $.ajax({
         data: $(this).serialize(),
         type: $(this).attr('method'),

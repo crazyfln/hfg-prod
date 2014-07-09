@@ -76,12 +76,18 @@ class Facility(TimeStampedModel):
             return ""
 
     def get_phone_stars(self,):
-        parts = self.get_phone_parts()
-        return "(" + parts[0] + ") " + parts[1] + "-****"
+        if self.phone:
+            parts = self.get_phone_parts()
+            return "(" + parts[0] + ") " + parts[1] + "-****"
+        else:
+            return None
 
     def get_phone_normal(self):
-        parts = self.get_phone_parts()
-        return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
+        if self.phone:
+            parts = self.get_phone_parts()
+            return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
+        else:
+            return None
 
     def get_featured_image(self):
         return self.images.get(featured = True)

@@ -193,8 +193,8 @@ a.push {
         width: 100%;
         background-color:transparent;
         outline:none;
-        // -webkit-appearance: none;
-        appearance(-webkit);
+        -webkit-appearance: none;
+        // appearance(-webkit);
         color: $light;
         padding-left:10px;
         border: 1px solid $border;

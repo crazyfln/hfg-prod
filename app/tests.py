@@ -72,28 +72,6 @@ class ViewTest(TestCase):
         response = Profile.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
-    def test_favorite_list_get(self):
-        """
-        Tests favorite_list GET request
-        """
-        request = self.factory.get(reverse('favorite_list'))
-        request.user = self.user
-        response = FavoriteList.as_view()(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_favorite_get(self):
-        """
-        Tests GET request for view that creates favorite relationships
-        """
-        facility = mommy.make('app.Facility')
-        favorite_url = reverse('favorite', 
-                        kwargs={'slug':facility.slug})
-        favorite_url += '?next=/'
-        request = self.factory.get(favorite_url)
-        request.user = self.user
-        response = facility_favorite(request, slug=facility.slug)
-        self.assertEqual(response.status_code, 302)
- 
 class FacilityModelMethodTest(TestCase):
     def setUp(self):
         self.facility = mommy.make('app.Facility')

@@ -97,6 +97,7 @@ def tour_request(request, slug):
             messages.error(request, "There was a problem with your tour request")
     return HttpResponseRedirect(facility.get_absolute_url())
 
+@ajax_request
 @login_required
 def facility_favorite(request, slug):
     facility = get_object_or_404(Facility, slug=slug)
@@ -106,8 +107,7 @@ def facility_favorite(request, slug):
     else:
         favorite = Favorite(user=request.user, facility=facility)
         favorite.save()
-
-    return HttpResponseRedirect(request.GET['next'])
+    return {}
 
 class Search(ListView):
     model = Facility

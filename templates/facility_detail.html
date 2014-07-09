@@ -11,12 +11,9 @@
             {% for type in object.facility_types.all %}
             <p class='type-name left'>{{ type.name }} &nbsp; </p>
             {% endfor %}
-            <div class="clear"></div>
-            <p class='min-price'>${{ object.min_price }}</p>
+            <p class='min-price'> ${{ object.min_price }}</p>
             {% if user.is_authenticated %}
-
-              <p class='heart'><a href="{% url 'favorite' facility.slug %}?next={{ request.get_full_path }}"> {% if request.user in object.favorited_by.all %} <img src='{% static 'img/icon_hearted.png' %}'/> {% else %} <img src='{% static 'img/icon_not_hearted.png' %}'/> {% endif %}</a><p>
-
+              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'><img {% if not user in object.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
             {% else %}
               <div class="heart heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_not_hearted.png' %}'/></div>
 

@@ -57,15 +57,6 @@ $(document).ready(function(){
 
 
 
-    // when the carousel slides, auto update
-
-    $('.heart-holder').on('click', function(e) {
-      e.stopPropagation();
-      if ($(this).data('logged_in') == 'no'){
-        $('#Login-Modal').modal('show')
-      }
-    });
-
     $('#edit_manager_note_form').submit(function() {
       $.ajax({
         data: $(this).serialize(),
@@ -79,6 +70,27 @@ $(document).ready(function(){
         }
       });
       return false;
+    });
+
+    $('.heart-holder').on('click', function(e) {
+       
+        if ($(this).data('logged_in') == 'yes'){
+
+            // $(this).css('background', 'url(img/icon_hearted.png)')
+            heartImg = $(this).children('img')
+            heartImg.toggle()
+
+            $.ajax({
+                url:$(this).data('url'),
+                error: function(){
+                    alert('There was an error, the facility was not favorited')
+                    heartImg.toggle()
+                },
+            });
+        }
+        else if ($(this).data('logged_in') == 'no'){
+            $('#Login-Modal').modal('show')
+        }
     });
 
 

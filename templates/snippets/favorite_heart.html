@@ -1,0 +1,4 @@
+{%load static from staticfiles %}
+
+<div class="heart-holder" data-url="{{ facility_url }}" data-logged_in='yes'><img {% if not user in favorites %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
+

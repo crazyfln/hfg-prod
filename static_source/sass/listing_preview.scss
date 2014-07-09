@@ -34,12 +34,18 @@
         }
     }
 
-    .empty {
-        background: image-url('img/icon_not_hearted.png');
-    }
+//was going to use this for ajax styling a different way.
+//used .heart-hearted below instead
 
-    .full {
-        background: image-url('img/icon_hearted.png');
+    // .heart-holder-full {
+    //     background: image-url('img/icon_hearted.png');
+    // }
+
+    .heart-hearted {
+        display: inline;
+        height: 100%;
+        width: 100%;
+        margin-left: 0px;
     }
 
 

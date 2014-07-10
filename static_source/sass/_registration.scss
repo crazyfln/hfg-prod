@@ -118,7 +118,14 @@ a.push {
 }
 
 
-
+#id_description {
+    width:100%;
+    padding-left:20px;
+    height:130px;
+    border: 1px solid $border;
+    outline:none;
+    padding-top: 15px;
+}
 
 
 // modal custom inputs below for requesting

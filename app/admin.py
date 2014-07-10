@@ -79,19 +79,6 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
-    def get_monthly_total(self):
-        today = datetime.datetime.now()
-        last_month = today - datetime.timedelta(days=30)
-
-        facilities_this_month = Facility.objects.filter(created__gte=last_month)
-        return len(facilities_this_month)
-
-    def changelist_view(self, request, extra_context=None):
-        context = {
-            'monthly_total':self.get_monthly_total(),   
-        }
-        return super(FacilityAdmin, self).changelist_view(request, extra_context=context)
-
 
 manager_admin.register(Facility, FacilityAdmin)
 

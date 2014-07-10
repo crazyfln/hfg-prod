@@ -22,6 +22,10 @@
             color:$secondary;
             text-transform:uppercase;
             font-size:12px;
+
+            span {
+                margin-top: -5px;
+            }
         }
 
         p.name {

@@ -5,7 +5,7 @@
 <div class="facility-detail">
     <div class="container padder-100">
         <div class="facility-top">
-            <a class='back' href="/search"> < Back to Search</a>
+            <a class='back' href="/search"> <span><</span> Back to Search</a>
             <p class='name'>{{ object.name }}</p>
             <p class='address'>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
             {% for type in object.facility_types.all %}
@@ -195,7 +195,7 @@
                 <div class="clear"></div>
 
                 {% if not tour_request %} <!-- This is displayed if a user can submit a tour request -->
-                <button class='button-orange' data-toggle="modal" data-target="#tour_describe">Request A tour</button>
+                <button class='button-orange' data-toggle="modal" data-target="#Login-Modal">Request A tour</button>
                 {% else %} <!-- if user cannot submit tour request -->
 
                 <button class='button-gray'>Request A tour</button>
@@ -214,6 +214,7 @@
 {% block body_media %}
 {% if tour_request_form %}
 {% include 'snippets/tour_request_modal.html' with form=tour_request_form facility_slug=object.slug %}
+{% include 'snippets/login_modal.html' %}
 {% endif %}
 
 <script>

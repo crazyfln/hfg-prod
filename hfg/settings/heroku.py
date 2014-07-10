@@ -17,6 +17,8 @@ STATIC_URL = '/static/'
 DEBUG= False
 
 
+CONTACT_EMAIL = 'hello@homeforgrandma.com'
+
 
 # CACHES = {
 #     'default': {

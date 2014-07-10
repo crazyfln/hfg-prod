@@ -3,7 +3,7 @@ from .base import *
 DEBUG = True
 
 
-CONTACT_EMAIL = 'chris@lightmatter.com'
+CONTACT_EMAIL = 'greg@lightmatter.com'
 
 DATABASES = {
     'default': {

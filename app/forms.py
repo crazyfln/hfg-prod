@@ -32,12 +32,13 @@ class ListPropertyForm(forms.Form):
     description = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Description'}))
 
     def send_email(self):
-        message = self.cleaned_data['descprtion'] + "<br/>"
+        message = self.cleaned_data['description'] + "<br/>"
         who = self.cleaned_data['first_name']
         send_mail(
                 subject="Home For Grandma: Listing Request from" + who,
                 message = message + "from: " + who,
                 from_email=self.cleaned_data['email'],
+                recipient_list = [settings.CONTACT_EMAIL],
                 )
 
 class ContactForm(forms.Form):
@@ -54,7 +55,7 @@ class ContactForm(forms.Form):
                 subject="Home For Grandma: contact us message from " + who,
                 message= message + "from: " + who + "of - " + site, 
                 from_email=self.cleaned_data['email'],
-                recipient_list = [settings.CONTACT_EMAIL]
+                recipient_list = [settings.CONTACT_EMAIL],
                 )
             
 BUDGET_CHOICES_EMPTY = [('','Budget')] + BUDGET_CHOICES

@@ -1,145 +1,179 @@
 <form id="tour-request-form" action="{% url 'tour_request' facility_slug %}" method="POST">
   {% csrf_token %}
+
   <div class="modal fade" id="tour_describe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          {{ form.errors }}
-          {{ form.health_description }}
-          <br />
-          {{ form.planned_move_date.label_tag }}
-          {{ form.planned_move_date }}
+      <center>
+        <div class="modal-content">
+          <div class="modal-body">
+            <center>
+              {{ form.errors }}
+              {{ form.health_description }}
+              <br />
+
+              {{ form.planned_move_date }}
+
+            </center>
+          </div>
+          <!-- <button type="button" class="btn btn-default" data-dismiss="modal">BACK</button> -->
+          <center><button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal"  data-target="#tour_search">NEXT</button></center>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">BACK</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"  data-target="#tour_search">NEXT</button>
-        </div>
-      </div>
+      </center>
     </div>
   </div>
 
   <div class="modal fade" id="tour_search" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Search Requirements</h4>
-        </div>
-        <div class="modal-body">
-          {{ form.desired_city }}
-          <br />
-          {{ form.move_in_time_frame }}
-          <br />
-          {{ form.searching_for }}
-          <br />
+      <center>
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            <h4 class="modal-title" id="myModalLabel">Search Requirements</h4>
+            <hr>
+          </div>
+          <div class="modal-body">
+            {{ form.desired_city }}
+            <br/>
+            <div class="modal-select-holder">
+             {{ form.move_in_time_frame }}
+           </div>
+           <br/>
+           <div class="modal-select-holder">
+            {{ form.searching_for }}
+          </div>
+          <br/>
           {{ form.resident_first_name }}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#tour_describe">BACK</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#tour_budget">NEXT</button>
-        </div>
+          <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_describe">BACK</button>
+          <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour_budget">NEXT</button>
+        </center>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="modal fade" id="tour_budget" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="tour_budget" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <center>
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="myModalLabel">Budget Requirements</h4>
         </div>
         <div class="modal-body">
-          {{ form.budget }}
-          <p>Financial Payment Options</p>
-          {{ form.pay_private_pay.label_tag }}
-          {{ form.pay_private_pay }}
-          <br />
-          {{ form.pay_longterm_care.label_tag }}
-          {{ form.pay_longterm_care }}
-          <br />
-          {{ form.pay_veterans_benefits.label_tag }}
-          {{ form.pay_veterans_benefits }}
-          <br />
-          {{ form.pay_medicare.label_tag }}
-          {{ form.pay_medicare }}
-          <br />
-          {{ form.pay_medicaid.label_tag }}
-          {{ form.pay_medicaid }}
-          <br />
-          {{ form.pay_ssi.label_tag }}
-          {{ form.pay_ssi }}
-          <br />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#tour_search">BACK</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">NEXT</button>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div class="modal-select-holder">
+            {{ form.budget }}
+          </div>
 
-  <div class="modal fade" id="tour_care" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+          
+          
+          <div class="align-left">
+            <p id='f-o'>Financial Payment Options</p>
+            <div class="clear"></div>
+            {{ form.pay_private_pay }}
+            {{ form.pay_private_pay.label_tag }}
+            <p>Private Pay</p>
+            <div class="clear"></div>
+            {{ form.pay_longterm_care }}
+            {{ form.pay_longterm_care.label_tag }}
+            <p>Longterm Care Insurance</p>
+            <div class="clear"></div>
+            {{ form.pay_veterans_benefits }}
+            {{ form.pay_veterans_benefits.label_tag }}
+            <p>Veterans Benefits</p>
+            <div class="clear"></div>
+            {{ form.pay_medicare }}
+            {{ form.pay_medicare.label_tag }}
+            <p>Medicare</p>
+            <div class="clear"></div>
+            {{ form.pay_medicaid }}
+            {{ form.pay_medicaid.label_tag }}
+            <p>Medicaide</p>
+            <div class="clear"></div>
+            {{ form.pay_ssi }}
+            {{ form.pay_ssi.label_tag }}
+            <p>SSI</p>
+          </div>
+          <br />
+        </div>
+        <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_search">BACK</button>
+        <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">NEXT</button>
+      </div>
+    </center>
+  </div>
+</div>
+
+<div class="modal fade" id="tour_care" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <center>
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="myModalLabel">Care Needs</h4>
         </div>
         <div class="modal-body">
-          {{ form.care_bathing.label_tag }}
-          {{ form.care_bathing }}
-          <br />
-          {{ form.care_diabetic.label_tag }}
-          {{ form.care_diabetic }}
-          <br />
-          {{ form.care_mobility }}
-          <br />
-          {{ form.care_current }}
-          <br />
-          {{ form.care_medical_assistance.label_tag }}
-          {{ form.care_medical_assistance }}
-          <br />
-          {{ form.care_toileting.label_tag }}
-          {{ form.care_toileting }}
-          <br />
-          {{ form.care_memory_issues.label_tag }}
-          {{ form.care_memory_issues }}
-          <br />
-          {{ form.care_diagnosed_memory.label_tag }}
-          {{ form.care_diagnosed_memory }}
-          <br />
-          {{ form.care_combinative.label_tag }}
-          {{ form.care_combinative }}
-          <br />
-          {{ form.care_wandering.label_tag }}
-          {{ form.care_wandering }}
-          <br />
+          <div class="align-left">
+            {{ form.care_bathing }}
+            {{ form.care_bathing.label_tag }}
+            <p>Bathing</p>
+            <div class="clear"></div>
+            {{ form.care_diabetic }}
+            {{ form.care_diabetic.label_tag }}
+             <p>Diabetic Care</p>
+            <div class="clear"></div>
+            <div class="modal-select-holder">
+              {{ form.care_mobility }}
+            </div>
+            <br />
+            <div class="modal-select-holder">
+              {{ form.care_current }}
+            </div>
+            <br />
+            {{ form.care_medical_assistance }}
+            {{ form.care_medical_assistance.label_tag }}
+             <p>Medical Assistance</p>
+            <div class="clear"></div>
+            {{ form.care_toileting }}
+            {{ form.care_toileting.label_tag }}
+             <p>Toileting</p>
+            <div class="clear"></div>
+            {{ form.care_memory_issues }}
+            {{ form.care_memory_issues.label_tag }}
+             <p>Memory Issues</p>
+            <div class="clear"></div>
+            {{ form.care_diagnosed_memory }}
+            {{ form.care_diagnosed_memory.label_tag }}
+            <p>Diagnosed Memory Condition</p>
+            <div class="clear"></div>
+            {{ form.care_combinative }}
+            {{ form.care_combinative.label_tag }}
+             <p>Combinative</p>
+            <div class="clear"></div>
+            {{ form.care_wandering }}
+            {{ form.care_wandering.label_tag }}
+             <p>Wandering</p>
+            <div class="clear"></div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#tour_budget">BACK</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#tour_comments">NEXT</button>
-        </div>
+        <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_budget">BACK</button>
+        <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour_comments">NEXT</button>
       </div>
-    </div>
+    </center>
   </div>
+</div>
 
-  <div class="modal fade" id="tour_comments" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="tour_comments" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <center>
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="myModalLabel">Comments</h4>
         </div>
         <div class="modal-body">
           {{ form.comments }}
           <br />
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">BACK</button>
-          <button type="submit" class="btn btn-primary">Submit Tour Request</button>
-        </div>
+        <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour_care">BACK</button>
+        <button type="submit" class="button-blue">Submit Tour Request</button>
       </div>
-    </div>
+    </center>
   </div>
+</div>
 </form>

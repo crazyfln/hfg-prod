@@ -12,7 +12,6 @@ urlpatterns = patterns('app.views',
     url(r'^facility/(?P<slug>[-\w]+)/favorite/$', 'facility_favorite', name='favorite'),
     url(r'^facility/(?P<slug>[-\w]+)/request_phone/$', 'request_phone', name='request_phone'),
     url(r'^facility/(?P<slug>[-\w]+)/tour_request/$', 'tour_request', name='tour_request'),
-    url(r'^favorites/$', FavoriteList.as_view(), name='favorite_list'),
     url(r'^search/$', Search.as_view(), name='search'),
     url(r'^contact/$', Contact.as_view(), name='contact'),
     url(r'^profile/$', Profile.as_view(), name='profile'),
@@ -21,7 +20,12 @@ urlpatterns = patterns('app.views',
     url(r'^making_move/', 'making_move', name='making_move'),
     url(r'^about/', 'about', name='about'),
     url(r'^home_video/', 'home_video', name='home_video'),
+    url(r'^list_property/$', ListProperty.as_view(), name='list_property'),
     (r'^$', TemplateView.as_view(template_name="index.html")),
+    url(r'^provider/change_facility_visibility/(?P<pk>[-\w]+)/$', 'change_facility_visibility', name='change_facility_visibility'),
+    url(r'^manager/facility_note/(?P<pk>[-\w]+)/$', EditManagerNoteFacility.as_view(), name='edit_manager_note_facility'),
+    url(r'^manager/invoice_note/(?P<pk>[-\w]+)/$', EditManagerNoteInvoice.as_view(), name='edit_manager_note_invoice'),
+
 )
 
 from .signals import * #ensure that the signals are attatched via import

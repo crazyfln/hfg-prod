@@ -1,6 +1,7 @@
 @import "compass/css3/background-size";
 
 @import "compass/layout.scss";
+// @import "compass/css3/appearance";
 
 @include sticky-footer(257px, "#main", "#main-footer", "#footer");
 
@@ -19,6 +20,8 @@ $bootstrap-sass-asset-helper: false;
 @import "search";
 @import "contact";
 @import "about";
+@import "profile";
+@import "checkboxes";
 
 
 //global rules and helper classes
@@ -62,8 +65,6 @@ h1, h2, h3, h4, h5, h6 {
 .margin-top-20 {
     margin-top:20px;
 }
-
-
 
 .margin-top-30 {
     margin-top:30px;

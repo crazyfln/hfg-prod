@@ -5,8 +5,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpRespons
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.db.models import Q
@@ -49,6 +49,12 @@ class Profile(UpdateView):
     def get_object(self):
         return self.request.user
 
+    def get_context_data(self, **kwargs):
+        context = super(Profile, self).get_context_data(**kwargs)
+        context['favorites_list'] = self.object.favorites.all()
+        context['password_reset_form'] = PasswordChangeForm(self.object)
+        return context
+
     def get_success_url(self):
         return reverse('profile')
 
@@ -56,6 +62,13 @@ class Profile(UpdateView):
 class FacilityDetail(DetailView):
     model = Facility
     template_name = 'facility_detail.html'
+
+    def get_object(self, queryset=None):
+        self.object = super(FacilityDetail, self).get_object(queryset)
+        if self.object.visibility:
+            return self.object
+        else:
+            raise PermissionDenied("This facility is not currently visible to the public")
 
     def get_context_data(self, **kwargs):
         context = super(FacilityDetail, self).get_context_data(**kwargs)
@@ -84,6 +97,7 @@ def tour_request(request, slug):
             messages.error(request, "There was a problem with your tour request")
     return HttpResponseRedirect(facility.get_absolute_url())
 
+@ajax_request
 @login_required
 def facility_favorite(request, slug):
     facility = get_object_or_404(Facility, slug=slug)
@@ -93,15 +107,7 @@ def facility_favorite(request, slug):
     else:
         favorite = Favorite(user=request.user, facility=facility)
         favorite.save()
-
-    return HttpResponseRedirect(request.GET['next'])
-
-class FavoriteList(ListView):
-    model = Facility
-    template_name = 'favorite_list.html'
-
-    def get_queryset(self):
-        return self.request.user.favorites.all()
+    return {}
 
 class Search(ListView):
     model = Facility
@@ -135,10 +141,10 @@ class Search(ListView):
             max_price = form.cleaned_data.get('max_value')
             if not max_price:
                 max_price = SEARCH_MAX_VAL_INITIAL
-            result = result.filter(min_price__gte=min_price, min_price__lte=max_price)
+            result = result.filter(min_price__gte=min_price, min_price__lte=max_price, visibility=True)
             return result
         else:
-            return Facility.objects.all()
+            return Facility.objects.all().filter(visibility=True)
 
 class Contact(FormView):
     form_class = ContactForm
@@ -152,6 +158,18 @@ class Contact(FormView):
         messages.success(self.request, 'Thank you for contacting us, we will be in touch with you soon.')
         return HttpResponseRedirect(self.get_success_url())
 
+class ListProperty(FormView):
+    form_class = ListPropertyForm
+    template_name = 'list_property.html'
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def form_valid(self, form):
+        form.send_email()
+        messages.success(self.request, 'Thanks for requesting to list your property')
+        return HttpResponseRedirect(self.get_success_url())
+
 @require_POST
 @ajax_request
 def request_phone(request, slug):
@@ -159,6 +177,40 @@ def request_phone(request, slug):
     phone_request = PhoneRequest(facility=facility, user=request.user)
     phone_request.save()
     return {}
+
+def change_facility_visibility(request, pk):
+    if request.user.is_provider():
+        facility = get_object_or_404(Facility, pk=pk)
+        facility.visibility = not facility.visibility
+        facility.save()
+        info = request.GET['admin_site'], request.GET['app_label'], request.GET['module_name']
+        string = '{0}:{1}_{2}_changelist'.format(*info)
+        return HttpResponseRedirect(reverse(string))
+    else:
+        raise PermissionDenied()
+
+class EditManagerNoteFacility(UpdateView):
+    model = Facility
+    template_name = 'manager_note.html'
+    form_class = EditManagerNoteFacilityForm
+    fields = ('manager_note',)
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            return super(EditManagerNoteFacility, self).get(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            self.success_url = request.get_full_path()
+            return super(EditManagerNoteFacility, self).post(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
+
+class EditManagerNoteInvoice(EditManagerNoteFacility):
+    model = Invoice
+    form_class = EditManagerNoteInvoiceForm
 
 @ajax_request
 @login_required

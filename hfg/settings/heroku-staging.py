@@ -17,6 +17,8 @@ STATIC_URL = '/static/'
 DEBUG = True
 PIPELINE_ENABLED = True
 
+CONTACT_EMAIL = 'hello@homeforgrandma.com'
+
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'redis_cache.RedisCache',

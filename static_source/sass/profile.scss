@@ -1,0 +1,124 @@
+.profile {
+
+    %profile-select-holder {
+        background:image-url('img/select_dropdown.png') no-repeat;
+        height: 40px;
+        width: 294px;
+        border-radius: 0px;
+        background-position:270px;
+    }
+
+    h3#favorites {
+        color: $secondary;
+        margin-left: 20px;
+    }
+
+    .name-holder {
+        border-left: 1px solid $border;
+        border-right: 1px solid $border;
+        width: 100%;
+        height: 120px;
+    }
+
+    h3#main-name { color:$secondary;
+        margin: 0px 0 40px 0;
+        padding: 50px 30px 0 30px;
+    }
+
+    ul.nav, .nav-tags {
+        background-color:$grey-background;
+        margin-bottom: 40px;
+
+        li {
+
+            img {
+                z-index: 1;
+                position: absolute;
+                margin-top: 12px;
+                margin-left: 47px;
+            }
+
+            a {
+                padding-left: 70px;
+                padding-right:45px;
+                background-color:$grey-background !important;
+            }
+        }
+
+
+        li.active {
+            border-bottom: 2px solid $secondary !important;
+        }
+    }
+
+    .tab-content {
+
+
+        .tab-pane, #profile,{
+
+            button {
+                float:right;
+                margin: 40px 0 0 0;
+            }
+
+            .table-holder {
+                width: 100%;
+                padding:20px;
+                border-right: 1px solid $border;
+                border-bottom: 1px solid $border;
+                border-left: 1px solid $border;
+                border-top: none;
+                margin-top: 20px;
+            }
+
+            table {
+
+                label {
+                    color: $light;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    font-weight: 400;
+                    margin: 0 0 10px 0;
+                }
+                tr  {
+
+                    // &:nth-child(2n)
+                    //  {
+                    //     height: 60px;
+                    //     margin-bottom: 40px;
+                    //  }
+
+                    td {
+
+                        padding-right: 40px;
+
+                        input {
+                            border: 1px solid $border;
+                            width: 294px;
+                            margin-bottom: 30px;
+                        }
+
+                        .searching-for-holder {
+                            @extend %profile-select-holder;
+                            margin-top: -25px;
+                        }
+
+                        .budget-holder {
+                            @extend %profile-select-holder;
+                        }
+
+                        select {
+                            background: transparent;
+                            width: 100%;
+                            height: 100%;
+                            outline: none;
+                            -webkit-appearance: none;
+                            padding-left: 20px;
+                            border: 1px solid $border;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

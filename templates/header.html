@@ -5,22 +5,17 @@
 
 
   {% if user.is_authenticated %}
-   <a href="/contact"><button class='button-blue right'>Contact</button></a>
-   {% comment %} hiding this till after expo<a href="{% url 'profile' %}"> <button class='button-blue right'>Profile</button></a> {% endcomment %}
 
-
+  <button class='button-orange right' data-toggle="modal" data-target="#List-Property-Modal">List Your Property</button>
+  <a href="{% url 'profile' %}"> <button class='button-blue right'>Profile</button></a>
   <a href="{% url 'auth_logout' %}"><button class='button-orange right'>Logout</button></a>
   <p class='right bold large-text'>(626) 522-3432</p>
+
   {% else %}
 
-  <a href="/contact"><button class='button-orange right'>Contact</button></a>
-
-  {% comment %} hiding this till after expo<a href=""><button class='button-orange right'>List Your Property</button></a> {% endcomment %}
-
-  <!-- <a href=''><button class="button-orange right" data-toggle="modal" data-target="#Registration-Modal">Register</button></a> -->
+  <button class='button-orange right' data-toggle="modal" data-target="#List-Property-Modal">List Your Property</button>
+  <button class="button-orange right" data-toggle="modal" data-target="#Registration-Modal">Register</button>
   <button class="button-blue right" data-toggle="modal" data-target="#Login-Modal">Login</button>
-
-
   <p class='right bold large-text'>(626) 522-3432</p>
   {% endif %}
 </div>

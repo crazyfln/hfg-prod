@@ -1,4 +1,3 @@
-<center><h3>Login to Your Account</h3></center>
 <div class="modal-body">
   <form method="post" action="{% url "django.contrib.auth.views.login" %}{% if next %}?next={{next}}{% endif %}">
     {% csrf_token %}
@@ -11,14 +10,13 @@
       </tr>
     </table>
 
-
     {% if form.errors %}
-      <p class='errors'>Your username and password didn't match. Please try again.</p>
+    <p class='errors'>Your username and password didn't match. Please try again.</p>
     {% endif %}
-   <!--  <a href="/account/password/reset">Forgot your password?</a> -->
-        </br>
+    <a href="{% url "password_change" %}">Forgot your password?</a>
+  </br>
 
-        <button class="button-blue left login-b">Login </button> <!-- replace the above button class with the class(es) you make in _buttons.scss -->
-  </form>
-  <button class='button-orange register-b' data-toggle="modal" data-target="#Registration-Modal">New? Register an account</button>
+  <button class="button-blue left login-b">Login </button> <!-- replace the above button class with the class(es) you make in _buttons.scss -->
+</form>
+<button class='button-orange register-b' data-toggle="modal" data-target="#Registration-Modal">New? Register an account</button>
 </div>

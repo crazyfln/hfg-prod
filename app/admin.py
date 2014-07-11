@@ -1,9 +1,13 @@
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
 import reversion
+import datetime
+import urllib
 from django.shortcuts import get_object_or_404
-
+from django.utils.translation import ugettext_lazy as _
 from django.forms import CheckboxSelectMultiple
+import datetime
+from liststyle.admin import ListStyleAdminMixin
 from account.models import User, HoldingGroup
 from account.admin import UserAdmin
 from util.util import list_button
@@ -37,6 +41,7 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
     fieldsets = (
         ("Facility Information", {
             'fields':(
+                'visibility',
                 'holding_group', 
                 ('name','facility_types','capacity'),
                 ('address','vacancies'),
@@ -74,15 +79,51 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
+    def get_monthly_total(self):
+        today = datetime.datetime.now()
+        last_month = today - datetime.timedelta(days=30)
+
+        facilities_this_month = Facility.objects.filter(created__gte=last_month)
+        return len(facilities_this_month)
+
+    def changelist_view(self, request, extra_context=None):
+        context = {
+            'monthly_total':self.get_monthly_total(),   
+        }
+        return super(FacilityAdmin, self).changelist_view(request, extra_context=context)
+
 
 manager_admin.register(Facility, FacilityAdmin)
 
-class FacilityMessageAdmin(admin.ModelAdmin):
-    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_replied']
+class UnreadFilter(admin.SimpleListFilter):
+    title = _('View All/Unread/Read')
+    parameter_name = 'read_by_manager'
+    def lookups(self, request, model_admin):
+        return (
+            ('unread', _('View Unread Messages Only')),
+            ('read', _('View Read Messages Only')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'unread':
+            return queryset.filter(read_manager=False)
+        elif self.value() == 'read':
+            return queryset.filter(read_manager=True)
+
+class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
+    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_manager', 'get_replied']
+    actions = ['make_read', 'make_unread', 'send_to_facility', 'unsend_to_facility']
+    ordering = ['-read_by_manager','-modified']
+    list_filter = (UnreadFilter,)
+    search_fields = ['facility__name', 'facility__holding_group__name']
 
     def message(self, obj):
         return list_button(self,obj._meta,"change", obj.comments[:20], obj_id=obj.id)
     message.allow_tags = True
+
+    def get_read_manager(self, obj):
+        return "Read" if obj.read_by_manager else "unread"
+    get_read_manager.short_description = "read"
 
     def get_replied(self, obj):
         if obj and not obj.replied_by and not obj.replied_datetime:
@@ -98,10 +139,66 @@ class FacilityMessageAdmin(admin.ModelAdmin):
         return obj.user.get_full_name()
     get_user_full_name.short_description = "Sender Name"
 
+    
+    #Actions
+    def make_read(self, request, queryset):
+        queryset.update(read_manager=True)
+    make_read.short_description = "Mark messages as read"
+
+    def make_unread(self, request, queryset):
+        queryset.update(read_manager=False)
+    make_unread.short_description = "Mark messages as unread"
+
+    def send_to_facility(self, request, queryset):
+        queryset.update(replied_by=request.user.first_name, replied_datetime=datetime.datetime.now())
+        message_string = "{0} messages were sent to providers".format(str(len(queryset)))
+        self.message_user(request, message_string)
+    send_to_facility.short_description = "Send to Facility"
+
+    def unsend_to_facility(self, request, queryset):
+        queryset.update(replied_by="", replied_datetime=None)
+    unsend_to_facility.short_description = "Unsend messages"
+
+    def queryset(self, request):
+        query = super(FacilityMessageAdmin, self).queryset(request)
+        return query.order_by('-read_manager', 'modified')
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        message = get_object_or_404(FacilityMessage, id=object_id)
+        if not message.read_manager:
+            message.read_manager = True
+            message.save()
+        return super(FacilityMessageAdmin, self).change_view(request, object_id, form_url, extra_context)
+
+    def get_row_css(self, obj, index):
+        if not obj.read_manager:
+            return 'strong'
+        return ''
+
 manager_admin.register(FacilityMessage, FacilityMessageAdmin)
+
+class InvoiceMonthFilter(admin.SimpleListFilter):
+    title = _('View Recent Bills')
+    parameter_name = 'created'
+    def lookups(self, request, model_admin):
+        return (
+            ('1month', _('View bills created in past month')),
+            ('3month', _('View bills created in past 3 months')),
+        )
+
+    def queryset(self, request, queryset):
+        today = datetime.datetime.now()
+        one_month_ago = today - datetime.timedelta(days=30)
+        three_months_ago = today - datetime.timedelta(days=90)
+
+        if self.value() == '1month':
+            return queryset.filter(created__gte=one_month_ago)
+        elif self.value() == '3month':
+            return queryset.filter(created__gte=three_months_ago)
 
 class InvoiceAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
     list_display = ['edit','note','delete','pk','facility','billed_on','get_amount','get_recieved','status','payment_method']
+    list_filter = (InvoiceMonthFilter,)
     fieldsets = (
         (None, {
             'fields':(
@@ -117,11 +214,13 @@ class InvoiceAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.Mo
     )
 
     def get_amount(self, obj):
-        return "$" + str(obj.amount)
+        amount = obj.amount or "0"
+        return "$" + amount
     get_amount.short_description = "Billed"
 
     def get_recieved(self, obj):
-        return "$"+obj.recieved
+        amount = obj.recieved or "0"
+        return "$" + amount
     get_recieved.short_description = "Recieved"
 
     class Meta:
@@ -192,24 +291,36 @@ class FacilityRoomProviderInline(FacilityRoomInline):
         return True
 
 class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
-    list_display = ['edit','delete','pk','name','status','get_messages','get_visibility']
+    list_display = ['edit','delete','pk','name','get_status','get_messages','get_visibility']
     inlines = [FacilityFeeProviderInline, FacilityImageProviderInline, FacilityRoomProviderInline]
     form = FacilityProviderForm
 
-
     def get_messages(self, obj):
         msgs = obj.facilitymessage_set.all()
-        unread = msgs.filter(read_provider=False)
+        unread = msgs.filter(read_by_provider=False)
         display = str(len(msgs)) + " (" + str(len(unread)) + " Unread)"
         meta = FacilityMessageProviderProxy.objects.model._meta
-        query = "?q=" + str(obj.slug)
+        query = "?facility=" + str(obj.slug)
         return list_button(self,meta,'changelist',display,query=query)
     get_messages.allow_tags = True
     get_messages.short_description = "Messages"
 
+    def get_status(self, obj):
+        return obj.get_vacancy_status()
+    get_status.short_description = "Status"
+
     def get_visibility(self, obj):
-        return "not implemented"
-    get_visibility.short_description = "Visibility"
+        display = "Yes" if obj.visibility else "No"
+        url = reverse('change_facility_visibility', args=(obj.pk,))
+        query = {'admin_site':self.admin_site.name,
+            "app_label":obj._meta.app_label,
+            "module_name":obj._meta.module_name
+        }
+        url = url + "?" + urllib.urlencode(query)
+        return '<a href="{0}">{1}</a>'.format(url, display)
+
+    get_visibility.short_description = "Published"
+    get_visibility.allow_tags = True
     
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(FacilityProviderAdmin, self).get_fieldsets(request, obj)
@@ -239,15 +350,42 @@ class FacilityMessageProviderProxy(FacilityMessage):
         verbose_name_plural = "Message Center"
 
 class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
-    list_display = ['created','facility','get_user_full_name', 'message','get_replied']
+    list_display = ['created','get_facility','get_user_full_name','get_user_email', 'message','get_replied']
+    actions = None
 
     def queryset(self, request):
         query = super(FacilityMessageProviderAdmin, self).queryset(request)
-        if 'q' in request.GET:
-            q = request.GET['q']
-            facility = get_object_or_404(FacilityProviderProxy, slug=q)
-            query = query.filter(facility=facility)
+        query = query.filter(replied_by__isnull=False, replied_datetime__isnull=False)
+        q = request.GET.get('facility', "")
+        facility = get_object_or_404(FacilityProviderProxy, slug=q)
+        query = query.filter(facility=facility)
+        q = request.GET.get('user', "")
+        user = get_object_or_404(User, pk=q)
+        query = query.filter(user=user)
         return query.filter(facility__holding_group=request.user.holding_group)
+
+    def get_user_email(self, obj):
+        query = "?user=" + str(obj.user.pk)
+        return list_button(self, obj._meta, 'changelist', obj.user.email, query=query)
+    get_user_email.short_description = "Sender Email"
+    get_user_email.allow_tags = True
+
+    def get_facility(self, obj):
+        query = "?facility=" + obj.facility.slug
+        return list_button(self, obj._meta, 'changelist', obj.facility.name, query=query)
+    get_facility.short_description = "Facility"
+    get_facility.allow_tags = True
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super(FacilityMessageProviderAdmin, self).get_fieldsets(request, obj)
+        fields_to_exclude = ('replied_by', 'replied_datetime', 'read_manager', 'read_provider')
+        for fieldset in fieldsets:
+            newfields = []
+            for field in fieldset[1]['fields']:
+                if not field in fields_to_exclude:
+                    newfields.append(field)
+            fieldset[1]['fields'] = tuple(newfields)
+        return fieldsets
 
 provider_admin.register(FacilityMessageProviderProxy, FacilityMessageProviderAdmin)
 

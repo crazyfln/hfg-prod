@@ -22,7 +22,7 @@
     // }
 
     .heart-holder {
-        background: image-url('img/icon_not_hearted.png');
+
         height: 21px;
         width: 22px;
         position: absolute;
@@ -32,6 +32,20 @@
         &:hover {
             cursor:pointer;
         }
+    }
+
+//was going to use this for ajax styling a different way.
+//used .heart-hearted below instead
+
+    // .heart-holder-full {
+    //     background: image-url('img/icon_hearted.png');
+    // }
+
+    .heart-hearted {
+        display: inline;
+        height: 100%;
+        width: 100%;
+        margin-left: 0px;
     }
 
 

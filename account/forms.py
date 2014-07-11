@@ -14,6 +14,7 @@ class AuthenticationForm(DjangoAuthenticationForm):
 
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    # email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
 
 
 

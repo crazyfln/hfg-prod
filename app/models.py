@@ -7,6 +7,8 @@ from django.core.urlresolvers import reverse
 from account.models import User, HoldingGroup
 
 from util.util import file_url
+from .facility_message_mixin import FacilityMessageFieldMixin
+from urllib import quote_plus 
 
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
@@ -27,11 +29,6 @@ class Facility(TimeStampedModel):
     latitude = models.IntegerField(blank=True, default=0)
     longitude = models.IntegerField(blank=True, default=0)
     shown_on_home = models.BooleanField(default=False)
-    status = models.CharField(max_length="20", choices=(
-                              ('Vacancies','Vacancies'),
-                              ('No Vacancies','No Vacancies'),
-                              ('Dormant', 'Dormant'), # think dormant is being removed
-                              ))
     description_short = models.CharField(max_length=140, blank=True)
     description_long = models.CharField(max_length=1000, blank=True)
 
@@ -55,6 +52,10 @@ class Facility(TimeStampedModel):
                                    ("Rent and Care","Rent and Care"),
                                    ))
     phone_requested_by = models.ManyToManyField(User, through="PhoneRequest", related_name="phone_requests", blank=True)
+    visibility = models.BooleanField(default=True)
+    manager_note = models.CharField(max_length=1000, blank=True, null=True)
+
+
 
     def __unicode__(self):
         return self.name
@@ -76,15 +77,28 @@ class Facility(TimeStampedModel):
             return ""
 
     def get_phone_stars(self,):
-        parts = self.get_phone_parts()
-        return "(" + parts[0] + ") " + parts[1] + "-****"
+        if self.phone:
+            parts = self.get_phone_parts()
+            return "(" + parts[0] + ") " + parts[1] + "-****"
+        else:
+            return None
 
     def get_phone_normal(self):
-        parts = self.get_phone_parts()
-        return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
+        if self.phone:
+            parts = self.get_phone_parts()
+            return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
+        else:
+            return None
 
     def get_featured_image(self):
         return self.images.get(featured = True)
+
+    def get_vacancy_status(self):
+        return "Vacancies" if self.vacancies > 0 else "No Vacancies"
+
+    def get_encoded_address(self):
+        return quote_plus(",".join([self.address, self.city, self.state, self.zipcode]))
+
 
     class Meta:
         verbose_name = "Facility"
@@ -109,69 +123,14 @@ class Fee(TimeStampedModel):
     class Meta:
         verbose_name_plural = "Types of Additional Fees"
 
-BUDGET_CHOICES = [
-    ('1000','1000'),
-    ('2000','2000'),
-    ('3000','3000'),
-    ('Not Sure','Not Sure')
-]
-CARE_MOBILITY_CHOICES = [
-    ('Mobile','Mobile'),
-    ('Immobile','Immobile')
-]
-CARE_CURRENT_CHOICES = [
-    ('Alone','Alone'),
-    ('With Family','With Family')
-]
-MOVE_IN_TIME_FRAME_CHOICES = [
-    ('Now','Now'),
-    ('Soon','Soon'),
-    ('Later','Later')
-]
-SEARCHING_FOR_CHOICES = [
-    ('Myself','Myself'),
-    ('Family','Family'),
-    ('Friend','Friend'),
-    ('Client','Client'),
-    ('Other','Other')
-]
-class FacilityMessage(TimeStampedModel):
+class FacilityMessage(TimeStampedModel, FacilityMessageFieldMixin):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
-    budget = models.CharField(max_length=30, blank=True, choices=BUDGET_CHOICES)
-
-    pay_private_pay = models.BooleanField()
-    pay_longterm_care = models.BooleanField()
-    pay_veterans_benefits = models.BooleanField()
-    pay_medicare = models.BooleanField()
-    pay_medicaid = models.BooleanField()
-    pay_ssi = models.BooleanField()
-
-    care_bathing = models.BooleanField()
-    care_diabetic = models.BooleanField()
-    care_mobility = models.CharField(max_length=30, blank=True, choices=CARE_MOBILITY_CHOICES)
-
-    care_current = models.CharField(max_length=30, blank=True, choices=CARE_CURRENT_CHOICES)
-
-    care_medical_assistance = models.BooleanField()
-    care_toileting = models.BooleanField()
-    care_memory_issues = models.BooleanField()
-    care_diagnosed_memory = models.BooleanField()
-    care_combinative = models.BooleanField()
-    care_wandering = models.BooleanField()
 
     comments = models.CharField(max_length=500, blank=True)
-    health_description = models.CharField(max_length=500, blank=True)
-    planned_move_date = models.DateTimeField(blank=True, null=True)
-    move_in_time_frame = models.CharField(max_length=30, blank=True, choices=MOVE_IN_TIME_FRAME_CHOICES)
 
-    desired_city = models.CharField(max_length=30, blank=True)
-    searching_for = models.CharField(max_length=30, blank=True, choices=SEARCHING_FOR_CHOICES)
-
-    resident_first_name = models.CharField(max_length=30, blank=True)
-
-    read_manager = models.BooleanField(default=False)
-    read_provider = models.BooleanField(default=False)
+    read_by_manager = models.BooleanField(default=False)
+    read_by_provider = models.BooleanField(default=False)
     replied_by = models.CharField(max_length=20, blank=True)
     replied_datetime = models.DateTimeField(blank=True, null=True)
 
@@ -184,6 +143,9 @@ class FacilityMessage(TimeStampedModel):
             elif hasattr(user, field):
                 setattr(user, field, getattr(self, field))
         user.save()
+
+    def __unicode__(self):
+        return "-".join(str(self.facility.name), str(self.user.get_full_name()), str(self.created.date()))
 
     class Meta:
         verbose_name = "Message"
@@ -284,6 +246,7 @@ class Invoice(TimeStampedModel):
     move_in_date = models.DateTimeField()
     resident_name = models.CharField(max_length=50)
     amount = models.CharField(max_length=15)
+    manager_note = models.CharField(max_length=1000, blank=True, null=True)
 
     def __unicode__(self):
         return str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date())

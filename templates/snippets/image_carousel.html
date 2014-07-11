@@ -1,35 +1,62 @@
 {% load static from staticfiles %}
+
+
 <div id="facility-carousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
- <!--  <ol class="carousel-indicators">
-  </ol> -->
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-    {% for image in images %}
-      <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
-        <img class="img-main-carousel" src="{{ image.image.url }}"/>
-      </div>
-    {% endfor %} 
+<!--  <ol class="carousel-indicators">
+</ol> -->
+<!-- Wrapper for slides -->
+<div class="carousel-inner">
+  {% for image in images %}
+  <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter }}">
+    <img class="img-main-carousel" src="{{ image.image.url }}"/>
   </div>
+  {% endfor %} 
+</div>
 
-  <!-- Controls -->
-  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-    <img src='{% static 'img/icon_chevron_left.png' %}'/>
-  </a>
-  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-     <img src='{% static 'img/icon_chevron_right.png' %}'/>
-  </a>
+<!-- Controls -->
+<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+  <img src='{% static 'img/icon_chevron_left.png' %}'/>
+</a>
+<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+  <img src='{% static 'img/icon_chevron_right.png' %}'/>
+</a>
+</div>
+
+
+<div id="facility-map" class='hide'>
+
+  <iframe width="600" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDYGAWilv_2-qUyeUClcIMYwBI9tKLXWBo&q={{ facility.get_encoded_address }}&zoom=19"></iframe>
+
+
+
 </div>
 <!-- thumb navigation carousel -->
-<div class="col-md-12 " id="slider-thumbs">
+
+<div class="col-md-12" id='count-map'> 
+  <div class="col-md-6 count" style='border-right: 1px solid #ccc; height: 100%;'>
+    <center>
+      <img src='{% static 'img/icon_camera.png' %}'/>
+        <span id="carousel-current-image-number">1</span>
+        <span id="carousel-total-image-number"> / {{ images|length }}</span>
+      </p>
+    </center>
+  </div>
+  <div class="col-md-6 map">
+    <center>
+      <img src='{% static 'img/icon_map.png' %}'/>
+      <p>Map View</p>
+    </center>
+  </div>
+</div>
+  <div class="col-md-12 " id="slider-thumbs">
     <!-- thumb navigation carousel items -->
     <ul class="list-inline">
-    {% for image in images %}
-        <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
+      {% for image in images %}
+      <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
         <img src="{{ image.image.url }}" class="img-responsive">
-        </a></li>
-   {% endfor %}
+      </a></li>
+      {% endfor %}
     </ul>
-
-</div>
+  </div>
 

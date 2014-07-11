@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br />
+<br />
+<br />
+<br />
+<form id='edit_manager_note_form' action="{{ request.get_full_path }}" method="post">
+  {% csrf_token %}
+  {{ form.as_table }}
+  <button id="formsubmit" type="submit">Save changes</button>
+</form>
+{% endblock content %}

@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms import CheckboxSelectMultiple
 import datetime
 from liststyle.admin import ListStyleAdminMixin
+from ajax_select import make_ajax_form
 from account.models import User, HoldingGroup
 from account.admin import UserAdmin
 from util.util import list_button
@@ -35,9 +36,23 @@ class FacilityImageInline(admin.TabularInline):
 class FacilityRoomInline(admin.TabularInline):
     model = FacilityRoom
 
+
+class ShownOnHomeFilter(admin.SimpleListFilter):
+    title = _('View Listings Featured on Homepage')
+    parameter_name = 'shown_on_home'
+    def lookups(self, request, model_admin):
+        return (
+            ('featured', _('View Featured Listings')),
+        )       
+                
+    def queryset(self, request, queryset):
+        if self.value() == 'featured':
+            return queryset.filter(shown_on_home=True)
+
 class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
     form = FacilityAdminForm
     list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group']
+    list_filter = (ShownOnHomeFilter,)
     fieldsets = (
         ("Facility Information", {
             'fields':(

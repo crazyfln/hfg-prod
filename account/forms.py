@@ -3,9 +3,11 @@ import re
 from django import forms
 from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
 
 from django.contrib.auth.forms import AuthenticationForm as DjangoAuthenticationForm
+from app.models import Condition
 
 User = get_user_model()
 
@@ -78,37 +80,33 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError("Phone number must be exactly 10 digits")
         return number
 
-class RegistrationAdminForm(ModelForm):
-    permissions = forms.ChoiceField(choices=(
-                                    ('u','User'),
-                                    ('p','Provider'),
-                                    ('m','Manager')
-                                    ))
+class ProfileForm(ModelForm):
+    conditions = forms.ModelMultipleChoiceField(
+        queryset=Condition.objects.all(), 
+        required=False,
+        widget=forms.CheckboxSelectMultiple()
+    )
+
+    class Meta:
+        model = User
+        fields = ('first_name','last_name','email','phone','searching_for','budget', 'conditions')
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        
+        if self.instance and self.instance.pk:
+            self.fields['conditions'].initial = self.instance.conditions.all()
 
     def save(self, commit=True):
-        instance = super(RegistrationAdminForm, self).save(commit=False)
-        user_type = self.cleaned_data['permissions']
-        if user_type == 'm':
-            instance.is_superuser = True
-            instance.is_staff = True
-        elif user_type == 'p':
-            instance.is_staff = True
-            instance.is_superuser = False
-        else:
-            instance.is_staff = False
-            instance.is_superuser = False
+        user = super(ProfileForm, self).save(commit=False)
+
         if commit:
-            instance.save()
-        return instance
+            user.save()
 
-    class Meta:
-        model = User
+        if user.pk:
+            user.conditions = self.cleaned_data.get('conditions')
+            self.save_m2m()
 
-
-class ProfileForm(ModelForm):
-
-    class Meta:
-        model = User
-        fields = ('first_name','last_name','email','phone','searching_for','budget')
+        return user
 
 

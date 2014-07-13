@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserChangeForm  as DjangoUserChangeForm
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
+from ajax_select import make_ajax_field
 
 import reversion
 
@@ -12,6 +13,7 @@ from util.util import list_button
 from app.admin_mixins import *
 from .models import *
 from .forms import *
+
 
 MANAGER = 'M'
 PROVIDER = 'P'
@@ -83,13 +85,7 @@ class UserCreationForm(UserPermissionSaveMixin, DjangoUserCreationForm):
         model = User
 
 class RegistrationAdminForm(UserPermissionSaveMixin, ModelForm):
-    permissions = forms.ChoiceField(choices=PERMISSION_CHOICES)
-
-    def __init__(self, *args, **kwargs):
-        self.permission = kwargs.pop('permission', None)
-        super(RegistrationAdminForm, self).__init__(*args, **kwargs)
-        if self.permission:
-            self.fields['permissions'].initial = self.permission
+    holding_group = make_ajax_field(User, 'holding_group', 'holding_group', help_text=None)
 
     class Meta:
         model = User
@@ -103,8 +99,9 @@ class UserAdmin(EditButtonMixin, DeleteButtonMixin, reversion.VersionAdmin, Djan
     fieldsets = (
         ("User", {
             'fields':( 
+                'is_superuser',
                 'holding_group',
-                ('permissions','pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi'),
+                ('pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi'),
                 ('first_name','last_name'),
                 ('email','budget'),
                 ('phone','searching_for'),
@@ -116,7 +113,7 @@ class UserAdmin(EditButtonMixin, DeleteButtonMixin, reversion.VersionAdmin, Djan
         (None, {
             'fields':(
                 'username',
-                'permissions',
+                'is_superuser',
                 'holding_group',
                 ('first_name','last_name'),
                 'email',
@@ -131,7 +128,7 @@ class UserAdmin(EditButtonMixin, DeleteButtonMixin, reversion.VersionAdmin, Djan
     def get_type_of_user(self, obj):
         if obj.is_superuser:
             return MANAGER
-        elif obj.is_staff:
+        elif obj.is_provider():
             return PROVIDER
         else:
             return USER

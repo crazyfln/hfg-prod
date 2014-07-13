@@ -112,6 +112,7 @@ def facility_favorite(request, slug):
 class Search(ListView):
     model = Facility
     template_name = 'search.html'
+    paginate_by = 9
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
@@ -129,18 +130,13 @@ class Search(ListView):
             querydict['facility_types'] = form.cleaned_data.get('facility_type',False)
             querydict['facilityroom__room_type'] = form.cleaned_data.get('room_type',False)
             querydict['amenities'] = form.cleaned_data.get('amenities',False)
-            import ipdb
-            ipdb.set_trace()
             result = Facility.objects.all().filter(**{ key:value for ( key, value ) in querydict.iteritems() if value })
 
             if form.cleaned_data['query']:
-                q = form.cleaned_data['query']
-                query = q.split()
-                for i, q in enumerate(query):
-                    if i == 0:
-                        Qquery = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q) | Q(state__icontains=q)
-                    else:
-                        Qquery.add((Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q) | Q(state__icontains=q)), Qquery.AND)
+                query = form.cleaned_data['query']
+                Qquery = Q()
+                for q in query.split():
+                    Qquery.add((Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q) | Q(state__icontains=q)), Qquery.AND)
                 result = result.filter(Qquery)
             min_price = form.cleaned_data.get('min_value', False)
             if not min_price:

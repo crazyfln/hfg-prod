@@ -22,8 +22,22 @@ class ViewTest(TestCase):
         """
         Tests index GET request
         """
-        self.response = self.client.get(reverse('index')) 
-        self.assertEqual(self.response.status_code, 200)
+        response = self.client.get(reverse('index'))     
+        expected = 200
+        actual = response.status_code
+        self.assertEqual(expected, actual)
+
+    def test_index_display_featured_facilities(self):
+        """
+        Tests if featured facilities are displayed correctly on index
+        """
+        featured_facilities = mommy.make('app.Facility', shown_on_home=True, _quantity=3)
+        regular_facility = mommy.make('app.Facility', shown_on_home=False)
+        url = reverse('index')
+        response = self.client.get(url)
+        for facility in featured_facilities:
+            self.assertTrue(facility in response.context['facilities'])
+        self.assertTrue(regular_facility not in response.context['facilities'])
 
     def test_contact_get(self):
         """

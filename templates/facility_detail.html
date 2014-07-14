@@ -195,10 +195,10 @@
                 <div class="clear"></div>
 
                 {% if not tour_request %} <!-- This is displayed if a user can submit a tour request -->
-                <button class='button-orange' data-toggle="modal" data-target="#Login-Modal">Request A tour</button>
+                <button class='button-orange' data-toggle="modal" data-target="#Login-Modal ">Request A tour</button>
                 {% else %} <!-- if user cannot submit tour request -->
 
-                <button class='button-gray'>Request A tour</button>
+                <button class='button-gray' data-toggle="modal" data-target='#tour-request-form'>Request A tour</button>
                 {% endif %}
                 <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>
                 <p class='steps'>1. Contact facility for a tour.</p>

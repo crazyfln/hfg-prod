@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     'south',
     'pipeline',
     'registration',
+    'ajax_select',
     'payments',
     'manifesto',
     'social.apps.django_app.default',
@@ -206,4 +207,8 @@ GRAPPELLI_ADMIN_TITLE = 'hfg'
 GRAPPELLI_INDEX_DASHBOARD = {
     'app.admin.manager_admin':'hfg.manager_dashboard.CustomIndexDashboard',
     'app.admin.provider_admin':'hfg.provider_dashboard.CustomIndexDashboard',
+}
+
+AJAX_LOOKUP_CHANNELS = {
+    'holding_group' : {'model':'account.HoldingGroup', 'search_field':'name'},
 }

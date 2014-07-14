@@ -10,6 +10,7 @@ from django.forms.models import BaseInlineFormSet
 from django.forms.extras.widgets import SelectDateWidget
 
 from django.utils.translation import ugettext_lazy as _
+from ajax_select import make_ajax_field
 
 from .models import *
 from .facility_message_mixin import SEARCHING_FOR_CHOICES, BUDGET_CHOICES, MOBILITY_CHOICES, CARE_CURRENT_CHOICES, MOVE_IN_TIME_FRAME_CHOICES
@@ -100,6 +101,13 @@ class TourRequestForm(ModelForm):
             
 
 class FacilityAdminForm(ModelForm):
+    holding_group = make_ajax_field(Facility, 'holding_group', 'holding_group', help_text=None)
+
+    class Meta:
+        model = Facility
+        widgets = {
+            'description_long':forms.Textarea,
+        }
 
     def clean_phone(self):
         data = self.cleaned_data['phone']
@@ -109,11 +117,14 @@ class FacilityAdminForm(ModelForm):
             raise forms.ValidationError("Phone number must be exactly 10 digits")
         return number
 
-    class Meta:
-        model = Facility
-        widgets = {
-            'description_long':forms.Textarea,
-        }
+    def clean_shown_on_home(self):
+        shown_on_home = self.cleaned_data['shown_on_home']
+        if shown_on_home:
+            featured_facilities = Facility.objects.filter(shown_on_home=True)
+            if len(featured_facilities) > 3:
+                raise forms.ValidationError("There are already 3 featured facilities. Remove one before adding another")
+        return shown_on_home
+
 
 class EditManagerNoteFacilityForm(ModelForm):
 

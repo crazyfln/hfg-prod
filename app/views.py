@@ -77,7 +77,7 @@ class FacilityDetail(DetailView):
         context['all_languages'] = Language.objects.all()
 
         if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
-                context['tour_request_form'] = TourRequestForm(user=self.request.user)
+            context['tour_request_form'] = TourRequestForm(user=self.request.user)
         return context
 
 

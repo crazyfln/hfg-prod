@@ -149,7 +149,11 @@
         .button-orange {
             margin-top:15px;
         }
-
+        
+        .button-gray {
+            @extend .button-orange;
+            background-color:$light;
+        }
 
 
 // I need to eliminate this second desc-medium its not DRY

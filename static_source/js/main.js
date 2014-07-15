@@ -77,20 +77,25 @@ $(document).ready(function(){
         if ($(this).data('logged_in') == 'yes'){
 
             // $(this).css('background', 'url(img/icon_hearted.png)')
-            heartImg = $(this).children('img')
-            heartImg.toggle()
+
+            hearted = $(this).children('img.heart-hearted');
+            notHearted = $(this).children('img.heart-not-hearted');
+            hearted.toggle();
+            notHearted.toggle();
 
             $.ajax({
                 url:$(this).data('url'),
                 error: function(){
-                    alert('There was an error, the facility was not favorited')
-                    heartImg.toggle()
+                    alert('There was an error, the facility was not favorited');
+                    hearted.toggle();
+                    notHearted.toggle();
                 },
             });
         }
         else if ($(this).data('logged_in') == 'no'){
-            $('#Login-Modal').modal('show')
+            $('#Registration-Modal').modal('show')
         }
+        return false;
     });
 
 

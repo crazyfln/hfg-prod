@@ -50,6 +50,9 @@ a.listing-link {
         margin-left: 0px;
     }
 
+    .heart-not-hearted {
+        @extend .heart-hearted;
+    }
 
 
     .listing-tag {

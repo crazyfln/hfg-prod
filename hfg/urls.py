@@ -21,8 +21,11 @@ urlpatterns = patterns('',
     url(r'^provider/', include(provider_admin.urls)),
     url(r'^manager/', include(manager_admin.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
-#    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     url(r"^payments/", include("payments.urls")),
+
+    url(r'^weblog/', include('zinnia.urls')),
+    url(r'^comments/', include('django.contrib.comments.urls')),
 )
 
 

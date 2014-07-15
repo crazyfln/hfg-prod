@@ -141,6 +141,9 @@ INSTALLED_APPS = (
     'liststyle',
     'app',
     'account',
+    'tagging',
+    'mptt',
+    'zinnia',
 )
 
 # A sample logging configuration. The only tangible logging

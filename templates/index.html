@@ -25,11 +25,11 @@ Home For Grandma
     </div>
 
     <center>
-    <a href='/home_video' style='text-decoration:none; color:#fff;'><div class="play-holder">
-       <img class='play' src='{% static 'img/play_button.png' %}'/>
+    <div class="play-holder">
+       <img class='play' src='{% static 'img/play_button.png' %}' data-toggle="modal" data-target="#Video-Modal"/>
     <div class="transparent-holder">
       <p class='padding-top-15 larger-font'>Who We Are</p>
-    </div></a>
+    </div>
   </center>
    
     </div>
@@ -106,7 +106,15 @@ Home For Grandma
   </div>
 
 
-
+<div class="modal fade" id="Video-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+      </div>
+  </div>
+</div>
 
 
   {% endblock content %}

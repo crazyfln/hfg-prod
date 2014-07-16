@@ -79,6 +79,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .padder-top-40 {
+            <td>{{ form.conditions.label_tag }}</td>
     padding-top:40px;
 }
 

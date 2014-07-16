@@ -195,7 +195,7 @@
                 <div class="clear"></div>
 
                 {% if tour_request_form %} <!-- User is logged in and has not submitted a tour request to this facility -->
-                  <button class='button-orange' data-toggle="modal" data-target="#tour_describe">Request A tour</button>
+                  <button class='button-orange' data-toggle="modal" data-target="#tour-modal-1">Request A tour</button>
                 {% elif user.is_authenticated %} <!-- User is logged in and has already submitted a tour request -->
                   <button class='button-gray' >Request A tour</button>
                 {% else %} <!-- User is not logged in -->

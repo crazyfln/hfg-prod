@@ -1,6 +1,6 @@
 import re
 
-from django import forms
+from django import forms 
 from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -80,11 +80,16 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError("Phone number must be exactly 10 digits")
         return number
 
+class CustomModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return ""
+
 class ProfileForm(ModelForm):
-    conditions = forms.ModelMultipleChoiceField(
+    conditions = CustomModelMultipleChoiceField(
         queryset=Condition.objects.all(), 
         required=False,
         widget=forms.CheckboxSelectMultiple()
+
     )
 
     class Meta:
@@ -93,7 +98,7 @@ class ProfileForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
-        
+
         if self.instance and self.instance.pk:
             self.fields['conditions'].initial = self.instance.conditions.all()
 

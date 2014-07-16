@@ -14,6 +14,7 @@ from ajax_select import make_ajax_field
 
 from .models import *
 from .facility_message_mixin import SEARCHING_FOR_CHOICES, BUDGET_CHOICES, MOBILITY_CHOICES, CARE_CURRENT_CHOICES, MOVE_IN_TIME_FRAME_CHOICES
+from account.forms import CustomModelMultipleChoiceField
 SEARCH_MIN_VAL_INITIAL = "500"
 SEARCH_MAX_VAL_INITIAL = "6000"
 
@@ -22,7 +23,7 @@ class SearchForm(forms.Form):
                     widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Facility Name'}))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
-    amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
+    amenities = CustomModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
     min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
     max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
 
@@ -66,7 +67,7 @@ MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN
 SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for?' %39)] + SEARCHING_FOR_CHOICES
 
 class TourRequestForm(ModelForm):
-    budget = forms.ChoiceField(choices=BUDGET_CHOICES_EMPTY, required=False) 
+    budget = forms.ChoiceField(choices=BUDGET_CHOICES, widget=forms.RadioSelect, required=False) 
     care_mobility = forms.ChoiceField(choices=MOBILITY_CHOICES_EMPTY, required=False)
     care_current = forms.ChoiceField(choices=CARE_CURRENT_CHOICES_EMPTY, required=False)
     move_in_time_frame = forms.ChoiceField(choices=MOVE_IN_TIME_FRAME_CHOICES_EMPTY, required=False)

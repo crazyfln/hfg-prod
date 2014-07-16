@@ -2,7 +2,7 @@ input[type=checkbox] {
     display: none !important;
 }
 
-%checkbox-label, label input[type=checkbox]:before {
+%checkbox-label, input[type=checkbox]+label:before {
     display: inline-block;
     position: relative;
     height: 1em;
@@ -18,7 +18,7 @@ input[type=checkbox] {
 }
 
 
-%checkbox-checked, label input[type=checkbox]:checked:before {
+%checkbox-checked, input[type=checkbox]:checked +label:before {
     content: "\2713";
     // position: absolute;
     // top: 0;

@@ -2,7 +2,7 @@ input[type=checkbox] {
     display: none !important;
 }
 
-%checkbox-label, input[type=checkbox]+label {
+%checkbox-label, label input[type=checkbox]:before {
     display: inline-block;
     position: relative;
     height: 1em;
@@ -11,31 +11,19 @@ input[type=checkbox] {
     font-size: 1em;
     background-color: transparent;
     border: 0.1em solid $primary;
-}
-
-#id_amenities label {
-    @extend %checkbox-label;
-}
-
-#id_conditions label {
-    @extend %checkbox-label;
-}
-
-input:checked+label {
-    border: 0.1em solid $primary;
-}
-
-%checkbox-checked, input:checked+label:after {
-    content: "\2713";
-    position: absolute;
-    top: 0;
-    left: 0;
+    content: "";
     color: $secondary;
-    width: 100%;
-    text-align: center;
-    vertical-align: text-top;
-    font-size: 1em;
-    line-height: 1;
+    line-height:13px;
+     vertical-align: text-top;
+}
+
+
+%checkbox-checked, label input[type=checkbox]:checked:before {
+    content: "\2713";
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+   
 }
 
 #id_amenities:checked label:after {

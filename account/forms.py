@@ -85,7 +85,7 @@ class CustomModelMultipleChoiceField(forms.ModelMultipleChoiceField):
         return ""
 
 class ProfileForm(ModelForm):
-    conditions = CustomModelMultipleChoiceField(
+    conditions = forms.ModelMultipleChoiceField(
         queryset=Condition.objects.all(), 
         required=False,
         widget=forms.CheckboxSelectMultiple()

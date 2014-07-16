@@ -69,7 +69,9 @@
             <td><div class="budget-holder">{{ form.budget }}</div></td>
           </tr>
         </table>           
-           {{form.conditions}}
+           {% for condition in form.conditions %}
+              {{ condition.tag }} <label{{condition.label_for}}>{{condition.choice_label }}</label>
+           {% endfor %}
       </div>
       <button class='button-blue' type="submit">update</button>
     </form>

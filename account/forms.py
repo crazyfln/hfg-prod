@@ -88,7 +88,7 @@ class ProfileForm(ModelForm):
     conditions = forms.ModelMultipleChoiceField(
         queryset=Condition.objects.all(), 
         required=False,
-        widget=forms.CheckboxSelectMultiple(attrs={'id':'test'})
+        widget=forms.CheckboxSelectMultiple(attrs={'id':'id_condition'})
 
     )
 

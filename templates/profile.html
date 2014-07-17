@@ -70,8 +70,7 @@
           </tr>
         </table>           
            {% for condition in form.conditions %}
-           label for is {{condition.id}}  -- that was label for
-              {{ condition.tag }} <label for="test_{{condition.index}}">{{condition.choice_label }}</label>
+              {{ condition.tag }} <label for="id_condition_{{condition.index}}">{{condition.choice_label }}</label>
            {% endfor %}
       </div>
       <button class='button-blue' type="submit">update</button>

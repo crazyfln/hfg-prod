@@ -1,5 +1,5 @@
 <div class="modal-body">
-  <form method="post" action="{% url "django.contrib.auth.views.login" %}{% if next %}?next={{next}}{% endif %}">
+  <form method="post" action="{% url 'django.contrib.auth.views.login' %}?next={{ next }}">
     {% csrf_token %}
     <table>
       <tr>
@@ -18,5 +18,5 @@
 
   <button class="button-blue left login-b">Login </button> <!-- replace the above button class with the class(es) you make in _buttons.scss -->
 </form>
-<button class='button-orange register-b' data-toggle="modal" data-target="#Registration-Modal">New? Register an account</button>
+<button class='button-orange register-b' data-dismiss="modal" data-toggle="modal" data-target="#Registration-Modal">New? Register an account</button>
 </div>

@@ -64,7 +64,7 @@ BUDGET_CHOICES_EMPTY = [('','Budget')] + BUDGET_CHOICES
 MOBILITY_CHOICES_EMPTY = [('','Mobility')] + MOBILITY_CHOICES
 CARE_CURRENT_CHOICES_EMPTY = [('','Current Living Situation')] + CARE_CURRENT_CHOICES
 MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN_TIME_FRAME_CHOICES
-SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for?' %39)] + SEARCHING_FOR_CHOICES
+SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for...' %39)] + SEARCHING_FOR_CHOICES
 
 class TourRequestForm(ModelForm):
     budget = forms.ChoiceField(choices=BUDGET_CHOICES, widget=forms.RadioSelect, required=False) 
@@ -73,15 +73,17 @@ class TourRequestForm(ModelForm):
     move_in_time_frame = forms.ChoiceField(choices=MOVE_IN_TIME_FRAME_CHOICES_EMPTY, required=False)
     searching_for = forms.ChoiceField(choices=SEARCHING_FOR_CHOICES_EMPTY, required=False)
 
-    comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Tell us about your loved one. Health condition, concerns, hobbies, etc."}))
-    health_description = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Describe your health condition"}))
+    comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Tell us about your loved one. Health condition, concerns, hobbies, etc.", 'cols':27}))
+    health_description = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':27}))
     desired_city = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Desired City"}))
     resident_first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}))
 
     class Meta:
         model = FacilityMessage
         exclude = ('user','facility','read','replied_by','replied_datetime')
-        widgets = {'planned_move_date': forms.TextInput(attrs={'placeholder': 'Date', 'class':''})}
+        widgets = {
+            'planned_move_date': forms.TextInput(attrs={'placeholder': 'Planned move-in Time Frame', 'class':''}),
+        }
     
     def save(self, commit=True):
         new_request = super(TourRequestForm, self).save(commit=False)
@@ -96,6 +98,9 @@ class TourRequestForm(ModelForm):
             for field in self.fields:
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
+        for field in self.fields:
+            if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
+                  self.fields[field].label = ""
             
 
 class FacilityAdminForm(ModelForm):

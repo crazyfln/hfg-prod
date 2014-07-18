@@ -187,18 +187,22 @@
 
         }
 
-        .button-blue {
+        button.button-blue {
             margin-top:0px;
         }
-        .button-orange {
+        button.button-orange {
             margin-top:15px;
         }
         
-        .button-gray {
+        button.tour-button-inactive {
             @extend .button-orange;
             background-color:$light;
         }
 
+        button.phone-button-inactive {
+            @extend .button-blue;
+            background-color:$light;
+        }
 
 // I need to eliminate this second desc-medium its not DRY
 p.desc-medium {

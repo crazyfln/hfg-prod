@@ -68,6 +68,11 @@
     .submit-b {
         margin-top:25px;
     }
+
+    .login-link {
+        color:$secondary;
+        cursor:pointer;
+    }
 }
 
 .login-b {
@@ -134,8 +139,9 @@ a.push {
 // textarea mixin
 @mixin modal-textarea {
     border: 1px solid $border;
-    padding-top:10px;
-    text-align:center;
+    border-radius: 4px;
+    padding:10px 15px;
+    resize:none;
 }
 
 #id_health_description {
@@ -156,6 +162,13 @@ a.push {
         padding-bottom:0px;
     }
 
+    h1 {
+        font-size:12px;
+        color:$light;
+        margin-top:10px;
+        margin-bottom:15px;
+    }
+
     hr {
         margin: 5px;
     }
@@ -163,11 +176,16 @@ a.push {
     button {
         width: 259px;
     }
+    p.checkbox-label {
+        margin:0px 0px 0px 10px;
+        color:$primary;
+
+    }
 }
 
 //input mixin
 @mixin tour-input {
-    width:259px;
+    width:263px;
     height: 40px;
     color: $light;
     outline:none;
@@ -194,6 +212,7 @@ a.push {
     width: 259px;
     background:image-url('img/select_dropdown.png') no-repeat;
     background-position:240px;
+    margin-bottom:20px;
 
     select {
         height: 100%;
@@ -202,13 +221,26 @@ a.push {
         outline:none;
         -webkit-appearance: none;
         // appearance(-webkit);
-        color: $light;
+        color: $primary;
         padding-left:10px;
         border: 1px solid $border;
     }
 }
 
+.modal-radio-holder {
+    
+    ul {
+        list-style-type:none;
 
+        li {
+            text-align:left;
+
+            label {
+                color:$primary;
+            }
+        }
+    }
+}
 
 .align-left {
     text-align:left;

@@ -108,12 +108,12 @@ class UnreadFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == 'unread':
-            return queryset.filter(read_manager=False)
+            return queryset.filter(read_by_manager=False)
         elif self.value() == 'read':
-            return queryset.filter(read_manager=True)
+            return queryset.filter(read_by_manager=True)
 
 class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
-    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_manager', 'get_replied']
+    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_by_manager', 'get_replied']
     actions = ['make_read', 'make_unread', 'send_to_facility', 'unsend_to_facility']
     ordering = ['-read_by_manager','-modified']
     list_filter = (UnreadFilter,)
@@ -123,9 +123,9 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
         return list_button(self,obj._meta,"change", obj.comments[:20], obj_id=obj.id)
     message.allow_tags = True
 
-    def get_read_manager(self, obj):
+    def get_read_by_manager(self, obj):
         return "Read" if obj.read_by_manager else "unread"
-    get_read_manager.short_description = "read"
+    get_read_by_manager.short_description = "read"
 
     def get_replied(self, obj):
         if obj and not obj.replied_by and not obj.replied_datetime:
@@ -144,11 +144,11 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     
     #Actions
     def make_read(self, request, queryset):
-        queryset.update(read_manager=True)
+        queryset.update(read_by_manager=True)
     make_read.short_description = "Mark messages as read"
 
     def make_unread(self, request, queryset):
-        queryset.update(read_manager=False)
+        queryset.update(read_by_manager=False)
     make_unread.short_description = "Mark messages as unread"
 
     def send_to_facility(self, request, queryset):
@@ -163,17 +163,17 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
 
     def queryset(self, request):
         query = super(FacilityMessageAdmin, self).queryset(request)
-        return query.order_by('-read_manager', 'modified')
+        return query.order_by('-read_by_manager', 'modified')
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         message = get_object_or_404(FacilityMessage, id=object_id)
-        if not message.read_manager:
-            message.read_manager = True
+        if not message.read_by_manager:
+            message.read_by_manager = True
             message.save()
         return super(FacilityMessageAdmin, self).change_view(request, object_id, form_url, extra_context)
 
     def get_row_css(self, obj, index):
-        if not obj.read_manager:
+        if not obj.read_by_manager:
             return 'strong'
         return ''
 
@@ -380,7 +380,7 @@ class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(FacilityMessageProviderAdmin, self).get_fieldsets(request, obj)
-        fields_to_exclude = ('replied_by', 'replied_datetime', 'read_manager', 'read_provider')
+        fields_to_exclude = ('replied_by', 'replied_datetime', 'read_by_manager', 'read_by_provider')
         for fieldset in fieldsets:
             newfields = []
             for field in fieldset[1]['fields']:

@@ -1,16 +1,15 @@
 $(document).ready(function(){
 
+  
  $('.count').click(function() {
-    $('#facility-map').hide()
     $('#facility-carousel').show()
+    $('#facility-map').html('')
   })
 
 
   $('.map').click(function() {
     $('#facility-carousel').hide()
-    $('#facility-map').removeClass('hide')
-    $('#facility-map').show()
-
+    $('#facility-map').html(mapHtml)
   })
 
 

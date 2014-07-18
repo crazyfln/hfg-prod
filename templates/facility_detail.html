@@ -10,10 +10,12 @@
             <p class='address'>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
             {% for type in object.facility_types.all %}
             <p class='type-name left'>{{ type.name }} &nbsp; </p>
+            <div class="clear"></div>
             {% endfor %}
             <p class='min-price'> ${{ object.min_price }}</p>
             {% if user.is_authenticated %}
-              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'><img {% if not user in object.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/></div>
+              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'><img {% if not user in object.favorited_by.all %}style="display:none; float: right;"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/></div>
+
             {% else %}
               <div class="heart heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_not_hearted.png' %}'/></div>
 

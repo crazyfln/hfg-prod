@@ -5,7 +5,7 @@
     <div class="listing-preview">
 
       {% if user.is_authenticated %}
-      <div class="heart-holder" data-url="{% url 'favorite' facility.slug %}" data-logged_in='yes'><img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
+      <div class="heart-holder" data-url="{% url 'favorite' facility.slug %}" data-logged_in='yes'><img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/></div>
       {% else %}
 
       <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"></div>

@@ -10,10 +10,12 @@
             <p class='address'>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
             {% for type in object.facility_types.all %}
             <p class='type-name left'>{{ type.name }} &nbsp; </p>
+            <div class="clear"></div>
             {% endfor %}
             <p class='min-price'> ${{ object.min_price }}</p>
             {% if user.is_authenticated %}
-              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'><img {% if not user in object.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted.png' %}"/></div>
+              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'><img {% if not user in object.favorited_by.all %}style="display:none; float: right;"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/></div>
+
             {% else %}
               <div class="heart heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"><img src='{% static 'img/icon_not_hearted.png' %}'/></div>
 
@@ -195,10 +197,10 @@
                 <div class="clear"></div>
 
                 {% if not tour_request %} <!-- This is displayed if a user can submit a tour request -->
-                <button class='button-orange' data-toggle="modal" data-target="#Login-Modal">Request A tour</button>
+                <button class='button-orange' data-toggle="modal" data-target="#Login-Modal ">Request A tour</button>
                 {% else %} <!-- if user cannot submit tour request -->
 
-                <button class='button-gray'>Request A tour</button>
+                <button class='button-gray' data-toggle="modal" data-target='#tour-request-form'>Request A tour</button>
                 {% endif %}
                 <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>
                 <p class='steps'>1. Contact facility for a tour.</p>

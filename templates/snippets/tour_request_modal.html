@@ -31,7 +31,7 @@
               <h1>WHO ARE YOU SEARCHING FOR?</h1>
             </div>
             <div class="clear"></div>
-            <div class="modal-select-holder">
+            <div class="custom-select-holder">
               {{ form.searching_for }}
             </div>
             <div class="align-left">
@@ -66,11 +66,9 @@
               <h1>WHAT IS YOUR BUDGET?</h1>
             </div>
             <div class="clear"></div>
-            <div class="modal-radio-holder">
+            <div class="custom-radio-holder">
               {{ form.budget }}
             </div>
-            <br/>
-            <br/>
           </div>
           <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-1">BACK</button>
           <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-3">NEXT</button>
@@ -85,6 +83,8 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="align-left">
+              <h1>WILL RESIDENT NEED SPECIAL CARE?</h1>
+              <div class="clear"></div>
               {{ form.care_bathing }}
               {{ form.care_bathing.label_tag }}
               <p class="checkbox-label">Bathing</p>
@@ -115,12 +115,19 @@
               <div class="clear"></div>
               {{ form.care_wandering }}
               {{ form.care_wandering.label_tag }}
-               <p class="checkbox-label">Wandering</p>
+              <p class="checkbox-label">Wandering</p>
+              <div class="clear"></div>
+              <h1>LEAVE A NOTE (OPTIONAL):</h1>
               <div class="clear"></div>
               {{ form.comments }}
-              <br />
-              
+              <div class="clear"></div>
+              <h1>PREFERRED METHOD OF CONTACT:</h1>
+              <div class="clear"></div>
             </div>
+            <div class="custom-radio-holder">
+              {{ form.preferred_contact }}
+            </div>
+            <div class="clear"></div>
           </div>
           <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-2">BACK</button>
           <button type="submit" class="button-blue">Done</button>

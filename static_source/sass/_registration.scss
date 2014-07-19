@@ -207,41 +207,6 @@ a.push {
     @include tour-input;
 }
 
-.modal-select-holder {
-    height:40px; 
-    width: 259px;
-    background:image-url('img/select_dropdown.png') no-repeat;
-    background-position:240px;
-    margin-bottom:20px;
-
-    select {
-        height: 100%;
-        width: 100%;
-        background-color:transparent;
-        outline:none;
-        -webkit-appearance: none;
-        // appearance(-webkit);
-        color: $primary;
-        padding-left:10px;
-        border: 1px solid $border;
-    }
-}
-
-.modal-radio-holder {
-    
-    ul {
-        list-style-type:none;
-
-        li {
-            text-align:left;
-
-            label {
-                color:$primary;
-            }
-        }
-    }
-}
-
 .align-left {
     text-align:left;
     margin-left: 36px;

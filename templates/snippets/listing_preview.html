@@ -1,28 +1,19 @@
 {% load static from staticfiles %}
 <div class="col-xs-4">
 
-  <a href="{{ facility.get_absolute_url }}">
+  <a href="{{ facility.get_absolute_url }}" class="listing-link">
     <div class="listing-preview">
 
       {% if user.is_authenticated %}
-      <div class="heart-holder" data-url="{% url 'favorite' facility.slug %}" data-logged_in='yes'><img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/></div>
+        <div class="heart-holder" data-url="{% url 'favorite' facility.slug %}" data-logged_in='yes'>
+          <img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/>
+          <img class='heart-not-hearted'{% if user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_not_hearted.png' %}"/>
+        </div>
       {% else %}
-
-      <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal"></div>
+        <div  class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal">
+          <img class='heart-not-hearted' src="{% static 'img/icon_not_hearted.png' %}"/>
+        </div>
       {% endif %}
-
-      {% comment %} 
-
-      unsure what this is
-
- <!-- {% for facility.image in images %}
-      <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter0 }}">
-        <img class="img-main-carousel" src="{{ image.image.url }}"/>
-      </div>
-      {% endfor %}  -->
-      <!-- <img class='listing-img-small' src="{% static 'img/listing_img_small.png' %}"/> -->
-
-      {% endcomment %}
 
       <img src='{{ facility.get_featured_image.image.url }}'/>
       <div class="clear"></div>
@@ -37,8 +28,10 @@
       <p class="listing-location">{{ facility.city }}</p>
 
       <hr>
-      <p class='from'>From</p>
-      <p class="listing-price">${{ facility.min_price }}</p>
+      <div class='listing-from-price-holder'>
+        <p class='from'>From</p>
+        <p class="listing-price">${{ facility.min_price }}</p>
+      </div>
       <p class='listing-next'href="" class="">{{ facility.care_type }}</p>
       <div class="clear"></div>
       <hr>

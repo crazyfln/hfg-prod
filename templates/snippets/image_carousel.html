@@ -31,32 +31,32 @@
 <script type="text/javascript">
 mapHtml = '<iframe width="600" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDYGAWilv_2-qUyeUClcIMYwBI9tKLXWBo&q={{ facility.get_encoded_address }}&zoom=16"></iframe>'
 </script>
+
 <!-- thumb navigation carousel -->
 
 <div class="col-md-12" id='count-map'> 
   <div class="col-md-6 count" style='border-right: 1px solid #ccc; height: 100%;'>
     <center>
       <img src='{% static 'img/icon_camera.png' %}'/>
-      <span id="carousel-current-image-number">1</span>
-      <span id="carousel-total-image-number"> / {{ images|length }}</span>
-    </p>
-  </center>
+        <span id="carousel-current-image-number">0</span>
+        <span id="carousel-total-image-number"> / {{ images|length }}</span>
+      </p>
+    </center>
+  </div>
+  <div class="col-md-6 map">
+    <center>
+      <img src='{% static 'img/icon_map.png' %}'/>
+      <p>Map View</p>
+    </center>
+  </div>
 </div>
-<div class="col-md-6 map">
-  <center>
-    <img src='{% static 'img/icon_map.png' %}'/>
-    <p>Map View</p>
-  </center>
-</div>
-</div>
-<div class="col-md-12 " id="slider-thumbs">
-  <!-- thumb navigation carousel items -->
-  <ul class="list-inline">
-    {% for image in images %}
-    <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
-      <img src="{{ image.image.url }}" class="img-responsive">
-    </a></li>
-    {% endfor %}
-  </ul>
-</div>
-
+  <div class="col-md-12 " id="slider-thumbs">
+    <!-- thumb navigation carousel items -->
+    <ul class="list-inline">
+      {% for image in images %}
+      <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
+        <img src="{{ image.image.url }}" class="img-responsive">
+      </a></li>
+      {% endfor %}
+    </ul>
+  </div>

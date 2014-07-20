@@ -17,6 +17,7 @@
 // border-left: 1px solid #ccc;
 // padding-left: 45px;
     .facility-top {
+        margin-top:20px;
 
         a.back {
             color:$secondary;
@@ -31,11 +32,14 @@
         p.name {
             font-size: 25px;
             color: $dark;
+            margin-top: 20px;
+            margin-bottom:0px;
         }
 
         p.address {
             font-size: 20px;
             color: $light;
+            margin-bottom:5px;
         }
 
         p.type-name {
@@ -49,43 +53,83 @@
             margin-right: 80px;
         }
 
-        p.min-price {
-            color: $secondary;
-            font-size: 24px;
+        div.price-and-heart-holder {
             float:right;
             margin-top: -50px;
+            
+            div.min-price-holder {
+                display:inline-block;
+                padding-left:30px;
+                border-left: 1px solid $border;
+
+                p.min-price-from {
+                    color: $dark;
+                    font-size:13px;
+                    margin-bottom:0px;
+                }
+
+                p.min-price {
+                    color: $secondary;
+                    font-size: 24px;
+                }
+            }
+
+            div.heart-holder {
+                margin-right:30px;
+                margin-top: 17px;
+                vertical-align:top;
+                display:inline-block;
+            }
+        }
+
+        hr.facility-top-divider {
+            margin-top:0px;
+            margin-bottom:40px;
         }
     }
 
     .facility-left {
         width: 65%;
-        border-right: 1px solid #ccc;
+        border-right: 1px solid $border;
         padding-right:40px;
 
 
-        p.desc-large{
+        h1{
             color: $secondary;
             font-size:22px;
-
-
 
             span {
                 color: $secondary;
             }
         }
 
-        p.desc-medium {
+        h1.capacity {
+            color:$primary;
+        }
+
+        h2 {
             color: $secondary;
-            font-size:16px;
+            font-size:17px;
             margin:20px 50px 10px 0;
         }
 
         p.description {
             color:$primary;
-            font-size:14px;
+            font-size:16px;
             line-height:1.8em;
 
         }
+
+        span.item-included {
+            color:$primary;
+            font-size:16px;
+        }
+
+        span.item-not-included {
+            color:$light;
+            font-size:16px;
+        }
+
 
         .margin-left-10 {
             margin-left:10px;
@@ -134,7 +178,7 @@
         }
         p.phone-small {
             font-size: 13px;
-            color: $light;
+            color: $dark;
             margin-top:35px;
         }
 
@@ -143,14 +187,22 @@
 
         }
 
-        .button-blue {
+        button.button-blue {
             margin-top:0px;
         }
-        .button-orange {
+        button.button-orange {
             margin-top:15px;
         }
+        
+        button.tour-button-inactive {
+            @extend .button-orange;
+            background-color:$light;
+        }
 
-
+        button.phone-button-inactive {
+            @extend .button-blue;
+            background-color:$light;
+        }
 
 // I need to eliminate this second desc-medium its not DRY
 p.desc-medium {
@@ -161,8 +213,8 @@ p.desc-medium {
 }
 
 p.steps {
-    color: $light;
-    font-size: 13px;
+    color: $dark;
+    font-size: 14px;
     margin-bottom:20px;
 
     a {

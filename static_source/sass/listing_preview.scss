@@ -1,3 +1,7 @@
+a.listing-link {
+    text-decoration: none;
+}
+
 .listing-preview {
     height:472px;
     background-color: $white;
@@ -7,8 +11,6 @@
     padding-right:15px;
     cursor:pointer;
     margin-bottom: 15px;
-
-    
 
     img {
         width: 315px;
@@ -48,6 +50,9 @@
         margin-left: 0px;
     }
 
+    .heart-not-hearted {
+        @extend .heart-hearted;
+    }
 
 
     .listing-tag {
@@ -71,6 +76,7 @@
     .listing-title {
         color: $dark;
         font-size: 21px;
+        margin-top:7px;
     }
 
     .listing-location {
@@ -78,18 +84,28 @@
         font-size: 18px;
     }
 
+    .listing-from-price-holder {
+        margin-top: 35px;
+        position: relative;
+        float:left;
+    }
+
     .from {
         text-transform: uppercase;
         color: $light;
-        float: left;
         font-size: 12px;
-        margin: 5px 5px 0 0;
+        font-weight: bold;
+        position: absolute;
+        bottom: 1px;
     }
 
     .listing-price {
-        color: $secondary;
-        font-size: 18px;
-        float: left;
+        color: $secondary; 
+        font-size: 20px;
+        font-weight:bold;
+        position: absolute;
+        bottom:0px;
+        left: 38px;
     }
 
     .listing-next {

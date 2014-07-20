@@ -35,7 +35,7 @@
 
   }
 
-  
+   
 
 
 
@@ -52,14 +52,23 @@
     width: 215px;
   }
 
-  .content-holder {
+  .search-title-holder {
+    margin-bottom: 30px;
   }
 
   h1 {
     color: $white;
     font-size: 42px;
-    margin-bottom: 30px;
+    display:inline;
+  }
 
+  button.blog-link-button {
+      background-color:$light;
+      color: $white;
+      border:none;
+      border-radius:25px;
+      opacity:.7;
+      margin:0px 0px 0px 45px;
   }
 }
 
@@ -112,6 +121,11 @@
       font-size: 14px;
     }
   }
+}
+
+#Video-Modal .modal-content {
+    width:500px;
+    height:281;
 }
 
 .featured-listings {

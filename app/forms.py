@@ -10,9 +10,11 @@ from django.forms.models import BaseInlineFormSet
 from django.forms.extras.widgets import SelectDateWidget
 
 from django.utils.translation import ugettext_lazy as _
+from ajax_select import make_ajax_field
 
 from .models import *
 from .facility_message_mixin import SEARCHING_FOR_CHOICES, BUDGET_CHOICES, MOBILITY_CHOICES, CARE_CURRENT_CHOICES, MOVE_IN_TIME_FRAME_CHOICES
+from account.forms import CustomModelMultipleChoiceField
 SEARCH_MIN_VAL_INITIAL = "500"
 SEARCH_MAX_VAL_INITIAL = "6000"
 
@@ -21,7 +23,7 @@ class SearchForm(forms.Form):
                     widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Facility Name'}))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
-    amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
+    amenities = CustomModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
     min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
     max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
 
@@ -65,7 +67,7 @@ MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN
 SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for?' %39)] + SEARCHING_FOR_CHOICES
 
 class TourRequestForm(ModelForm):
-    budget = forms.ChoiceField(choices=BUDGET_CHOICES_EMPTY, required=False) 
+    budget = forms.ChoiceField(choices=BUDGET_CHOICES, widget=forms.RadioSelect, required=False) 
     care_mobility = forms.ChoiceField(choices=MOBILITY_CHOICES_EMPTY, required=False)
     care_current = forms.ChoiceField(choices=CARE_CURRENT_CHOICES_EMPTY, required=False)
     move_in_time_frame = forms.ChoiceField(choices=MOVE_IN_TIME_FRAME_CHOICES_EMPTY, required=False)
@@ -94,12 +96,16 @@ class TourRequestForm(ModelForm):
             for field in self.fields:
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
-        for field in self.fields:
-            if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
-                self.fields[field].label = ""
             
 
 class FacilityAdminForm(ModelForm):
+    holding_group = make_ajax_field(Facility, 'holding_group', 'holding_group', help_text=None)
+
+    class Meta:
+        model = Facility
+        widgets = {
+            'description_long':forms.Textarea,
+        }
 
     def clean_phone(self):
         data = self.cleaned_data['phone']
@@ -109,11 +115,14 @@ class FacilityAdminForm(ModelForm):
             raise forms.ValidationError("Phone number must be exactly 10 digits")
         return number
 
-    class Meta:
-        model = Facility
-        widgets = {
-            'description_long':forms.Textarea,
-        }
+    def clean_shown_on_home(self):
+        shown_on_home = self.cleaned_data['shown_on_home']
+        if shown_on_home:
+            featured_facilities = Facility.objects.filter(shown_on_home=True)
+            if len(featured_facilities) > 3:
+                raise forms.ValidationError("There are already 3 featured facilities. Remove one before adding another")
+        return shown_on_home
+
 
 class EditManagerNoteFacilityForm(ModelForm):
 

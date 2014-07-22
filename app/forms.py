@@ -23,7 +23,11 @@ class SearchForm(forms.Form):
                     widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Facility Name'}))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
-    amenities = CustomModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
+    amenities = forms.ModelMultipleChoiceField(
+            widget=forms.CheckboxSelectMultiple(attrs={'id':'id_amenities'}), 
+            queryset=Amenity.objects.all(), 
+            required=False
+    )
     min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
     max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
 
@@ -99,9 +103,8 @@ class TourRequestForm(ModelForm):
             for field in self.fields:
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
-        widgets_to_remove_labels_from = ['CheckboxInput',]
         for field in self.fields:
-            if self.fields[field].widget.__class__.__name__ in widgets_to_remove_labels_from:
+            if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
                   self.fields[field].label = ""
             
 

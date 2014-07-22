@@ -35,13 +35,13 @@
           <div id="image-carousel">
             {% include 'snippets/image_carousel.html' with images=object.images.all %}
           </div>
-          <h1 class='left'>Description</h1>
+          <h1 class='description-title left'>Description</h1>
           <h1 class='capacity right'>Vacancies: {{ object.vacancies }}</h1>
           <h1 class='capacity right'>Capacity: {{ object.capacity }} &nbsp;</h1>
           <div class="clear"></div>
           <p class="description">{{ object.description_long }}</p>
 
-          <hr>
+          <hr id="description-pricing-divider">
 
           <h1>Pricing</h1>
           <div class="row">

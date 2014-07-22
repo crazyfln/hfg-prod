@@ -68,6 +68,11 @@
     .submit-b {
         margin-top:25px;
     }
+
+    .login-link {
+        color:$secondary;
+        cursor:pointer;
+    }
 }
 
 .login-b {
@@ -102,7 +107,7 @@ a.push {
 
 
 #id_first_name, #id_last_name, #id_email, #id_password1, #id_password2, #id_username, #id_password, #id_name, #id_party_type,
-#id_new_password1, #id_new_password2, #id_old_password, #id_phone_number   {
+#id_new_password1, #id_new_password2, #id_old_password, #id_phone   {
     @extend %abstract-form-dimensions;
 }
 
@@ -134,8 +139,9 @@ a.push {
 // textarea mixin
 @mixin modal-textarea {
     border: 1px solid $border;
-    padding-top:10px;
-    text-align:center;
+    border-radius: 4px;
+    padding:10px 15px;
+    resize:none;
 }
 
 #id_health_description {
@@ -156,6 +162,13 @@ a.push {
         padding-bottom:0px;
     }
 
+    h1 {
+        font-size:12px;
+        color:$light;
+        margin-top:10px;
+        margin-bottom:15px;
+    }
+
     hr {
         margin: 5px;
     }
@@ -163,11 +176,16 @@ a.push {
     button {
         width: 259px;
     }
+    p.checkbox-label {
+        margin:0px 0px 0px 10px;
+        color:$primary;
+
+    }
 }
 
 //input mixin
 @mixin tour-input {
-    width:259px;
+    width:263px;
     height: 40px;
     color: $light;
     outline:none;
@@ -188,27 +206,6 @@ a.push {
 #id_resident_first_name {
     @include tour-input;
 }
-
-.modal-select-holder {
-    height:40px; 
-    width: 259px;
-    background:image-url('img/select_dropdown.png') no-repeat;
-    background-position:240px;
-
-    select {
-        height: 100%;
-        width: 100%;
-        background-color:transparent;
-        outline:none;
-        -webkit-appearance: none;
-        // appearance(-webkit);
-        color: $light;
-        padding-left:10px;
-        border: 1px solid $border;
-    }
-}
-
-
 
 .align-left {
     text-align:left;

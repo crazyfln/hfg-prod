@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from ajax_select import make_ajax_field
 
 from .models import *
-from .facility_message_mixin import SEARCHING_FOR_CHOICES, BUDGET_CHOICES, MOBILITY_CHOICES, CARE_CURRENT_CHOICES, MOVE_IN_TIME_FRAME_CHOICES
+from .facility_message_mixin import SEARCHING_FOR_CHOICES, BUDGET_CHOICES, MOBILITY_CHOICES, CARE_CURRENT_CHOICES, MOVE_IN_TIME_FRAME_CHOICES, PREFERRED_CONTACT_CHOICES
 from account.forms import CustomModelMultipleChoiceField
 SEARCH_MIN_VAL_INITIAL = "500"
 SEARCH_MAX_VAL_INITIAL = "6000"
@@ -23,7 +23,11 @@ class SearchForm(forms.Form):
                     widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Facility Name'}))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
-    amenities = CustomModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Amenity.objects.all(), required=False)
+    amenities = forms.ModelMultipleChoiceField(
+            widget=forms.CheckboxSelectMultiple(attrs={'id':'id_amenities'}), 
+            queryset=Amenity.objects.all(), 
+            required=False
+    )
     min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
     max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
 
@@ -64,7 +68,7 @@ BUDGET_CHOICES_EMPTY = [('','Budget')] + BUDGET_CHOICES
 MOBILITY_CHOICES_EMPTY = [('','Mobility')] + MOBILITY_CHOICES
 CARE_CURRENT_CHOICES_EMPTY = [('','Current Living Situation')] + CARE_CURRENT_CHOICES
 MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN_TIME_FRAME_CHOICES
-SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for?' %39)] + SEARCHING_FOR_CHOICES
+SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for...' %39)] + SEARCHING_FOR_CHOICES
 
 class TourRequestForm(ModelForm):
     budget = forms.ChoiceField(choices=BUDGET_CHOICES, widget=forms.RadioSelect, required=False) 
@@ -72,16 +76,19 @@ class TourRequestForm(ModelForm):
     care_current = forms.ChoiceField(choices=CARE_CURRENT_CHOICES_EMPTY, required=False)
     move_in_time_frame = forms.ChoiceField(choices=MOVE_IN_TIME_FRAME_CHOICES_EMPTY, required=False)
     searching_for = forms.ChoiceField(choices=SEARCHING_FOR_CHOICES_EMPTY, required=False)
+    preferred_contact = forms.ChoiceField(choices=PREFERRED_CONTACT_CHOICES, widget=forms.RadioSelect, required=False)
 
-    comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Tell us about your loved one. Health condition, concerns, hobbies, etc."}))
-    health_description = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Describe your health condition"}))
+    comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}))
+    health_description = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}))
     desired_city = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Desired City"}))
     resident_first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}))
 
     class Meta:
         model = FacilityMessage
-        exclude = ('user','facility','read','replied_by','replied_datetime')
-        widgets = {'planned_move_date': forms.TextInput(attrs={'placeholder': 'Date', 'class':''})}
+        exclude = ('user','facility','read_by_manager','read_by_provider','replied_by','replied_datetime')
+        widgets = {
+            'planned_move_date': forms.TextInput(attrs={'placeholder': 'Planned move-in Time Frame', 'class':''}),
+        }
     
     def save(self, commit=True):
         new_request = super(TourRequestForm, self).save(commit=False)
@@ -96,6 +103,9 @@ class TourRequestForm(ModelForm):
             for field in self.fields:
                 if hasattr(self.user, field):
                     self.fields[field].initial = getattr(self.user, field)
+        for field in self.fields:
+            if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
+                  self.fields[field].label = ""
             
 
 class FacilityAdminForm(ModelForm):

@@ -1,4 +1,4 @@
-@import "compass/css3/background-size";
+:import "compass/css3/background-size";
 
 @import "compass/layout.scss";
 // @import "compass/css3/appearance";
@@ -21,7 +21,7 @@ $bootstrap-sass-asset-helper: false;
 @import "contact";
 @import "about";
 @import "profile";
-@import "checkboxes";
+@import "custom_input";
 
 
 //global rules and helper classes

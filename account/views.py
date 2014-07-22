@@ -3,6 +3,7 @@ from django.shortcuts import render
 from registration.backends.simple.views import RegistrationView as SimpleRegistrationView
 from registration.backends.default.views import RegistrationView as DefaultRegistrationView
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 
 from .forms import RegistrationForm
 
@@ -29,4 +30,5 @@ class RegistrationView(SimpleRegistrationView):
         """
         Return the url a user should be redirected to after registration
         """
-        return reverse('index')
+        url = str(request.GET.get('next', reverse('index')))
+        return url

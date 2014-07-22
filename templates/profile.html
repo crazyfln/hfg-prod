@@ -52,8 +52,8 @@
             <td>{{ form.email }}</td>
           </tr>
           <tr>
-            <td>{{form.phone.label}}  </td>
-            <td>{{form.searching_for.label}}</td>
+            <td>{{  form.phone.label_tag  }}  </td>
+            <td>{{  form.searching_for.label_tag  }}</td>
           </tr>
           <tr>
             <td>{{ form.phone }}</td>
@@ -63,15 +63,18 @@
           </tr>
           <tr>
             <td>{{ form.budget.label_tag }}</td>
-            <td></td>
+            <td>{{ form.conditions.label_tag }}</td>
           </tr>
           <tr>
             <td><div class="budget-holder">{{ form.budget }}</div></td>
+            <td colspan="3" id="conditions_holder">
+              {% for condition in form.conditions %}
+                {{ condition.tag }} <label for="id_condition_{{condition.index}}"><span class="label-text">{{condition.choice_label }}</span></label>
+              {% endfor %}
+            </td>
           </tr>
         </table>           
-           {% for condition in form.conditions %}
-              {{ condition.tag }} <label for="id_condition_{{condition.index}}">{{condition.choice_label }}</label>
-           {% endfor %}
+
       </div>
       <button class='button-blue' type="submit">update</button>
     </form>

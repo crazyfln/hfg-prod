@@ -1,4 +1,4 @@
-:import "compass/css3/background-size";
+@import "compass/css3/background-size";
 
 @import "compass/layout.scss";
 // @import "compass/css3/appearance";
@@ -72,6 +72,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .padder-top-20 {        
     padding-top: 20px;
+}
+
+.padder-60 {
+    padding-top:60px;
+    padding-bottom:60px;
 }
 
 .margin-top-80 {

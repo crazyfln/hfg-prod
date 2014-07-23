@@ -9,11 +9,12 @@
             <center>
               {{ form.errors }}
               {{ form.health_description }}
-              <br />
+              <div class="clear"></div>
+              <div id="planned_move_date_holder">
+                {{ form.planned_move_date }}
 
-              {{ form.planned_move_date }}
-
-              <span class="glyphicon glyphicon-calendar cal-icon"></span> 
+                <span class="glyphicon glyphicon-calendar cal-icon"></span> 
+              </div>
 
             </center>
           </div>

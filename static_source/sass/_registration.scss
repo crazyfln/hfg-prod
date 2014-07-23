@@ -266,10 +266,14 @@ p.errors {
     }
 }
 
+#planned_move_date_holder {
+    position:relative;
+}
 
-.cal-icon {
+span.cal-icon {
     position:absolute;
     margin-left:-35px;
+    margin-top: 11px;
 }
 
 

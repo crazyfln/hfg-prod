@@ -1,4 +1,5 @@
 {% load static from staticfiles %}
+{% load thumbnail %}
 <div class="col-xs-4">
 
   <a href="{{ facility.get_absolute_url }}" class="listing-link">
@@ -15,7 +16,7 @@
         </div>
       {% endif %}
 
-      <img src='{{ facility.get_featured_image.image.url }}'/>
+      <img src='{{ facility.get_featured_image.image.url|thumbnail_url:"listing_preview" }}'/>
       <div class="clear"></div>
       <div class='truncate-extra listing-tag'>
         {% for type in facility.facility_types.all %}

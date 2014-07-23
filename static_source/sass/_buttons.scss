@@ -2,7 +2,7 @@
 
 
 %button {
-    height: 30px;
+    height: 40px;
     padding: 0px 15px;
     font-size: 14px;
     text-transform: uppercase;
@@ -20,4 +20,9 @@
 .button-orange {
     @extend %button;
     background-color: $button-orange;
+}
+
+.button-header {
+    @exten %button;
+    height:30px;
 }

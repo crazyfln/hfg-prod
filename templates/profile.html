@@ -20,6 +20,7 @@
   <li class='active'><img src='{% static 'img/icon_tabs_heart.png' %}'/><a href="#favorites" role="tab" data-toggle="tab">My Favorites</a></li>
   <li><img src='{% static 'img/icon_tabs_profile.png' %}'/><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
   <li><img src='{% static 'img/icon_tabs_check.png' %}'/><a href="#reset" role="tab" data-toggle="tab">Reset Password</a></li>
+  <li><img src='{% static 'img/icon_tabs_phone.png' %}'/><a href="#tour-request-form" role="tab" data-toggle="tab">Request A Tour Info</a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -83,6 +84,12 @@
   <div class="tab-pane" id="reset">
     <div class="table-holder"> 
       {% include 'registration/password_change_form.html' with form=password_reset_form %}
+    </div>
+    
+</div>
+<div class="tab-pane" id="tour-request-form">
+    <div class="table-holder">
+    Request form here.
     </div>
     
 </div>

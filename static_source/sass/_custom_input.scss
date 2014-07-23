@@ -79,11 +79,13 @@ ul#id_preferred_contact label:before {
     @extend %radio-button-label;
 }
 
-input[type=checkbox]:checked +label:before{
-    content:"\2713";
+input[type=radio]:checked +label:before{
+    content:"\2022";
+    text-align:center;
 }
 
 .custom-radio-holder {
+    text-align:left;
 
     label {
         color:$primary;

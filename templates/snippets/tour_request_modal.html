@@ -60,16 +60,15 @@
               {{ form.pay_ssi }}
               {{ form.pay_ssi.label_tag }}
               <p class="checkbox-label">SSI</p>
-            </div>
-            <div class="clear"></div>
-            <div class="align-left">
+              <div class="clear"></div>
               <h1>WHAT IS YOUR BUDGET?</h1>
-            </div>
-            <div class="clear"></div>
-            <div class="custom-radio-holder">
-               {% for option in form.budget %}
-                 {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
-               {% endfor %}
+              <div class="clear"></div>
+              <div class="custom-radio-holder">
+                 {% for option in form.budget %}
+                   {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
+                   <div class="clear"></div>
+                 {% endfor %}
+              </div>
             </div>
           </div>
           <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-1">BACK</button>
@@ -125,9 +124,12 @@
               <div class="clear"></div>
               <h1>PREFERRED METHOD OF CONTACT:</h1>
               <div class="clear"></div>
-            </div>
-            <div class="custom-radio-holder">
-              {{ form.preferred_contact }}
+              <div class="custom-radio-holder">
+                {% for option in form.preferred_contact %}
+                  {{ option.tag }} <label for="id_preferred_contact_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
+                  <div class="clear"></div>
+                {% endfor %}
+              </div>
             </div>
             <div class="clear"></div>
           </div>

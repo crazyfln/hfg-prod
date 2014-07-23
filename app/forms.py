@@ -71,12 +71,12 @@ MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN
 SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for...' %39)] + SEARCHING_FOR_CHOICES
 
 class TourRequestForm(ModelForm):
-    budget = forms.ChoiceField(choices=BUDGET_CHOICES, widget=forms.RadioSelect, required=False) 
+    budget = forms.ChoiceField(choices=BUDGET_CHOICES, widget=forms.RadioSelect(attrs={'id':'id_budget'}), required=False) 
     care_mobility = forms.ChoiceField(choices=MOBILITY_CHOICES_EMPTY, required=False)
     care_current = forms.ChoiceField(choices=CARE_CURRENT_CHOICES_EMPTY, required=False)
     move_in_time_frame = forms.ChoiceField(choices=MOVE_IN_TIME_FRAME_CHOICES_EMPTY, required=False)
     searching_for = forms.ChoiceField(choices=SEARCHING_FOR_CHOICES_EMPTY, required=False)
-    preferred_contact = forms.ChoiceField(choices=PREFERRED_CONTACT_CHOICES, widget=forms.RadioSelect, required=False)
+    preferred_contact = forms.ChoiceField(choices=PREFERRED_CONTACT_CHOICES, widget=forms.RadioSelect(attrs={'id':'id_preferred_contact'}), required=False)
 
     comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}))
     health_description = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}))

@@ -51,28 +51,42 @@
   select {
     height: 40px;
     width: 215px;
+  }
+
+
+
+  h1 {
+    color: $white;
+    font-size: 42px;
+    display:inline;
+  }
+
+  
+
+  button.blog-link-button {
+    background-color:$light;
+    position:relative;
+    color: $white;
+    border:none;
+    border-radius:25px;
+    margin:0px 0px 0px 45px;
+    outline: none;
+    padding: 5px 15px;
+    font-size: 12px;
+    opacity:.4;
+
+    // p {
+    //   position:relative;
+    //   opacity:1;
+    // }
  }
 
-
-
-h1 {
-  color: $white;
-  font-size: 42px;
-  display:inline;
-}
-
-button.blog-link-button {
-  background-color:$light;
-  color: $white;
-  border:none;
-  border-radius:25px;
-  opacity:.7;
-  margin:0px 0px 0px 45px;
-  outline: none;
-  padding: 5px 15px;
-  font-size: 12px;
-  opacity: 0.4;
-}
+ // .opacity-holder {
+ //    opacity:0.1;
+ //    position:absolute;
+ //    height:100%;
+ //    width:100%;
+ //  }
 }
 
 .home-info-holder {

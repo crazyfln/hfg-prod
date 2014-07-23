@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'easy_thumbnails',
     'annoying',
     'django_extensions',
     'model_utils',
@@ -201,8 +202,14 @@ from hfg.settings.app import *
 
 
 SOUTH_TESTS_MIGRATE = False
+#for easy thumbnails
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
 
-GRAPPELLI_ADMIN_TITLE = 'hfg'
+
+
+GRAPPELLI_ADMIN_TITLE = 'Home For Grandma'
 
 GRAPPELLI_INDEX_DASHBOARD = {
     'app.admin.manager_admin':'hfg.manager_dashboard.CustomIndexDashboard',
@@ -212,3 +219,14 @@ GRAPPELLI_INDEX_DASHBOARD = {
 AJAX_LOOKUP_CHANNELS = {
     'holding_group' : {'model':'account.HoldingGroup', 'search_field':'name'},
 }
+
+THUMBNAIL_DEBUG = True
+THUMBNAIL_ALIASES = {
+    '': {
+        'carousel_thumbnail': {'size': (50, 50), 'crop': True},
+        'carousel_main': {'size': (617, 450), 'crop':True},
+        'listing_preview': {'size': (315, 215), 'crop':True},
+        'property_manager_avatar': {'size' : (70, 70), 'crop': True}
+    },
+}
+

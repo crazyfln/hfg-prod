@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+    url(r'^weblog/', include('zinnia.urls')),
+    url(r'^comments/', include('django.contrib.comments.urls')),
 
     url(r'^admin/filebrowser/', include(site.urls)),
     url(r'^provider/', include(provider_admin.urls)),
@@ -24,8 +26,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r"^payments/", include("payments.urls")),
 
-    url(r'^weblog/', include('zinnia.urls')),
-    url(r'^comments/', include('django.contrib.comments.urls')),
 )
 
 

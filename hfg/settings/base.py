@@ -129,6 +129,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'tagging',
+    'mptt',
+    'zinnia',
     'annoying',
     'django_extensions',
     'model_utils',
@@ -141,9 +144,6 @@ INSTALLED_APPS = (
     'liststyle',
     'app',
     'account',
-    'tagging',
-    'mptt',
-    'zinnia',
 )
 
 # A sample logging configuration. The only tangible logging

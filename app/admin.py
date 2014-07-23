@@ -8,6 +8,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms import CheckboxSelectMultiple
 import datetime
 from liststyle.admin import ListStyleAdminMixin
+
+from zinnia.models.entry import Entry
+from zinnia.admin.entry import EntryAdmin
+
 from account.models import User, HoldingGroup
 from account.admin import UserAdmin
 from util.util import list_button
@@ -15,15 +19,14 @@ from .admin_mixins import *
 from .models import *
 from .forms import FacilityAdminForm, FacilityProviderForm
 
-# class YourModelAdmin(reversion.VersionAdmin):
-#     pass
-
+admin.site.unregister(Entry)
 
 class ManagerAdmin(AdminSite):
     def has_permission(self, request):
         return request.user.is_active and request.user.is_staff and request.user.is_superuser
 
 manager_admin = ManagerAdmin(name="manager_admin")
+manager_admin.register(Entry, EntryAdmin)
 
 class FacilityFeeInline(admin.TabularInline):
     model = FacilityFee

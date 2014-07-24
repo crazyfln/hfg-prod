@@ -16,7 +16,7 @@
         </div>
       {% endif %}
 
-      <img src='{{ facility.get_featured_image.image.url|thumbnail_url:"listing_preview" }}'/>
+      <img src="{{ facility.get_featured_image.image|thumbnail_url:'listing_preview' }}"/>
       <div class="clear"></div>
       <div class='truncate-extra listing-tag'>
         {% for type in facility.facility_types.all %}

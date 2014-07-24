@@ -107,6 +107,7 @@ class TourRequestForm(ModelForm):
             if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
                   self.fields[field].label = ""
             
+MAX_FEATURED_FACILITIES = 6
 
 class FacilityAdminForm(ModelForm):
     holding_group = make_ajax_field(Facility, 'holding_group', 'holding_group', help_text=None)
@@ -129,8 +130,8 @@ class FacilityAdminForm(ModelForm):
         shown_on_home = self.cleaned_data['shown_on_home']
         if shown_on_home:
             featured_facilities = Facility.objects.filter(shown_on_home=True)
-            if len(featured_facilities) > 3:
-                raise forms.ValidationError("There are already 3 featured facilities. Remove one before adding another")
+            if len(featured_facilities) >= MAX_FEATURED_FACILITIES:
+                raise forms.ValidationError("There are already {0} featured facilities. Remove one before adding another".format(str(MAX_FEATURED_FACILITIES)))
         return shown_on_home
 
 

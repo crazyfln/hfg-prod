@@ -220,13 +220,13 @@ AJAX_LOOKUP_CHANNELS = {
     'holding_group' : {'model':'account.HoldingGroup', 'search_field':'name'},
 }
 
-THUMBNAIL_DEBUG = True
 THUMBNAIL_ALIASES = {
     '': {
-        'carousel_thumbnail': {'size': (50, 50), 'crop': True},
+        'carousel_thumbnail': {'size': (122, 88), 'crop': True},
         'carousel_main': {'size': (617, 450), 'crop':True},
         'listing_preview': {'size': (315, 215), 'crop':True},
         'property_manager_avatar': {'size' : (70, 70), 'crop': True}
     },
 }
 
+THUMBNAIL_DEBUG = True

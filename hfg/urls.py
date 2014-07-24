@@ -4,6 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from app.admin import manager_admin, provider_admin
 #admin.autodiscover()
+from app.views import CustomBlogIndex
 
 from filebrowser.sites import site
 
@@ -16,7 +17,8 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    url(r'^weblog/', include('zinnia.urls')),
+    url(r'^blog/', CustomBlogIndex.as_view(), name="blog"),
+    url(r'^blog/', include('zinnia.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),
 
     url(r'^admin/filebrowser/', include(site.urls)),

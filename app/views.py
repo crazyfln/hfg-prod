@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST
 
 from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
+from zinnia.views.archives import EntryIndex
 
 from account.forms import RegistrationForm, ProfileForm
 
@@ -254,3 +255,6 @@ def about(request):
 @render_to('home_video.html')
 def home_video(request):
     return{}
+
+class CustomBlogIndex(EntryIndex):
+    template_name="blog_base.html"

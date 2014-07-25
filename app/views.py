@@ -257,4 +257,4 @@ def home_video(request):
     return{}
 
 class CustomBlogIndex(EntryIndex):
-    template_name="blog_base.html"
+    template_name="blog_entry_archive.html"

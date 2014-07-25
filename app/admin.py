@@ -51,8 +51,9 @@ class ShownOnHomeFilter(admin.SimpleListFilter):
 
 class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
     form = FacilityAdminForm
-    list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group']
+    list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group', 'get_visibility']
     list_filter = (ShownOnHomeFilter,)
+    search_fields = ['name', 'city', 'state']
     fieldsets = (
         ("Facility Information", {
             'fields':(
@@ -91,6 +92,18 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
     list_select_related = True
     inlines = [FacilityFeeInline, FacilityImageInline, FacilityRoomInline]
 
+    def get_visibility(self, obj):
+        display = "Yes" if obj.visibility else "No"
+        url = reverse('change_facility_visibility', args=(obj.pk,))
+        query = {'admin_site':self.admin_site.name,
+            "app_label":obj._meta.app_label,
+            "module_name":obj._meta.module_name
+        }
+        url = url + "?" + urllib.urlencode(query)
+        return '<a href="{0}">{1}</a>'.format(url, display)
+
+    get_visibility.short_description = "Published"
+    get_visibility.allow_tags = True
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
@@ -115,7 +128,7 @@ class UnreadFilter(admin.SimpleListFilter):
 class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_by_manager', 'get_replied']
     actions = ['make_read', 'make_unread', 'send_to_facility', 'unsend_to_facility']
-    ordering = ['-read_by_manager','-modified']
+    ordering = ['read_by_manager','-modified']
     list_filter = (UnreadFilter,)
     search_fields = ['facility__name', 'facility__holding_group__name']
 
@@ -310,19 +323,6 @@ class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
     def get_status(self, obj):
         return obj.get_vacancy_status()
     get_status.short_description = "Status"
-
-    def get_visibility(self, obj):
-        display = "Yes" if obj.visibility else "No"
-        url = reverse('change_facility_visibility', args=(obj.pk,))
-        query = {'admin_site':self.admin_site.name,
-            "app_label":obj._meta.app_label,
-            "module_name":obj._meta.module_name
-        }
-        url = url + "?" + urllib.urlencode(query)
-        return '<a href="{0}">{1}</a>'.format(url, display)
-
-    get_visibility.short_description = "Published"
-    get_visibility.allow_tags = True
     
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(FacilityProviderAdmin, self).get_fieldsets(request, obj)
@@ -361,7 +361,7 @@ class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
         q = request.GET.get('facility', "")
         facility = get_object_or_404(FacilityProviderProxy, slug=q)
         query = query.filter(facility=facility)
-        q = request.GET.get('user', "")
+        q = request.GET.get('User', None)
         user = get_object_or_404(User, pk=q)
         query = query.filter(user=user)
         return query.filter(facility__holding_group=request.user.holding_group)

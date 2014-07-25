@@ -182,8 +182,8 @@ def request_phone(request, slug):
     return {}
 
 def change_facility_visibility(request, pk):
-    if request.user.is_provider():
-        facility = get_object_or_404(Facility, pk=pk)
+    facility = get_object_or_404(Facility, pk=pk)
+    if (request.user.is_provider() and request.user.holding_group == facility.holding_group) or request.user.is_staff:
         facility.visibility = not facility.visibility
         facility.save()
         info = request.GET['admin_site'], request.GET['app_label'], request.GET['module_name']

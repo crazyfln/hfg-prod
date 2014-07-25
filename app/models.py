@@ -145,7 +145,7 @@ class FacilityMessage(TimeStampedModel, FacilityMessageFieldMixin):
         user.save()
 
     def __unicode__(self):
-        return "-".join(str(self.facility.name), str(self.user.get_full_name()), str(self.created.date()))
+        return "-".join([str(self.facility.name), str(self.user.get_full_name()), str(self.created.date())])
 
     class Meta:
         verbose_name = "Message"

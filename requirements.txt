@@ -67,7 +67,7 @@ jsmin
 django-reversion==1.8.0
 python-social-auth==0.1.23
 django-blog-zinnia==0.14.1
-zinnia_boostrap==0.3.1
+zinnia-theme-bootstrap==0.3.1
 django-app-namespace-template-loader==0.1
 
 #OPTIONAL TOOLS

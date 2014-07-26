@@ -148,7 +148,7 @@ class Search(ListView):
             if not max_price:
                 max_price = SEARCH_MAX_VAL_INITIAL
             result = result.filter(min_price__gte=min_price, min_price__lte=max_price, visibility=True)
-            return result
+            return result.filter(visibility=True)
         else:
             return Facility.objects.all().filter(visibility=True)
 

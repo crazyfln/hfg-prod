@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    url(r'^blog/', CustomBlogIndex.as_view(), name="blog"),
+    url(r'^blog/$', CustomBlogIndex.as_view(), name="blog"),
     url(r'^blog/', include('zinnia.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),
 

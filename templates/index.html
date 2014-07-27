@@ -14,7 +14,13 @@ Home For Grandma
         <div class="search-title-holder">
           <h1 class="search-title">Find Senior Living</h1>
           <a href="#">
-            <button class="blog-link-button">LEARN ABOUT PROPERTY TYPES</button>
+            <button class="blog-link-button">
+              <div class="opacity-holder"></div>
+              LEARN ABOUT PROPERTY TYPES
+              <!-- <p>LEARN ABOUT PROPERTY TYPES</p> -->
+            </button>
+
+  
           </a>
         </div>
         <div class="clear"></div>
@@ -25,35 +31,34 @@ Home For Grandma
     </div>
 
     <center>
-    <div class="play-holder">
+      <div class="play-holder">
        <img class='play' src='{% static 'img/play_button.png' %}' data-toggle="modal" data-target="#Video-Modal"/>
-    <div class="transparent-holder">
-      <p class='padding-top-15 larger-font'>Who We Are</p>
-    </div>
-  </center>
-   
-    </div>
+       <div class="transparent-holder">
+        <p class='padding-top-15 larger-font'>How It Works</p>
+      </div>
+    </center>
   </div>
+</div>
 </div>  
 
 
-<div class="home-info-holder padder-40 background-beige">
+<div class="home-info-holder padder-60 background-beige">
   <div class="container">
     <div class="col-xs-6">
       <div class="desc-boxes">
-        <img class='left' src='{% static 'img/image_home_left.png' %}'/>
-        <a href='/receive_reward'><p class="desc-main">A gift for move in</p></a>
-        <a href='/receive_reward'><p class="desc-minor">Receive a $200 Reward when you move into a HomeForGrandma.com property.</p></a>
+        <a href='{% url 'receive_reward' %}'><img class='left' src='{% static 'img/image_home_left.png' %}'/></a>
+        <a href='{% url 'receive_reward' %}'><p class="desc-main">$200 gift for move in</p></a>
+        <a href='{% url 'receive_reward' %}'><p class="desc-minor">Receive a $200 Reward when you move into a community.</p></a>
         <a class='learn-more' href='/receive_reward'>Learn more</a>
       </div>
     </div>
 
     <div class="col-xs-6">
       <div class="desc-boxes">
-        <img class='left' src='{% static 'img/image_home_right.png' %}'/>
-        <a href='/making_move'><p class="desc-main">Making the Move</p></a>
-        <a href='/making_move'><p class="desc-minor">Talking to your loved one about the benefits of Assisted Living</p></a>
-        <a class='learn-more'href='/making_move'>Learn more</a>
+        <a href='{% url 'making_move' %}'><img class='left' src='{% static 'img/image_home_right.png' %}'/></a>
+        <a href='{% url 'making_move' %}'><p class="desc-main">Free Assistance</p></a>
+        <a href='{% url 'making_move' %}'><p class="desc-minor">Talking to your loved one about the benefits of Assisted Living</p></a>
+        <a class='learn-more'href='{% url 'making_move' %}'>Learn more</a>
       </div>
     </div>
   </div>
@@ -106,15 +111,15 @@ Home For Grandma
   </div>
 
 
-<div class="modal fade" id="Video-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal fade" id="Video-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
           <iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
+    </div>
   </div>
-</div>
 
 
   {% endblock content %}

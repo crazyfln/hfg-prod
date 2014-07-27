@@ -30,7 +30,7 @@
         }
 
         p.name {
-            font-size: 25px;
+            font-size: 30px;
             color: $dark;
             margin-top: 20px;
             margin-bottom:0px;
@@ -93,7 +93,6 @@
         border-right: 1px solid $border;
         padding-right:40px;
 
-
         h1{
             color: $secondary;
             font-size:22px;
@@ -103,7 +102,12 @@
             }
         }
 
+        h1.description-title {
+            margin-top:30px;
+        }
+
         h1.capacity {
+            margin-top:30px;
             color:$primary;
         }
 
@@ -117,6 +121,7 @@
             color:$primary;
             font-size:16px;
             line-height:1.8em;
+            margin-top:20px;
 
         }
 

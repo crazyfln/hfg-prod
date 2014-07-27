@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {%load static from staticfiles %}
+{% load thumbnail %}
 
 {% block content %}
 <div class="facility-detail">
@@ -35,13 +36,13 @@
           <div id="image-carousel">
             {% include 'snippets/image_carousel.html' with images=object.images.all %}
           </div>
-          <h1 class='left'>Description</h1>
+          <h1 class='description-title left'>Description</h1>
           <h1 class='capacity right'>Vacancies: {{ object.vacancies }}</h1>
           <h1 class='capacity right'>Capacity: {{ object.capacity }} &nbsp;</h1>
           <div class="clear"></div>
           <p class="description">{{ object.description_long }}</p>
 
-          <hr>
+          <hr id="description-pricing-divider">
 
           <h1>Pricing</h1>
           <div class="row">
@@ -189,7 +190,7 @@
         </div>
 
         <div class="facility-right right">
-            <img id='profile' src="{{ object.get_director_avatar_url }}"/>
+            <img id='profile' src="{{ object.director_avatar|thumbnail_url:'property_manager_avatar' }}"/>
             <div class="manager-holder left">
                 <p class='director-name left'>{{ object.director_name }}</p>
                 <div class="clear"></div>

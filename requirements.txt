@@ -70,6 +70,7 @@ easy-thumbnails==2.0.1
 django-ajax-selects==1.3.4
 
 
+
 #OPTIONAL TOOLS
 #whoosh
 #django-haystack

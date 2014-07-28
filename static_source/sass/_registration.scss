@@ -116,6 +116,8 @@ a.push {
 }
 
 
+
+
 //custom inputs for forgot password flow 
 #id_old_password, #id_new_password1, #id_new_password2 {
     @extend %abstract-form-dimensions;
@@ -142,6 +144,7 @@ a.push {
     border-radius: 4px;
     padding:10px 15px;
     resize:none;
+    outline:none;
 }
 
 #id_health_description {
@@ -150,6 +153,7 @@ a.push {
 
 #id_comments {
     @include modal-textarea;
+    width: 
 }
 
 #tour-request-form {

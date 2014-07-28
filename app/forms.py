@@ -78,7 +78,7 @@ class TourRequestForm(ModelForm):
     searching_for = forms.ChoiceField(choices=SEARCHING_FOR_CHOICES_EMPTY, required=False)
     preferred_contact = forms.ChoiceField(choices=PREFERRED_CONTACT_CHOICES, widget=forms.RadioSelect(attrs={'id':'id_preferred_contact'}), required=False)
 
-    comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}))
+    comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"35"}))
     health_description = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}))
     desired_city = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Desired City"}))
     resident_first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}))

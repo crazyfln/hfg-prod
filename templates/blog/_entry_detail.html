@@ -2,7 +2,23 @@
 {% load static from staticfiles %}
 <article id="entry-{{ object.pk }}" class="hentry{% if object.featured %} featured{% endif %}">
   {% block entry-header %}
-    <img class="blog-header-image" src="{% static 'img/blog_test_image.jpg' %}"/>
+    {% block entry-image %}
+      {% if object.image %}
+        <div class="entry-image">
+          <p>
+            {% if continue_reading %}
+              <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
+            {% endif %}
+            <img src="{{ object.image.url }}" alt="{{ object.title }}" class="img-thumbnail img-responsive" />
+            {% if continue_reading %}
+              </a>
+            {% endif %}
+          </p>
+        </div>
+      {% else %}
+        <img class="blog-header-image" src="{% static 'img/blog_test_image.jpg' %}"/>
+      {% endif %}
+    {% endblock entry-image %}
   {% endblock entry-header %}
   <div class="blog-content-holder">
     <div class="left-blog-content">
@@ -40,9 +56,10 @@
     <div class="right-blog-content">
       {% block entry-title %}
         <h2 class="entry-title">
-        <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
-          {{ object.title }}
-        </a>
+          <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
+            {{ object.title }}
+          </a>
+        </h2>
       {% endblock entry-title %}
       {% block entry-last-update %}
         <p class="entry-last-update" style="display: none;">
@@ -51,21 +68,6 @@
       {% endblock entry-last-update %}
       {% block entry-body %}
         <div class="entry-body">
-          {% block entry-image %}
-            {% if object.image %}
-              <div class="entry-image">
-                <p>
-                  {% if continue_reading %}
-                    <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
-                  {% endif %}
-                  <img src="{{ object.image.url }}" alt="{{ object.title }}" class="img-thumbnail img-responsive" />
-                  {% if continue_reading %}
-                    </a>
-                  {% endif %}
-                </p>
-              </div>
-            {% endif %}
-          {% endblock entry-image %}
         {% block entry-content %}
           <div class="entry-content lead">
             {{ object_content|safe }}
@@ -73,13 +75,11 @@
         {% endblock entry-content %}
         {% block continue-reading %}
           {% if continue_reading and object_content.has_more %}
-            <p class="continue-reading">
-              <a href="{{ object.get_absolute_url }}"
-                title="{% blocktrans with object=object.title %}Continue reading {{ object }}{% endblocktrans %}"
-                rel="bookmark" class="btn btn-primary">
+            <a href="{{ object.get_absolute_url }}" title="{% blocktrans with object=object.title %}Continue reading {{ object }}{% endblocktrans %}" rel="bookmark">
+              <p class="continue-reading">
                 {% trans "Continue reading" %}
-              </a>
-            </p>
+              </p>
+            </a>
           {% endif %}
         {% endblock continue-reading %}
       {% endblock entry-body %}

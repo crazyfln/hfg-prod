@@ -364,9 +364,8 @@ class FacilityMessageFilter(admin.SimpleListFilter):
         )       
                 
     def queryset(self, request, queryset):
-        if self.value():
-            facility = get_object_or_404(Facility, slug=self.value())    
-            return queryset.filter(facility=facility, replied_by__isnull=False, replied_datetime__isnull=False)
+        facility = get_object_or_404(Facility, slug=self.value())    
+        return queryset.filter(facility=facility, replied_by__isnull=False, replied_datetime__isnull=False)
 
 class UserMessageFilter(admin.SimpleListFilter):
     title = _('')
@@ -376,9 +375,8 @@ class UserMessageFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-        if self.value():
-            user = get_object_or_404(User, pk=self.value())
-            return queryset.filter(user=user, replied_by__isnull=False, replied_datetime__isnull=False)
+        user = get_object_or_404(User, pk=self.value())
+        return queryset.filter(user=user, replied_by__isnull=False, replied_datetime__isnull=False)
 
 class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
     list_display = ['created','get_facility','get_user_full_name','get_user_email', 'message','get_replied']

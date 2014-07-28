@@ -18,16 +18,58 @@
 
     .blog-content-holder {
         margin-top:20px;
+        color:$primary;
 
+        a {
+            color:$primary;
+            text-decoration:none;
+        }
+        a:hover {
+            color:$primary;
+        }
 
         .left-blog-content {
             display:inline-block;
-            width:20%;
+            width:15%;
+            vertical-align:top;
+
+            .time-published {
+                font-size:15px;
+                font-weight:bold;
+                text-transform:uppercase;
+                margin-bottom:10px;
+            }
+
+            .author { 
+                font-size:15px;
+                font-weight:bold;
+                text-transform:uppercase;
+            }
+            
         }
 
         .right-blog-content {
             display:inline-block;
-            width:70%;
+            width:84%;
+            vertical-align:top;
+    
+            h2.entry-title {
+                text-size:20px;
+                margin-bottom:20px;
+            }
+
+            .entry-content p {
+                font-size:16px !important;
+                text-align:left !important;
+            }
+
+            .continue-reading {
+                padding:0px;
+                background-color:transparent;
+                color:$secondary;
+                font-size:16px;
+            }
+
         }
 
     }

@@ -69,6 +69,10 @@ python-social-auth==0.1.23
 django-blog-zinnia==0.14.1
 zinnia-theme-bootstrap==0.3.1
 django-app-namespace-template-loader==0.1
+easy-thumbnails==2.0.1
+django-ajax-selects==1.3.4
+
+
 
 #OPTIONAL TOOLS
 #whoosh

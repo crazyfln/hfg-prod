@@ -7,6 +7,7 @@ BUDGET_CHOICES = Choices('1000', '2000', '3000', 'Not Sure')
 MOBILITY_CHOICES = Choices('Mobile', 'Immobile')
 CARE_CURRENT_CHOICES = Choices('Alone', 'With Family')
 MOVE_IN_TIME_FRAME_CHOICES = Choices('Now', 'Soon', 'Later') 
+PREFERRED_CONTACT_CHOICES = Choices('Phone','Email','Both')
 
 class FacilityMessageFieldMixin(models.Model):
     searching_for = models.CharField(max_length=30, blank=True, choices=SEARCHING_FOR_CHOICES)
@@ -32,6 +33,7 @@ class FacilityMessageFieldMixin(models.Model):
     health_description = models.CharField(max_length=500, blank=True)
     planned_move_date = models.DateTimeField(blank=True, null=True)
     move_in_time_frame = models.CharField(max_length=30, blank=True, choices=MOVE_IN_TIME_FRAME_CHOICES)
+    preferred_contact = models.CharField(max_length=10, blank=True, null=True, choices=PREFERRED_CONTACT_CHOICES)
 
     class Meta:
         abstract = True

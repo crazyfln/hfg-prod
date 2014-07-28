@@ -16,7 +16,8 @@
         float:left;
         margin: 0 150px 10px 0;
         text-transform: uppercase;
-        color: $light;
+        color: $primary;
+        font-size: 1.2em;
     }
 
     .margin-right-20 {
@@ -38,14 +39,15 @@
         border: 1px solid $border;
         border-shadow:none;
         padding-left: 20px;
-        color: $primary;
+        color: #696969;
         @include appearance(none);
         outline: none;
         border-radius:4px 0 0 4px;
         margin: 0 0 20px 0;
         border-bottom:1px solid $border;
+        font-size: 18px;
     }
-    ul#id_amenities {
+/*    ul#id_amenities {
         li {
             float:left;
             margin-right: 30px;
@@ -56,7 +58,7 @@
             }
         }
     }
-
+*/
     ::-webkit-input-placeholder { /* WebKit browsers */
         color:$primary;
     }
@@ -66,35 +68,55 @@
         width:225px;
         height:50px !important;
         float: left;
+        font-size:18px;
+
     }
 
-
-    .searchfield-room_type-holder, .searchfield-facility_type-holder {
-        height: 50px;
-        width: 225px;
-        border: 1px solid $border;
-        float:left;
-        position: relative;
-        margin: 0 40px 0 0;
-         background:image-url('img/select_dropdown.png') no-repeat;
-        background-position:200px;
-
-        select {
-            position: absolute;
-            top: 0;
-            width: 223px !important;
-            padding-left: 30px;
-            height: 100%;
-            border: 0;
-            z-index: 2;
-            @include appearance(none);
-            outline:none;
-            background: transparent;
-            -webkit-appearance: none;
-        }
+//not working yet
+    select {
+        -moz-appearance: window;
     }
 
-    
+    @-moz-document url-prefix() {
+        #id_facility_type {
+        margin-top:15px !important;
+        padding-top: 16px !important;
+        color: transparent !important;
+        text-shadow: 0 0 0 #000 !important;
+        
+    }
+}
+
+
+
+
+
+.searchfield-room_type-holder, .searchfield-facility_type-holder {
+    height: 50px;
+    width: 225px;
+    border: 1px solid $border;
+    float:left;
+    position: relative;
+    margin: 0 40px 0 0;
+    background:image-url('img/select_dropdown.png') no-repeat;
+    background-position:200px;
+
+    select {
+        position: absolute;
+        top: 0;
+        width: 223px !important;
+        padding-left: 30px;
+        height: 100%;
+        border: 0;
+        z-index: 2;
+        @include appearance(none);
+        outline:none;
+        background: transparent;
+        -webkit-appearance: none;
+    }
+}
+
+
 
 
 
@@ -120,48 +142,49 @@
             //     margin-left: 15px;
             // } //not working
 
-                 .slider-selection {
-            background-image:none;
-            background-color:$secondary;
+            .slider-selection {
+                background-image:none;
+                background-color:$secondary;
 
-        }
-        .slider-handle  {
-            background-image:none;
-            background-color:$white;
-            border: 1px solid $border;
-            border-radius: 3px;
-            width: 10px;
-            opacity: 1;
-        }
+            }
+            .slider-handle  {
+                background-image:none;
+                background-color:$white;
+                border: 1px solid $border;
+                border-radius: 3px;
+                width: 10px;
+                opacity: 1;
+            }
 
-        .slider-handle {
-            &:nth-child(3) {
-                margin-left:0px;
+            .slider-handle {
+                &:nth-child(3) {
+                    margin-left:0px;
+                }
             }
         }
     }
-}
 
-.searchbox-home {
-    width:708px;
-    height:55px;
-    background-color:transparent;
-
-    .searchfield-facility_type-holder {
-        margin-right:0px;
+    .searchbox-home {
+        width:708px;
         height:55px;
-        background-color: #DFE6E6;
-        border-radius: 1px;
-    }
+        background-color:transparent;
+        margin-top:30px;
 
-    input#id_query {
-        width:430px;
-        background-color:#f8f8f8;
-    }
+        .searchfield-facility_type-holder {
+            margin-right:0px;
+            height:55px;
+            background-color: #DFE6E6;
+            border-radius: 1px;
+        }
 
-    button {
-        margin:0px;
-        float:left;
-        height: 56px;
+        input#id_query {
+            width:430px;
+            background-color:#f8f8f8;
+        }
+
+        button {
+            margin:0px;
+            float:left;
+            height: 56px;
+        }
     }
-}

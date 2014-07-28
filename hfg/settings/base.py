@@ -135,12 +135,14 @@ INSTALLED_APPS = (
     'tagging',
     'mptt',
     'zinnia',
+    'easy_thumbnails',
     'annoying',
     'django_extensions',
     'model_utils',
     'south',
     'pipeline',
     'registration',
+    'ajax_select',
     'payments',
     'manifesto',
     'social.apps.django_app.default',
@@ -206,10 +208,31 @@ from hfg.settings.app import *
 
 
 SOUTH_TESTS_MIGRATE = False
+#for easy thumbnails
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
 
-GRAPPELLI_ADMIN_TITLE = 'hfg'
+
+
+GRAPPELLI_ADMIN_TITLE = 'Home For Grandma'
 
 GRAPPELLI_INDEX_DASHBOARD = {
     'app.admin.manager_admin':'hfg.manager_dashboard.CustomIndexDashboard',
     'app.admin.provider_admin':'hfg.provider_dashboard.CustomIndexDashboard',
 }
+
+AJAX_LOOKUP_CHANNELS = {
+    'holding_group' : {'model':'account.HoldingGroup', 'search_field':'name'},
+}
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'carousel_thumbnail': {'size': (122, 88), 'crop': True},
+        'carousel_main': {'size': (617, 450), 'crop':True},
+        'listing_preview': {'size': (315, 215), 'crop':True},
+        'property_manager_avatar': {'size' : (70, 70), 'crop': True}
+    },
+}
+
+THUMBNAIL_DEBUG = True

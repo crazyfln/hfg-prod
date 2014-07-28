@@ -13,7 +13,7 @@ $bootstrap-sass-asset-helper: false;
 @import "bootstrap";
 @import "nav";
 @import "index";
-@import "listing_preview";
+@import "listing_preview";s
 @import "carousel";
 @import "receive_reward";
 @import "facility_detail";
@@ -23,7 +23,7 @@ $bootstrap-sass-asset-helper: false;
 @import "profile";
 @import "blog";
 @import "checkboxes";
-
+@import "custom_input";
 
 //global rules and helper classes
 
@@ -73,6 +73,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .padder-top-20 {        
     padding-top: 20px;
+}
+
+.padder-60 {
+    padding-top:60px;
+    padding-bottom:60px;
 }
 
 .margin-top-80 {

@@ -78,7 +78,10 @@ class FacilityDetail(DetailView):
         context['all_languages'] = Language.objects.all()
 
         if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
-                context['tour_request_form'] = TourRequestForm(user=self.request.user)
+            context['tour_request_form'] = TourRequestForm(user=self.request.user)
+        if self.request.user.is_authenticated() and PhoneRequest.objects.filter(user=self.request.user, facility=self.object).exists():
+            context['phone_already_requested'] = True
+
         return context
 
 
@@ -113,6 +116,7 @@ def facility_favorite(request, slug):
 class Search(ListView):
     model = Facility
     template_name = 'search.html'
+    paginate_by = 9
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
@@ -126,24 +130,26 @@ class Search(ListView):
         form = SearchForm(self.request.GET)
 
         if form.is_valid():
-            query = {}
-            query['facility_types'] = form.cleaned_data.get('facility_type',False)
-            query['facilityroom__room_type'] = form.cleaned_data.get('room_type',False)
-            query['amenities'] = form.cleaned_data.get('amenities',False)
-            result = Facility.objects.all().filter(**{key:value for (key, value) in query.iteritems() if value})
+            querydict = {}
+            querydict['facility_types'] = form.cleaned_data.get('facility_type',False)
+            querydict['facilityroom__room_type'] = form.cleaned_data.get('room_type',False)
+            querydict['amenities'] = form.cleaned_data.get('amenities',False)
+            result = Facility.objects.all().filter(**{ key:value for ( key, value ) in querydict.iteritems() if value })
 
             if form.cleaned_data['query']:
-                q = form.cleaned_data['query']
-                Qquery = Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q)
+                query = form.cleaned_data['query']
+                Qquery = Q()
+                for q in query.split():
+                    Qquery.add((Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q) | Q(state__icontains=q)), Qquery.AND)
                 result = result.filter(Qquery)
-            min_price = form.cleaned_data.get('min_value')
+            min_price = form.cleaned_data.get('min_value', False)
             if not min_price:
                 min_price = SEARCH_MIN_VAL_INITIAL
-            max_price = form.cleaned_data.get('max_value')
+            max_price = form.cleaned_data.get('max_value', False)
             if not max_price:
                 max_price = SEARCH_MAX_VAL_INITIAL
             result = result.filter(min_price__gte=min_price, min_price__lte=max_price, visibility=True)
-            return result
+            return result.filter(visibility=True)
         else:
             return Facility.objects.all().filter(visibility=True)
 
@@ -175,13 +181,14 @@ class ListProperty(FormView):
 @ajax_request
 def request_phone(request, slug):
     facility = get_object_or_404(Facility, slug=slug)
-    phone_request = PhoneRequest(facility=facility, user=request.user)
-    phone_request.save()
+    if not PhoneRequest.objects.filter(facility=facility, user=request.user).exists():
+        phone_request = PhoneRequest(facility=facility, user=request.user)
+        phone_request.save()
     return {}
 
 def change_facility_visibility(request, pk):
-    if request.user.is_provider():
-        facility = get_object_or_404(Facility, pk=pk)
+    facility = get_object_or_404(Facility, pk=pk)
+    if (request.user.is_provider() and request.user.holding_group == facility.holding_group) or request.user.is_staff:
         facility.visibility = not facility.visibility
         facility.save()
         info = request.GET['admin_site'], request.GET['app_label'], request.GET['module_name']

@@ -20,6 +20,7 @@
   <li class='active'><img src='{% static 'img/icon_tabs_heart.png' %}'/><a href="#favorites" role="tab" data-toggle="tab">My Favorites</a></li>
   <li><img src='{% static 'img/icon_tabs_profile.png' %}'/><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
   <li><img src='{% static 'img/icon_tabs_check.png' %}'/><a href="#reset" role="tab" data-toggle="tab">Reset Password</a></li>
+  <li><img src='{% static 'img/icon_tabs_phone.png' %}'/><a href="#tour-request-form" role="tab" data-toggle="tab">Request A Tour Info</a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -52,8 +53,8 @@
             <td>{{ form.email }}</td>
           </tr>
           <tr>
-            <td>{{form.phone.label_tag}}</td>
-            <td>{{form.searching_for.label_tag}}</td>
+            <td>{{  form.phone.label_tag  }}  </td>
+            <td>{{  form.searching_for.label_tag  }}</td>
           </tr>
           <tr>
             <td>{{ form.phone }}</td>
@@ -67,9 +68,14 @@
           </tr>
           <tr>
             <td><div class="budget-holder">{{ form.budget }}</div></td>
-            <td>{{ form.conditions }}</td>
+            <td colspan="3" id="conditions_holder">
+              {% for condition in form.conditions %}
+                {{ condition.tag }} <label for="id_condition_{{condition.index}}"><span class="label-text">{{condition.choice_label }}</span></label>
+              {% endfor %}
+            </td>
           </tr>
-        </table>
+        </table>           
+
       </div>
       <button class='button-blue' type="submit">update</button>
     </form>
@@ -78,6 +84,12 @@
   <div class="tab-pane" id="reset">
     <div class="table-holder"> 
       {% include 'registration/password_change_form.html' with form=password_reset_form %}
+    </div>
+    
+</div>
+<div class="tab-pane" id="tour-request-form">
+    <div class="table-holder">
+    Request form here.
     </div>
     
 </div>

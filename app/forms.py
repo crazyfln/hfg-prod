@@ -128,7 +128,7 @@ class FacilityAdminForm(ModelForm):
 
     def clean_shown_on_home(self):
         shown_on_home = self.cleaned_data['shown_on_home']
-        if shown_on_home:
+        if (shown_on_home and self.instance and not self.instance.shown_on_home) or (shown_on_home and not self.instance):
             featured_facilities = Facility.objects.filter(shown_on_home=True)
             if len(featured_facilities) >= MAX_FEATURED_FACILITIES:
                 raise forms.ValidationError("There are already {0} featured facilities. Remove one before adding another".format(str(MAX_FEATURED_FACILITIES)))

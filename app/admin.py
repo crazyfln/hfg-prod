@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
+from django.db.models import Q
 import reversion
 import datetime
 import urllib
@@ -124,6 +125,7 @@ class UnreadFilter(admin.SimpleListFilter):
             return queryset.filter(read_by_manager=False)
         elif self.value() == 'read':
             return queryset.filter(read_by_manager=True)
+
 
 class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_by_manager', 'get_replied']
@@ -311,7 +313,9 @@ class FacilityProviderAdmin(ProviderAddMixin, ProviderEditMixin, FacilityAdmin):
     form = FacilityProviderForm
 
     def get_messages(self, obj):
-        msgs = obj.facilitymessage_set.all()
+        msgs = obj.facilitymessage_set.filter(replied_by__isnull=False, replied_datetime__isnull=False)
+        if len(msgs) == 0:
+            return "0 messages"
         unread = msgs.filter(read_by_provider=False)
         display = str(len(msgs)) + " (" + str(len(unread)) + " Unread)"
         meta = FacilityMessageProviderProxy.objects.model._meta
@@ -351,20 +355,39 @@ class FacilityMessageProviderProxy(FacilityMessage):
         verbose_name = "Message"
         verbose_name_plural = "Message Center"
 
+class FacilityMessageFilter(admin.SimpleListFilter):
+    title = _('')
+    parameter_name = 'facility'
+    def lookups(self, request, model_admin):
+        return (
+        )
+
+    def queryset(self, request, queryset):
+        if self.value():
+            facility = get_object_or_404(Facility, slug=self.value())
+            return queryset.filter(facility=facility, replied_by__isnull=False, replied_datetime__isnull=False)
+
+class UserMessageFilter(admin.SimpleListFilter):
+    title = _('')
+    parameter_name = 'user'
+    def lookups(self, request, model_admin):
+        return (
+        )
+
+    def queryset(self, request, queryset):
+        if self.value():
+            user = get_object_or_404(User, pk=self.value())
+            return queryset.filter(user=user, replied_by__isnull=False, replied_datetime__isnull=False)
+
 class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
     list_display = ['created','get_facility','get_user_full_name','get_user_email', 'message','get_replied']
     actions = None
+    list_filter = [FacilityMessageFilter, UserMessageFilter]
 
     def queryset(self, request):
         query = super(FacilityMessageProviderAdmin, self).queryset(request)
-        query = query.filter(replied_by__isnull=False, replied_datetime__isnull=False)
-        q = request.GET.get('facility', "")
-        facility = get_object_or_404(FacilityProviderProxy, slug=q)
-        query = query.filter(facility=facility)
-        q = request.GET.get('User', None)
-        user = get_object_or_404(User, pk=q)
-        query = query.filter(user=user)
-        return query.filter(facility__holding_group=request.user.holding_group)
+        Qquery = Q(replied_by__isnull=False) & Q(replied_datetime__isnull=False)
+        return query.filter(Qquery)
 
     def get_user_email(self, obj):
         query = "?user=" + str(obj.user.pk)

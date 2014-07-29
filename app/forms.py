@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from ajax_select import make_ajax_field
 
 from .models import *
-from .facility_message_mixin import SEARCHING_FOR_CHOICES, BUDGET_CHOICES, MOBILITY_CHOICES, CARE_CURRENT_CHOICES, MOVE_IN_TIME_FRAME_CHOICES, PREFERRED_CONTACT_CHOICES
+from .facility_message_mixin import field_choices, field_choices_empty, FacilityMessageFormFieldMixin
 from account.forms import CustomModelMultipleChoiceField
 SEARCH_MIN_VAL_INITIAL = "500"
 SEARCH_MAX_VAL_INITIAL = "6000"
@@ -63,25 +63,33 @@ class ContactForm(forms.Form):
                 from_email=self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )
-            
-BUDGET_CHOICES_EMPTY = [('','Budget')] + BUDGET_CHOICES
-MOBILITY_CHOICES_EMPTY = [('','Mobility')] + MOBILITY_CHOICES
-CARE_CURRENT_CHOICES_EMPTY = [('','Current Living Situation')] + CARE_CURRENT_CHOICES
-MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN_TIME_FRAME_CHOICES
-SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for...' %39)] + SEARCHING_FOR_CHOICES
+             
 
-class TourRequestForm(ModelForm):
-    budget = forms.ChoiceField(choices=BUDGET_CHOICES, widget=forms.RadioSelect(attrs={'id':'id_budget'}), required=False) 
-    care_mobility = forms.ChoiceField(choices=MOBILITY_CHOICES_EMPTY, required=False)
-    care_current = forms.ChoiceField(choices=CARE_CURRENT_CHOICES_EMPTY, required=False)
-    move_in_time_frame = forms.ChoiceField(choices=MOVE_IN_TIME_FRAME_CHOICES_EMPTY, required=False)
-    searching_for = forms.ChoiceField(choices=SEARCHING_FOR_CHOICES_EMPTY, required=False)
-    preferred_contact = forms.ChoiceField(choices=PREFERRED_CONTACT_CHOICES, widget=forms.RadioSelect(attrs={'id':'id_preferred_contact'}), required=False)
-
-    comments = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}))
-    health_description = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}))
-    desired_city = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Desired City"}))
-    resident_first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}))
+class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
+    comments = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}),
+        required=False
+    )
+    move_in_time_frame = forms.ChoiceField(
+        choices=field_choices_empty['move_in_time_frame'], 
+        required=False
+    )
+    care_mobility = forms.ChoiceField(
+        choices=field_choices_empty['mobility'], 
+        required=False
+    )
+    care_current = forms.ChoiceField(
+        choices=field_choices_empty['care_current'], 
+        required=False
+    )
+    health_description = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}),
+        required=False
+    )
+    desired_city = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder':"Desired City"}),
+        required=False
+    )
 
     class Meta:
         model = FacilityMessage

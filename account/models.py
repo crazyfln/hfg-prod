@@ -6,12 +6,12 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 from hfg import settings
-from app.facility_message_mixin import FacilityMessageFieldMixin
+from app.facility_message_mixin import FacilityMessageModelFieldMixin
 
 
 
 
-class User(AbstractUser, TimeStampedModel, FacilityMessageFieldMixin):
+class User(AbstractUser, TimeStampedModel, FacilityMessageModelFieldMixin):
     
     phone = models.CharField(max_length=10)
     holding_group = models.ForeignKey('HoldingGroup', related_name="owners", null=True,blank=True)

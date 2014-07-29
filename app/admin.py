@@ -360,11 +360,11 @@ class FacilityMessageFilter(admin.SimpleListFilter):
     parameter_name = 'facility'
     def lookups(self, request, model_admin):
         return (
-        )       
-                
+        )
+
     def queryset(self, request, queryset):
         if self.value():
-            facility = get_object_or_404(Facility, slug=self.value())    
+            facility = get_object_or_404(Facility, slug=self.value())
             return queryset.filter(facility=facility, replied_by__isnull=False, replied_datetime__isnull=False)
 
 class UserMessageFilter(admin.SimpleListFilter):

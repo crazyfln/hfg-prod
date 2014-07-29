@@ -1,7 +1,18 @@
 {% extends "blog/blog_base.html" %}
 {% load i18n zinnia_tags %}
 
+{% block bodyid %}
+id="blog-body"
+{% endblock bodyid %}
+
 {% block content %}
+<div class="container" id='blog-container'>
+{% block entry-content %}
+  {% include 'blog/_entry_detail.html' with object_content=object.html_content %}
+{% endblock entry-content %}
+
+{% comment %}
+
 {% block entry-widgets %}
 <aside class="entry-widgets" role="complementary">
   {% block entry-related-entries %}
@@ -185,4 +196,6 @@
 </li>
 {% endif %}
 {% endblock admin-tools %}
+{% endcomment %}
+</div>
 {% endblock content %}

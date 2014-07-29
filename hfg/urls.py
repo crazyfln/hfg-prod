@@ -5,7 +5,7 @@ from django.contrib import admin
 from app.admin import manager_admin, provider_admin
 from ajax_select import urls as ajax_select_urls
 #admin.autodiscover()
-from app.views import CustomBlogIndex
+from app.views import CustomBlogIndex, CustomEntryDetail
 
 from filebrowser.sites import site
 
@@ -19,6 +19,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^blog/$', CustomBlogIndex.as_view(), name="blog"),
+    url(r'^blog/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
+        CustomEntryDetail.as_view(),
+        name='entry_detail'),
     url(r'^blog/', include('zinnia.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),
 

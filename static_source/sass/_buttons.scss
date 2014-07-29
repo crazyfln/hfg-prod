@@ -21,3 +21,8 @@
     @extend %button;
     background-color: $button-orange;
 }
+
+.button-header {
+    @exten %button;
+    height:30px;
+}

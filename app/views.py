@@ -78,6 +78,9 @@ class FacilityDetail(DetailView):
 
         if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
             context['tour_request_form'] = TourRequestForm(user=self.request.user)
+        if self.request.user.is_authenticated() and PhoneRequest.objects.filter(user=self.request.user, facility=self.object).exists():
+            context['phone_already_requested'] = True
+
         return context
 
 
@@ -145,7 +148,7 @@ class Search(ListView):
             if not max_price:
                 max_price = SEARCH_MAX_VAL_INITIAL
             result = result.filter(min_price__gte=min_price, min_price__lte=max_price, visibility=True)
-            return result
+            return result.filter(visibility=True)
         else:
             return Facility.objects.all().filter(visibility=True)
 
@@ -177,8 +180,9 @@ class ListProperty(FormView):
 @ajax_request
 def request_phone(request, slug):
     facility = get_object_or_404(Facility, slug=slug)
-    phone_request = PhoneRequest(facility=facility, user=request.user)
-    phone_request.save()
+    if not PhoneRequest.objects.filter(facility=facility, user=request.user).exists():
+        phone_request = PhoneRequest(facility=facility, user=request.user)
+        phone_request.save()
     return {}
 
 def change_facility_visibility(request, pk):

@@ -90,6 +90,7 @@ $(document).ready(function(){
         else if ($(this).data('logged_in') == 'no'){
             $('#Login-Modal').modal('show')
         }
+        return false;
     });
 
 

@@ -57,6 +57,7 @@ SECRET_KEY = get_env_setting('SECRET_KEY')
 #cache settings??
 
 DEFAULT_FILE_STORAGE = 'app.storage.S3PipelineStorage'
+THUMBNAIL_DEFAULT_STORAGE = 'app.storage.S3PipelineStorage'
 AWS_QUERYSTRING_AUTH = False
 MEDIA_URL = "https://s3-us-west-2.amazonaws.com/hfg/"
 

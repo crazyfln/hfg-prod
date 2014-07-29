@@ -91,24 +91,7 @@ class ProfileForm(FacilityMessageFormFieldMixin, ModelForm):
         required=False,
         widget=forms.CheckboxSelectMultiple(attrs={'id':'id_condition'})
     )
-    budget = forms.ChoiceField(
-        choices=field_choices_empty['budget'], 
-        widget=forms.RadioSelect(attrs={'id':'id_budget'}), 
-        required=False
-    )
-    searching_for = forms.ChoiceField(
-        choices=field_choices_empty['searching_for'], 
-        required=False
-    )
-    health_description = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}),
-        required=False
-    )
-    resident_first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}),
-        required=False 
-    )
-
+    
     class Meta:
         model = User
         fields = ('first_name','last_name','email','phone', \
@@ -121,6 +104,10 @@ class ProfileForm(FacilityMessageFormFieldMixin, ModelForm):
 
         if self.instance and self.instance.pk:
             self.fields['conditions'].initial = self.instance.conditions.all()
+
+        for field in self.fields:
+            if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
+                  self.fields[field].label = ""
 
     def save(self, commit=True):
         user = super(ProfileForm, self).save(commit=False)

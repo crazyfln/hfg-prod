@@ -80,7 +80,15 @@
                     font-weight: 400;
                     margin: 0 0 10px 0;
                 }
+                
+                p.checkbox-label {
+                    margin:0px 0px 0px 10px;
+                    color:$primary;
+                    display:inline;
+                }
+
                 tr  {
+                    vertical-align:top;
 
                     // &:nth-child(2n)
                     //  {
@@ -100,7 +108,6 @@
 
                         .searching-for-holder {
                             @extend %profile-select-holder;
-                            margin-top: -25px;
                         }
 
                         .budget-holder {

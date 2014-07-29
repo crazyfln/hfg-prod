@@ -57,7 +57,12 @@ SECRET_KEY = get_env_setting('SECRET_KEY')
 #cache settings??
 
 DEFAULT_FILE_STORAGE = 'app.storage.S3PipelineStorage'
+THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+
 AWS_QUERYSTRING_AUTH = False
+AWS_QUERYSTRING_EXPIRE = False
+
 MEDIA_URL = "https://s3-us-west-2.amazonaws.com/hfg/"
 
 #put the cloudfront distro here

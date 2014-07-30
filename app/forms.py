@@ -15,8 +15,8 @@ from ajax_select import make_ajax_field
 from .models import *
 from .facility_message_mixin import field_choices, field_choices_empty, FacilityMessageFormFieldMixin
 from account.forms import CustomModelMultipleChoiceField
-SEARCH_MIN_VAL_INITIAL = "500"
-SEARCH_MAX_VAL_INITIAL = "6000"
+SEARCH_MIN_VAL_INITIAL = "1000"
+SEARCH_MAX_VAL_INITIAL = "9000"
 
 class SearchForm(forms.Form):
     query = forms.CharField(required=False, label='search', 

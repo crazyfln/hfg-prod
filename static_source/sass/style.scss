@@ -5,6 +5,7 @@
 
 @include sticky-footer(257px, "#main", "#main-footer", "#footer");
 
+
 @import "variables";
 @import "registration";
 @import "buttons";
@@ -13,7 +14,7 @@ $bootstrap-sass-asset-helper: false;
 @import "bootstrap";
 @import "nav";
 @import "index";
-@import "listing_preview";s
+@import "listing_preview";
 @import "carousel";
 @import "receive_reward";
 @import "facility_detail";
@@ -21,10 +22,12 @@ $bootstrap-sass-asset-helper: false;
 @import "contact";
 @import "about";
 @import "profile";
+@import "blog";
+@import "checkboxes";
 @import "custom_input";
 
-
 //global rules and helper classes
+
 
 .container {
     width: 1040px !important;
@@ -34,6 +37,15 @@ $bootstrap-sass-asset-helper: false;
 h1, h2, h3, h4, h5, h6 {
     margin: 0px;
 }
+
+p {
+    font-family: $font5;
+}
+
+h2 {
+    font-family: $font5;
+}
+
 
 .left {
     float: left;

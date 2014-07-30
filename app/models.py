@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from account.models import User, HoldingGroup
 
 from util.util import file_url
-from .facility_message_mixin import FacilityMessageFieldMixin
+from .facility_message_mixin import FacilityMessageModelFieldMixin
 from urllib import quote_plus 
 
 class Facility(TimeStampedModel):
@@ -123,7 +123,7 @@ class Fee(TimeStampedModel):
     class Meta:
         verbose_name_plural = "Types of Additional Fees"
 
-class FacilityMessage(TimeStampedModel, FacilityMessageFieldMixin):
+class FacilityMessage(TimeStampedModel, FacilityMessageModelFieldMixin):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
 

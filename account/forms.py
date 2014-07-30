@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 
 from django.contrib.auth.forms import AuthenticationForm as DjangoAuthenticationForm
 from app.models import Condition
+from app.facility_message_mixin import field_choices, field_choices_empty, FacilityMessageFormFieldMixin
 
 User = get_user_model()
 
@@ -84,23 +85,29 @@ class CustomModelMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         return ""
 
-class ProfileForm(ModelForm):
+class ProfileForm(FacilityMessageFormFieldMixin, ModelForm):
     conditions = forms.ModelMultipleChoiceField(
         queryset=Condition.objects.all(), 
         required=False,
         widget=forms.CheckboxSelectMultiple(attrs={'id':'id_condition'})
-
     )
-
+    
     class Meta:
         model = User
-        fields = ('first_name','last_name','email','phone','searching_for','budget', 'conditions')
+        fields = ('first_name','last_name','email','phone', \
+            'budget', 'conditions', 'searching_for','health_description','resident_first_name','preferred_contact', \
+            'pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi', \
+            'care_bathing','care_diabetic','care_medical_assistance','care_medical_assistance','care_toileting','care_memory_issues','care_diagnosed_memory','care_combinative','care_wandering')
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
 
         if self.instance and self.instance.pk:
             self.fields['conditions'].initial = self.instance.conditions.all()
+
+        for field in self.fields:
+            if self.fields[field].widget.__class__.__name__ == 'CheckboxInput':
+                  self.fields[field].label = ""
 
     def save(self, commit=True):
         user = super(ProfileForm, self).save(commit=False)

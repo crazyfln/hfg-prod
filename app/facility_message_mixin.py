@@ -1,6 +1,6 @@
 from django.db import models
 from model_utils import Choices
-
+from django import forms
 
 SEARCHING_FOR_CHOICES = Choices('Myself', 'Family', 'Friend', 'Client', 'Other',)
 BUDGET_CHOICES = Choices('1000', '2000', '3000', 'Not Sure')
@@ -9,7 +9,17 @@ CARE_CURRENT_CHOICES = Choices('Alone', 'With Family')
 MOVE_IN_TIME_FRAME_CHOICES = Choices('Now', 'Soon', 'Later') 
 PREFERRED_CONTACT_CHOICES = Choices('Phone','Email','Both')
 
-class FacilityMessageFieldMixin(models.Model):
+field_choices = {'searching_for':SEARCHING_FOR_CHOICES, 'budget':BUDGET_CHOICES, 'mobility':MOBILITY_CHOICES, 'care_current': CARE_CURRENT_CHOICES, 'move_in_time_frame':MOVE_IN_TIME_FRAME_CHOICES, 'preferred_contact': PREFERRED_CONTACT_CHOICES}
+
+BUDGET_CHOICES_EMPTY = [('','Budget')] + BUDGET_CHOICES
+MOBILITY_CHOICES_EMPTY = [('','Mobility')] + MOBILITY_CHOICES
+CARE_CURRENT_CHOICES_EMPTY = [('','Current Living Situation')] + CARE_CURRENT_CHOICES
+MOVE_IN_TIME_FRAME_CHOICES_EMPTY = [('','Planned move-in Time Frame')] + MOVE_IN_TIME_FRAME_CHOICES
+SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for...' %39)] + SEARCHING_FOR_CHOICES
+
+field_choices_empty = {'budget': BUDGET_CHOICES_EMPTY,'mobility':MOBILITY_CHOICES_EMPTY, 'care_current':CARE_CURRENT_CHOICES_EMPTY, 'move_in_time_frame':MOVE_IN_TIME_FRAME_CHOICES_EMPTY, 'searching_for': SEARCHING_FOR_CHOICES_EMPTY}
+
+class FacilityMessageModelFieldMixin(models.Model):
     searching_for = models.CharField(max_length=30, blank=True, choices=SEARCHING_FOR_CHOICES)
     budget = models.CharField(max_length=30, blank=True, choices=BUDGET_CHOICES)
     pay_private_pay = models.BooleanField(default=False, blank=True)
@@ -37,3 +47,28 @@ class FacilityMessageFieldMixin(models.Model):
 
     class Meta:
         abstract = True
+
+class FacilityMessageFormFieldMixin(forms.ModelForm):
+    budget = forms.ChoiceField(
+        choices=field_choices['budget'], 
+        widget=forms.RadioSelect(attrs={'id':'id_budget'}), 
+        required=False
+    ) 
+    searching_for = forms.ChoiceField(
+        choices=field_choices_empty['searching_for'], 
+        required=False
+    )
+    preferred_contact = forms.ChoiceField(
+        choices=field_choices['preferred_contact'], 
+        widget=forms.RadioSelect(attrs={'id':'id_preferred_contact'}), 
+        required=False
+    )
+    resident_first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder':"Resident's First Name"}),
+        required=False
+    )
+    health_description = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}),
+        required=False
+    )
+

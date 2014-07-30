@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'zinnia',
     'easy_thumbnails',
     'annoying',
+    'storages',
     'django_extensions',
     'model_utils',
     'south',

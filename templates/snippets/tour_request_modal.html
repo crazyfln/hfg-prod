@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <form id="tour-request-form" action="{% url 'tour_request' facility_slug %}" method="POST">
   {% csrf_token %}
 
@@ -13,7 +14,8 @@
               <div id="planned_move_date_holder">
                 {{ form.planned_move_date }}
 
-                <span class="glyphicon glyphicon-calendar cal-icon"></span> 
+                <img class='cal-icon' src='{% static 'img/icon_cal.png' %}'/>
+                <!-- <span class="glyphicon glyphicon-calendar cal-icon"></span>  -->
               </div>
 
             </center>
@@ -67,78 +69,78 @@
               <h1>WHAT IS YOUR BUDGET?</h1>
               <div class="clear"></div>
               <div class="custom-radio-holder">
-                 {% for option in form.budget %}
-                   {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
-                   <div class="clear"></div>
-                 {% endfor %}
-              </div>
-            </div>
-          </div>
-          <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-1">BACK</button>
-          <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-3">NEXT</button>
-        </div>
-      </center>
-    </div>
-  </div>
+               {% for option in form.budget %}
+               {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
+               <div class="clear"></div>
+               {% endfor %}
+             </div>
+           </div>
+         </div>
+         <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-1">BACK</button>
+         <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-3">NEXT</button>
+       </div>
+     </center>
+   </div>
+ </div>
 
-  <div class="modal fade" id="tour-modal-3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <center>
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="align-left">
-              <h1>WILL RESIDENT NEED SPECIAL CARE?</h1>
-              <div class="clear"></div>
-              {{ form.care_bathing }}
-              {{ form.care_bathing.label_tag }}
-              <p class="checkbox-label">Bathing</p>
-              <div class="clear"></div>
-              {{ form.care_diabetic }}
-              {{ form.care_diabetic.label_tag }}
-               <p class="checkbox-label">Diabetic Care</p>
-              <div class="clear"></div>
-              {{ form.care_medical_assistance }}
-              {{ form.care_medical_assistance.label_tag }}
-               <p class="checkbox-label">Medical Assistance</p>
-              <div class="clear"></div>
-              {{ form.care_toileting }}
-              {{ form.care_toileting.label_tag }}
-               <p class="checkbox-label">Toileting</p>
-              <div class="clear"></div>
-              {{ form.care_memory_issues }}
-              {{ form.care_memory_issues.label_tag }}
-               <p class="checkbox-label">Memory Issues</p>
-              <div class="clear"></div>
-              {{ form.care_diagnosed_memory }}
-              {{ form.care_diagnosed_memory.label_tag }}
-              <p class="checkbox-label">Diagnosed Memory Condition</p>
-              <div class="clear"></div>
-              {{ form.care_combinative }}
-              {{ form.care_combinative.label_tag }}
-               <p class="checkbox-label">Combinative</p>
-              <div class="clear"></div>
-              {{ form.care_wandering }}
-              {{ form.care_wandering.label_tag }}
-              <p class="checkbox-label">Wandering</p>
-              <div class="clear"></div>
-              <h1>LEAVE A NOTE (OPTIONAL):</h1>
-              <div class="clear"></div>
-              {{ form.comments }}
-              <div class="clear"></div>
-              <h1>PREFERRED METHOD OF CONTACT:</h1>
-              <div class="clear"></div>
-              <div class="custom-radio-holder">
-                {% for option in form.preferred_contact %}
-                  {{ option.tag }} <label for="id_preferred_contact_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
-                  <div class="clear"></div>
-                {% endfor %}
-              </div>
-            </div>
+ <div class="modal fade" id="tour-modal-3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <center>
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="align-left">
+            <h1>WILL RESIDENT NEED SPECIAL CARE?</h1>
             <div class="clear"></div>
+            {{ form.care_bathing }}
+            {{ form.care_bathing.label_tag }}
+            <p class="checkbox-label">Bathing</p>
+            <div class="clear"></div>
+            {{ form.care_diabetic }}
+            {{ form.care_diabetic.label_tag }}
+            <p class="checkbox-label">Diabetic Care</p>
+            <div class="clear"></div>
+            {{ form.care_medical_assistance }}
+            {{ form.care_medical_assistance.label_tag }}
+            <p class="checkbox-label">Medical Assistance</p>
+            <div class="clear"></div>
+            {{ form.care_toileting }}
+            {{ form.care_toileting.label_tag }}
+            <p class="checkbox-label">Toileting</p>
+            <div class="clear"></div>
+            {{ form.care_memory_issues }}
+            {{ form.care_memory_issues.label_tag }}
+            <p class="checkbox-label">Memory Issues</p>
+            <div class="clear"></div>
+            {{ form.care_diagnosed_memory }}
+            {{ form.care_diagnosed_memory.label_tag }}
+            <p class="checkbox-label">Diagnosed Memory Condition</p>
+            <div class="clear"></div>
+            {{ form.care_combinative }}
+            {{ form.care_combinative.label_tag }}
+            <p class="checkbox-label">Combative</p>
+            <div class="clear"></div>
+            {{ form.care_wandering }}
+            {{ form.care_wandering.label_tag }}
+            <p class="checkbox-label">Wandering</p>
+            <div class="clear"></div>
+            <h1>LEAVE A NOTE (OPTIONAL):</h1>
+            <div class="clear"></div>
+            {{ form.comments }}
+            <div class="clear"></div>
+            <h1>PREFERRED METHOD OF CONTACT:</h1>
+            <div class="clear"></div>
+            <div class="custom-radio-holder">
+              {% for option in form.preferred_contact %}
+              {{ option.tag }} <label for="id_preferred_contact_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
+              <div class="clear"></div>
+              {% endfor %}
+            </div>
           </div>
-          <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-2">BACK</button>
-          <button type="submit" class="button-blue">Done</button>
+          <div class="clear"></div>
         </div>
-      </center>
-    </div>
+        <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-2">BACK</button>
+        <button type="submit" class="button-blue">Done</button>
+      </div>
+    </center>
   </div>
+</div>

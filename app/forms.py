@@ -20,7 +20,7 @@ SEARCH_MAX_VAL_INITIAL = "6000"
 
 class SearchForm(forms.Form):
     query = forms.CharField(required=False, label='search', 
-                    widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Facility Name'}))
+                    widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Community Name'}))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(
@@ -83,13 +83,14 @@ class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
         required=False
     )
     health_description = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Describe your health condition", 'cols':"27"}),
+        widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"35"}),
         required=False
     )
     desired_city = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder':"Desired City"}),
         required=False
     )
+
 
     class Meta:
         model = FacilityMessage
@@ -116,6 +117,7 @@ class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
                   self.fields[field].label = ""
             
 MAX_FEATURED_FACILITIES = 6
+
 
 class FacilityAdminForm(ModelForm):
     holding_group = make_ajax_field(Facility, 'holding_group', 'holding_group', help_text=None)

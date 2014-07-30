@@ -9,6 +9,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms import CheckboxSelectMultiple
 import datetime
 from liststyle.admin import ListStyleAdminMixin
+
+from zinnia.models.entry import Entry
+from zinnia.admin.entry import EntryAdmin
+
 from ajax_select import make_ajax_form
 from account.models import User, HoldingGroup
 from account.admin import UserAdmin
@@ -17,15 +21,12 @@ from .admin_mixins import *
 from .models import *
 from .forms import FacilityAdminForm, FacilityProviderForm
 
-# class YourModelAdmin(reversion.VersionAdmin):
-#     pass
-
-
 class ManagerAdmin(AdminSite):
     def has_permission(self, request):
         return request.user.is_active and request.user.is_staff and request.user.is_superuser
 
 manager_admin = ManagerAdmin(name="manager_admin")
+manager_admin.register(Entry, EntryAdmin)
 
 class FacilityFeeInline(admin.TabularInline):
     model = FacilityFee
@@ -363,6 +364,8 @@ class FacilityMessageFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
+        # facility = get_object_or_404(Facility, slug=self.value())    
+        # return queryset.filter(facility=facility, replied_by__isnull=False, replied_datetime__isnull=False)
         if self.value():
             facility = get_object_or_404(Facility, slug=self.value())
             return queryset.filter(facility=facility, replied_by__isnull=False, replied_datetime__isnull=False)
@@ -375,9 +378,8 @@ class UserMessageFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-        if self.value():
-            user = get_object_or_404(User, pk=self.value())
-            return queryset.filter(user=user, replied_by__isnull=False, replied_datetime__isnull=False)
+        user = get_object_or_404(User, pk=self.value())
+        return queryset.filter(user=user, replied_by__isnull=False, replied_datetime__isnull=False)
 
 class FacilityMessageProviderAdmin(ProviderEditMixin, FacilityMessageAdmin):
     list_display = ['created','get_facility','get_user_full_name','get_user_email', 'message','get_replied']

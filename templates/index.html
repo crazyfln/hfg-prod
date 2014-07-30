@@ -15,9 +15,9 @@ Home For Grandma
           <h1 class="search-title">Find Senior Living</h1>
           <a href="#">
             <button class="blog-link-button">
-              <div class="opacity-holder"></div>
-              LEARN ABOUT PROPERTY TYPES
-              <!-- <p>LEARN ABOUT PROPERTY TYPES</p> -->
+              <div class="transparent-holder"></div>
+              <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p>
+
             </button>
 
   
@@ -31,8 +31,8 @@ Home For Grandma
     </div>
 
     <center>
-      <div class="play-holder">
-       <img class='play' src='{% static 'img/play_button.png' %}' data-toggle="modal" data-target="#Video-Modal"/>
+      <div class="play-holder" data-toggle="modal" data-target="#Video-Modal">
+       <img class='play' src='{% static 'img/play_button.png' %}' />
        <div class="transparent-holder">
         <p class='padding-top-15 larger-font'>How It Works</p>
       </div>
@@ -111,6 +111,7 @@ Home For Grandma
   </div>
 
 
+<center>
   <div class="modal fade" id="Video-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -120,6 +121,7 @@ Home For Grandma
       </div>
     </div>
   </div>
+</center>
 
 
   {% endblock content %}

@@ -20,7 +20,7 @@
   <li class='active'><img src='{% static 'img/icon_tabs_heart.png' %}'/><a href="#favorites" role="tab" data-toggle="tab">My Favorites</a></li>
   <li><img src='{% static 'img/icon_tabs_profile.png' %}'/><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
   <li><img src='{% static 'img/icon_tabs_check.png' %}'/><a href="#reset" role="tab" data-toggle="tab">Reset Password</a></li>
-  <li><img src='{% static 'img/icon_tabs_phone.png' %}'/><a href="#tour-request-form" role="tab" data-toggle="tab">Request A Tour Info</a></li>
+  <!-- <li><img src='{% static 'img/icon_tabs_phone.png' %}'/><a href="#tour-request-form" role="tab" data-toggle="tab">Request A Tour Info</a></li> -->
 </ul>
 
 <!-- Tab panes -->
@@ -68,6 +68,7 @@
             <td>{{ form.conditions.label_tag }}</td>
           </tr>
           <tr>
+
             <td colspan="3"> 
               <div class="checkbox-td">
                 {% for condition in form.conditions %}
@@ -185,10 +186,17 @@
             </td>
           </tr>
         </table>           
+<!-- need to add
 
+     Planned Financial Method
+     Special Care Need
+    Personal Note
+     Preferred Method of contact
+ -->
       </div>
       <button class='button-blue' type="submit">update</button>
     </form>
+
   </div>
 
   <div class="tab-pane" id="reset">
@@ -196,13 +204,29 @@
       {% include 'registration/password_change_form.html' with form=password_reset_form %}
     </div>
     
-</div>
-<div class="tab-pane" id="tour-request-form">
+  </div>
+  <!-- <div class="tab-pane" id="tour-request-form">
     <div class="table-holder">
-    Request form here.
+      Request form here.
+      these two are items not 
+           saved since they should vary each time.
+      describe health condition
+      planned move in time frame
+
+      <div class="custom-select-holder">
+        {{ form.searching_for }}
+      </div>
+
+      these form items are the ones that we'll store
+      a default value for each time. 
+      searching for
+      planned financial method
+      budget
+      special care?
+      leave a note
+      preferred method of contatct
     </div>
-    
-</div>
+  </div> -->
 </div>
 </div>
 

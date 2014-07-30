@@ -2,7 +2,7 @@
     height: 100%;
     border: 1px solid $border;
     background-color: $white;
-    width: 400px;
+    width: 430px;
     margin: 0 auto;
     padding: 20px 30px 20px 30px;
 
@@ -91,13 +91,15 @@ a.push {
 %abstract-form-dimensions {
     width: 100%;
     height: 40px;
-    color: $light;
+    color: $dark;
     padding-left: 20px;
-    outline:none;
+    // outline:none;
     border: 1px solid $border;
     margin-top: -1px;
     border-left:none;
     border-right:none;
+    font-size:16px;
+
 }
 
 %abstract-form-with-border {
@@ -107,13 +109,15 @@ a.push {
 
 
 #id_first_name, #id_last_name, #id_email, #id_password1, #id_password2, #id_username, #id_password, #id_name, #id_party_type,
-#id_new_password1, #id_new_password2, #id_old_password, #id_phone   {
+#id_new_password1, #id_new_password2, #id_old_password, #id_phone, #id_phone_number {
     @extend %abstract-form-dimensions;
 }
 
 #id_phone {
     height:40px;
 }
+
+
 
 
 //custom inputs for forgot password flow 
@@ -128,7 +132,7 @@ a.push {
     padding-left:20px;
     height:130px;
     border: 1px solid $border;
-    outline:none;
+    // outline:none;
     padding-top: 15px;
 }
 
@@ -142,6 +146,7 @@ a.push {
     border-radius: 4px;
     padding:10px 15px;
     resize:none;
+    // outline:none;
 }
 
 #id_health_description {
@@ -150,6 +155,7 @@ a.push {
 
 #id_comments {
     @include modal-textarea;
+    width: 
 }
 
 #tour-request-form {
@@ -188,7 +194,7 @@ a.push {
     width:263px;
     height: 40px;
     color: $light;
-    outline:none;
+    // outline:none;
     border: 1px solid $border;
     padding-left: 15px;
     margin: 0 0 15px 0;
@@ -270,12 +276,15 @@ p.errors {
     position:relative;
 }
 
-span.cal-icon {
+img.cal-icon {
     position:absolute;
-    margin-left:-35px;
-    margin-top: 11px;
+    margin-left:-33px;
+    margin-top:13px;
 }
 
+p.list-prop-header {
+    width:80%;
+}
 
 
 

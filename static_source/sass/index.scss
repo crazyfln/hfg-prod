@@ -14,7 +14,7 @@
   height: 60px;
   margin-top: 20px;
   color:#fff;
-
+  cursor:pointer;
 
 }
 
@@ -36,10 +36,6 @@
 
   }
 
-
-
-
-
   input[type='text'] {
     width: 400px;
     height: 40px;
@@ -59,21 +55,27 @@
     color: $white;
     font-size: 42px;
     display:inline;
+    font-family: $font3;
   }
 
   
 
-  button.blog-link-button {
+  .blog-link-button {
     background-color:$light;
     position:relative;
     color: $white;
     border:none;
     border-radius:25px;
-    margin:0px 0px 0px 45px;
+    margin:0px 0px 0px 80px;
     outline: none;
     padding: 5px 15px;
-    font-size: 12px;
+    font-size: 10px;
     opacity:.4;
+
+    .prop-types {
+      font-size: 12px;
+      margin-bottom:0px;
+    }
 
     // p {
     //   position:relative;
@@ -150,15 +152,18 @@
 }
 
 #Video-Modal .modal-content {
-  width:500px;
+  width:540px;
   height:281;
 }
+
+
 
 .featured-listings {
   background-color: $grey-background;
 
   h1 {
     margin: 0 0 40px 0;
+    font-family: $font3;
   }
 
 }

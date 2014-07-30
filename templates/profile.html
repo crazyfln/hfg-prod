@@ -72,7 +72,7 @@
             <td>{{  form.health_description  }}</td>
             <td colspan="3" id="conditions_holder">
               {% for condition in form.conditions %}
-                {{ condition.tag }} <label for="id_condition_{{condition.index}}"><span class="label-text">{{condition.choice_label }}</span></label>
+              {{ condition.tag }} <label for="id_condition_{{condition.index}}"><span class="label-text">{{condition.choice_label }}</span></label>
               {% endfor %}
             </td>
           </tr>
@@ -160,10 +160,17 @@
             </td>
           </tr>
         </table>           
+<!-- need to add
 
+     Planned Financial Method
+     Special Care Need
+    Personal Note
+     Preferred Method of contact
+ -->
       </div>
       <button class='button-blue' type="submit">update</button>
     </form>
+
   </div>
 
   <div class="tab-pane" id="reset">
@@ -171,13 +178,29 @@
       {% include 'registration/password_change_form.html' with form=password_reset_form %}
     </div>
     
-</div>
-<div class="tab-pane" id="tour-request-form">
+  </div>
+  <!-- <div class="tab-pane" id="tour-request-form">
     <div class="table-holder">
-    Request form here.
+      Request form here.
+      these two are items not 
+           saved since they should vary each time.
+      describe health condition
+      planned move in time frame
+
+      <div class="custom-select-holder">
+        {{ form.searching_for }}
+      </div>
+
+      these form items are the ones that we'll store
+      a default value for each time. 
+      searching for
+      planned financial method
+      budget
+      special care?
+      leave a note
+      preferred method of contatct
     </div>
-    
-</div>
+  </div> -->
 </div>
 </div>
 

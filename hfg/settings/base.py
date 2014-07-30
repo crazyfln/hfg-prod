@@ -73,6 +73,7 @@ SECRET_KEY = "z74+gqb^vlz7vlpe+to0u*5!7jq_i@3*3xx+4r7rgk)fj#xv3)"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
+    'app_namespace.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
@@ -129,6 +130,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.comments',
+    'zinnia_bootstrap',
+    'tagging',
+    'mptt',
+    'zinnia',
     'easy_thumbnails',
     'annoying',
     'storages',

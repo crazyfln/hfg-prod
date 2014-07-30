@@ -2,7 +2,7 @@
     height: 100%;
     border: 1px solid $border;
     background-color: $white;
-    width: 400px;
+    width: 430px;
     margin: 0 auto;
     padding: 20px 30px 20px 30px;
 
@@ -107,13 +107,15 @@ a.push {
 
 
 #id_first_name, #id_last_name, #id_email, #id_password1, #id_password2, #id_username, #id_password, #id_name, #id_party_type,
-#id_new_password1, #id_new_password2, #id_old_password, #id_phone   {
+#id_new_password1, #id_new_password2, #id_old_password, #id_phone, #id_phone_number {
     @extend %abstract-form-dimensions;
 }
 
 #id_phone {
     height:40px;
 }
+
+
 
 
 //custom inputs for forgot password flow 
@@ -142,6 +144,7 @@ a.push {
     border-radius: 4px;
     padding:10px 15px;
     resize:none;
+    outline:none;
 }
 
 #id_health_description {
@@ -150,6 +153,7 @@ a.push {
 
 #id_comments {
     @include modal-textarea;
+    width: 
 }
 
 #tour-request-form {
@@ -270,10 +274,10 @@ p.errors {
     position:relative;
 }
 
-span.cal-icon {
+img.cal-icon {
     position:absolute;
-    margin-left:-35px;
-    margin-top: 11px;
+    margin-left:-33px;
+    margin-top:13px;
 }
 
 

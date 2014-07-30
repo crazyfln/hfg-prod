@@ -55,17 +55,18 @@
                   <p class="description">{{ room.room_type }}</p>
                   {% endfor %}
               </div>
-              <div class="col-xs-4">
-
+              {% if room.get_area in object.facilityroom_set.all %}
+                <div class="col-xs-4">
                   {% for room in object.facilityroom_set.all %}
-                  {% if forloop.first %}
-                  <h2>Square Feet</h2>
-                  {% endif %}
-                  <p class="description">{{ room.get_square_footage }}</p>
+                    {% if forloop.first %}
+                      <h2>Square Feet</h2>
+                    {% endif %}
+                    {% if room.get_area %}
+                      <p class="description">{{ room.get_area }}</p>
+                    {% endif %}
                   {% endfor %}
-
-
-              </div>
+                </div>
+              {% endif %}
               <div class="col-xs-4">
 
                   {% for room in object.facilityroom_set.all %}
@@ -77,58 +78,57 @@
               </div>
             </div>
 
-            <div class="row">
+            {% if object.care_type == "Rent and Care" %}
+              <div class="row">
                 <div class="col-xs-4">
-
-                    {% if object.care_type == "Rent and Care" %}
                     <h2>Care Levels</h2>
                     <p class='description'>Level 1 :</p>
                     <p class='description'>Level 2 :</p>
                     <p class='description'>Level 3 :</p>
                     <p class='description'>Memory:</p>
-                    {% endif %}
                 </div>
                 <div class="col-xs-4">
-                    {% if object.care_type == "Rent and Care" %}
                     <h2>Price</h2>
                     <p class='description'>${{ object.care_level_1_cost }}</p>
                     <p class='description'>${{ object.care_level_2_cost }}</p>
                     <p class='description'>${{ object.care_level_3_cost }}</p>
                     <p class='description'>${{ object.care_memory_cost }}</p>
-                    {% endif %}
                 </div>
-            </div>
+              </div>
+            {% endif %}
 
-            <div class="row">
+            {% if object.facilityfee_set.all %}
+              <div class="row">
                 <div class="col-xs-4">
 
-                    {% for fee in object.fees.all %}
+                    {% for fee in object.facilityfee_set.all %}
                     {% if forloop.first %}
                     <h2>Other Fees</h2>
                     {% endif %}
-                    <p class="description">{{ fee.name }} :</p>
+                    <p class="description">{{ fee.fee.name }} :</p>
                     {% endfor %}
                 </div>
 
                 <div class="col-xs-4">
-
-                    {% for fee in object.fees.all %}
+                    {% for fee in object.facilityfee_set.all %}
                     {% if forloop.first %}
                     <h2>Price</h2>
                     {% endif %}
-                    <p class="description">{{ fee.cost }} </p>
+                    <p class="description">${{ fee.cost }} </p>
                     {% endfor %}
                 </div>
-            </div>
-            <hr>
+              </div>
+            {% endif %}
 
-            <div class="row">
+            {% if object.conditions.all %}
+              <hr>
+              <div class="row">
                 <div class="col-xs-5">
                     <h2>Accepts Residents With</h2>
                 </div>
-            </div>
+              </div>
 
-            <div class="row">
+              <div class="row">
                 <div class="col-xs-4">
 
                     {% for condition in all_conditions %}
@@ -144,14 +144,16 @@
 
                     {% endfor %}
                 </div>
-            </div>
-            <hr>
-            <div class="row">
+              </div>
+            {% endif %}
+            {% if object.amenities.all %}
+              <hr>  
+              <div class="row">
                 <div class="col-xs-5">
                     <h2>Features &amp; Amenities</h2>
                 </div>
-            </div>
-            <div class="row">
+              </div>
+              <div class="row">
                 <div class="col-xs-4">
 
                     {% for amenity in all_amenities %}
@@ -166,13 +168,16 @@
                     </p>
                     {% endfor %}
                 </div>
-            </div>
-            <div class="row">
+              </div>
+            {% endif %}
+            {% if object.languages.all %}
+              <hr>
+              <div class="row">
                 <div class="col-xs-5">
                     <h2>Language Spoken</h2>
                 </div>
-            </div>
-            <div class="row">
+              </div>
+              <div class="row">
                 <div class="col-xs-4">
                     {% for language in all_languages %}
                     <p>
@@ -186,7 +191,8 @@
                     </p>
                     {% endfor %}
                 </div>
-            </div>
+              </div>
+            {% endif %}
         </div>
 
         <div class="facility-right right">

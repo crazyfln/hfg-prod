@@ -105,6 +105,7 @@
     margin: 0 40px 0 0;
     background:image-url('img/select_dropdown.png') no-repeat;
     background-position:200px;
+    background-color:#fff;
 
     select {
         position: absolute;
@@ -192,4 +193,9 @@
             float:left;
             height: 56px;
         }
+    }
+
+    //Pagination
+    .page-links {
+       font-size:16px; 
     }

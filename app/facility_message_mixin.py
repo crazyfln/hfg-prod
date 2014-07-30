@@ -3,7 +3,7 @@ from model_utils import Choices
 from django import forms
 
 SEARCHING_FOR_CHOICES = Choices('Myself', 'Family', 'Friend', 'Client', 'Other',)
-BUDGET_CHOICES = Choices('1000', '2000', '3000', 'Not Sure')
+BUDGET_CHOICES = Choices('$ 1000', '$ 2000', '$ 3000', 'Not Sure')
 MOBILITY_CHOICES = Choices('Mobile', 'Immobile')
 CARE_CURRENT_CHOICES = Choices('Alone', 'With Family')
 MOVE_IN_TIME_FRAME_CHOICES = Choices('Now', 'Soon', 'Later') 

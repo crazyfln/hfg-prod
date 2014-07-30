@@ -8,6 +8,11 @@
 .searchbox {
     background-color: $beige-background;
 
+    hr {
+        background-color: #DFDDD7;
+        height: 1px;
+    }
+
     button {
         height:55px;
     }

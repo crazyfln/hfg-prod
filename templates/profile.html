@@ -65,87 +65,112 @@
             <td>{{  form.resident_first_name  }}  </td>
           </tr>
           <tr>
-            <td>{{  form.health_description.label_tag  }}</td>
             <td>{{ form.conditions.label_tag }}</td>
           </tr>
           <tr>
-            <td>{{  form.health_description  }}</td>
-            <td colspan="3" id="conditions_holder">
-              {% for condition in form.conditions %}
-                {{ condition.tag }} <label for="id_condition_{{condition.index}}"><span class="label-text">{{condition.choice_label }}</span></label>
-              {% endfor %}
+            <td colspan="3"> 
+              <div class="checkbox-td">
+                {% for condition in form.conditions %}
+                  {{ condition.tag }} <label for="id_condition_{{condition.index}}"><span class="label-text">{{condition.choice_label }}</span></label>
+                {% endfor %}
+              </div>
             </td>
           </tr>
           <tr>
             <td><label>Payment Options</label></td>
+          </tr>
+          <tr>
+            <td colspan="3"> 
+              <div class="checkbox-td">
+                <div class="checkbox-holder">
+                  {{ form.pay_private_pay }}
+                  {{ form.pay_private_pay.label_tag }}
+                  <p class="checkbox-label">Private Pay</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.pay_longterm_care }}
+                  {{ form.pay_longterm_care.label_tag }}
+                  <p class="checkbox-label">Longterm Care</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.pay_veterans_benefits }}
+                  {{ form.pay_veterans_benefits.label_tag }}
+                  <p class="checkbox-label">Veterans Benefits</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.pay_medicare }}
+                  {{ form.pay_medicare.label_tag }}
+                  <p class="checkbox-label">Medicare</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.pay_medicaid }}
+                  {{ form.pay_medicaid.label_tag }}
+                  <p class="checkbox-label">Medicaid</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.pay_ssi }}
+                  {{ form.pay_ssi.label_tag }}
+                  <p class="checkbox-label">SSI</p>
+                </div>
+              </div> 
+            </td>
+          </tr>
+          <tr>
             <td><label>Care Needs</label></td>
           </tr>
           <tr>
-            <td>
-              {{ form.pay_private_pay }}
-              {{ form.pay_private_pay.label_tag }}
-              <p class="checkbox-label">Private Pay</p>
-              <div class="clear"></div>
-              {{ form.pay_longterm_care }}
-              {{ form.pay_longterm_care.label_tag }}
-              <p class="checkbox-label">Longterm Care</p>
-              <div class="clear"></div>
-              {{ form.pay_veterans_benefits }}
-              {{ form.pay_veterans_benefits.label_tag }}
-              <p class="checkbox-label">Veterans Benefits</p>
-              <div class="clear"></div>
-              {{ form.pay_medicare }}
-              {{ form.pay_medicare.label_tag }}
-              <p class="checkbox-label">Medicare</p>
-              <div class="clear"></div>
-              {{ form.pay_medicaid }}
-              {{ form.pay_medicaid.label_tag }}
-              <p class="checkbox-label">Medicaid</p>
-              <div class="clear"></div>
-              {{ form.pay_ssi }}
-              {{ form.pay_ssi.label_tag }}
-              <p class="checkbox-label">SSI</p>
-            
-            </td>
-            <td>
-              {{ form.care_bathing }}
-              {{ form.care_bathing.label_tag }}
-              <p class="checkbox-label">Bathing</p>
-              <div class="clear"></div>
-              {{ form.care_diabetic }}
-              {{ form.care_diabetic.label_tag }}
-               <p class="checkbox-label">Diabetic Care</p>
-              <div class="clear"></div>
-              {{ form.care_medical_assistance }}
-              {{ form.care_medical_assistance.label_tag }}
-               <p class="checkbox-label">Medical Assistance</p>
-              <div class="clear"></div>
-              {{ form.care_toileting }}
-              {{ form.care_toileting.label_tag }}
-               <p class="checkbox-label">Toileting</p>
-              <div class="clear"></div>
-              {{ form.care_memory_issues }}
-              {{ form.care_memory_issues.label_tag }}
-               <p class="checkbox-label">Memory Issues</p>
-              <div class="clear"></div>
-              {{ form.care_diagnosed_memory }}
-              {{ form.care_diagnosed_memory.label_tag }}
-              <p class="checkbox-label">Diagnosed Memory Condition</p>
-              <div class="clear"></div>
-              {{ form.care_combinative }}
-              {{ form.care_combinative.label_tag }}
-               <p class="checkbox-label">Combinative</p>
-              <div class="clear"></div>
-              {{ form.care_wandering }}
-              {{ form.care_wandering.label_tag }}
-              <p class="checkbox-label">Wandering</p>
+            <td colspan="3"> 
+              <div class="checkbox-td">
+                <div class="checkbox-holder">
+                  {{ form.care_bathing }}
+                  {{ form.care_bathing.label_tag }}
+                  <p class="checkbox-label">Bathing</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.care_diabetic }}
+                  {{ form.care_diabetic.label_tag }}
+                  <p class="checkbox-label">Diabetic Care</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.care_medical_assistance }}
+                  {{ form.care_medical_assistance.label_tag }}
+                  <p class="checkbox-label">Medical Assistance</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.care_toileting }}
+                  {{ form.care_toileting.label_tag }}
+                  <p class="checkbox-label">Toileting</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.care_memory_issues }}
+                  {{ form.care_memory_issues.label_tag }}
+                  <p class="checkbox-label">Memory Issues</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.care_diagnosed_memory }}
+                  {{ form.care_diagnosed_memory.label_tag }}
+                  <p class="checkbox-label">Diagnosed Memory Condition</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.care_combinative }}
+                  {{ form.care_combinative.label_tag }}
+                  <p class="checkbox-label">Combinative</p>
+                </div>
+                <div class="checkbox-holder">
+                  {{ form.care_wandering }}
+                  {{ form.care_wandering.label_tag }}
+                  <p class="checkbox-label">Wandering</p>
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
+            <td>{{  form.health_description.label_tag  }}</td>
             <td>{{ form.budget.label_tag }}</td>
             <td>{{  form.preferred_contact.label_tag  }}</td>
           </tr>
           <tr>
+            <td>{{  form.health_description  }}</td>
             <td>
               {% for option in form.budget %}
                 {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>

@@ -118,6 +118,7 @@ class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
             
 MAX_FEATURED_FACILITIES = 6
 
+
 class FacilityAdminForm(ModelForm):
     holding_group = make_ajax_field(Facility, 'holding_group', 'holding_group', help_text=None)
 

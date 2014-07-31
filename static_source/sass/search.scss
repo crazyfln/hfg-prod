@@ -18,8 +18,7 @@
     }
 
     .search-label {
-        float:left;
-        margin: 0 150px 10px 0;
+        margin: 0px;
         text-transform: uppercase;
         color: $primary;
         font-size: 1.2em;
@@ -33,9 +32,6 @@
         list-style:none;
     }
 
-    .search-label-long {
-        margin-left: 40px;
-    }
 
     input#id_query{
         width:848px;
@@ -91,38 +87,45 @@
         
     }
 }
+.second-column {
+    vertical-align:top;
+}
 
+.search-choice-holder {
+    display:inline-block;
 
+    .searchfield-room_type-holder, .searchfield-facility_type-holder {
+        height: 50px;
+        width: 225px;
+        border: 1px solid $border;
+        float:left;
+        position: relative;
+        margin: 0 40px 0 0;
+        background:image-url('img/select_dropdown.png') no-repeat;
+        background-position:200px;
+        background-color:#fff;
 
-
-
-.searchfield-room_type-holder, .searchfield-facility_type-holder {
-    height: 50px;
-    width: 225px;
-    border: 1px solid $border;
-    float:left;
-    position: relative;
-    margin: 0 40px 0 0;
-    background:image-url('img/select_dropdown.png') no-repeat;
-    background-position:200px;
-    background-color:#fff;
-
-    select {
-        position: absolute;
-        top: 0;
-        width: 223px !important;
-        padding-left: 30px;
-        height: 100%;
-        border: 0;
-        z-index: 2;
-        @include appearance(none);
-        outline:none;
-        background: transparent;
-        -webkit-appearance: none;
+        select {
+            position: absolute;
+            top: 0;
+            width: 223px !important;
+            padding-left: 30px;
+            height: 100%;
+            border: 0;
+            z-index: 2;
+            @include appearance(none);
+            outline:none;
+            background: transparent;
+            -webkit-appearance: none;
+        }
     }
 }
 
-
+div#searchfield-amenities {
+    label {
+        font-size:1.15em;
+    }
+}
 
 
 

@@ -43,6 +43,7 @@ class FacilityMessageModelFieldMixin(models.Model):
     health_description = models.CharField(max_length=500, blank=True)
     planned_move_date = models.DateTimeField(blank=True, null=True)
     move_in_time_frame = models.CharField(max_length=30, blank=True, choices=MOVE_IN_TIME_FRAME_CHOICES)
+    comments = models.CharField(max_length=500, blank=True, null=True)
     preferred_contact = models.CharField(max_length=10, blank=True, null=True, choices=PREFERRED_CONTACT_CHOICES)
 
     class Meta:

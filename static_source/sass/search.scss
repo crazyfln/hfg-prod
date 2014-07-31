@@ -132,6 +132,7 @@ div#searchfield-amenities {
     //scss for slider
     #searchfield-slider {
         float:left;
+        margin-top:10px;
 
         .slider {
             margin-right:15px;
@@ -147,10 +148,11 @@ div#searchfield-amenities {
 
         }
 
-        // span:nth-child(2) {
-            //     margin-left: 15px;
-            // } //not working
-
+            .slider-minmax-values {
+                color:$primary;
+                font-size:16px;
+            }
+            
             .slider-selection {
                 background-image:none;
                 background-color:$secondary;

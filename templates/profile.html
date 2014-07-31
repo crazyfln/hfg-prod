@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 {% load static from staticfiles %}
+{% block bodyid %}
+  id="beige-body"
+{% endblock bodyid %}
 
 {% block content %}
 <div class="profile">
   <div class="container padder-100" style='padding-top: 200px;'>
+    {% comment %}
     <!-- {% include 'profile_nav.html' with user=request.user %} -->
 <!-- <ul class="nav nav-tabs" role="tablist">
 <li class='' id='favorite-list'><a href="" role="tab" data-toggle="tab">Favorites</a></li>
 <li class='' id='profile-list'><a href="{% url 'profile' %}" role="tab" data-toggle="tab">My Profile</a></li>
 <li class='' id='reset-list'><a href="{% url 'auth_password_reset' %}" role="tab" data-toggle="tab">Reset Password</a></li>
 </ul> -->
-
+ {% endcomment %}
 <div class="name-holder">
   <h3 id='main-name'>{{ user.get_full_name }}</h3>
 </div>

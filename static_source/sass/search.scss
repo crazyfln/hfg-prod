@@ -5,6 +5,32 @@
         margin-top:80px;
     }
 }
+
+.select-holder-mixin {
+    height: 50px;
+    width: 225px;
+    border: 1px solid $border;
+    float:left;
+    position: relative;
+    margin: 0 40px 0 0;
+    background:image-url('img/select_dropdown.png') no-repeat;
+    background-position:200px;
+    background-color:#fff;
+}
+.select-mixin {
+    position: absolute;
+    top: 0;
+    width: 223px !important;
+    padding-left: 30px;
+    height: 100%;
+    border: 0;
+    z-index: 2;
+    @include appearance(none);
+    outline:none;
+    background: transparent;
+    -webkit-appearance: none;
+}
+
 .searchbox {
     background-color: $beige-background;
 
@@ -72,7 +98,6 @@
         font-size:18px;
 
     }
-
 //not working yet
     select {
         -moz-appearance: window;
@@ -80,52 +105,35 @@
 
     @-moz-document url-prefix() {
         #id_facility_type {
-        margin-top:15px !important;
-        padding-top: 16px !important;
-        color: transparent !important;
-        text-shadow: 0 0 0 #000 !important;
+            margin-top:15px !important;
+            padding-top: 16px !important;
+            color: transparent !important;
+            text-shadow: 0 0 0 #000 !important;
         
-    }
-}
-.second-column {
-    vertical-align:top;
-}
-
-.search-choice-holder {
-    display:inline-block;
-
-    .searchfield-room_type-holder, .searchfield-facility_type-holder {
-        height: 50px;
-        width: 225px;
-        border: 1px solid $border;
-        float:left;
-        position: relative;
-        margin: 0 40px 0 0;
-        background:image-url('img/select_dropdown.png') no-repeat;
-        background-position:200px;
-        background-color:#fff;
-
-        select {
-            position: absolute;
-            top: 0;
-            width: 223px !important;
-            padding-left: 30px;
-            height: 100%;
-            border: 0;
-            z-index: 2;
-            @include appearance(none);
-            outline:none;
-            background: transparent;
-            -webkit-appearance: none;
         }
     }
-}
 
-div#searchfield-amenities {
-    label {
-        font-size:1.15em;
+    .second-column {
+        vertical-align:top;
     }
-}
+
+    .search-choice-holder {
+        display:inline-block;
+
+        .searchfield-room_type-holder, .searchfield-facility_type-holder {
+            @extend .select-holder-mixin;
+
+            select {
+                @extend .select-mixin;
+            }
+        }
+    }
+
+    div#searchfield-amenities {
+        label {
+            font-size:1.15em;
+        }
+    }
 
 
 
@@ -148,59 +156,63 @@ div#searchfield-amenities {
 
         }
 
-            .slider-minmax-values {
-                color:$primary;
-                font-size:16px;
-            }
-            
-            .slider-selection {
-                background-image:none;
-                background-color:$secondary;
+        .slider-minmax-values {
+            color:$primary;
+            font-size:16px;
+        }
+        
+        .slider-selection {
+            background-image:none;
+            background-color:$secondary;
 
-            }
-            .slider-handle  {
-                background-image:none;
-                background-color:$white;
-                border: 1px solid $border;
-                border-radius: 3px;
-                width: 10px;
-                opacity: 1;
-            }
+        }
+        .slider-handle  {
+            background-image:none;
+            background-color:$white;
+            border: 1px solid $border;
+            border-radius: 3px;
+            width: 10px;
+            opacity: 1;
+        }
 
-            .slider-handle {
-                &:nth-child(3) {
-                    margin-left:0px;
-                }
+        .slider-handle {
+            &:nth-child(3) {
+                margin-left:0px;
             }
         }
     }
+}
 
-    .searchbox-home {
-        width:708px;
+.searchbox-home {
+    width:708px;
+    height:55px;
+    background-color:transparent;
+    margin-top:30px;
+
+    .searchfield-facility_type-holder {
+        @extend .select-holder-mixin;
+        margin-right:0px;
         height:55px;
-        background-color:transparent;
-        margin-top:30px;
-
-        .searchfield-facility_type-holder {
-            margin-right:0px;
-            height:55px;
-            background-color: #DFE6E6;
-            border-radius: 1px;
-        }
-
-        input#id_query {
-            width:430px;
-            background-color:#f8f8f8;
-        }
-
-        button {
-            margin:0px;
-            float:left;
-            height: 56px;
-        }
+        background-color: #DFE6E6;
+        border-radius: 1px;
+    }
+    select {
+        @extend .select-mixin;
     }
 
-    //Pagination
-    .page-links {
-       font-size:16px; 
+    input#id_query {
+        width:430px;
+        background-color:#f8f8f8;
     }
+
+    button {
+        margin:0px;
+        float:left;
+        height: 56px;
+    }
+}
+
+//Pagination
+.page-links {
+   font-size:16px; 
+}

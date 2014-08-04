@@ -26,7 +26,7 @@
             {% endif %}
             <div class="min-price-holder">
               <p class="min-price-from">FROM</p>
-              <p class='min-price'> ${{ object.min_price }}</p>
+              <p class='min-price'>{{ object.get_min_price }}</p>
             </div>
           </div> 
           <div class="clear"></div>

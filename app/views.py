@@ -137,19 +137,25 @@ class Search(ListView):
             querydict['amenities'] = form.cleaned_data.get('amenities',False)
             result = Facility.objects.all().filter(**{ key:value for ( key, value ) in querydict.iteritems() if value })
 
+            Qquery = Q()
             if form.cleaned_data['query']:
                 query = form.cleaned_data['query']
-                Qquery = Q()
                 for q in query.split():
                     Qquery.add((Q(zipcode=q) | Q(name__icontains=q) | Q(city__icontains=q) | Q(state__icontains=q)), Qquery.AND)
-                result = result.filter(Qquery)
             min_price = form.cleaned_data.get('min_value', False)
             if not min_price:
                 min_price = SEARCH_MIN_VAL_INITIAL
             max_price = form.cleaned_data.get('max_value', False)
             if not max_price:
                 max_price = SEARCH_MAX_VAL_INITIAL
-            result = result.filter(min_price__gte=min_price, min_price__lte=max_price, visibility=True)
+            Qquery.add(
+                (Q(min_price__gte=min_price) & Q(min_price__lte=max_price)),
+                #| Q(min_price__isnull=True), 
+                Qquery.AND
+            )
+            import ipdb
+            ipdb.set_trace()
+            result = result.filter(Qquery)
             return result.filter(visibility=True)
         else:
             return Facility.objects.all().filter(visibility=True)

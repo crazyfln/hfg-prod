@@ -73,6 +73,12 @@
         color:$secondary;
         cursor:pointer;
     }
+    input:focus {
+        outline:none;
+        border-color:$border;
+        box-shadow:0 0 10px $secondary;
+        z-index:-2;
+    }
 }
 
 .login-b {

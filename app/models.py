@@ -22,7 +22,7 @@ class Facility(TimeStampedModel):
     license = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=50, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)
-    min_price = models.CharField(max_length=15, default="0", blank=True)
+    min_price = models.IntegerField(default=None, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=2, blank=True)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
@@ -95,6 +95,9 @@ class Facility(TimeStampedModel):
 
     def get_vacancy_status(self):
         return "Vacancies" if self.vacancies > 0 else "No Vacancies"
+
+    def get_min_price(self): 
+        return "$" + self.min_price if self.min_price else "Call"
 
     def get_encoded_address(self):
         return quote_plus(",".join([self.address, self.city, self.state, self.zipcode]))

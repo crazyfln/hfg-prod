@@ -22,7 +22,7 @@ class Facility(TimeStampedModel):
     license = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=50, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)
-    min_price = models.IntegerField(default=0, blank=True)
+    min_price = models.CharField(max_length=15, default="0", blank=True)
     address = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=2, blank=True)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])

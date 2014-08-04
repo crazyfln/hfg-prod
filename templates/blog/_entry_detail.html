@@ -32,14 +32,20 @@
       </div>
       <div class="author">
         {% block entry-authors %}
-        {% with authors=object.authors.all %}
-        {% for author in authors %}
-        <span class="vcard author">
-          <a href="{{ author.get_absolute_url }}" class="fn url{% if not author.get_full_name %} nickname{% endif %}" rel="author"
-          title="{% blocktrans %}Show all {{ author }}'s entries{% endblocktrans %}">{{ author }}</a></span>{% if not forloop.last %}, {% endif %}
+          {% with authors=object.authors.all %}
+          {% for author in authors %}
+            <span class="vcard author">
+              {% comment %}
+              <a href="{{ author.get_absolute_url }}" class="fn url{% if not author.get_full_name %} nickname{% endif %}" rel="author" title="{% blocktrans %}Show all {{ author }}'s entries{% endblocktrans %}">
+              {% endcomment %}
+              {{ author }}
+              {% comment %}
+              </a>
+              {% endcomment %}
+            </span>{% if not forloop.last %}, {% endif %}
           {% endfor %}
           {% endwith %}
-          {% endblock entry-authors %}
+        {% endblock entry-authors %}
         </div>
         {% block entry-categories %}
         {% with categories=object.categories.all %}

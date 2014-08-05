@@ -12,16 +12,9 @@ Home For Grandma
       <div class="transparent-holder"></div>
       <div class="content-holder">
         <div class="search-title-holder">
-          <h1 class="search-title">Find Senior Living</h1>
-          <a href="#">
-            <button class="blog-link-button">
-              <div class="transparent-holder"></div>
-              <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p>
-
-            </button>
-
-  
-          </a>
+          <h1 class="search-title pull-left">Find Senior Living</h1>
+           <a href='{% url 'blog' %}' class='pull-right'> <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p></a>
+           <div class="clear"></div>
         </div>
         <div class="clear"></div>
 
@@ -56,7 +49,7 @@ Home For Grandma
     <div class="col-xs-6">
       <div class="desc-boxes">
         <a href='{% url 'making_move' %}'><img class='left' src='{% static 'img/image_home_right.png' %}'/></a>
-        <a href='{% url 'making_move' %}'><p class="desc-main">Financial Planning</p></a>
+        <a href='{% url 'making_move' %}'><p class="desc-main">Financial Assistance</p></a>
         <a href='{% url 'making_move' %}'><p class="desc-minor">We can help with Veteran's Benefits and Medicaid applications</p></a>
         <a class='learn-more'href='{% url 'making_move' %}'>Learn more</a>
       </div>
@@ -116,7 +109,7 @@ Home For Grandma
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
-          <iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          <iframe id="vimeo-iframe" src="//player.vimeo.com/video/99257918" width="700" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
     </div>

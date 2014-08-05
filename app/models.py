@@ -97,10 +97,10 @@ class Facility(TimeStampedModel):
         return "Vacancies" if self.vacancies > 0 else "No Vacancies"
 
     def get_min_price(self): 
-        return "$" + self.min_price if self.min_price else "Call"
+        return "$" + str(self.min_price) if self.min_price else "Call"
 
     def get_encoded_address(self):
-        return quote_plus(",".join([self.address, self.city, self.state, self.zipcode]))
+        return quote_plus(unicode(",".join([unicode(self.address), unicode(self.city), unicode(self.state), unicode(self.zipcode)])))
 
 
     class Meta:

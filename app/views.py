@@ -149,12 +149,10 @@ class Search(ListView):
             if not max_price:
                 max_price = SEARCH_MAX_VAL_INITIAL
             Qquery.add(
-                (Q(min_price__gte=min_price) & Q(min_price__lte=max_price)),
-                #| Q(min_price__isnull=True), 
+                (Q(min_price__gte=min_price) & Q(min_price__lte=max_price))
+                | Q(min_price__isnull=True), 
                 Qquery.AND
             )
-            import ipdb
-            ipdb.set_trace()
             result = result.filter(Qquery)
             return result.filter(visibility=True)
         else:

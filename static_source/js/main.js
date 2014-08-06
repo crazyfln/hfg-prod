@@ -1,10 +1,19 @@
 $(document).ready(function(){
 
+  submitParentForm = function() {
+    form = $(this).closest('form');
+    form.submit();
+  };  
+
+  $('#id_room_type').change(submitParentForm) ;
+  $('#id_facility_type').change(submitParentForm);
+  $('#searchfield-amenities input').change(submitParentForm);
+
   
- $('.count').click(function() {
+  $('.count').click(function() {
     $('#facility-carousel').show()
     $('#facility-map').html('')
-  })
+  });
 
 
   $('.map').click(function() {

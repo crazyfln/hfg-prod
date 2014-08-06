@@ -95,6 +95,7 @@ class UserAdmin(EditButtonMixin, DeleteButtonMixin, reversion.VersionAdmin, Djan
     search_fields = ('email', 'first_name', 'last_name')
     list_display = ('edit','delete','get_type_of_user', 'get_full_name','email', 'created', 'last_login', 'get_last_ip')
     form = RegistrationAdminForm
+    ordering = ['-created',]
     add_form = UserCreationForm
     fieldsets = (
         ("User", {

@@ -130,8 +130,25 @@
     }
 
     div#searchfield-amenities {
-        label {
-            font-size:1.15em;
+        margin-top:5px;
+
+        .amenity-choice-holder{
+            margin-bottom:10px;
+            display:inline-block;
+            
+            label {
+                margin-bottom:0px;
+                font-size:1.15em;
+                margin-top:-10px;
+            }
+
+            .label-text {
+                display:inline-block;
+
+                margin-left:5px;
+                position:relative;
+                top:-2px;
+            }
         }
     }
 

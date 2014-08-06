@@ -43,7 +43,10 @@
     <p class='search-label margin-right-20'>Amenities</p>
     <div id="searchfield-amenities">
       {% for amenity in form.amenities %}
-      {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"><span class="label-text">{{amenity.choice_label }}</span></label>
+        <div class="amenity-choice-holder">
+          {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"></label>
+          <span class="label-text">{{ amenity.choice_label }}</span>
+        </div>
       {% endfor %}
       <div class="clear"></div>
     </div>

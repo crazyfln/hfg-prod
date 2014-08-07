@@ -90,6 +90,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.core.context_processors.media",
                                "app.context_processors.settings",
                                "app.context_processors.property_list_form",
+                               'app.context_processors.google_analytics',
                                'account.context_processors.forms',
                                'social.apps.django_app.context_processors.backends',
                                'social.apps.django_app.context_processors.login_redirect',
@@ -237,3 +238,7 @@ THUMBNAIL_ALIASES = {
 }
 
 THUMBNAIL_DEBUG = True
+
+GOOGLE_ANALYTICS_DOMAIN = 'www.homeforgrandma.com'
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-51712790-1'
+

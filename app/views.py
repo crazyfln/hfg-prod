@@ -83,6 +83,9 @@ class FacilityDetail(DetailView):
         if self.request.user.is_authenticated() and PhoneRequest.objects.filter(user=self.request.user, facility=self.object).exists():
             context['phone_already_requested'] = True
 
+        if not self.request.user.is_authenticated():
+            context['facility_name'] = self.object.name
+
         return context
 
 

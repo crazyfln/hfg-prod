@@ -11,6 +11,17 @@
       <!-- silenced this input and using button-blue above as the submit trigger for search -->
       <div class="clear"></div>
     </div>
+
+
+    <div class="onoffswitch" style="">
+      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+      <label class="onoffswitch-label " for="myonoffswitch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+      </label>
+    </div>
+
+
     <div class="clear"></div>
     <div class="second-column">
       <div class="search-choice-holder">
@@ -43,10 +54,10 @@
     <p class='search-label margin-right-20'>Amenities</p>
     <div id="searchfield-amenities">
       {% for amenity in form.amenities %}
-        <div class="amenity-choice-holder">
-          {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"></label>
-          <span class="label-text">{{ amenity.choice_label }}</span>
-        </div>
+      <div class="amenity-choice-holder">
+        {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"></label>
+        <span class="label-text">{{ amenity.choice_label }}</span>
+      </div>
       {% endfor %}
       <div class="clear"></div>
     </div>

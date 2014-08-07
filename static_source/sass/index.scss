@@ -81,7 +81,6 @@
   }
 
 
-  
 
   .blog-link-button {
     background-color:$light;
@@ -109,6 +108,21 @@
  //  }
 }
 
+.call-us {
+
+  h1 {
+    color: $secondary;
+  }
+
+  h2 {
+    color:$button-orange;
+  }
+
+  p {
+    font-size: 20px;
+    margin-top:15px;
+  }
+}
 .home-info-holder {
 
   .desc-boxes {

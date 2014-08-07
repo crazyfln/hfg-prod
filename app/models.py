@@ -199,7 +199,7 @@ class FacilityRoom(TimeStampedModel):
     starting_price = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
 
     def get_area(self):
-        return str(self.area) + "sqft" if self.area else None
+        return str(self.area) + " sq ft" if self.area else None
         
     def __unicode__(self):
         return str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk)

@@ -32,52 +32,59 @@
           <div class="clear"></div>
           <hr class="facility-top-divider">
         </div>
+
+
         <div class="facility-left left">
           <div id="image-carousel">
             {% include 'snippets/image_carousel.html' with images=object.images.all %}
           </div>
+
+
           <h1 class='description-title left'>Description</h1>
           <h1 class='capacity right'>Vacancies: {{ object.vacancies }}</h1>
           <h1 class='capacity right'>Capacity: {{ object.capacity }} &nbsp;</h1>
           <div class="clear"></div>
           <p class="description">{{ object.description_long }}</p>
 
-          <hr id="description-pricing-divider">
 
+
+          {% if object.facilityroom_set.all or object.care_type == "Rent and Care" %}
+          <hr id="description-pricing-divider">
           <h1>Pricing</h1>
+          {% endif %}
+          {% if object.facilityroom_set.all %}
           <div class="row">
               <div class="col-xs-4">
-
-                  {% for room in object.facilityroom_set.all %}
-                  {% if forloop.first %}
                   <h2>Room Type</h2>
-                  {% endif %}
-                  <p class="description">{{ room.room_type }}</p>
+                  {% for room in object.facilityroom_set.all %}
+                    <p class="description">{{ room.room_type }}</p>
                   {% endfor %}
               </div>
-              {% if room.get_area in object.facilityroom_set.all %}
-                <div class="col-xs-4">
+              <div class="col-xs-4">  
+                <h2>Size</h2>
                   {% for room in object.facilityroom_set.all %}
-                    {% if forloop.first %}
-                      <h2>Square Feet</h2>
-                    {% endif %}
                     {% if room.get_area %}
                       <p class="description">{{ room.get_area }}</p>
+                    {% else %}
+                      <p class="description">&nbsp;</p>
                     {% endif %}
                   {% endfor %}
-                </div>
-              {% endif %}
-              <div class="col-xs-4">
-
-                  {% for room in object.facilityroom_set.all %}
-                  {% if forloop.first %}
-                  <h2>Price</h2>
-                  {% endif %}
-                  <p class="description"> ${{ room.starting_price }}</p>
-                  {% endfor %}
               </div>
-            </div>
+              <div class="col-xs-4">
+                <h2>Price</h2>
+                {% for room in object.facilityroom_set.all %}
+                  {% if room.starting_price %}
+                    <p class="description"> ${{ room.starting_price }}</p>
+                  {% else %}
+                    <p class="description">&nbsp;</p>
+                  {% endif %}  
+                {% endfor %}
+                
+              </div>
 
+            </div>
+            <p class="price-asterisk">* Pricing will vary depending on level of care</p>
+            {% endif %}
             {% if object.care_type == "Rent and Care" %}
               <div class="row">
                 <div class="col-xs-4">
@@ -123,13 +130,13 @@
             {% if object.conditions.all %}
               <hr>
               <div class="row">
-                <div class="col-xs-5">
+                <div class="col-xs-6">
                     <h2>Accepts Residents With</h2>
                 </div>
               </div>
 
               <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
 
                     {% for condition in all_conditions %}
                     <p>
@@ -154,7 +161,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
 
                     {% for amenity in all_amenities %}
                     <p>
@@ -178,7 +185,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
                     {% for language in all_languages %}
                     <p>
                         {% if language in object.languages.all %}

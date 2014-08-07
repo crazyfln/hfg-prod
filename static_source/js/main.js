@@ -34,11 +34,11 @@ $(document).ready(function(){
     window.location.href=url;
   });  
 
-  $('.right').click(function() {
+  $('.right.carousel-control').click(function() {
     $('.carousel').carousel('next');
   });
 
-  $('.left').click(function() {
+  $('.left.carousel-control').click(function() {
     $('.carousel').carousel('prev');
   });
 

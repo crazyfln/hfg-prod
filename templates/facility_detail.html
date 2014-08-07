@@ -14,13 +14,13 @@
           {% endfor %}
           <div class="price-and-heart-holder">
             {% if user.is_authenticated %}
-              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'>
+              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes' data-toggle="tooltip" data-placement="top" title="Save to favorites">
                 <img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/>
                 <img class='heart-not-hearted'{% if user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_not_hearted.png' %}"/>
 
               </div>
             {% else %}
-              <div class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Registration-Modal">
+              <div class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Registration-Modal" data-toggle="tooltip" data-placement="top" title="Save to favorites">
                 <img class'heart-not-hearted' src='{% static 'img/icon_not_hearted.png' %}'/>
               </div>
             {% endif %}

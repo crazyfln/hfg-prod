@@ -9,6 +9,7 @@ $(document).ready(function(){
   $('#id_facility_type').change(submitParentForm);
   $('#searchfield-amenities input').change(submitParentForm);
 
+
   
   $('.count').click(function() {
     $('#facility-carousel').show()
@@ -80,6 +81,8 @@ $(document).ready(function(){
       return false;
     });
 
+    $('.heart-holder').tooltip({'title':'Save to favorites', });
+    
     $('.heart-holder').on('click', function(e) {
        
         if ($(this).data('logged_in') == 'yes'){

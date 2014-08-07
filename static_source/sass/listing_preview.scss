@@ -2,6 +2,17 @@ a.listing-link {
     text-decoration: none;
 }
 
+div.ui-tooltip.ui-widget {
+    border:none; 
+    color:$white;
+    background:$secondary;
+    border-radius:0px;
+}
+.ui-tooltip-content {
+    color:$white;
+    background-color:$secondary;
+}
+
 .listing-preview {
     height:472px;
     background-color: $white;

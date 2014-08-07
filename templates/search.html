@@ -25,16 +25,16 @@
         <div class="pagination">
           <span class="page-links">
             {% if page_obj.has_previous %}
-              <a href="?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">
-                PREVIOUS
+              <a href="?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" class="pagination-link">
+                <button class="button-blue">PREVIOUS</button>
               </a>
             {% endif %}
             <span class="page-current">
               Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
             {% if page_obj.has_next %}
-              <a href="?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">
-                NEXT
+              <a href="?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" class="pagination-link">
+                <button class="button-blue">NEXT</button>
               </a>
             {% endif %}
           </span>

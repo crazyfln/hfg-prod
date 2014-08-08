@@ -1,6 +1,6 @@
 {% load static from staticfiles %}
 {% load thumbnail %}
-
+{% load mathfilters %}
 
 <div id="facility-carousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
@@ -9,7 +9,7 @@
 <!-- Wrapper for slides -->
   <div class="carousel-inner">
     {% for image in images %}
-    <div class="item {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter }}">
+    <div class="item item-main {% if image.featured %}active{% endif %}" data-slide-number="{{ forloop.counter }}">
       <img class="img-main-carousel" src="{{ image.image|thumbnail_url:'carousel_main' }}"/>
     </div>
     {% endfor %} 
@@ -17,10 +17,10 @@
 
   <!-- Controls -->
   {% if images %}
-    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+    <a class="left carousel-control main-control" href="#carousel-example-generic" data-slide="prev">
       <img src='{% static 'img/icon_chevron_left.png' %}'/>
     </a>
-    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+    <a class="right carousel-control main-control" href="#carousel-example-generic" data-slide="next">
       <img src='{% static 'img/icon_chevron_right.png' %}'/>
     </a>
   {% endif %}
@@ -36,7 +36,7 @@ mapHtml = '<iframe width="600" height="445" frameborder="0" style="border:0" src
 </script>
 
 <!-- thumb navigation carousel -->
-
+<div class="clear"></div>
 <div class="col-md-12" id='count-map'> 
   <div class="col-md-6 count" style='border-right: 1px solid #ccc; height: 100%;'>
     <center>
@@ -55,11 +55,29 @@ mapHtml = '<iframe width="600" height="445" frameborder="0" style="border:0" src
 </div>
   <div class="col-md-12 " id="slider-thumbs">
     <!-- thumb navigation carousel items -->
-    <ul class="list-inline">
-      {% for image in images %}
-      <li> <a id="carousel-selector-{{ forloop.counter0 }}" {% if image.featured %}class="selected"{% endif %}>
-        <img src="{{ image.image|thumbnail_url:'carousel_thumbnail' }}" class="img-responsive">
-      </a></li>
+    <div id="thumb-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+      <div class="carousel-inner">
+        {% for image in images %}
+          {% if forloop.first %} 
+          <ul class="list-inline item item-thumb active" data-slide-number="0">
+          {% elif forloop.counter0|divisibleby:8 %}
+            <ul class="list-inline item item-thumb secondary-thumb-ul" data-slide-number="{{ forloop.counter0|intdiv:8 }}">
+          {% endif %}
+          <li> <a id="carousel-selector-{{ forloop.counter }}" {% if image.featured %}class="selected"{% endif %}>
+            <img src="{{ image.image|thumbnail_url:'carousel_thumbnail' }}" class="img-responsive">
+          </a></li>
+        {% if forloop.last or forloop.counter|divisibleby:8 %}
+          </ul>
+        {% endif %}
       {% endfor %}
-    </ul>
+      </div>
+        {% if images|length > 8 %}
+          <a class="left carousel-control thumb-control" href="#" data-slide="prev">
+            <img src='{% static 'img/icon_chevron_left.png' %}'/>
+          </a>
+          <a class="right carousel-control thumb-control" href="#" data-slide="next">
+            <img src='{% static 'img/icon_chevron_right.png' %}'/>
+          </a>
+        {% endif %}
+    </div>
   </div>

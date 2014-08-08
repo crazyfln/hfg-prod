@@ -4,7 +4,7 @@
   <form id="SearchForm" action="{% url 'search' %}" method="get">
     {{ form.errors }}
 
-    <div id="searchfield-query">
+    <div id="searchfield-query" class='long-search'>
       {{ form.query }}
       <button class="button-blue left"><img src='{% static 'img/icon_search.png' %}'/></button>
       <!-- <input type="submit" value="Submit" /> -->

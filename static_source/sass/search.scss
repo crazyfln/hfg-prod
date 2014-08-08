@@ -203,9 +203,18 @@ div#searchfield-amenities {
 }
 
 #searchfield-query {
-    width:900px;
+    // width:900px;
     float:left;
 }
+
+.short-search {
+    width:650px;
+}
+
+.long-search {
+    width: 900px;
+}
+
 .searchbox-home {
     width:708px;
     height:55px;
@@ -224,7 +233,7 @@ div#searchfield-amenities {
     }
 
     input#id_query {
-        width:430px;
+        width:650px;
         background-color:#f8f8f8;
     }
 

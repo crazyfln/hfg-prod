@@ -11,8 +11,24 @@ $(document).ready(function(){
 
     // sets it back to the correct link so that it reloads immediately on the next window open
     $frame.attr('src', vidsrc);
-})
-  
+   });
+
+  var bgImageNumber = 3 // how many bg classes in index.scss
+  var bgIndex = 2 // which bg to display next
+  var oldIndex = 1 // the default home-bg-image- class specified in html
+
+  window.setInterval(function() {
+    if (bgIndex > bgImageNumber) {
+      bgIndex = 1;
+    };
+    $('.home-background').animate({ opacity:.5}, function() {
+        $(this).removeClass('home-bg-image-' + oldIndex).addClass('home-bg-image-' + bgIndex).animate({ opacity:1})
+        oldIndex = bgIndex
+        bgIndex++    
+    });
+
+  }, 10000)
+
   $('.count').click(function() {
     $('#facility-carousel').show()
     $('#facility-map').html('')

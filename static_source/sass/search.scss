@@ -84,17 +84,41 @@
 
     @-moz-document url-prefix() {
         #id_facility_type {
-        margin-top:15px !important;
-        padding-top: 16px !important;
-        color: transparent !important;
-        text-shadow: 0 0 0 #000 !important;
-        
+            margin-top:15px !important;
+            padding-top: 16px !important;
+            color: transparent !important;
+            text-shadow: 0 0 0 #000 !important;
+        }
+}
+
+.second-column {
+    vertical-align:top;
+}
+
+.search-choice-holder {
+    display:inline-block;
+
+    a:hover {
+        text-decoration:none;
+    }
+
+    .searchfield-room_type-holder, .searchfield-facility_type-holder {
+        @extend .select-holder-mixin;
+
+        select {
+            @extend .select-mixin;
+        }
     }
 }
 
 
+#search-community-type-label {
+    text-decoration:none;    
+}
 
-
+div#searchfield-amenities {
+    margin-top:5px;
+}
 
 .searchfield-room_type-holder, .searchfield-facility_type-holder {
     height: 50px;

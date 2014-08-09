@@ -11,21 +11,24 @@
       <!-- silenced this input and using button-blue above as the submit trigger for search -->
       <div class="clear"></div>
     </div>
-    <p class='search-label'>Property Type:</p>
-    <p class='search-label'>Room Type:</p>
-    <p class='search-label search-label-long'>Starting From Price:</p>
-    <div class="clear"></div>
-    <div id="searchfield-facility_type">
-      <div class="searchfield-facility_type-holder">
-        {{ form.facility_type }}
-      </div>
-    </div>
-    <div id="secondary-search">
-      <div id="searchfield-room_type">
-        <div class="searchfield-room_type-holder">
-          {{ form.room_type }}
+    <div class="second-column">
+      <div class="search-choice-holder">
+        <a href="{% url 'blog' %}"><p id="search-community-type-label" class='search-label' data-toggle="tooltip" data-placement='left' title='Community Type Blog'>Community Type</p></a>
+        <div id="searchfield-facility_type">
+          <div class="searchfield-facility_type-holder">
+            {{ form.facility_type }}
+          </div>
         </div>
       </div>
+      <div class="search-choice-holder">
+        <p class='search-label'>Room Type</p>
+        <div id="searchfield-facility_type">
+          <div class="searchfield-room_type-holder">
+            {{ form.room_type }}
+          </div>
+        </div>
+      </div>
+    </div>
       <div id="searchfield-slider">
         <span id='min-slide-value'>$149 </span>
         <input id="slider" type="text" class="span2" value="" data-slider-min="{{ real_min_val }}" data-slider-max="{{ real_max_val }}" data-slider-step="1" data-slider-value="[{{ real_min_val }}, {{ real_max_val }}]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">

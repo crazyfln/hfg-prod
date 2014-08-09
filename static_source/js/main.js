@@ -22,6 +22,10 @@ $(document).ready(function(){
     $('#facility-map').html(mapHtml)
   })
 
+  $('#search-community-type-label').tooltip({
+    'title':'Community Types Blog',
+    'placement':'left'
+  });
 
 //not working yet
    $('#profile-list a').click(function (e) {

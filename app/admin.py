@@ -53,7 +53,7 @@ class ShownOnHomeFilter(admin.SimpleListFilter):
 
 class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
     form = FacilityAdminForm
-    list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group', 'get_visibility']
+    list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group', 'get_visibility', 'get_director_email']
     list_filter = (ShownOnHomeFilter,)
     search_fields = ['name', 'city', 'state']
     fieldsets = (
@@ -93,6 +93,10 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
             )
     list_select_related = True
     inlines = [FacilityFeeInline, FacilityImageInline, FacilityRoomInline]
+
+    def get_director_email(self, obj):
+        return obj.director_email if obj.director_email else "---"
+    get_director_email.short_description = "Email"
 
     def get_visibility(self, obj):
         display = "Yes" if obj.visibility else "No"

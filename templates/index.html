@@ -6,42 +6,31 @@ Home For Grandma
 
 {% block content %}
 {% load static from staticfiles %}
-<div id="index-background-carousel" class='carousel slide' data-ride='carousel'>
-  <div class='carousel-inner'>
-    <div class="home-background bg-1 item active"></div>
-    <div class="home-background bg-2 item"></div>  
-   <div>
-</div>  
-      <div class="container" id=''>
-        <div class="search-holder" style=''>
-          <div class="transparent-holder"></div>
-          <div class="content-holder">
-            <div class="search-title-holder">
-              <h1 class="search-title">Find Senior Living</h1>
-              <a href="#">
-                <button class="blog-link-button">
-                  <div class="transparent-holder"></div>
-                  <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p>
-
-                </button>
-
-      
-              </a>
-            </div>
-            <div class="clear"></div>
-
-            {% include 'snippets/searchbox_home.html' with form=search_form %}
-          </div>
+<div class="home-background home-bg-image-1">
+  <div class="container" id=''>
+    <div class="search-holder" style=''>
+      <div class="transparent-holder"></div>
+      <div class="content-holder">
+        <div class="search-title-holder">
+          <h1 class="search-title pull-left">Find Senior Living</h1>
+           <!-- <a href='{% url 'blog' %}' class='pull-right'> <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p></a> -->
+           <div class="clear"></div>
         </div>
 
-        <center>
-          <div class="play-holder" data-toggle="modal" data-target="#Video-Modal">
-           <img class='play' src='{% static 'img/play_button.png' %}' />
-           <div class="transparent-holder">
-            <p class='padding-top-15 larger-font'>How It Works</p>
-          </div>
-        </center>
+        <div class="clear"></div>
+
+        {% include 'snippets/searchbox_home.html' with form=search_form %}
       </div>
+    </div>
+
+      <div class="play-holder" data-toggle="modal" data-target="#Video-Modal">
+       <img class='play' src='{% static 'img/play_button.png' %}' />
+       <div class="transparent-holder">
+        <p class='padding-top-15 larger-font'>How It Works</p>
+      </div>
+  </div>
+</div>
+</div>  
 
 
 <div class="home-info-holder padder-60 background-beige">
@@ -58,7 +47,7 @@ Home For Grandma
     <div class="col-xs-6">
       <div class="desc-boxes">
         <a href='{% url 'making_move' %}'><img class='left' src='{% static 'img/image_home_right.png' %}'/></a>
-        <a href='{% url 'making_move' %}'><p class="desc-main">Financial Planning</p></a>
+        <a href='{% url 'making_move' %}'><p class="desc-main">Financial Assistance</p></a>
         <a href='{% url 'making_move' %}'><p class="desc-minor">We can help with Veteran's Benefits and Medicaid applications</p></a>
         <a class='learn-more'href='{% url 'making_move' %}'>Learn more</a>
       </div>
@@ -93,6 +82,23 @@ Home For Grandma
     <div class="clear"></div>
   </div>
 
+  <div class="call-us padder-60">
+    <div class="container">
+      <div class="col-xs-4">
+      <img src='{% static 'img/icon_stock_image_call_us.jpg' %}'/>
+      </div>
+       <div class="col-xs-8">
+        <center>
+        <h1>Give us a call, we are here to help.</h1>
+       <p>We understand looking for the perfect home for your loved one is not easy. Our experience and knowledagble advisors are here to answer any questions you may have. Whether you have questions on how to start your search, how to pay for assisted living, or have any difficulties in finding the perfect home, you are not alone. Give us a call!</p> 
+       <h2>Free Assistance</h2>
+       <h2>1 (800) 434 0324</h2>
+     </center>
+      </div>
+
+    </div>
+  </div>
+
 
   <div class="featured-listings padder-80">
     <div class="container">
@@ -118,7 +124,7 @@ Home For Grandma
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
-          <iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          <iframe id="vimeo-iframe" src="//player.vimeo.com/video/99257918" width="700" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
     </div>

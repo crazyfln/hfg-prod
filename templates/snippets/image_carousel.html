@@ -41,7 +41,7 @@ mapHtml = '<iframe width="600" height="445" frameborder="0" style="border:0" src
   <div class="col-md-6 count" style='border-right: 1px solid #ccc; height: 100%;'>
     <center>
       <img src='{% static 'img/icon_camera.png' %}'/>
-        <span id="carousel-current-image-number">0</span>
+      <span id="carousel-current-image-number">{% if images %}1{% else %}0{% endif %}</span>
         <span id="carousel-total-image-number"> / {{ images|length }}</span>
       </p>
     </center>

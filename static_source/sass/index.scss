@@ -1,7 +1,7 @@
 .home-background {
-  background: image-url('img/home_background_3.png') no-repeat;
+  background: image-url('img/home_background_3.jpg') no-repeat;
   background-size: cover;
-  height: 524px;
+  height: 700px;
 }
 
 .play {
@@ -13,11 +13,13 @@
   // background-color:rgba(0, 0, 0, .8,);
   width:300px;
   height: 60px;
-  margin-top: 20px;
+  margin-top: 230px;
   color:#fff;
   cursor:pointer;
 
-
+  p {
+    margin-left: 90px;
+  }
 
 }
 
@@ -25,6 +27,7 @@
   font-size: 24px;
   letter-spacing:0.09em;
 }
+
 .search-holder {
   background-color:rgba(0, 0, 0, .8,);
   padding:20px 20px 20px 20px;
@@ -33,6 +36,22 @@
   border-radius: 3px;
   margin: 0 auto;
   margin-top: 130px;
+
+  a {
+    text-decoration:none;
+  }
+
+  .prop-types {
+    margin-bottom:0px;
+    color:#fff;
+    margin-top: 23px;
+    margin-right: 62px;
+    font-size: 15px;
+    
+    &:hover {
+      color: $secondary;
+    }
+  }
 
   .transparent-holder {
     opacity:.8;
@@ -58,10 +77,10 @@
     color: $white;
     font-size: 42px;
     display:inline;
-     font-family: $secondaryFont;
+    font-family: $secondaryFont;
   }
 
-  
+
 
   .blog-link-button {
     background-color:$light;
@@ -75,16 +94,11 @@
     font-size: 10px;
     opacity:.4;
 
-    .prop-types {
-      font-size: 12px;
-      margin-bottom:0px;
-    }
-
     // p {
     //   position:relative;
     //   opacity:1;
     // }
- }
+  }
 
  // .opacity-holder {
  //    opacity:0.1;
@@ -94,6 +108,21 @@
  //  }
 }
 
+.call-us {
+
+  h1 {
+    color: $secondary;
+  }
+
+  h2 {
+    color:$button-orange;
+  }
+
+  p {
+    font-size: 20px;
+    margin-top:15px;
+  }
+}
 .home-info-holder {
 
   .desc-boxes {
@@ -155,8 +184,8 @@
 }
 
 #Video-Modal .modal-content {
-  width:540px;
-  height:281;
+  width:740px;
+  height:440px;
 }
 
 

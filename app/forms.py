@@ -67,7 +67,7 @@ class ContactForm(forms.Form):
 
 class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
     comments = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}),
+        widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"27"}),
         required=False
     )
     move_in_time_frame = forms.ChoiceField(
@@ -83,7 +83,7 @@ class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
         required=False
     )
     health_description = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"35"}),
+        widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}),
         required=False
     )
     desired_city = forms.CharField(

@@ -127,8 +127,6 @@ class FacilityMessage(TimeStampedModel, FacilityMessageModelFieldMixin):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
 
-    comments = models.CharField(max_length=500, blank=True)
-
     read_by_manager = models.BooleanField(default=False)
     read_by_provider = models.BooleanField(default=False)
     replied_by = models.CharField(max_length=20, blank=True)

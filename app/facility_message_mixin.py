@@ -20,8 +20,8 @@ SEARCHING_FOR_CHOICES_EMPTY = [('','I%cm Searching for...' %39)] + SEARCHING_FOR
 field_choices_empty = {'budget': BUDGET_CHOICES_EMPTY,'mobility':MOBILITY_CHOICES_EMPTY, 'care_current':CARE_CURRENT_CHOICES_EMPTY, 'move_in_time_frame':MOVE_IN_TIME_FRAME_CHOICES_EMPTY, 'searching_for': SEARCHING_FOR_CHOICES_EMPTY}
 
 class FacilityMessageModelFieldMixin(models.Model):
-    searching_for = models.CharField(max_length=30, blank=True, choices=SEARCHING_FOR_CHOICES)
-    budget = models.CharField(max_length=30, blank=True, choices=BUDGET_CHOICES)
+    searching_for = models.CharField(max_length=30, blank=True, choices=field_choices['searching_for'])
+    budget = models.CharField(max_length=30, blank=True, choices=field_choices['budget'])
     pay_private_pay = models.BooleanField(default=False, blank=True)
     pay_longterm_care = models.BooleanField(default=False, blank=True)
     pay_veterans_benefits = models.BooleanField(default=False, blank=True)
@@ -43,6 +43,7 @@ class FacilityMessageModelFieldMixin(models.Model):
     health_description = models.CharField(max_length=500, blank=True)
     planned_move_date = models.DateTimeField(blank=True, null=True)
     move_in_time_frame = models.CharField(max_length=30, blank=True, choices=MOVE_IN_TIME_FRAME_CHOICES)
+    comments = models.CharField(max_length=500, blank=True, null=True)
     preferred_contact = models.CharField(max_length=10, blank=True, null=True, choices=PREFERRED_CONTACT_CHOICES)
 
     class Meta:
@@ -72,3 +73,7 @@ class FacilityMessageFormFieldMixin(forms.ModelForm):
         required=False
     )
 
+    comments = forms.CharField(
+            widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"27"}),
+        required=False
+    )

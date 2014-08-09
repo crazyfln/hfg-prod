@@ -1,3 +1,5 @@
+
+
 #search-results {
 
     h2.empty {
@@ -5,6 +7,32 @@
         margin-top:80px;
     }
 }
+
+.select-holder-mixin {
+    height: 50px;
+    width: 225px;
+    border: 1px solid $border;
+    float:left;
+    position: relative;
+    margin: 0 40px 0 0;
+    background:image-url('img/select_dropdown.png') no-repeat;
+    background-position:200px;
+    background-color:#fff;
+}
+.select-mixin {
+    position: absolute;
+    top: 0;
+    width: 223px !important;
+    padding-left: 30px;
+    height: 100%;
+    border: 0;
+    z-index: 2;
+    @include appearance(none);
+    outline:none;
+    background: transparent;
+    -webkit-appearance: none;
+}
+
 .searchbox {
     background-color: $beige-background;
 
@@ -18,8 +46,7 @@
     }
 
     .search-label {
-        float:left;
-        margin: 0 150px 10px 0;
+        margin: 0px;
         text-transform: uppercase;
         color: $primary;
         font-size: 1.2em;
@@ -33,9 +60,6 @@
         list-style:none;
     }
 
-    .search-label-long {
-        margin-left: 40px;
-    }
 
     input#id_query{
         width:848px;
@@ -76,14 +100,13 @@
         font-size:18px;
 
     }
-
 //not working yet
-    select {
-        -moz-appearance: window;
-    }
+select {
+    -moz-appearance: window;
+}
 
-    @-moz-document url-prefix() {
-        #id_facility_type {
+@-moz-document url-prefix() {
+    #id_facility_type {
         margin-top:15px !important;
         padding-top: 16px !important;
         color: transparent !important;
@@ -92,43 +115,51 @@
     }
 }
 
+.second-column {
+    vertical-align:top;
+}
 
+.search-choice-holder {
+    display:inline-block;
 
+    .searchfield-room_type-holder, .searchfield-facility_type-holder {
+        @extend .select-holder-mixin;
 
-
-.searchfield-room_type-holder, .searchfield-facility_type-holder {
-    height: 50px;
-    width: 225px;
-    border: 1px solid $border;
-    float:left;
-    position: relative;
-    margin: 0 40px 0 0;
-    background:image-url('img/select_dropdown.png') no-repeat;
-    background-position:200px;
-    background-color:#fff;
-
-    select {
-        position: absolute;
-        top: 0;
-        width: 223px !important;
-        padding-left: 30px;
-        height: 100%;
-        border: 0;
-        z-index: 2;
-        @include appearance(none);
-        outline:none;
-        background: transparent;
-        -webkit-appearance: none;
+        select {
+            @extend .select-mixin;
+        }
     }
 }
 
+div#searchfield-amenities {
+    margin-top:5px;
 
+    .amenity-choice-holder{
+        margin-bottom:10px;
+        display:inline-block;
+
+        label {
+            margin-bottom:0px;
+            font-size:1.15em;
+            margin-top:-10px;
+        }
+
+        .label-text {
+            display:inline-block;
+
+            margin-left:5px;
+            position:relative;
+            top:-2px;
+        }
+    }
+}
 
 
 
     //scss for slider
     #searchfield-slider {
         float:left;
+        margin-top:10px;
 
         .slider {
             margin-right:15px;
@@ -144,58 +175,149 @@
 
         }
 
-        // span:nth-child(2) {
-            //     margin-left: 15px;
-            // } //not working
+        .slider-minmax-values {
+            color:$primary;
+            font-size:16px;
+        }
+        
+        .slider-selection {
+            background-image:none;
+            background-color:$secondary;
 
-            .slider-selection {
-                background-image:none;
-                background-color:$secondary;
+        }
+        .slider-handle  {
+            background-image:none;
+            background-color:$white;
+            border: 1px solid $border;
+            border-radius: 3px;
+            width: 10px;
+            opacity: 1;
+        }
 
-            }
-            .slider-handle  {
-                background-image:none;
-                background-color:$white;
-                border: 1px solid $border;
-                border-radius: 3px;
-                width: 10px;
-                opacity: 1;
-            }
-
-            .slider-handle {
-                &:nth-child(3) {
-                    margin-left:0px;
-                }
+        .slider-handle {
+            &:nth-child(3) {
+                margin-left:0px;
             }
         }
     }
+}
 
-    .searchbox-home {
-        width:708px;
+#searchfield-query {
+    // width:900px;
+    float:left;
+}
+
+.short-search {
+    width:650px;
+}
+
+.long-search {
+    width: 900px;
+}
+
+.searchbox-home {
+    width:708px;
+    height:55px;
+    background-color:transparent;
+    margin-top:30px;
+
+    .searchfield-facility_type-holder {
+        @extend .select-holder-mixin;
+        margin-right:0px;
         height:55px;
-        background-color:transparent;
-        margin-top:30px;
-
-        .searchfield-facility_type-holder {
-            margin-right:0px;
-            height:55px;
-            background-color: #DFE6E6;
-            border-radius: 1px;
-        }
-
-        input#id_query {
-            width:430px;
-            background-color:#f8f8f8;
-        }
-
-        button {
-            margin:0px;
-            float:left;
-            height: 56px;
-        }
+        background-color: #DFE6E6;
+        border-radius: 1px;
+    }
+    select {
+        @extend .select-mixin;
     }
 
-    //Pagination
-    .page-links {
-       font-size:16px; 
+    input#id_query {
+        width:650px;
+        background-color:#f8f8f8;
     }
+
+    button {
+        margin:0px;
+        float:left;
+        height: 56px;
+    }
+}
+
+//Pagination
+.page-links {
+ font-size:16px; 
+}
+
+
+//on off switch css for map.
+
+
+.onoffswitch {
+    position: relative; width: 71px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    float:left;
+    margin-left: 20px;
+}
+
+.onoffswitch-checkbox {
+    display: none;
+}
+
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+    margin-left:2px;
+}
+
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 22px; padding: 0; line-height: 22px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 10px;
+    background-color: #008185; color: #FFFFFF;
+}
+
+
+input.onoffswitch-checkbox[type='checkbox']:checked +label:before {
+   display:none !important;
+}
+
+input.onoffswitch-checkbox[type='checkbox'] +label:before {
+   display:none !important;
+}
+
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+
+.onoffswitch-switch {
+    display: block; width: 24px; margin: -1px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 20px;
+    position: absolute; top: 0; bottom: 0; right: 45px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+    height:28px;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}

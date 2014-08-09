@@ -32,10 +32,6 @@ $bootstrap-sass-asset-helper: false;
 
 
 
-
-
-
-
 .container {
     width: 1040px !important;
      min-width: 1040px !important;
@@ -44,6 +40,10 @@ $bootstrap-sass-asset-helper: false;
 
 body {
        min-width: 1040px !important;
+}
+
+#beige-body {
+    background-color:$beige-background;
 }
 
 h1, h2, h3, h4, h5, h6 {

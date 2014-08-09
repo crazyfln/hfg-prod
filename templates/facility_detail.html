@@ -59,6 +59,7 @@
                   {% for room in object.facilityroom_set.all %}
                     <p class="description">{{ room.room_type }}</p>
                   {% endfor %}
+
               </div>
               <div class="col-xs-4">  
                 <h2>Size</h2>
@@ -81,9 +82,8 @@
                 {% endfor %}
                 
               </div>
-
             </div>
-            <p class="price-asterisk">* Pricing will vary depending on level of care</p>
+            <p class='price-vary'>*Pricing will vary depending on level of care</p>
             {% endif %}
             {% if object.care_type == "Rent and Care" %}
               <div class="row">

@@ -10,6 +10,18 @@ $(document).ready(function(){
   $('#searchfield-amenities input').change(submitParentForm);
 
 
+  $('#Video-Modal').on('hidden.bs.modal', function () {
+    var $frame = $('iframe#vimeo-iframe');
+
+    // saves the current iframe source
+    var vidsrc = $frame.attr('src');
+
+    // sets the source to nothing, stopping the video
+    $frame.attr('src',''); 
+
+    // sets it back to the correct link so that it reloads immediately on the next window open
+    $frame.attr('src', vidsrc);
+})
   
   $('.count').click(function() {
     $('#facility-carousel').show()

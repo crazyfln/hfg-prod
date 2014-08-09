@@ -103,10 +103,13 @@ class UserAdmin(EditButtonMixin, DeleteButtonMixin, reversion.VersionAdmin, Djan
                 'is_superuser',
                 'holding_group',
                 ('pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi'),
+                ('care_bathing','care_diabetic','care_medical_assistance','care_toileting','care_memory_issues','care_diagnosed_memory','care_combinative','care_wandering'),
                 ('first_name','last_name'),
                 ('email','budget'),
                 ('phone','searching_for'),
                 'health_description',
+                'comments',
+                'planned_move_date'
            ) 
         }),
     )

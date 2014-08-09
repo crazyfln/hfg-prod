@@ -4,13 +4,21 @@
   <form id="SearchForm" action="{% url 'search' %}" method="get">
     {{ form.errors }}
 
-    <div id="searchfield-query">
+    <div id="searchfield-query" class='long-search'>
       {{ form.query }}
       <button class="button-blue left"><img src='{% static 'img/icon_search.png' %}'/></button>
       <!-- <input type="submit" value="Submit" /> -->
       <!-- silenced this input and using button-blue above as the submit trigger for search -->
       <div class="clear"></div>
     </div>
+    <div class="onoffswitch" style="">
+      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+      <label class="onoffswitch-label " for="myonoffswitch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+      </label>
+    </div>
+    <div class="clear"></div>
     <div class="second-column">
       <div class="search-choice-holder">
         <a href="{% url 'blog' %}"><p id="search-community-type-label" class='search-label' data-toggle="tooltip" data-placement='left' title='Community Type Blog'>Community Type</p></a>
@@ -28,30 +36,33 @@
           </div>
         </div>
       </div>
-    </div>
-      <div id="searchfield-slider">
-        <span id='min-slide-value'>$149 </span>
-        <input id="slider" type="text" class="span2" value="" data-slider-min="{{ real_min_val }}" data-slider-max="{{ real_max_val }}" data-slider-step="1" data-slider-value="[{{ real_min_val }}, {{ real_max_val }}]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">
-        <span id='max-slide-value'>$4999</span>
+      <div class="search-choice-holder">
+        <center><p class='search-label'>Starting From Price</p></center>
+        <div id="searchfield-slider">
+          <span id='min-slide-value' class="slider-minmax-values">$149 </span>
+          <input id="slider" type="text" class="span2" value="" data-slider-min="{{ real_min_val }}" data-slider-max="{{ real_max_val }}" data-slider-step="1" data-slider-value="[{{ real_min_val }}, {{ real_max_val }}]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide">
+          <span id='max-slide-value' class="slider-minmax-values">$4999</span>
+        </div>
       </div>
+    </div>
+    <div class="clear"></div>
+    <hr>
+    <p class='search-label margin-right-20'>Amenities</p>
+    <div id="searchfield-amenities">
+      {% for amenity in form.amenities %}
+      <div class="amenity-choice-holder">
+        {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"></label>
+        <span class="label-text">{{ amenity.choice_label }}</span>
+      </div>
+      {% endfor %}
       <div class="clear"></div>
-      <hr>
-      <p class='search-label margin-right-20'>Amenities</p>
-      <div id="searchfield-amenities">
-        {% for amenity in form.amenities %}
-        {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"><span class="label-text">{{amenity.choice_label }}</span></label>
-        {% endfor %}
-        <div class="clear"></div>
-      </div>
-      <hr>
-      <div id="searchfield-hiddenvalues">
-        {{ form.min_value }}
-        {{ form.max_value }}
-      </div>
+    </div>
+    <hr>
+    <div id="searchfield-hiddenvalues">
+      {{ form.min_value }}
+      {{ form.max_value }}
     </div>
 
-
-    
   </form>
 </div>
 

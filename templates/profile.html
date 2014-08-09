@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 {% load static from staticfiles %}
+{% block bodyid %}
+  id="beige-body"
+{% endblock bodyid %}
 
 {% block content %}
 <div class="profile">
   <div class="container padder-100" style='padding-top: 200px;'>
+    {% comment %}
     <!-- {% include 'profile_nav.html' with user=request.user %} -->
 <!-- <ul class="nav nav-tabs" role="tablist">
 <li class='' id='favorite-list'><a href="" role="tab" data-toggle="tab">Favorites</a></li>
 <li class='' id='profile-list'><a href="{% url 'profile' %}" role="tab" data-toggle="tab">My Profile</a></li>
 <li class='' id='reset-list'><a href="{% url 'auth_password_reset' %}" role="tab" data-toggle="tab">Reset Password</a></li>
 </ul> -->
-
+ {% endcomment %}
 <div class="name-holder">
   <h3 id='main-name'>{{ user.get_full_name }}</h3>
 </div>
@@ -172,12 +176,11 @@
             </td>
           </tr>
           <tr>
-            <td>{{  form.health_description.label_tag  }}</td>
             <td>{{ form.budget.label_tag }}</td>
             <td>{{  form.preferred_contact.label_tag  }}</td>
+            <td><label>Move in Date</label></td>
           </tr>
           <tr>
-            <td>{{  form.health_description  }}</td>
             <td>
               {% for option in form.budget %}
                 {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
@@ -190,6 +193,15 @@
                 <div class="clear"></div>
               {% endfor %}
             </td>
+            <td>{{ form.planned_move_date }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.health_description.label_tag }}</td>
+            <td>{{ form.comments.label_tag }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.health_description }}</td>
+            <td>{{ form.comments }}</td>
           </tr>
         </table>           
 <!-- need to add

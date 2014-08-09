@@ -6,40 +6,42 @@ Home For Grandma
 
 {% block content %}
 {% load static from staticfiles %}
-<div class="home-background">
-  <div class="container" id=''>
-    <div class="search-holder" style=''>
-      <div class="transparent-holder"></div>
-      <div class="content-holder">
-        <div class="search-title-holder">
-          <h1 class="search-title">Find Senior Living</h1>
-          <a href="#">
-            <button class="blog-link-button">
-              <div class="transparent-holder"></div>
-              <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p>
-
-            </button>
-
-  
-          </a>
-        </div>
-        <div class="clear"></div>
-
-        {% include 'snippets/searchbox_home.html' with form=search_form %}
-        <!-- <center><iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></center> -->
-      </div>
-    </div>
-
-    <center>
-      <div class="play-holder" data-toggle="modal" data-target="#Video-Modal">
-       <img class='play' src='{% static 'img/play_button.png' %}' />
-       <div class="transparent-holder">
-        <p class='padding-top-15 larger-font'>How It Works</p>
-      </div>
-    </center>
-  </div>
-</div>
+<div id="index-background-carousel" class='carousel slide' data-ride='carousel'>
+  <div class='carousel-inner'>
+    <div class="home-background bg-1 item active"></div>
+    <div class="home-background bg-2 item"></div>  
+   <div>
 </div>  
+      <div class="container" id=''>
+        <div class="search-holder" style=''>
+          <div class="transparent-holder"></div>
+          <div class="content-holder">
+            <div class="search-title-holder">
+              <h1 class="search-title">Find Senior Living</h1>
+              <a href="#">
+                <button class="blog-link-button">
+                  <div class="transparent-holder"></div>
+                  <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p>
+
+                </button>
+
+      
+              </a>
+            </div>
+            <div class="clear"></div>
+
+            {% include 'snippets/searchbox_home.html' with form=search_form %}
+          </div>
+        </div>
+
+        <center>
+          <div class="play-holder" data-toggle="modal" data-target="#Video-Modal">
+           <img class='play' src='{% static 'img/play_button.png' %}' />
+           <div class="transparent-holder">
+            <p class='padding-top-15 larger-font'>How It Works</p>
+          </div>
+        </center>
+      </div>
 
 
 <div class="home-info-holder padder-60 background-beige">

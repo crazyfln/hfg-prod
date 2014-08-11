@@ -6,7 +6,7 @@ Home For Grandma
 
 {% block content %}
 {% load static from staticfiles %}
-<div class="home-background">
+<div class="home-background home-bg-image-1">
   <div class="container" id=''>
     <div class="search-holder" style=''>
       <div class="transparent-holder"></div>
@@ -16,10 +16,10 @@ Home For Grandma
            <!-- <a href='{% url 'blog' %}' class='pull-right'> <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p></a> -->
            <div class="clear"></div>
         </div>
+
         <div class="clear"></div>
 
         {% include 'snippets/searchbox_home.html' with form=search_form %}
-        <!-- <center><iframe src="//player.vimeo.com/video/99257918" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></center> -->
       </div>
     </div>
 

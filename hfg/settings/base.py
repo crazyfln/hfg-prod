@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.comments',
+    'mathfilters',
     'zinnia_bootstrap',
     'tagging',
     'mptt',

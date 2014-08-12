@@ -131,17 +131,20 @@
     color: $secondary;
     font-size:46px;
     font-weight:300;
+    font-family: $font5;
   }
 
   h2 {
     color:$button-orange;
     font-weight:300;
     font-size:44px;
+     font-family: $font5;
   }
 
   p {
     font-size: 18px;
     margin-top:15px;
+     font-family: $font5;
   }
 }
 .home-info-holder {

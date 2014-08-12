@@ -47,6 +47,15 @@
         font-size: 16px;
     }
 
+    .save {
+        font-weight:bold;
+        color:$light;
+        vertical-align:top;
+        margin-top:18px;
+        margin-right:5px;
+        display:inline-block;
+    }
+
     .heart {
         float:right;
         margin-top: -40px;

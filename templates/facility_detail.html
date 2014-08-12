@@ -16,6 +16,7 @@ Property
           <p class='type-name left'>{{ type.name }} &nbsp; </p>
           {% endfor %}
           <div class="price-and-heart-holder">
+            <div class='save'>SAVE</div>
             {% if user.is_authenticated %}
               <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes' data-toggle="tooltip" data-placement="top" title="Save to favorites">
                 <img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/>

@@ -9,10 +9,16 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
 
+        # Changing field 'FacilityMessage.comments'
+        db.alter_column(u'app_facilitymessage', 'comments', self.gf('django.db.models.fields.CharField')(max_length=500, null=True))
+
         # Changing field 'Facility.min_price'
         db.alter_column(u'app_facility', 'min_price', self.gf('django.db.models.fields.IntegerField')(null=True))
 
     def backwards(self, orm):
+
+        # Changing field 'FacilityMessage.comments'
+        db.alter_column(u'app_facilitymessage', 'comments', self.gf('django.db.models.fields.CharField')(default='', max_length=500))
 
         # Changing field 'Facility.min_price'
         db.alter_column(u'app_facility', 'min_price', self.gf('django.db.models.fields.IntegerField')())
@@ -36,6 +42,7 @@ class Migration(SchemaMigration):
             'care_mobility': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'care_toileting': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'care_wandering': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'comments': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -157,7 +164,7 @@ class Migration(SchemaMigration):
             'care_mobility': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'care_toileting': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'care_wandering': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'comments': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
+            'comments': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'desired_city': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'facility': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['app.Facility']"}),

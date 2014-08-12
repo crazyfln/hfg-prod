@@ -4,17 +4,24 @@
   <form id="SearchForm" action="{% url 'search' %}" method="get">
     {{ form.errors }}
 
-    <div id="searchfield-query">
+    <div id="searchfield-query" class='long-search'>
       {{ form.query }}
       <button class="button-blue left"><img src='{% static 'img/icon_search.png' %}'/></button>
       <!-- <input type="submit" value="Submit" /> -->
       <!-- silenced this input and using button-blue above as the submit trigger for search -->
       <div class="clear"></div>
     </div>
+    <div class="onoffswitch" style="">
+      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+      <label class="onoffswitch-label " for="myonoffswitch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+      </label>
+    </div>
     <div class="clear"></div>
     <div class="second-column">
       <div class="search-choice-holder">
-        <p class='search-label'>Community Type</p>
+        <a href="{% url 'blog' %}"><p id="search-community-type-label" class='search-label' data-toggle="tooltip" data-placement='left' title='Community Type Blog'>Community Type</p></a>
         <div id="searchfield-facility_type">
           <div class="searchfield-facility_type-holder">
             {{ form.facility_type }}
@@ -43,7 +50,10 @@
     <p class='search-label margin-right-20'>Amenities</p>
     <div id="searchfield-amenities">
       {% for amenity in form.amenities %}
-      {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"><span class="label-text">{{amenity.choice_label }}</span></label>
+      <div class="amenity-choice-holder">
+        {{ amenity.tag }} <label for="id_amenities_{{amenity.index}}"></label>
+        <span class="label-text">{{ amenity.choice_label }}</span>
+      </div>
       {% endfor %}
       <div class="clear"></div>
     </div>

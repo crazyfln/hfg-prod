@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}
+My Profile
+{% endblock title %}
 {% load static from staticfiles %}
 {% block bodyid %}
   id="beige-body"
@@ -59,15 +62,20 @@
           <tr>
             <td>{{  form.phone.label_tag  }}  </td>
             <td>{{  form.searching_for.label_tag  }}</td>
+            {% comment %}
             <td>{{  form.resident_first_name.label_tag  }}  </td>
+            {% endcomment %}
           </tr>
           <tr>
             <td>{{ form.phone }}</td>
             <td>
               <div class="searching-for-holder">{{ form.searching_for }}</div>
             </td>
+            {% comment %}
             <td>{{  form.resident_first_name  }}  </td>
+            {% endcomment %}
           </tr>
+          {% comment %}
           <tr>
             <td>{{ form.conditions.label_tag }}</td>
           </tr>
@@ -81,6 +89,7 @@
               </div>
             </td>
           </tr>
+          {% endcomment %}
           <tr>
             <td><label>Care Needs</label></td>
           </tr>

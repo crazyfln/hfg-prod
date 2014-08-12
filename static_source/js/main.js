@@ -1,5 +1,15 @@
 $(document).ready(function(){
 
+  submitParentForm = function() {
+    form = $(this).closest('form');
+    form.submit();
+  };  
+
+  $('#id_room_type').change(submitParentForm) ;
+  $('#id_facility_type').change(submitParentForm);
+  $('#searchfield-amenities input').change(submitParentForm);
+
+
   $('#Video-Modal').on('hidden.bs.modal', function () {
     var $frame = $('iframe#vimeo-iframe');
 
@@ -11,12 +21,28 @@ $(document).ready(function(){
 
     // sets it back to the correct link so that it reloads immediately on the next window open
     $frame.attr('src', vidsrc);
-})
-  
+   });
+
+  var bgImageNumber = 3 // how many bg classes in index.scss
+  var bgIndex = 2 // which bg to display next
+  var oldIndex = 1 // the default home-bg-image- class specified in html
+
+  window.setInterval(function() {
+    if (bgIndex > bgImageNumber) {
+      bgIndex = 1;
+    };
+    $('.home-background').animate({ opacity:.5}, function() {
+        $(this).removeClass('home-bg-image-' + oldIndex).addClass('home-bg-image-' + bgIndex).animate({ opacity:1})
+        oldIndex = bgIndex
+        bgIndex++    
+    });
+
+  }, 10000)
+
   $('.count').click(function() {
     $('#facility-carousel').show()
     $('#facility-map').html('')
-  })
+  });
 
 
   $('.map').click(function() {
@@ -24,6 +50,10 @@ $(document).ready(function(){
     $('#facility-map').html(mapHtml)
   })
 
+  $('#search-community-type-label').tooltip({
+    'title':'Community Types Blog',
+    'placement':'left'
+  });
 
 //not working yet
    $('#profile-list a').click(function (e) {
@@ -37,33 +67,41 @@ $(document).ready(function(){
     window.location.href=url;
   });  
 
-  $('.right').click(function() {
-    $('.carousel').carousel('next');
+  $('.right.carousel-control.main-control').click(function() {
+    $('#facility-carousel.carousel').carousel('next');
   });
 
-  $('.left').click(function() {
-    $('.carousel').carousel('prev');
+  $('.left.carousel-control.main-control').click(function() {
+    $('#facility-carousel.carousel').carousel('prev');
   });
 
+  $('.right.carousel-control.thumb-control').click(function() {
+    $('#thumb-carousel.carousel').carousel('next');
+  });
+
+  $('.left.carousel-control.thumb-control').click(function() {
+    $('#thumb-carousel.carousel').carousel('prev');
+  });
   $('.carousel').carousel({
     pause: "hover"
   });
 
   $('[id^=carousel-selector-]').click(function () {
     var id_selector = $(this).attr("id");
-    var id = id_selector.substr(id_selector.length - 1);
-    id = parseInt(id);
-    $('#facility-carousel').carousel(id);
+    var id = id_selector.split('-');
+    id = parseInt(id[2]);
+    $('#facility-carousel').carousel(id - 1);
     $('[id^=carousel-selector-]').removeClass('selected');
     $(this).addClass('selected');
   }); 
 
-    $('#facility-carousel').on('slid.bs.carousel', function (e) {
+   $('#facility-carousel').on('slid.bs.carousel', function (e) {
      var id = $('.item.active').data('slide-number');
      id = parseInt(id);
      $('#carousel-current-image-number').html(id);
      $('[id^=carousel-selector-]').removeClass('selected');
      $('[id^=carousel-selector-' + id + ']').addClass('selected');
+     $('#thumb-carousel').carousel(Math.floor((id-1)/8));
    });
 
 
@@ -83,6 +121,8 @@ $(document).ready(function(){
       return false;
     });
 
+    $('.heart-holder').tooltip({'title':'Save to favorites', });
+    
     $('.heart-holder').on('click', function(e) {
        
         if ($(this).data('logged_in') == 'yes'){

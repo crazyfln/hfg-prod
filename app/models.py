@@ -22,7 +22,7 @@ class Facility(TimeStampedModel):
     license = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=50, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)
-    min_price = models.IntegerField(default=0, blank=True)
+    min_price = models.IntegerField(default=None, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=2, blank=True)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
@@ -96,8 +96,11 @@ class Facility(TimeStampedModel):
     def get_vacancy_status(self):
         return "Vacancies" if self.vacancies > 0 else "No Vacancies"
 
+    def get_min_price(self): 
+        return "$" + str(self.min_price) if self.min_price else "Call"
+
     def get_encoded_address(self):
-        return quote_plus(",".join([self.address, self.city, self.state, self.zipcode]))
+        return quote_plus(unicode(",".join([unicode(self.address), unicode(self.city), unicode(self.state), unicode(self.zipcode)])))
 
 
     class Meta:
@@ -194,7 +197,7 @@ class FacilityRoom(TimeStampedModel):
     starting_price = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
 
     def get_area(self):
-        return str(self.area) + "sqft" if self.area else None
+        return str(self.area) + " sq ft" if self.area else None
         
     def __unicode__(self):
         return str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk)

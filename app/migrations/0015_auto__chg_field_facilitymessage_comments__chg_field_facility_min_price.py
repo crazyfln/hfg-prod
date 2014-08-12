@@ -12,10 +12,16 @@ class Migration(SchemaMigration):
         # Changing field 'FacilityMessage.comments'
         db.alter_column(u'app_facilitymessage', 'comments', self.gf('django.db.models.fields.CharField')(max_length=500, null=True))
 
+        # Changing field 'Facility.min_price'
+        db.alter_column(u'app_facility', 'min_price', self.gf('django.db.models.fields.IntegerField')(null=True))
+
     def backwards(self, orm):
 
         # Changing field 'FacilityMessage.comments'
         db.alter_column(u'app_facilitymessage', 'comments', self.gf('django.db.models.fields.CharField')(default='', max_length=500))
+
+        # Changing field 'Facility.min_price'
+        db.alter_column(u'app_facility', 'min_price', self.gf('django.db.models.fields.IntegerField')())
 
     models = {
         u'account.holdinggroup': {
@@ -114,7 +120,7 @@ class Migration(SchemaMigration):
             'medication_level_1_cost': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'medication_level_2_cost': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'medication_level_3_cost': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'min_price': ('django.db.models.fields.IntegerField', [], {'default': '0', 'blank': 'True'}),
+            'min_price': ('django.db.models.fields.IntegerField', [], {'default': 'None', 'null': 'True', 'blank': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),

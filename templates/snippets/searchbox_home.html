@@ -5,17 +5,17 @@
     <form id="SearchForm" action="{% url 'search' %}" method="get">
         {{ form.errors }}
 
-        <div id="searchfield-query">
+        <div id="searchfield-query" class='short-search'>
             {{ form.query }}
 
         </div>
 
 
-        <div id="searchfield-facility_type">
+      <!--   <div id="searchfield-facility_type">
             <div class="searchfield-facility_type-holder">
                 {{ form.facility_type }}
             </div>
-        </div>
+        </div> -->
         <!-- hidden required fields -->
         {{form.min_value}}
         {{form.max_value}}

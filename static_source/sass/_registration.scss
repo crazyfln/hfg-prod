@@ -22,6 +22,7 @@
         margin-bottom: 20px;
     }
 
+
     a {
         color:$secondary;
         margin-top: 15px;
@@ -72,6 +73,12 @@
     .login-link {
         color:$secondary;
         cursor:pointer;
+    }
+    input:focus {
+        outline:none;
+        border-color:$border;
+        box-shadow:0 0 10px $secondary;
+        z-index:-2;
     }
 }
 
@@ -289,6 +296,9 @@ p.list-prop-header {
 }
 
 
+p.registration-header-text {
+    font-size:18px;
+}
 
 
 

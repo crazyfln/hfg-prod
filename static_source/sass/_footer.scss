@@ -1,8 +1,9 @@
 //footer scss goes here.
 
 #footer {
+    font-size: 18px;
     background-color: $footer;
-       min-width: 1040px !important;
+    min-width: 1040px !important;
 
     a {
         text-decoration: none;
@@ -19,5 +20,13 @@
         color: $footer-secondary;
         display:inline;
         margin: 15px;
+    }
+
+    .footer-social-links {
+        margin-top: 20px;
+
+        img {
+            margin-right:25px;
+        }
     }
 }

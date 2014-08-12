@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}
+Property
+{% endblock title %}
 {%load static from staticfiles %}
 {% load thumbnail %}
 
@@ -13,75 +16,79 @@
           <p class='type-name left'>{{ type.name }} &nbsp; </p>
           {% endfor %}
           <div class="price-and-heart-holder">
+            <div class='save'>SAVE</div>
             {% if user.is_authenticated %}
-              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes'>
+              <div class="heart-holder" data-url="{% url 'favorite' object.slug %}" data-logged_in='yes' data-toggle="tooltip" data-placement="top" title="Save to favorites">
                 <img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/>
                 <img class='heart-not-hearted'{% if user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_not_hearted.png' %}"/>
 
               </div>
             {% else %}
-              <div class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Registration-Modal">
+              <div class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Registration-Modal" data-toggle="tooltip" data-placement="top" title="Save to favorites">
                 <img class'heart-not-hearted' src='{% static 'img/icon_not_hearted.png' %}'/>
               </div>
             {% endif %}
             <div class="min-price-holder">
               <p class="min-price-from">FROM</p>
-              <p class='min-price'> ${{ object.min_price }}</p>
+              <p class='min-price'>{{ object.get_min_price }}</p>
             </div>
           </div> 
           <div class="clear"></div>
           <hr class="facility-top-divider">
         </div>
+
+
         <div class="facility-left left">
           <div id="image-carousel">
             {% include 'snippets/image_carousel.html' with images=object.images.all %}
           </div>
+
+
           <h1 class='description-title left'>Description</h1>
           <h1 class='capacity right'>Vacancies: {{ object.vacancies }}</h1>
           <h1 class='capacity right'>Capacity: {{ object.capacity }} &nbsp;</h1>
           <div class="clear"></div>
           <p class="description">{{ object.description_long }}</p>
 
-          <hr id="description-pricing-divider">
 
+
+          {% if object.facilityroom_set.all or object.care_type == "Rent and Care" %}
+          <hr id="description-pricing-divider">
           <h1>Pricing</h1>
+          {% endif %}
+          {% if object.facilityroom_set.all %}
           <div class="row">
               <div class="col-xs-4">
-
-                  {% for room in object.facilityroom_set.all %}
-                  {% if forloop.first %}
                   <h2>Room Type</h2>
-                  {% endif %}
-                  <p class="description">{{ room.room_type }}</p>
+                  {% for room in object.facilityroom_set.all %}
+                    <p class="description">{{ room.room_type }}</p>
                   {% endfor %}
 
               </div>
-              {% if room.get_area in object.facilityroom_set.all %}
-                <div class="col-xs-4">
+              <div class="col-xs-4">  
+                <h2>Size</h2>
                   {% for room in object.facilityroom_set.all %}
-                    {% if forloop.first %}
-                      <h2>Square Feet</h2>
-                    {% endif %}
                     {% if room.get_area %}
                       <p class="description">{{ room.get_area }}</p>
+                    {% else %}
+                      <p class="description">&nbsp;</p>
                     {% endif %}
                   {% endfor %}
-                </div>
-              {% endif %}
-              <div class="col-xs-4">
-
-                  {% for room in object.facilityroom_set.all %}
-                  {% if forloop.first %}
-                  <h2>Price</h2>
-                  {% endif %}
-                  <p class="description"> ${{ room.starting_price }}</p>
-                  {% endfor %}
               </div>
-
-
+              <div class="col-xs-4">
+                <h2>Price</h2>
+                {% for room in object.facilityroom_set.all %}
+                  {% if room.starting_price %}
+                    <p class="description"> ${{ room.starting_price }}</p>
+                  {% else %}
+                    <p class="description">&nbsp;</p>
+                  {% endif %}  
+                {% endfor %}
+                
+              </div>
             </div>
             <p class='price-vary'>*Pricing will vary depending on level of care</p>
-
+            {% endif %}
             {% if object.care_type == "Rent and Care" %}
               <div class="row">
                 <div class="col-xs-4">
@@ -127,13 +134,13 @@
             {% if object.conditions.all %}
               <hr>
               <div class="row">
-                <div class="col-xs-5">
+                <div class="col-xs-6">
                     <h2>Accepts Residents With</h2>
                 </div>
               </div>
 
               <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
 
                     {% for condition in all_conditions %}
                     <p>
@@ -158,7 +165,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
 
                     {% for amenity in all_amenities %}
                     <p>
@@ -182,7 +189,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
                     {% for language in all_languages %}
                     <p>
                         {% if language in object.languages.all %}
@@ -216,7 +223,7 @@
               {% endif %}
             </p> <!-- ID necessary for JS -->
             <div class="clear"></div>
-            <p class='phone-small'>Click below to display community's Direct Phone Number</p>
+            <p class='phone-small'>Click to display community's Direct Phone Number</p>
             {% if phone_already_requested %}
               <button id="show-number-button" class="phone-button-inactive">Show Phone Number</button>
             {% else %}
@@ -235,7 +242,7 @@
             <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>
             <p class='steps'>1. Contact community for a tour.</p>
             <p class='steps'>2. Mention <a href="/">HomeForGrandma.com</a></p>
-            <p class='steps'>3. After you move in, Call 1(800) 434-0324 <br>or <a href="/contact">Claim Reward Online</a></p>
+            <p class='steps'>3. After you move in, call <br/>1(800) 434-0324 or <br><a href="/contact">Claim Reward Online</a></p>
         </div>
         <div class="clear"></div>
       </div>

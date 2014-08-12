@@ -20,9 +20,50 @@
     p {
         margin: 2px 20px 0 0;
         color: $secondary;
+        float:right;
+        font-size:19px;
+        cursor:pointer;
+
+        &:hover {
+            color:$button-orange;
+        }
     }
 
     .large-text {
-        font-size:20px;
+        font-size:19px;
+    }
+
+    a.logo {
+        float:left;
+    }
+
+    a.nav {
+        color:$secondary;
+        float:right;
+        margin-right: 20px;
+        font-size:18px;
+        text-decoration:none;
+        margin-top:2px;
+
+        &:hover {
+            color:$button-orange;
+        }
+    }
+
+    p.no-hover {
+        cursor:default;
+
+        &:hover {
+            color:$secondary;
+        }
     }
 }
+
+
+
+
+
+
+
+
+

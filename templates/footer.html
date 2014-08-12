@@ -1,10 +1,21 @@
+{% load static from staticfiles %}
+
 <footer id="footer" class='padder-top-40'>
     <div class="container">
         <div class="row">
             <center>
-                <a href='/about'><p class='footer-primary'>About Us</p></a>
-                <a href='/contact'><p class='footer-primary'>Contact Us</p></a>
+              <a href='{% url "about" %}'><p class='footer-primary'>About Us</p></a>
+              <a href='{% url "contact" %}'><p class='footer-primary'>Contact Us</p></a>
+              <a href='{% url "blog" %}'><p class='footer-primary'>Blog</p></a>
+              <a href='{% url "list_property" %}'><p class='footer-primary'>List your Property</p></a>
             </center>
+        </div>
+        <div class="row footer-social-links">
+          <center>
+            <a href='https://twitter.com/HomeForGrandma' target="_blank"><img src='{% static 'img/icon_twitter.png' %}'/></a>
+            <a href='https://www.facebook.com/homeforgrandma' target="_blank"><img src='{% static 'img/icon_facebook.png' %}'/></a>
+            <a href='https://plus.google.com/116428925593023304071/posts' target="_blank"><img src='{% static 'img/icon_google_plus.png' %}'/></a>
+          </center>
         </div>
         <div class="row padder-top-20">
             <center>

@@ -1,13 +1,22 @@
-<div class="modal fade" id="Registration-Modal" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
+
+<form action="{% url 'registration_register' %}?next={{ next }}" method="POST">
+<div class="modal fade" id="Registration-Modal-1" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <center>
       <div class="modal-content">
         <div class="modal-header">
-          <center><h3>Register</h3></center>
-          <p>We won't share your information with anyone but communities you choose to contact. We ask for your number so community managers can easily reach you to answer any questions.</p>
+          <center>
+          {% if facility_name %}
+            <p class="registration-header-text">To contact this Community</p>
+            <h3>{{ facility_name }}</h3>
+            <p class="registration-header-text">Would like to request your contact information</p>
+          {% else %}
+            <h3>Create Account</h3>
+          {% endif %}
+            <p class="registration-header-text">We won't share your information with anyone but communities you choose to contact. We ask for your number so community managers can easily reach you to answer any questions.</p>
+          </center>
         </div>
         <div class="modal-body">
-          <form action="{% url 'registration_register' %}?next={{ next }}" method="POST">
             {% csrf_token %}
             <table>
               <tr>
@@ -19,6 +28,34 @@
               <tr>
                 <td>{{ registration_form.phone_number }}</td>
               </tr>
+            </table>
+
+            <br>
+            <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal"  data-target="#Registration-Modal-2">NEXT</button>
+            <!-- replace the above button class with the class(es) you make in _buttons.scss -->
+          <center><span class="login-link" data-toggle="modal" data-dismiss="modal" data-target="#Login-Modal">Already a Member? Login</span></center>
+        </div>
+      </div>
+    </center>
+  </div>
+</div>
+
+<div class="modal fade" id="Registration-Modal-2" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <center>
+      <div class="modal-content">
+        <div class="modal-header">
+          <center>
+            <h3>Create Account</h3>
+            <p class="registration-header-text">
+              -To be eligible to recieve $200 on move-in
+              <br>
+              -To save your favorite listings
+            </p>
+          </center>
+        </div>
+        <div class="modal-body">
+            <table>
               <tr>
                 <td>{{ registration_form.email }}</td>
               </tr>
@@ -30,13 +67,12 @@
               </tr>
             </table>
 
+            <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal"  data-target="#Registration-Modal-1">BACK</button>
             <button type="submit" class="button-blue submit-b">Submit</button>
             <!-- replace the above button class with the class(es) you make in _buttons.scss -->
           </form>
-          <center><span class="login-link" data-toggle="modal" data-dismiss="modal" data-target="#Login-Modal">Already a Member? Login</span></center>
         </div>
       </div>
     </center>
   </div>
 </div>
-

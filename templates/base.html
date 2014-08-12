@@ -53,7 +53,11 @@
         </center>
       </div>
     </div>
+    {% if facility_name %}
+    {% include 'snippets/registration_modal.html' with next=request.get_full_path facility_name=facility_name %}
+    {% else %}
     {% include 'snippets/registration_modal.html' with next=request.get_full_path %}
+    {% endif %}
     {% endif %}
     <div class="modal fade" id="List-Property-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -83,11 +87,8 @@
     {% compressed_js 'app' %}
     {% block body_media %}
     {% endblock body_media %}
-    <script>
-    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
-    </script>
+    {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+      {% include "snippets/google_analytics.html" %}
+    {% endif %}
   </body>
   </html>

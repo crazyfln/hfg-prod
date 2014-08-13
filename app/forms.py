@@ -5,6 +5,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm, widgets
 from django.forms.models import BaseInlineFormSet
 from django.forms.extras.widgets import SelectDateWidget
@@ -145,6 +146,22 @@ class FacilityAdminForm(ModelForm):
                 raise forms.ValidationError("There are already {0} featured facilities. Remove one before adding another".format(str(MAX_FEATURED_FACILITIES)))
         return shown_on_home
 
+class FacilityImageInlineFormset(forms.models.BaseInlineFormSet):
+    '''
+    validates facility message formset data, specifically to make sure only one is featured.
+    '''
+    def clean(self):
+        super(FacilityImageInlineFormset, self).clean()
+        featured = 0
+        for form in self.forms:
+            if not hasattr(form, 'cleaned_data'):
+                continue
+            data = form.cleaned_data
+            featured += 1 if data.get('featured') else 0
+        if featured > 1:
+            raise ValidationError(_('More than 1 of your the facility images are featured. You may only have 1 featured image.'))
+        #elif featured == 0:
+        #    raise ValidationError(_('None of the facility images are featured, you must have a featured image'))
 
 class EditManagerNoteFacilityForm(ModelForm):
 

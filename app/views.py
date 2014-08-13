@@ -157,9 +157,9 @@ class Search(ListView):
                 Qquery.AND
             )
             result = result.filter(Qquery)
-            return result.filter(visibility=True)
+            return result.filter(visibility=True).order_by('min_price')
         else:
-            return Facility.objects.all().filter(visibility=True)
+            return Facility.objects.all().filter(visibility=True).order_by('min_price')
 
 class Contact(FormView):
     form_class = ContactForm

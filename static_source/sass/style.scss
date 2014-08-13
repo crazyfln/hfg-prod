@@ -5,7 +5,6 @@
 
 @include sticky-footer(257px, "#main", "#main-footer", "#footer");
 
-
 @import "variables";
 @import "typography";
 @import "registration";
@@ -133,6 +132,8 @@ h2 {
 .background-beige {
     background-color: $beige-background;
 }
+
+
 
 .padding-top-0 {
     padding-top:0px !important;

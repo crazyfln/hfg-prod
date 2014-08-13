@@ -13,8 +13,8 @@ Home For Grandma
       <div class="content-holder">
         <div class="search-title-holder">
           <h1 class="search-title pull-left">Find Senior Living</h1>
-           <!-- <a href='{% url 'blog' %}' class='pull-right'> <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p></a> -->
-           <div class="clear"></div>
+          <!-- <a href='{% url 'blog' %}' class='pull-right'> <p class='prop-types'>LEARN ABOUT COMMUNITY TYPES</p></a> -->
+          <div class="clear"></div>
         </div>
 
         <div class="clear"></div>
@@ -23,34 +23,58 @@ Home For Grandma
       </div>
     </div>
 
-      <div class="play-holder" data-toggle="modal" data-target="#Video-Modal">
-       <img class='play' src='{% static 'img/play_button.png' %}' />
-       <div class="transparent-holder">
-        <p class='padding-top-15 larger-font'>How It Works</p>
-      </div>
+    <div class="play-holder" data-toggle="modal" data-target="#Video-Modal">
+     <img class='play' src='{% static 'img/play_button.png' %}' />
+     <div class="transparent-holder">
+      <p class='padding-top-15 larger-font'>How It Works</p>
+    </div>
   </div>
 </div>
 </div>  
 
 
-<div class="home-info-holder padder-60 background-beige">
+<div class="home-info-holder padder-60">
   <div class="container">
-    <div class="col-xs-6">
-      <div class="desc-boxes">
+    <center>
+      <h1>Why Use HomeForGrandma.com?</h1>
+    </center>
+
+    <div class="col-xs-5 col-xs-offset-1">
+
+      <center>
+        <a href='{% url 'receive_reward' %}'>
+        <img src='{% static 'img/icon_gift.png' %}'/>
+        <h2>$200 gift for move-in</h2>
+        <p>Receive a $200 reward when you move into a community.</p>
+      </a>
+      </center>
+
+
+      <!-- <div class="desc-boxes">
         <a href='{% url 'receive_reward' %}'><img class='left' src='{% static 'img/image_home_left.png' %}'/></a>
-        <a href='{% url 'receive_reward' %}'><p class="desc-main">$200 gift for move in</p></a>
+        <a href='{% url 'receive_reward' %}'> <a href='{% url 'receive_reward' %}'><p class="desc-main">$200 gift for move in</p></a></a>
         <a href='{% url 'receive_reward' %}'><p class="desc-minor">Receive a $200 Reward when you move into a community.</p></a>
         <a class='learn-more' href='/receive_reward'>Learn more</a>
-      </div>
+      </div> -->
+
     </div>
 
-    <div class="col-xs-6">
-      <div class="desc-boxes">
+    <div class="col-xs-5">
+     <center>
+      <a href='{% url 'making_move' %}'>
+      <img src='{% static 'img/icon_assistance.png' %}'/>
+      <h2>Financial Assistance</h2>
+      <p>We can help with Veterans Benefits and Medi-Cal applications</p>
+    </a>
+    </center>
+
+      <!-- <div class="desc-boxes">
         <a href='{% url 'making_move' %}'><img class='left' src='{% static 'img/image_home_right.png' %}'/></a>
         <a href='{% url 'making_move' %}'><p class="desc-main">Financial Assistance</p></a>
         <a href='{% url 'making_move' %}'><p class="desc-minor">We can help with Veteran's Benefits and Medicaid applications</p></a>
         <a class='learn-more'href='{% url 'making_move' %}'>Learn more</a>
-      </div>
+      </div> -->
+
     </div>
   </div>
 
@@ -82,18 +106,16 @@ Home For Grandma
     <div class="clear"></div>
   </div>
 
-  <div class="call-us padder-60">
+  <div class="call-us padder-top-40">
     <div class="container">
-      <div class="col-xs-4">
-      <img src='{% static 'img/icon_stock_image_call_us.jpg' %}'/>
+      <div class="col-xs-5 col-xs-offset-1">
+        <img src='{% static 'img/icon_stock_image_call_us.jpg' %}'/>
       </div>
-       <div class="col-xs-8">
-        <center>
-        <h1>Give us a call, we are here to help.</h1>
-       <p>We understand looking for the perfect home for your loved one is not easy. Our experience and knowledagble advisors are here to answer any questions you may have. Whether you have questions on how to start your search, how to pay for assisted living, or have any difficulties in finding the perfect home, you are not alone. Give us a call!</p> 
-       <h2>Free Assistance</h2>
-       <h2>1 (800) 434 0324</h2>
-     </center>
+      <div class="col-xs-6">
+        <h1>Give us a call.</h1>
+        <p>We understand looking for the perfect home for your loved one is not easy. Our experienced and knowledagble advisors are here to help. Whether you have questions on how to start your search, how to pay for assisted living, or have difficulties in finding the perfect home you are not alone. </p> 
+        <p>Free Assistance</p>
+        <h2>1 (800) 434-0324</h2>
       </div>
 
     </div>
@@ -119,17 +141,17 @@ Home For Grandma
   </div>
 
 
-<center>
-  <div class="modal fade" id="Video-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <iframe id="vimeo-iframe" src="//player.vimeo.com/video/99257918" width="700" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  <center>
+    <div class="modal fade" id="Video-Modal" tabindex="-1" role=".modal" aria-labelledby="List-Property-ModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <iframe id="vimeo-iframe" src="//player.vimeo.com/video/99257918" width="700" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</center>
+  </center>
 
 
   {% endblock content %}

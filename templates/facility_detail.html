@@ -43,10 +43,15 @@ Property
             {% include 'snippets/image_carousel.html' with images=object.images.all %}
           </div>
 
+          <div class='clear'></div>
 
-          <h1 class='description-title left'>Description</h1>
-          <h1 class='capacity right'>Vacancies: {{ object.vacancies }}</h1>
-          <h1 class='capacity right'>Capacity: {{ object.capacity }} &nbsp;</h1>
+          <div id="vacancy-holder">
+            <h1 class='description-title left'>Description</h1>
+            <h1 class='right'>Vacancies: {{ object.vacancies }}</h1>
+            <h1 class='right'>Capacity: {{ object.capacity }} &nbsp;</h1>
+            <div class="clear"></div>
+            <p id='updated-since' class='right'> {{ object.get_days_since_vacancies_updated }} </p>
+          </div>
           <div class="clear"></div>
           <p class="description">{{ object.description_long }}</p>
 

@@ -6,6 +6,8 @@ from django.core.urlresolvers import reverse
 
 from account.models import User, HoldingGroup
 
+import datetime
+
 from util.util import file_url
 from .facility_message_mixin import FacilityMessageModelFieldMixin
 from urllib import quote_plus 
@@ -41,6 +43,7 @@ class Facility(TimeStampedModel):
     medication_level_3_cost = models.IntegerField(default=0)
     capacity = models.IntegerField(default=0)
     vacancies = models.IntegerField(default=0)
+    vacancies_updated = models.DateTimeField(auto_now_add=True)
 
     languages = models.ManyToManyField('Language', related_name="facilities", blank=True)
     conditions = models.ManyToManyField('Condition', related_name="facilities", blank=True)
@@ -55,13 +58,31 @@ class Facility(TimeStampedModel):
     visibility = models.BooleanField(default=True)
     manager_note = models.CharField(max_length=1000, blank=True, null=True)
 
-
+    class Meta:
+        verbose_name = "Facility"
+        verbose_name_plural = "Listing Management"
 
     def __unicode__(self):
         return self.name
 
+    def __init__(self, *args, **kwargs):
+        super(Facility, self).__init__(*args, **kwargs)
+        self.vacancies_at_init = self.vacancies
+
+    def save(self, *args, **kwargs):
+        vacancies_at_init = getattr(self, 'vacancies_at_init')
+        if not vacancies_at_init == self.vacancies:
+            self.vacancies_updated = datetime.datetime.now()
+        super(Facility, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('facility_details', args=(self.slug,))
+
+    def get_director_avatar_url(self):
+        if self.director_avatar:
+            return self.director_avatar.url
+        else:
+            return ""
 
     def get_phone_parts(self):
         number_parts = []
@@ -70,23 +91,17 @@ class Facility(TimeStampedModel):
         number_parts.append(self.phone[6:])
         return number_parts
 
-    def get_director_avatar_url(self):
-        if self.director_avatar:
-            return self.director_avatar.url
-        else:
-            return ""
-
     def get_phone_stars(self,):
         if self.phone:
             parts = self.get_phone_parts()
-            return "(" + parts[0] + ") " + parts[1] + "-****"
+            return "({0}) {1}-****".format(*parts)
         else:
             return None
 
     def get_phone_normal(self):
         if self.phone:
             parts = self.get_phone_parts()
-            return "(" + parts[0] + ") " + parts[1] + "-" + parts[2]
+            return "({0}) {1}-{2}".format(*parts)
         else:
             return None
 
@@ -102,12 +117,16 @@ class Facility(TimeStampedModel):
     def get_encoded_address(self):
         return quote_plus(unicode(",".join([unicode(self.address), unicode(self.city), unicode(self.state), unicode(self.zipcode)])))
 
-
-    class Meta:
-        verbose_name = "Facility"
-        verbose_name_plural = "Listing Management"
-
-
+    def get_days_since_vacancies_updated(self):
+        now = datetime.datetime.now()
+        time_since = now.date() - self.vacancies_updated.date()
+        if time_since.days == 0:
+            string = "Vacancies updated today"
+        elif time_since.days == 1:
+            string = "Vacancies updated yesterday"
+        else:
+            string = "Vacancies updated {0} days ago".format(str(time_since.days))
+        return string
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)

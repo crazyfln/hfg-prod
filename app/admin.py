@@ -19,7 +19,7 @@ from account.admin import UserAdmin
 from util.util import list_button
 from .admin_mixins import *
 from .models import *
-from .forms import FacilityAdminForm, FacilityProviderForm
+from .forms import FacilityAdminForm, FacilityProviderForm, FacilityImageInlineFormset
 
 class ManagerAdmin(AdminSite):
     def has_permission(self, request):
@@ -34,6 +34,7 @@ class FacilityFeeInline(admin.TabularInline):
 
 class FacilityImageInline(admin.TabularInline):
     model = FacilityImage
+    formset = FacilityImageInlineFormset
 
 class FacilityRoomInline(admin.TabularInline):
     model = FacilityRoom

@@ -130,21 +130,20 @@
     margin-top:30px;
     color: $secondary;
     font-size:46px;
-    font-weight:300;
-    font-family: $font5;
+    font-weight:100;
+    font-family: $primaryFont;
   }
 
   h2 {
     color:$button-orange;
-    font-weight:300;
     font-size:44px;
-     font-family: $font5;
+     font-family: $primaryFont;
   }
 
   p {
     font-size: 18px;
     margin-top:15px;
-     font-family: $font5;
+     font-family: $primaryFont;
   }
 }
 .home-info-holder {
@@ -159,22 +158,26 @@
     margin-bottom:70px;
     font-weight:300;
     font-size: 44px;
+    font-family: $primaryFont;
 
   }
 
   h2 {
     color:$secondary;
     font-weight:300;
+    font-family: $primaryFont;
   }
   p {
     color: $light;
     font-size:  20px;
     font-weight:200;
     width:80%;
+    font-family: $primaryFont;
   }
 
   a {
     text-decoration:none;
+    font-family: $primaryFont;
   }
 
   .desc-boxes {

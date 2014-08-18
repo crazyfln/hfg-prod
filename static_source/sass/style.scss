@@ -33,12 +33,12 @@ $bootstrap-sass-asset-helper: false;
 
 .container {
     width: 1040px !important;
-     min-width: 1040px !important;
+    min-width: 1040px !important;
     margin: 0 auto;
 }
 
 body {
-       min-width: 1040px !important;
+ min-width: 1040px !important;
 }
 
 #beige-body {
@@ -132,6 +132,10 @@ h2 {
 .background-beige {
     background-color: $beige-background;
 }
+
+.background-ghost {
+    background-color: $ghost-background;
+    }
 
 
 

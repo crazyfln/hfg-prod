@@ -12,6 +12,7 @@ ul.list-inline {
     padding: 18px;
     padding-left:25px;
     border: 1px solid $border;
+
 }
 
 #count-map {
@@ -39,6 +40,7 @@ ul.list-inline {
     ul.list-inline {
       background-color:$grey-background;
         margin-left:0px;
+        padding-left: 45px;
         li {
             padding:6px;
         }
@@ -96,3 +98,14 @@ a.carousel-control.thumb-control{
         margin-top:100px;
     }
 }
+
+#thumb-carousel {
+  img {
+    max-width:90%;
+  }
+}
+
+
+
+
+

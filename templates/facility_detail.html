@@ -236,7 +236,7 @@ Property
             {% elif user.is_authenticated %} <!-- User is logged in and has already submitted a tour request -->
               <button class='tour-button-inactive' >Request A tour</button>
             {% else %} <!-- User is not logged in -->
-              <button class='button-orange' data-toggle="modal" data-target='#Registration-Modal'> Request A tour</button>
+              <button class='button-orange' data-toggle="modal" data-target='#Registration-Modal-1'> Request A tour</button>
             {% endif %}
 
             <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>
@@ -268,7 +268,7 @@ $("#show-number-button").click(function() {
   {% elif user.is_authenticated %}
     return false;
   {% else %}
-    $('#Registration-Modal').modal('show')
+    $('#Registration-Modal-1').modal('show')
   {% endif %}
 });
 </script>

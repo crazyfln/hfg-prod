@@ -47,7 +47,7 @@
   background-color:rgba(0, 0, 0, .8,);
   padding:20px 20px 20px 20px;
   width: 747px;
-  height: 195px;
+  height: 215px;
   border-radius: 3px;
   margin: 0 auto;
   margin-top: 130px;
@@ -79,14 +79,13 @@
     border-radius:2px;
     border: none;
     padding-left: 15px;
+    margin-top:20px;
   }
 
   select {
     height: 40px;
     width: 215px;
   }
-
-
 
   h1 {
     color: $white;
@@ -130,21 +129,20 @@
     margin-top:30px;
     color: $secondary;
     font-size:46px;
-    font-weight:300;
-    font-family: $font5;
+    font-weight:100;
+    font-family: $primaryFont;
   }
 
   h2 {
     color:$button-orange;
-    font-weight:300;
     font-size:44px;
-     font-family: $font5;
+     font-family: $primaryFont;
   }
 
   p {
     font-size: 18px;
     margin-top:15px;
-     font-family: $font5;
+     font-family: $primaryFont;
   }
 }
 .home-info-holder {
@@ -159,22 +157,26 @@
     margin-bottom:70px;
     font-weight:300;
     font-size: 44px;
+    font-family: $primaryFont;
 
   }
 
   h2 {
     color:$secondary;
     font-weight:300;
+    font-family: $primaryFont;
   }
   p {
     color: $light;
     font-size:  20px;
     font-weight:200;
     width:80%;
+    font-family: $primaryFont;
   }
 
   a {
     text-decoration:none;
+    font-family: $primaryFont;
   }
 
   .desc-boxes {

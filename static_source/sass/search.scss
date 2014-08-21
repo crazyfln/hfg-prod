@@ -121,6 +121,13 @@ select {
 .search-choice-holder {
     display:inline-block;
 
+    span {
+        &:hover {
+            color:$secondary;
+            font-size:20px;
+        }
+    }
+
     a:hover {
         text-decoration:none;
     }
@@ -165,11 +172,11 @@ div#searchfield-amenities {
         outline:none;
         background: transparent;
         -webkit-appearance: none;
-=======
+
         select {
             @extend .select-mixin;
         }
->>>>>>> ce69977b42c05a6a238f6bd21db33591158b6a9c
+
     }
 }
 
@@ -191,7 +198,7 @@ div#searchfield-amenities {
 
             margin-left:5px;
             position:relative;
-            top:-2px;
+            top:2px;
         }
     }
 }
@@ -284,16 +291,16 @@ div#searchfield-amenities {
         float:left;
         height: 56px;
     }
-<<<<<<< HEAD
+
     .pagination-link:hover {
         text-decoration:none;
     }
-=======
+
 }
 
 //Pagination
 .page-links {
- font-size:16px; 
+ font-size:18px; 
 }
 
 
@@ -368,4 +375,4 @@ input.onoffswitch-checkbox[type='checkbox'] +label:before {
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
 }
->>>>>>> ce69977b42c05a6a238f6bd21db33591158b6a9c
+

@@ -45,6 +45,7 @@
         <center>
           <div class="modal-content">
             <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
               <center><h3>Login to Your Account</h3></center>
             </div>
             {% include 'snippets/login_modal.html' with form=login_form next=request.get_full_path %}
@@ -64,6 +65,7 @@
         <center>
           <div class="modal-content">
             <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
               <center><h3>List Your Property</h3></center>
             </div>
             <div class="modal-body padding-top-0">

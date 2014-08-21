@@ -9,11 +9,13 @@
   <p data-toggle="modal" data-target="#List-Property-Modal">List Your Property</p>
   <!-- <button class='button-orange right button-header' data-toggle="modal" data-target="#List-Property-Modal">List Your Property</button> -->
 
+  <a href="{% url 'about' %}" class="nav">About Us</a>
   <a class='nav' href="{% url 'profile' %}">My Saved </a>
   <a class='nav' href="{% url 'auth_logout' %}"> Logout</a>
-  <p class='right bold large-text no-hover'>1 (800) 434-0324</p>
+  <a class='nav nav-call' href='tel:18004340324'>1 (800) 434-0324</a>
 
   {% else %}
+  <a href="{% url 'about' %}" class="nav">About Us</a>
   <p class='list-prop' data-toggle="modal" data-target="#List-Property-Modal">List Your Property</p>
   <p data-toggle="modal" data-target="#Registration-Modal-1">Create Account</p>
   <p data-toggle="modal" data-target="#Login-Modal">Login</p>
@@ -21,6 +23,6 @@
   <!-- <button class="button-orange right button-header" data-toggle="modal" data-target="#Registration-Modal-1">Create Account</button> -->
   <!-- <button class="button-blue right button-header" data-toggle="modal" data-target="#Login-Modal">Login</button> -->
 
-  <p class='right large-text no-hover'>1 (800) 434-0324</p>
+  <a class='nav nav-call' href='tel:18004340324'>1 (800) 434-0324</a>
   {% endif %}
 </div>

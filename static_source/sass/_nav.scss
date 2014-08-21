@@ -50,6 +50,12 @@
         }
     }
 
+    a.nav-call {
+        &:hover {
+            color:$secondary;
+        }
+    }
+
     p.no-hover {
         cursor:default;
 

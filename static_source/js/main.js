@@ -31,13 +31,13 @@ $(document).ready(function(){
     if (bgIndex > bgImageNumber) {
       bgIndex = 1;
     };
-    $('.home-background').animate({ opacity:.5}, function() {
+    $('.home-background').animate({ opacity:.9}, function() {
         $(this).removeClass('home-bg-image-' + oldIndex).addClass('home-bg-image-' + bgIndex).animate({ opacity:1})
         oldIndex = bgIndex
         bgIndex++    
     });
 
-  }, 10000)
+  }, 5000)
 
   $('.count').click(function() {
     $('#facility-carousel').show()

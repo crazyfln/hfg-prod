@@ -140,7 +140,7 @@ $(document).ready(function(){
             });
         }
         else if ($(this).data('logged_in') == 'no'){
-            $('#Login-Modal').modal('show')
+            $('#Registration-Modal-1').modal('show')
         }
         return false;
     });

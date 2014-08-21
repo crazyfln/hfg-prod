@@ -33,6 +33,10 @@
         <p class='from'>From</p>
         <p class="listing-price">{{ facility.get_min_price }}</p>
       </div>
+      <div class='beds right'>
+        <img class='bed-img' src="{% static 'img/bed.png' %}"/>
+        <span class='bed-number'>{{ facility.capacity }}</span>
+      </div>
       <div class="clear"></div>
       <hr>
       <p class="listing-else">{{ facility.description_short|truncatechars:28 }}</p>

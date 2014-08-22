@@ -121,6 +121,13 @@ select {
 .search-choice-holder {
     display:inline-block;
 
+    span {
+        &:hover {
+            color:$secondary;
+            font-size:20px;
+        }
+    }
+
     a:hover {
         text-decoration:none;
     }

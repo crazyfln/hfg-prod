@@ -24,7 +24,7 @@ Property
 
               </div>
             {% else %}
-              <div class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Registration-Modal" data-toggle="tooltip" data-placement="top" title="Save to favorites">
+              <div class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Registration-Modal-1" data-toggle="tooltip" data-placement="top" title="Save to favorites">
                 <img class'heart-not-hearted' src='{% static 'img/icon_not_hearted.png' %}'/>
               </div>
             {% endif %}
@@ -236,13 +236,13 @@ Property
             {% elif user.is_authenticated %} <!-- User is logged in and has already submitted a tour request -->
               <button class='tour-button-inactive' >Request A tour</button>
             {% else %} <!-- User is not logged in -->
-              <button class='button-orange' data-toggle="modal" data-target='#Registration-Modal'> Request A tour</button>
+              <button class='button-orange' data-toggle="modal" data-target='#Registration-Modal-1'> Request A tour</button>
             {% endif %}
 
             <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>
             <p class='steps'>1. Contact community for a tour.</p>
             <p class='steps'>2. Mention HomeForGrandma.com</p>
-            <p class='steps'>3. After you move in, call <br/>1(800) 434-0324 or <br><a href="/contact">Claim Reward Online</a></p>
+            <p class='steps'>3. After you move in, call <br/> <a href='tel:18004340324'>1(800) 434-0324</a> or <br><a href="/contact">Claim Reward Online</a></p>
         </div>
         <div class="clear"></div>
       </div>
@@ -268,7 +268,7 @@ $("#show-number-button").click(function() {
   {% elif user.is_authenticated %}
     return false;
   {% else %}
-    $('#Registration-Modal').modal('show')
+    $('#Registration-Modal-1').modal('show')
   {% endif %}
 });
 </script>

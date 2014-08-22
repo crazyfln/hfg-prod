@@ -23,7 +23,7 @@ div.ui-tooltip.ui-widget {
     cursor:pointer;
     margin-bottom: 15px;
 
-    img {
+    img.preview-pic {
         width: 315px;
         margin-left:-15px;
         height: 215px;
@@ -100,6 +100,20 @@ div.ui-tooltip.ui-widget {
         margin-top: 35px;
         position: relative;
         float:left;
+    }
+
+    img.bed-img {
+        position:relative;
+        height:100%;
+        margin:0 !important;
+    }
+
+    .beds {
+        color:$primary;
+        font-size:18px;
+        .bed-number {
+
+        }
     }
 
     .from {

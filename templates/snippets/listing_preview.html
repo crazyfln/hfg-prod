@@ -11,12 +11,12 @@
           <img class='heart-not-hearted'{% if user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_not_hearted.png' %}"/>
         </div>
       {% else %}
-        <div class="heart-holder" data-logged_in='no' data-toggle="modal" data-target="#Login-Modal" data-toggle="tooltip" data-placement="top" title="Save to favorites">
+        <div class="heart-holder" data-logged_in='no' data-toggle="modal tooltip" data-target="#Registration-Modal-1" data-placement="top" title="Save to favorites">
           <img class='heart-not-hearted' src="{% static 'img/icon_not_hearted.png' %}"/>
         </div>
       {% endif %}
 
-      <img src="{{ facility.get_featured_image.image|thumbnail_url:'listing_preview' }}"/>
+      <img class='preview-pic' src="{{ facility.get_featured_image.image|thumbnail_url:'listing_preview' }}"/>
       <div class="clear"></div>
       <div class='truncate-extra listing-tag'>
         {% for type in facility.facility_types.all %}
@@ -32,6 +32,10 @@
       <div class='listing-from-price-holder'>
         <p class='from'>From</p>
         <p class="listing-price">{{ facility.get_min_price }}</p>
+      </div>
+      <div class='beds right'>
+        <img class='bed-img' src="{% static 'img/bed.png' %}"/>
+        <span class='bed-number'>{{ facility.capacity }}</span>
       </div>
       <div class="clear"></div>
       <hr>

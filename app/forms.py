@@ -68,7 +68,7 @@ class ContactForm(forms.Form):
 
 class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
     comments = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"27"}),
+        widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"37"}),
         required=False
     )
     move_in_time_frame = forms.ChoiceField(

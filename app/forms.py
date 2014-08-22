@@ -84,7 +84,7 @@ class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
         required=False
     )
     health_description = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}),
+        widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"37"}),
         required=False
     )
     desired_city = forms.CharField(

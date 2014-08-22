@@ -21,7 +21,7 @@ SEARCH_MAX_VAL_INITIAL = "9000"
 
 class SearchForm(forms.Form):
     query = forms.CharField(required=False, label='search', 
-                    widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Community Name'}))
+                    widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Community Name', 'autofocus':'autofocus' }))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(

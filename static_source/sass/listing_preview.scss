@@ -102,6 +102,21 @@ div.ui-tooltip.ui-widget {
         float:left;
     }
 
+    .bed-img {
+        position:relative;
+        top:4px;
+        width:40px;
+        height:100%;
+    }
+
+    .beds {
+        color:$primary;
+        font-size:18px;
+        .bed-number {
+
+        }
+    }
+
     .from {
         text-transform: uppercase;
         color: $light;

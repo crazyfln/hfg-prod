@@ -45,7 +45,7 @@ class ListPropertyForm(forms.Form):
         send_mail(
                 subject="Home For Grandma: Listing Request from" + who + num,
                 message = message + "from: " + who,
-                from_email=self.cleaned_data['email'],
+                from_email=self.cleaned_data['phone_num'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )
 

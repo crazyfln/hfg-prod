@@ -19,7 +19,7 @@ STATIC_URL = '/static/'
 DEBUG= False
 
 
-CONTACT_EMAIL = 'hello@homeforgrandma.com'
+CONTACT_EMAIL = 'info@homeforgrandma.com'
 
 redis_url = urlparse.urlparse(os.environ.get('REDISTOGO_URL', 'redis://localhost:6959'))
 CACHES = {

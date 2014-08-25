@@ -36,14 +36,17 @@ class ListPropertyForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First Name'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'Email'}))
+    phone_num = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Phone Number'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Description'}))
+
 
     def send_email(self):
         message = self.cleaned_data['description'] + "<br/>"
         who = self.cleaned_data['first_name']
+        num = self.cleaned_data['phone_num']
         send_mail(
                 subject="Home For Grandma: Listing Request from" + who,
-                message = message + "from: " + who,
+                message = message + "from: " + who + num,
                 from_email=self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )

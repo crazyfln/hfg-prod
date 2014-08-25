@@ -4,7 +4,7 @@
 
   <div class="modal fade" id="tour-modal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-     
+
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -12,9 +12,15 @@
         <center>
           <div class="modal-body margin-top-10">
             <center>
+              <div class="align-left">
+                <h1>LEAVE A MESSAGE</h1>
+              </div>
               {{ form.errors }}
               {{ form.comments }}
               <div class="clear"></div>
+              <div class="align-left">
+                <h1>REQUEST A TOUR DATE</h1>
+              </div>
               <div id="planned_move_date_holder">
                 {{ form.planned_move_date }}
 
@@ -31,7 +37,7 @@
   </div>
   <div class="modal fade" id="tour-modal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      
+
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -91,7 +97,7 @@
 
  <div class="modal fade" id="tour-modal-3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    
+
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -133,10 +139,14 @@
             {{ form.care_wandering.label_tag }}
             <p class="checkbox-label">Wandering</p>
             <div class="clear"></div>
-            <h1>LEAVE A NOTE (OPTIONAL):</h1>
+            <h1>HEALTH DESCRIPTION (OPTIONAL):</h1>
             <div class="clear"></div>
             {{ form.health_description }}
             <div class="clear"></div>
+
+
+            {% comment %}
+           <!--  asked to remove because modal too long -->
             <h1>PREFERRED METHOD OF CONTACT:</h1>
             <div class="clear"></div>
             <div class="custom-radio-holder">
@@ -145,6 +155,13 @@
               <div class="clear"></div>
               {% endfor %}
             </div>
+
+
+            {% endcomment %}
+
+
+
+
           </div>
           <div class="clear"></div>
         </div>

@@ -35,7 +35,7 @@ class SearchForm(forms.Form):
 class ListPropertyForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First Name'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'Email'}))
+    phone_num = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'Phone'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Description'}))
 
     def send_email(self):

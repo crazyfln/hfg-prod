@@ -75,10 +75,10 @@
         cursor:pointer;
     }
     input:focus {
-        outline:none;
-        border-color:$border;
-        box-shadow:0 0 10px $secondary;
-        z-index:-2;
+        outline-color:#008185;
+        // border-color:$border;
+        // box-shadow:0 0 10px $secondary;
+        // z-index:-2;
     }
 }
 
@@ -116,15 +116,13 @@ a.push {
 
 
 #id_first_name, #id_last_name, #id_email, #id_password1, #id_password2, #id_username, #id_password, #id_name, #id_party_type,
-#id_new_password1, #id_new_password2, #id_old_password, #id_phone, #id_phone_number {
+#id_new_password1, #id_new_password2, #id_old_password, #id_phone, #id_phone_num {
     @extend %abstract-form-dimensions;
 }
 
 #id_phone {
     height:40px;
 }
-
-
 
 
 //custom inputs for forgot password flow 
@@ -139,8 +137,16 @@ a.push {
     padding-left:20px;
     height:130px;
     border: 1px solid $border;
-    // outline:none;
     padding-top: 15px;
+
+
+}
+
+#id_description:focus {
+        outline-color:#008185;
+        // border-color:$border;
+        // box-shadow:0 0 10px $secondary;
+        // z-index:-2;
 }
 
 

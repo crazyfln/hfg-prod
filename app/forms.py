@@ -35,7 +35,7 @@ class SearchForm(forms.Form):
 class ListPropertyForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First Name'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
-    phone_num = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'Phone'}))
+    phone_num = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Phone Number'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Description'}))
 
     def send_email(self):
@@ -44,8 +44,8 @@ class ListPropertyForm(forms.Form):
         num = self.cleaned_data['phone_num']
         send_mail(
                 subject="Home For Grandma: Listing Request from" + who + num,
-                message = message + "from: " + who,
-                from_email=self.cleaned_data['phone_num'],
+                message = message + "from: " + who, 
+                # from_email=self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )
 

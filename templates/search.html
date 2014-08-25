@@ -10,7 +10,7 @@ Search
 
 {% block content %}
 <div class="background-beige">
-<div class="container padder-100">
+  <div class="container search-container-left padder-100">
     {% include 'snippets/searchbox.html' with form=form %}
     <div id="search-results ">
       {% for listing in object_list %}
@@ -21,8 +21,8 @@ Search
         {% if forloop.counter|divisibleby:"3" or forloop.last %}
           </div>
         {% endif %}
-        {% empty %}
-        <center><h2 class='empty'>We are busy adding thousands of listing to our website. We’re sorry, your search didn’t return any of our currently listed communities. Our advisors can still help give us a call at 1(800) 434-0324.</h2></center>
+      {% empty %}
+          <center><h2 class='empty'>We are busy adding thousands of listing to our website. We’re sorry, your search didn’t return any of our currently listed communities. Our advisors can still help give us a call at 1(800) 434-0324.</h2></center>
       {% endfor %}
       {% if is_paginated %}
         <div class="pagination">
@@ -42,13 +42,19 @@ Search
             {% endif %}
           </span>
         </div>
-    {% endif %}
+      {% endif %}
     </div>
-</div>
+  </div>
+  <div id='map-canvas'>
+
+  </div>
 </div>
 
 {% endblock content %}
 {% block body_media %}
+
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbW9DKdzlTll5WQHJ4KCMTMNMlSUimv2A"></script>
   <script>
     min_val = $('#id_min_value').attr('value');
     if (min_val == undefined){
@@ -59,6 +65,15 @@ Search
       max_val = {{ real_max_val }};
     }
 
-  </script>
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 8
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 
 {% endblock body_media %}

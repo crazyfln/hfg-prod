@@ -4,12 +4,12 @@
 
   <div class="modal fade" id="tour-modal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
+      <center>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          </div>
 
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        </div>
-        <center>
           <div class="modal-body margin-top-10">
             <center>
               <div class="align-left">
@@ -35,14 +35,14 @@
       </center>
     </div>
   </div>
-  <div class="modal fade" id="tour-modal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <center>
+    <div class="modal fade" id="tour-modal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          </div>
 
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        </div>
-        <center>
           <div class="modal-body margin-top-10">
             <div class="align-left">
               <h1>WHO ARE YOU SEARCHING FOR?</h1>
@@ -81,93 +81,90 @@
               <h1>WHAT IS YOUR BUDGET?</h1>
               <div class="clear"></div>
               <div class="custom-radio-holder">
-               {% for option in form.budget %}
-               {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
-               <div class="clear"></div>
-               {% endfor %}
-             </div>
-           </div>
-         </div>
-         <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-1">BACK</button>
-         <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-3">NEXT</button>
-       </div>
-     </center>
-   </div>
- </div>
-
- <div class="modal fade" id="tour-modal-3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      </div>
-      <center>
-        <div class="modal-body margin-top-10">
-          <div class="align-left">
-            <h1>WILL RESIDENT NEED SPECIAL CARE?</h1>
-            <div class="clear"></div>
-            {{ form.care_bathing }}
-            {{ form.care_bathing.label_tag }}
-            <p class="checkbox-label">Bathing</p>
-            <div class="clear"></div>
-            {{ form.care_diabetic }}
-            {{ form.care_diabetic.label_tag }}
-            <p class="checkbox-label">Diabetic Care</p>
-            <div class="clear"></div>
-            {{ form.care_medical_assistance }}
-            {{ form.care_medical_assistance.label_tag }}
-            <p class="checkbox-label">Medical Assistance</p>
-            <div class="clear"></div>
-            {{ form.care_toileting }}
-            {{ form.care_toileting.label_tag }}
-            <p class="checkbox-label">Toileting</p>
-            <div class="clear"></div>
-            {{ form.care_memory_issues }}
-            {{ form.care_memory_issues.label_tag }}
-            <p class="checkbox-label">Memory Issues</p>
-            <div class="clear"></div>
-            {{ form.care_diagnosed_memory }}
-            {{ form.care_diagnosed_memory.label_tag }}
-            <p class="checkbox-label">Diagnosed Memory Condition</p>
-            <div class="clear"></div>
-            {{ form.care_combinative }}
-            {{ form.care_combinative.label_tag }}
-            <p class="checkbox-label">Combative</p>
-            <div class="clear"></div>
-            {{ form.care_wandering }}
-            {{ form.care_wandering.label_tag }}
-            <p class="checkbox-label">Wandering</p>
-            <div class="clear"></div>
-            <h1>HEALTH DESCRIPTION (OPTIONAL):</h1>
-            <div class="clear"></div>
-            {{ form.health_description }}
-            <div class="clear"></div>
-
-
-            {% comment %}
-           <!--  asked to remove because modal too long -->
-            <h1>PREFERRED METHOD OF CONTACT:</h1>
-            <div class="clear"></div>
-            <div class="custom-radio-holder">
-              {% for option in form.preferred_contact %}
-              {{ option.tag }} <label for="id_preferred_contact_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
-              <div class="clear"></div>
-              {% endfor %}
+                {% for option in form.budget %}
+                {{ option.tag }} <label for="id_budget_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
+                <div class="clear"></div>
+                {% endfor %}
+              </div>
             </div>
-
-
-            {% endcomment %}
-
-
-
-
           </div>
-          <div class="clear"></div>
+          <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-1">BACK</button>
+          <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-3">NEXT</button>
         </div>
-        <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-2">BACK</button>
-        <button type="submit" class="button-blue">Done</button>
-      </div>
-    </center>
+      </center>
+    </div>
+  </div>
+
+  <div class="modal fade" id="tour-modal-3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <center>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close button-requeest-tour-custom" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          </div>
+          <div class="modal-body margin-top-10">
+            <div class="align-left">
+              <h1>WILL RESIDENT NEED SPECIAL CARE?</h1>
+              <div class="clear"></div>
+              {{ form.care_bathing }}
+              {{ form.care_bathing.label_tag }}
+              <p class="checkbox-label">Bathing</p>
+              <div class="clear"></div>
+              {{ form.care_diabetic }}
+              {{ form.care_diabetic.label_tag }}
+              <p class="checkbox-label">Diabetic Care</p>
+              <div class="clear"></div>
+              {{ form.care_medical_assistance }}
+              {{ form.care_medical_assistance.label_tag }}
+              <p class="checkbox-label">Medical Assistance</p>
+              <div class="clear"></div>
+              {{ form.care_toileting }}
+              {{ form.care_toileting.label_tag }}
+              <p class="checkbox-label">Toileting</p>
+              <div class="clear"></div>
+              {{ form.care_memory_issues }}
+              {{ form.care_memory_issues.label_tag }}
+              <p class="checkbox-label">Memory Issues</p>
+              <div class="clear"></div>
+              {{ form.care_diagnosed_memory }}
+              {{ form.care_diagnosed_memory.label_tag }}
+              <p class="checkbox-label">Diagnosed Memory Condition</p>
+              <div class="clear"></div>
+              {{ form.care_combinative }}
+              {{ form.care_combinative.label_tag }}
+              <p class="checkbox-label">Combative</p>
+              <div class="clear"></div>
+              {{ form.care_wandering }}
+              {{ form.care_wandering.label_tag }}
+              <p class="checkbox-label">Wandering</p>
+              <div class="clear"></div>
+              <h1>HEALTH DESCRIPTION (OPTIONAL):</h1>
+              <div class="clear"></div>
+              {{ form.health_description }}
+              <div class="clear"></div>
+
+
+              {% comment %}
+              <!--  asked to remove because modal too long -->
+              <h1>PREFERRED METHOD OF CONTACT:</h1>
+              <div class="clear"></div>
+              <div class="custom-radio-holder">
+                {% for option in form.preferred_contact %}
+                {{ option.tag }} <label for="id_preferred_contact_{{ option.index }}"><span class="label-text">{{ option.choice_label }}</span></label>
+                <div class="clear"></div>
+                {% endfor %}
+              </div>
+
+              {% endcomment %}
+
+            </div>
+            <div class="clear"></div>
+          </div>
+          <button type="button" class="button-orange" data-dismiss="modal" data-toggle="modal" data-target="#tour-modal-2">BACK</button>
+          <button type="submit" class="button-blue">Done</button>
+        </div>
+      </center>
+    </div>
   </div>
 </div>
+

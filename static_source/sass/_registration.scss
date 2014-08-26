@@ -1,10 +1,18 @@
 .registration-box {
+
+
     height: 100%;
     border: 1px solid $border;
     background-color: $white;
     width: 430px;
     margin: 0 auto;
-    padding: 20px 30px 20px 30px;
+    padding: 20px 0px 20px 0px;
+
+    hr {
+        margin:1px 0 1px 0 !important;
+        height:1px;
+        background-color:#ccc;
+    }
 
 
     input {
@@ -36,6 +44,8 @@
 
     hr {
         margin:1px 0 1px 0 !important;
+        height:1px;
+        background-color:#ccc;
     }
 
     .modal-header {
@@ -270,10 +280,11 @@ a.push {
 ul.errorlist {
     padding-left: 10px;
     padding-top:10px;
-    li {
 
+    li {
         list-style: none;
         color: red;
+        margin-left: 10px;
     }
 }
 
@@ -281,6 +292,7 @@ p.errors {
     color: red;
     padding-left: 10px;
     padding-top:10px;
+    margin-left:10px;
 
 }
 

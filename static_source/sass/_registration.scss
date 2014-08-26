@@ -110,8 +110,8 @@ a.push {
 }
 
 %abstract-form-with-border {
-   border-left: 1px solid $border;
-   border-right: 1px solid $border;
+ border-left: 1px solid $border;
+ border-right: 1px solid $border;
 }
 
 
@@ -143,11 +143,11 @@ a.push {
 }
 
 #id_description:focus {
-        outline-color:#008185;
+    outline-color:#008185;
         // border-color:$border;
         // box-shadow:0 0 10px $secondary;
         // z-index:-2;
-}
+    }
 
 
 // modal custom inputs below for requesting
@@ -216,6 +216,10 @@ a.push {
 
 #id_planned_move_date {
     @include tour-input;
+    background: image-url('img/icon_cal.png') no-repeat;
+    background-position-x: 235px;
+    background-position-y: 15px;
+
 }
 
 #id_desired_city {
@@ -286,14 +290,15 @@ p.errors {
 }
 
 #planned_move_date_holder {
+
     position:relative;
 }
 
-img.cal-icon {
-    position:absolute;
-    margin-left:-33px;
-    margin-top:13px;
-}
+// img.cal-icon {
+//     position:absolute;
+//     margin-left:-33px;
+//     margin-top:13px;
+// }
 
 p.list-prop-header {
     width:80%;

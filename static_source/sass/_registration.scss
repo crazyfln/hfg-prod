@@ -34,6 +34,10 @@
 
 .modal {
 
+    hr {
+        margin:1px 0 1px 0 !important;
+    }
+
     .modal-header {
         border-bottom:none;
     }
@@ -101,7 +105,7 @@ a.push {
     color: $dark;
     padding-left: 20px;
     // outline:none;
-    border: 1px solid $border;
+    border: none !important;
     margin-top: -1px;
     border-left:none;
     border-right:none;
@@ -110,8 +114,8 @@ a.push {
 }
 
 %abstract-form-with-border {
- border-left: 1px solid $border;
- border-right: 1px solid $border;
+   border-left: 1px solid $border;
+   border-right: 1px solid $border;
 }
 
 
@@ -188,9 +192,11 @@ a.push {
         margin-bottom:15px;
     }
 
-    hr {
-        margin: 5px;
-    }
+    // hr {
+    //     margin: 5px;
+    // }
+
+
 
     button {
         width: 259px;
@@ -219,7 +225,6 @@ a.push {
     background: image-url('img/icon_cal.png') no-repeat;
     background-position-x: 235px;
     background-position-y: 15px;
-
 }
 
 #id_desired_city {

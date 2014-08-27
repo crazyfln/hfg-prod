@@ -149,7 +149,11 @@ a.push {
 #id_phone {
     height:40px;
     padding-left:10px;
+}
 
+//overridding background property of above abstract
+#id_name, #id_email {
+    border: 1px solid $border !important;
 }
 
 

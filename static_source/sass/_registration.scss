@@ -36,7 +36,7 @@
     }
     //input focus for inputs in error pages, after modals
      input:focus {
-        outline-color:#008185;
+        outline-color:$secondary;
     }
 
     p {
@@ -142,8 +142,18 @@ a.push {
     @extend %abstract-form-dimensions;
 }
 
+.non-modal-input-border {
+    border: 1px solid #DEDDDD;
+}
+
 #id_phone {
     height:40px;
+    padding-left:10px;
+}
+
+//overridding background property of above abstract
+#id_name, #id_email {
+    border: 1px solid $border !important;
 }
 
 
@@ -181,6 +191,7 @@ a.push {
     border-radius: 4px;
     padding:10px 15px;
     resize:none;
+     outline-color:$secondary;
     // outline:none;
 }
 
@@ -244,6 +255,8 @@ a.push {
     background-position-x: 235px;
     background-position-y: 15px;
 }
+
+
 
 #id_desired_city {
     @include tour-input;

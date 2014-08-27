@@ -8,7 +8,7 @@ import urllib
 from app.views import *
 from app.forms import SEARCH_MIN_VAL_INITIAL, SEARCH_MAX_VAL_INITIAL
 
-@override_settings(STATICFILES_STORAGE='pipeline.storage.NonPackagingPipelineStorage',
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage',
                    PIPELINE_ENABLED=False)
 
 class ViewTest(TestCase):
@@ -22,7 +22,7 @@ class ViewTest(TestCase):
         """
         Tests index GET request
         """
-        response = self.client.get(reverse('index'))     
+        response = self.client.get(reverse('index'))
         expected = 200
         actual = response.status_code
         self.assertEqual(expected, actual)
@@ -51,11 +51,11 @@ class ViewTest(TestCase):
         Tests facility detail GET request without a user logged in
         """
         facility = mommy.make('app.Facility')
-        facility_url = reverse('facility_details', 
+        facility_url = reverse('facility_details',
                                 kwargs={'slug':facility.slug})
         request = self.factory.get(facility_url)
         request.user = self.anonymous_user
-        response = FacilityDetail.as_view()(request, slug=facility.slug) 
+        response = FacilityDetail.as_view()(request, slug=facility.slug)
         self.assertEqual(response.status_code, 200)
 
     def test_facility_details_loggedin_get(self):
@@ -63,11 +63,11 @@ class ViewTest(TestCase):
         Tests facility detail GET request with a user logged in
         """
         facility = mommy.make('app.Facility')
-        facility_url = reverse('facility_details', 
+        facility_url = reverse('facility_details',
                                 kwargs={'slug':facility.slug})
         request = self.factory.get(facility_url)
         request.user = self.user
-        response = FacilityDetail.as_view()(request, slug=facility.slug) 
+        response = FacilityDetail.as_view()(request, slug=facility.slug)
         self.assertEqual(response.status_code, 200)
 
     def test_facility_not_visibile_details_get(self):
@@ -75,11 +75,11 @@ class ViewTest(TestCase):
         Tests facility detail GET request if visibility is set to false
         """
         facility = mommy.make('app.Facility', visibility=False)
-        facility_url = reverse('facility_details', 
+        facility_url = reverse('facility_details',
                                 kwargs={'slug':facility.slug})
         request = self.factory.get(facility_url)
         request.user = self.anonymous_user
-        self.assertRaises(PermissionDenied, FacilityDetail.as_view(),request, slug=facility.slug) 
+        self.assertRaises(PermissionDenied, FacilityDetail.as_view(),request, slug=facility.slug)
 
     def test_search_get(self):
         """
@@ -113,7 +113,7 @@ class FacilityModelMethodTest(TestCase):
         method_return = self.facility.get_phone_parts()
         self.assertEqual(first_part, method_return[0])
         self.assertEqual(second_part, method_return[1])
-        self.assertEqual(third_part, method_return[2])       
+        self.assertEqual(third_part, method_return[2])
 
     def test_facility_get_phone_stars(self):
         self.facility.phone = "1113334444"
@@ -144,7 +144,7 @@ class UserModelMethodTest(TestCase):
         self.holding_group = mommy.make('account.HoldingGroup')
         self.regular_user = mommy.make('account.User')
         self.hg_user = mommy.make('account.User', holding_group=self.holding_group)
-        
+
     def test_is_provider(self):
         self.assertTrue(self.hg_user.is_provider())
         self.assertFalse(self.regular_user.is_provider())
@@ -160,7 +160,7 @@ class FavoriteTest(TestCase):
         Tests whether favorite relationship is created between user and facility
         """
         facility = mommy.make('app.Facility')
-        favorite_url = reverse('favorite', 
+        favorite_url = reverse('favorite',
                         kwargs={'slug':facility.slug})
         favorite_url += '?next=/'
         request = self.factory.get(favorite_url)

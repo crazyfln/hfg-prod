@@ -4,7 +4,7 @@
 
 <div id='main' class="background-beige padder-100 margin-top-80">
     <div class="registration-box">
-       <center> <h3>Signup</h3></center>
+       <center> <h3>Login</h3></center>
        <form method="post" action="{% url 'django.contrib.auth.views.login' %}?next={{ next }}">
         {% csrf_token %}
         <hr>

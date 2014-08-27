@@ -1,6 +1,4 @@
 .registration-box {
-
-
     height: 100%;
     border: 1px solid $border;
     background-color: $white;
@@ -35,6 +33,14 @@
         color:$secondary;
         margin-top: 15px;
         display:block;
+    }
+    //input focus for inputs in error pages, after modals
+     input:focus {
+        outline-color:#008185;
+    }
+
+    p {
+        color:$secondary;
     }
 
 }
@@ -88,6 +94,7 @@
         color:$secondary;
         cursor:pointer;
     }
+    //input focus for inputs in modals
     input:focus {
         outline-color:#008185;
         // border-color:$border;
@@ -95,6 +102,7 @@
         // z-index:-2;
     }
 }
+
 
 .login-b {
     margin-left: 25px;

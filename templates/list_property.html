@@ -3,13 +3,41 @@
 
 {% block content %}
 
-<div id='main' class="background-beige padder-100 margin-top-80">
+<div class="background-beige padder-100 margin-top-80">
     <div class="registration-box">
-      {% include 'snippets/list_property_form.html' with form=form %}
+        <center>
+            <h3>List Your Property</h3>
+            <p class='list-prop-header'>If you'd like to list your community please fill the form below and our agents will contact you shortly, or you can give us a call at 1(800) 434-0324</p>
+        </center>
+
+        <form action="{% url 'list_property' %}" method='post'>
+            {% csrf_token %}
+            <hr>
+            {{ form.first_name }}
+            <hr>
+            {{ form.first_name.errors }}
+            <hr>
+            {{ form.last_name }}
+            <hr>
+            {{ form.first_name.errors }}
+            <hr>
+            {{ form.phone_num }}
+            <hr>
+            {{ form.phone_num.errors }}
+            <hr>
+            {{ form.email }}
+            <hr>
+            {{ form.email.errors }}
+
+            {{ form.description }}
+            {{ form.description.errors }}
+
+            <center> <button type="submit" class="button-blue submit-b">Create</button></center>
+        </form>
     </div>
 </div>
 
 {% endblock %}
 
 
- <!-- in base.html -->
+<!-- in base.html -->

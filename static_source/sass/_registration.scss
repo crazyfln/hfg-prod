@@ -4,7 +4,13 @@
     background-color: $white;
     width: 430px;
     margin: 0 auto;
-    padding: 20px 30px 20px 30px;
+    padding: 20px 0px 20px 0px;
+
+    hr {
+        margin:1px 0 1px 0 !important;
+        height:1px;
+        background-color:#ccc;
+    }
 
 
     input {
@@ -28,11 +34,25 @@
         margin-top: 15px;
         display:block;
     }
+    //input focus for inputs in error pages, after modals
+     input:focus {
+        outline-color:#008185;
+    }
+
+    p {
+        color:$secondary;
+    }
 
 }
 
 
 .modal {
+
+    hr {
+        margin:1px 0 1px 0 !important;
+        height:1px;
+        background-color:#ccc;
+    }
 
     .modal-header {
         border-bottom:none;
@@ -74,6 +94,7 @@
         color:$secondary;
         cursor:pointer;
     }
+    //input focus for inputs in modals
     input:focus {
         outline-color:#008185;
         // border-color:$border;
@@ -81,6 +102,7 @@
         // z-index:-2;
     }
 }
+
 
 .login-b {
     margin-left: 25px;
@@ -101,7 +123,7 @@ a.push {
     color: $dark;
     padding-left: 20px;
     // outline:none;
-    border: 1px solid $border;
+    border: none !important;
     margin-top: -1px;
     border-left:none;
     border-right:none;
@@ -110,8 +132,8 @@ a.push {
 }
 
 %abstract-form-with-border {
- border-left: 1px solid $border;
- border-right: 1px solid $border;
+   border-left: 1px solid $border;
+   border-right: 1px solid $border;
 }
 
 
@@ -188,9 +210,11 @@ a.push {
         margin-bottom:15px;
     }
 
-    hr {
-        margin: 5px;
-    }
+    // hr {
+    //     margin: 5px;
+    // }
+
+
 
     button {
         width: 259px;
@@ -219,7 +243,6 @@ a.push {
     background: image-url('img/icon_cal.png') no-repeat;
     background-position-x: 235px;
     background-position-y: 15px;
-
 }
 
 #id_desired_city {
@@ -265,10 +288,11 @@ a.push {
 ul.errorlist {
     padding-left: 10px;
     padding-top:10px;
-    li {
 
+    li {
         list-style: none;
         color: red;
+        margin-left: 10px;
     }
 }
 
@@ -276,6 +300,7 @@ p.errors {
     color: red;
     padding-left: 10px;
     padding-top:10px;
+    margin-left:10px;
 
 }
 

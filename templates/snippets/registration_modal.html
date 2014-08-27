@@ -19,18 +19,13 @@
           </div>
           <div class="modal-body">
             {% csrf_token %}
-            <table>
-              <tr>
-                <td>{{ registration_form.first_name }}</td>
-              </tr>
-              <tr>
-                <td>{{ registration_form.last_name }}</td>
-              </tr>
-              <tr>
-                <td>{{ registration_form.phone_number }}</td>
-              </tr>
-            </table>
-
+            <hr>
+            {{registration_form.first_name }}
+            <hr>
+            {{ registration_form.last_name }}
+            <hr>
+            {{ registration_form.phone_number }}
+            <hr>
             <br>
             <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal"  data-target="#Registration-Modal-2">NEXT</button>
             <!-- replace the above button class with the class(es) you make in _buttons.scss -->
@@ -58,21 +53,14 @@
           </center>
         </div>
 
-
         <div class="modal-body">
-          
-          <table>
-            <tr>
-              <td>{{ registration_form.email }}</td>
-            </tr>
-            <tr>
-              <td>{{ registration_form.password1 }}</td>
-            </tr>
-            <tr>
-              <td>{{ registration_form.password2 }}</td>
-            </tr>
-          </table>
-
+          <hr>
+          {{ registration_form.email }}
+          <hr>
+          {{ registration_form.password1 }}
+          <hr>
+          {{ registration_form.password2 }}
+          <hr>
             <!-- <button type="button" class="button-blue" data-dismiss="modal" data-toggle="modal"  data-target="#Registration-Modal-1">BACK</button>
             <button type="submit" class="button-blue submit-b">Submit</button> -->
 

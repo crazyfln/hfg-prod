@@ -7,7 +7,15 @@ Home For Grandma
 {% block content %}
 {% load static from staticfiles %}
 <div class="home-background home-bg-image-1">
-  <div class="container" id=''>
+  <div class="container" style='position:relative;' id=''>
+
+    {% for message in messages %}   
+    <div style='' class="alert alert-success alert-dismissible" role="alert">
+      <button style='margin-left: 10px;'type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+     {{ message }} 
+    </div>
+    {% endfor %}
+
     <div class="search-holder" style=''>
       <div class="transparent-holder"></div>
       <div class="content-holder">
@@ -43,10 +51,10 @@ Home For Grandma
 
       <center>
         <a href='{% url 'receive_reward' %}'>
-        <img src='{% static 'img/icon_gift.png' %}'/>
-        <h2>$200 gift for move-in</h2>
-        <p>Receive a $200 reward when you move into a community.</p>
-      </a>
+          <img src='{% static 'img/icon_gift.png' %}'/>
+          <h2>$200 gift for move-in</h2>
+          <p>Receive a $200 reward when you move into a community.</p>
+        </a>
       </center>
 
 
@@ -62,10 +70,10 @@ Home For Grandma
     <div class="col-xs-5">
      <center>
       <a href='{% url 'making_move' %}'>
-      <img src='{% static 'img/icon_assistance.png' %}'/>
-      <h2>Financial Assistance</h2>
-      <p>We can help with Veterans Benefits and Medi-Cal applications</p>
-    </a>
+        <img src='{% static 'img/icon_assistance.png' %}'/>
+        <h2>Financial Assistance</h2>
+        <p>We can help with Veterans Benefits and Medi-Cal applications</p>
+      </a>
     </center>
 
       <!-- <div class="desc-boxes">

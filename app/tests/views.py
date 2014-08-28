@@ -1,6 +1,14 @@
-from model_mommy import mommy
-from django.test import TestCase, Client, RequestFactory
+from django.test import TestCase, LiveServerTestCase, Client, RequestFactory
 from django.core.urlresolvers import reverse
+
+from model_mommy import mommy
+from model_mommy.recipe import Recipe, seq
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from django.contrib.auth.models import AnonymousUser
 from django.test.utils import override_settings
@@ -176,3 +184,59 @@ class SearchTest(NoPipelineTestCase):
         request.user = self.anon_user
         response = Search.as_view()(request)
         self.assertTrue(self.facility6 not in response.context_data['object_list'])
+
+
+class ContactFormTest(NoPipelineTestCase, LiveServerTestCase):
+    def setUp(self):
+        # Use for functional tests that require DOM checks
+        self.browser = webdriver.PhantomJS()
+
+    def tearDown(self):
+        self.browser.quit()
+
+    def test_contact_form_submit(self):
+        # 1. Go to home page
+        home_url = reverse('index')
+        self.browser.get(self.live_server_url + home_url)
+        # confirm in home page
+        actual = self.browser.current_url
+        expected = self.live_server_url + u'/'
+        self.assertEqual(actual, expected)
+        # 2. Navigate to 'Contact Us' page through link in footer
+        contact_link = self.browser.find_element_by_link_text('Contact Us')
+        contact_link.click()
+        # wait for form to process
+        wait = WebDriverWait(self.browser, 1)
+        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME,'contact-page')))
+        # confirm in contact us page
+        actual = self.browser.current_url
+        expected = self.live_server_url + reverse('contact')
+        self.assertEqual(actual, expected)
+        # 3. Click 'send a message' button to submit form with no input
+        submit_button = self.browser.find_element_by_name('submit')
+        submit_button.click()
+        # wait for form to process
+        wait = WebDriverWait(self.browser, 1)
+        # 4. Confirm errors in form
+        error_list = self.browser.find_elements_by_css_selector('.errorlist')
+        actual = len(error_list)
+        expected = 3  # Name, email and message required fields
+        self.assertEqual(actual, expected)
+        # 5. Enter data in name, email, phone and message inputs
+        name_input = self.browser.find_element_by_css_selector('#id_name')
+        name_input.send_keys('Good Grandchild')
+        # need to get third email field to avoid hidden modal inputs
+        email_input = self.browser.find_elements_by_css_selector('#id_email')[2]
+        email_input.send_keys('good@grandchild.com')
+        phone_input = self.browser.find_element_by_css_selector('#id_contact_phone')
+        phone_input.send_keys('555-555-5555')
+        message_input = self.browser.find_element_by_css_selector('#id_message')
+        message_input.send_keys('I am the good one. I will find Grandma a good home.')
+        message_input.submit()
+        # wait for form to process
+        wait = WebDriverWait(self.browser, 1)
+        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME,'home-background')))
+        # 6. Confirm form success by checking redirect to home page
+        actual = self.browser.current_url
+        expected = self.live_server_url + u'/'
+        self.assertEqual(actual, expected)

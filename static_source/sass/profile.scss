@@ -101,9 +101,10 @@
                         padding-right: 40px;
 
                         input {
-                            border: 1px solid $border;
+                            border: 1px solid $border !important;
                             width: 294px;
                             margin-bottom: 30px;
+                            outline-color:$secondary;
                         }
 
                         .searching-for-holder {
@@ -135,6 +136,10 @@
                             -webkit-appearance: none;
                             padding-left: 20px;
                             border: 1px solid $border;
+                        }
+                        //parent code in _registration, need longer position-x width to fill input width.
+                        #id_planned_move_date {
+                            background-position-x: 265px;
                         }
                     }
                     .checkbox-td {

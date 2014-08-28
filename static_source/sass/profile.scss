@@ -141,15 +141,23 @@
                         #id_planned_move_date {
                             background-position-x: 265px;
                         }
-                    }
-                    .checkbox-td {
-                        margin-bottom:30px;
-                    }
+
+                        #id_name {
+                            border: 1px solid $border !important;
+                        }
+
+                        #id_email {
+                           border: 1px solid $border !important;
+                       }
+                   }
+                   .checkbox-td {
+                    margin-bottom:30px;
                 }
             }
         }
-        .tab-pane#profile, .tab-pane#reset {
-            background-color:$white;
-        }
     }
+    .tab-pane#profile, .tab-pane#reset {
+        background-color:$white;
+    }
+}
 }

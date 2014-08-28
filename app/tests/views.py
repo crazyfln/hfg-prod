@@ -6,6 +6,8 @@ from django.contrib.auth.models import AnonymousUser
 from django.test.utils import override_settings
 import urllib
 
+from app.views import *
+
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage',
                    PIPELINE_ENABLED=False)

@@ -3,6 +3,9 @@ from unipath import Path
 import dj_database_url
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+CONTACT_EMAIL = 'greg@lightmatter.com'
+
 DATABASES = {}
 DATABASES = {
     'default': dj_database_url.config(

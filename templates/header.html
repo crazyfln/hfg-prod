@@ -6,7 +6,7 @@
 
   {% if user.is_authenticated %}
 
-  <p data-toggle="modal" data-target="#List-Property-Modal">List Your Property</p>
+ <!--  <p data-toggle="modal" data-target="#List-Property-Modal">List Your Property</p> -->
   <!-- <button class='button-orange right button-header' data-toggle="modal" data-target="#List-Property-Modal">List Your Property</button> -->
 
   <a href="{% url 'about' %}" class="nav">About Us</a>
@@ -16,7 +16,7 @@
 
   {% else %}
   <a href="{% url 'about' %}" class="nav">About Us</a>
-  <p class='list-prop' data-toggle="modal" data-target="#List-Property-Modal">List Your Property</p>
+  <!-- <p class='list-prop' data-toggle="modal" data-target="#List-Property-Modal">List Your Property</p> -->
   <p data-toggle="modal" data-target="#Registration-Modal-1">Create Account</p>
   <p data-toggle="modal" data-target="#Login-Modal">Login</p>
 

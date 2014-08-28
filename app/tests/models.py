@@ -2,7 +2,6 @@ from model_mommy import mommy
 from django.test import TestCase, Client, RequestFactory
 from django.core.urlresolvers import reverse
 
-from app.views import *
 from app.forms import SEARCH_MIN_VAL_INITIAL, SEARCH_MAX_VAL_INITIAL
 
 

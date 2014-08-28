@@ -77,3 +77,8 @@ SECRET_KEY = "&)y$vgj8lzxlexal31dcd(^ua(0yf95)f^b@$=*to5s)*eznxq"
 
 STRIPE_PUBLIC_KEY = ""
 STRIPE_SECRET_KEY = ""
+
+# settings for tests to pass consistently
+SOUTH_TESTS_MIGRATE = True
+STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage'
+PIPELINE_ENABLED=False

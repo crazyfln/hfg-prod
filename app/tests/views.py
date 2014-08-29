@@ -11,6 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from django.contrib.auth.models import AnonymousUser
+from django.db import transaction
 from django.test.utils import override_settings
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
@@ -19,13 +20,7 @@ import urllib
 from app.views import *
 
 
-@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage',
-                   PIPELINE_ENABLED=False)
-class NoPipelineTestCase(TestCase):
-    pass
-
-
-class ViewTest(NoPipelineTestCase):
+class ViewTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.client = Client()
@@ -113,7 +108,7 @@ class ViewTest(NoPipelineTestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class SearchTest(NoPipelineTestCase):
+class SearchTest(TestCase):
     def get_test_url(self, query=None):
         search_url = reverse('search')
         query = urllib.urlencode({'query':query})
@@ -188,7 +183,7 @@ class SearchTest(NoPipelineTestCase):
         self.assertTrue(self.facility6 not in response.context_data['object_list'])
 
 
-class ContactFormTest(NoPipelineTestCase, LiveServerTestCase):
+class ContactFormTest(LiveServerTestCase):
     def setUp(self):
         # Use for functional tests that require DOM checks
         self.browser = webdriver.PhantomJS()
@@ -244,10 +239,8 @@ class ContactFormTest(NoPipelineTestCase, LiveServerTestCase):
         self.assertEqual(actual, expected)
 
 
-class SaveFacilityTest(NoPipelineTestCase, LiveServerTestCase):
+class SaveFacilityTest(LiveServerTestCase):
     def setUp(self):
-        # Use for functional tests that require DOM checks
-        self.browser = webdriver.PhantomJS()
         self.user_email = 'great@grandchild.com'
         self.user_password = 'hfg'
         self.user = mommy.make('account.User',
@@ -258,6 +251,9 @@ class SaveFacilityTest(NoPipelineTestCase, LiveServerTestCase):
         self.featured_facility = mommy.make('app.Facility',
             name='Great Facility',
             shown_on_home=True)
+        self.featured_facility.save()
+        # Use for functional tests that require DOM checks
+        self.browser = webdriver.PhantomJS()
 
     def tearDown(self):
         self.browser.quit()
@@ -310,7 +306,9 @@ class SaveFacilityTest(NoPipelineTestCase, LiveServerTestCase):
 
     def unsave_facility(self):
         # Click 'Unsave' heart and confirm 'Save' heart appears after AJAX finishes
+        unsave_facility_icon = self.browser.find_element_by_css_selector('.heart-hearted')
         unsave_facility_icon.click()
+        save_facility_icon = self.browser.find_element_by_css_selector('.heart-not-hearted')
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.visibility_of(save_facility_icon))
         actual = save_facility_icon.is_displayed()
@@ -359,7 +357,7 @@ class SaveFacilityTest(NoPipelineTestCase, LiveServerTestCase):
         """
         # 1. Log in user and navigate to home page
         self.login_user()
-        self.browser.get(self.live_server_url + reverse('home'))
+        self.browser.get(self.live_server_url + reverse('index'))
         # 2. Save featured facility so it appears in "My Saved" page
         featured_facility = self.browser.find_element_by_css_selector('.listing-link')
         wait = WebDriverWait(self.browser, 10)

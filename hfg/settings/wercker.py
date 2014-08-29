@@ -22,7 +22,7 @@ ALLOWED_HOSTS = ['*']
 
 STATIC_ROOT = PROJECT_ROOT.child("static")
 
-DEBUG = False
+DEBUG = True
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # CACHES = {
 #     'default': {

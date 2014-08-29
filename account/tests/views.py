@@ -24,7 +24,7 @@ class AccountTest(LiveServerTestCase):
         self.browser = webdriver.PhantomJS()
         self.user_email = 'great@grandchild.com'
         self.user_password = 'hfg'
-        self.user = mommy.make(User,
+        self.user = mommy.make('account.User',
             username=self.user_email,
             email=self.user_email,
             # need to hash raw password

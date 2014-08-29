@@ -23,6 +23,7 @@ ALLOWED_HOSTS = ['*']
 STATIC_ROOT = PROJECT_ROOT.child("static")
 
 DEBUG = True
+PIPELINE_ENABLED = False
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # CACHES = {
 #     'default': {

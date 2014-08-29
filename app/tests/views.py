@@ -20,6 +20,11 @@ import urllib
 from app.views import *
 
 
+import logging
+selenium_logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
+# Only display possible problems
+selenium_logger.setLevel(logging.WARNING)
+
 class ViewTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -186,7 +191,7 @@ class SearchTest(TestCase):
 class ContactFormTest(LiveServerTestCase):
     def setUp(self):
         # Use for functional tests that require DOM checks
-        self.browser = webdriver.PhantomJS()
+        self.browser = webdriver.Firefox()
 
     def tearDown(self):
         self.browser.quit()
@@ -251,9 +256,8 @@ class SaveFacilityTest(LiveServerTestCase):
         self.featured_facility = mommy.make('app.Facility',
             name='Great Facility',
             shown_on_home=True)
-        self.featured_facility.save()
         # Use for functional tests that require DOM checks
-        self.browser = webdriver.PhantomJS()
+        self.browser = webdriver.Firefox()
 
     def tearDown(self):
         self.browser.quit()
@@ -298,6 +302,7 @@ class SaveFacilityTest(LiveServerTestCase):
         save_facility_icon = self.browser.find_element_by_css_selector('.heart-not-hearted')
         save_facility_icon.click()
         unsave_facility_icon = self.browser.find_element_by_css_selector('.heart-hearted')
+        self.browser.save_screenshot('save_facility.png')
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.visibility_of(unsave_facility_icon))
         actual = unsave_facility_icon.is_displayed()

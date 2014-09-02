@@ -18,7 +18,7 @@ STATIC_URL = '/static/'
 DEBUG = True
 PIPELINE_ENABLED = True
 
-CONTACT_EMAIL = 'greg@lightmatter.com'
+CONTACT_EMAIL = 'info@homeforgrandma.com'
 redis_url = urlparse.urlparse(os.environ.get('REDISTOGO_URL', 'redis://localhost:6959'))
 CACHES = {
     'default': {

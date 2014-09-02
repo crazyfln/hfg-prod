@@ -119,12 +119,16 @@
                             margin:0px 15px 0px 5px;
                             color:$primary;
                             font-size:16px;
-                            display:inline;
+                            
                             text-transform:uppercase;
+                             margin-left: 25px;
+                            margin-top: -32px;
+
                         }
 
                         .checkbox-holder {
                             display:inline-block;
+                            margin-bottom: 12px;
                         }
 
                         select {
@@ -148,10 +152,10 @@
                         }
 
                         #id_email {
-                         border: 1px solid $border !important;
-                     }
-                 }
-                 .checkbox-td {
+                           border: 1px solid $border !important;
+                       }
+                   }
+                   .checkbox-td {
                     margin-bottom:30px;
                 }
             }

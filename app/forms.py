@@ -60,13 +60,13 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Message'}))
 
     def send_email(self):
-        message = self.cleaned_data['message'] + "<br />"
+        message = self.cleaned_data['message']
         who = self.cleaned_data['name']
-        site = self.cleaned_data['contact_phone']
+        phone = self.cleaned_data['contact_phone']
         send_mail(
-                subject="Home For Grandma: contact us message from " + who,
-                message= message + "from: " + who + "of - " + site, 
-                from_email=self.cleaned_data['email'],
+                subject = "Home For Grandma: contact us message from " + who,
+                message = "Message: " + message + "\n" + "From: " + who + "\n" + "Phone: " + phone, 
+                from_email = self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )
              

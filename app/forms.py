@@ -41,13 +41,14 @@ class ListPropertyForm(forms.Form):
 
 
     def send_email(self):
-        message = self.cleaned_data['description'] + "<br/>"
+       
         who = self.cleaned_data['first_name']
         num = self.cleaned_data['phone_num']
+        message = self.cleaned_data['description'] + who
         send_mail(
-                subject="Home For Grandma: Listing Request from" + who,
+                subject= "Home For Grandma: Listing Request from" + who,
                 message = message + "from: " + who + num,
-                from_email=self.cleaned_data['email'],
+                from_email = self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )
 

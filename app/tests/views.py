@@ -11,19 +11,21 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from django.contrib.auth.models import AnonymousUser
+from django.db import transaction
 from django.test.utils import override_settings
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate, login
 import urllib
 
 from app.views import *
 
 
-@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage',
-                   PIPELINE_ENABLED=False)
-class NoPipelineTestCase(TestCase):
-    pass
+import logging
+selenium_logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
+# Only display possible problems
+selenium_logger.setLevel(logging.WARNING)
 
-
-class ViewTest(NoPipelineTestCase):
+class ViewTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.client = Client()
@@ -111,7 +113,7 @@ class ViewTest(NoPipelineTestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class SearchTest(NoPipelineTestCase):
+class SearchTest(TestCase):
     def get_test_url(self, query=None):
         search_url = reverse('search')
         query = urllib.urlencode({'query':query})
@@ -186,10 +188,10 @@ class SearchTest(NoPipelineTestCase):
         self.assertTrue(self.facility6 not in response.context_data['object_list'])
 
 
-class ContactFormTest(NoPipelineTestCase, LiveServerTestCase):
+class ContactFormTest(LiveServerTestCase):
     def setUp(self):
         # Use for functional tests that require DOM checks
-        self.browser = webdriver.PhantomJS()
+        self.browser = webdriver.Firefox()
 
     def tearDown(self):
         self.browser.quit()
@@ -240,3 +242,136 @@ class ContactFormTest(NoPipelineTestCase, LiveServerTestCase):
         actual = self.browser.current_url
         expected = self.live_server_url + u'/'
         self.assertEqual(actual, expected)
+
+
+class SaveFacilityTest(LiveServerTestCase):
+    def setUp(self):
+        self.user_email = 'great@grandchild.com'
+        self.user_password = 'hfg'
+        self.user = mommy.make('account.User',
+            username=self.user_email,
+            email=self.user_email,
+            # need to hash raw password
+            password=make_password(self.user_password))
+        self.featured_facility = mommy.make('app.Facility',
+            name='Great Facility',
+            shown_on_home=True)
+        # Use for functional tests that require DOM checks
+        self.browser = webdriver.Firefox()
+
+    def tearDown(self):
+        self.browser.quit()
+
+    def login_user(self):
+        """
+        Taken from account views tests
+        FIXME: Ideally this can be deleted and user authenitcation can happen in setUp
+        """
+        # Login user
+        # 1. Go to home page and confirm successful load
+        home_url = reverse('index')
+        self.browser.get(self.live_server_url + home_url)
+        actual = self.browser.current_url
+        expected = self.live_server_url + u'/'
+        self.assertEqual(actual, expected)
+        # 2. Click 'Login' modal link in header
+        login_link = self.browser.find_element_by_css_selector(
+            'p[data-target="#Login-Modal"]')
+        login_link.click()
+        # 3. Confirm Login modal appears
+        login_modal = self.browser.find_element_by_css_selector('#Login-Modal')
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.visibility_of(login_modal))
+        actual = login_modal.is_displayed()
+        expected = True
+        self.assertEqual(actual, expected)
+        self.browser.save_screenshot('login_modal.png')
+        # 4. Enter email and password
+        email_input = self.browser.find_element_by_css_selector('#id_username')
+        password_input = self.browser.find_element_by_css_selector('#id_password')
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.visibility_of(password_input))
+        email_input.send_keys(self.user_email)
+        password_input.send_keys(self.user_password)
+        password_input.submit()
+        # 5. Refresh page to show featured facilities
+        self.browser.save_screenshot('logged_in.png')
+
+    def save_facility(self):
+        # Click 'Save' heart and confirm 'Unsave' heart appears after AJAX finishes
+        save_facility_icon = self.browser.find_element_by_css_selector('.heart-not-hearted')
+        save_facility_icon.click()
+        unsave_facility_icon = self.browser.find_element_by_css_selector('.heart-hearted')
+        self.browser.save_screenshot('save_facility.png')
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.visibility_of(unsave_facility_icon))
+        actual = unsave_facility_icon.is_displayed()
+        expected = True
+        self.assertEqual(actual, expected)
+
+    def unsave_facility(self):
+        # Click 'Unsave' heart and confirm 'Save' heart appears after AJAX finishes
+        unsave_facility_icon = self.browser.find_element_by_css_selector('.heart-hearted')
+        unsave_facility_icon.click()
+        save_facility_icon = self.browser.find_element_by_css_selector('.heart-not-hearted')
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.visibility_of(save_facility_icon))
+        actual = save_facility_icon.is_displayed()
+        expected = True
+        self.assertEqual(actual, expected)
+
+    def test_save_featured_facility_on_homepage(self):
+        """
+        Tests a user's ability to save a featured facility on the homepage
+        """
+        # 1. Log in user and navigate to home page
+        self.login_user()
+        self.browser.get(self.live_server_url + reverse('index'))
+        # 2. Confirm presence of featured facility
+        featured_facility = self.browser.find_element_by_css_selector('.listing-link')
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.visibility_of(featured_facility))
+        actual = featured_facility.is_displayed()
+        expected = True
+        self.assertEqual(actual, expected)
+        # 3. Save facility
+        self.save_facility()
+        # 4. Unsave facility using utility
+        self.unsave_facility()
+
+    def test_save_facility_on_detail_page(self):
+        """
+        Tests a user's ability to save a facility on the detail page
+        """
+        # 1. Log in user and navigate to home page
+        self.login_user()
+        self.browser.get(self.live_server_url + reverse('index'))
+        # 2. Find featured facility and click to go to detail page
+        featured_facility = self.browser.find_element_by_css_selector('.listing-link')
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.visibility_of(featured_facility))
+        featured_facility.click()
+        # 3. Save facility
+        self.save_facility()
+        # 4. Unsave facility using utility
+        self.unsave_facility()
+
+    def test_unsave_facility_on_my_saved_page(self):
+        """
+        Tests a user's ability to unsave and resave a facility on "My Saved" page
+        """
+        # 1. Log in user and navigate to home page
+        self.login_user()
+        self.browser.get(self.live_server_url + reverse('index'))
+        # 2. Save featured facility so it appears in "My Saved" page
+        featured_facility = self.browser.find_element_by_css_selector('.listing-link')
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.visibility_of(featured_facility))
+        self.save_facility()
+        # 3. Navigate to profile/"My Saved" page
+        my_saved_link = self.browser.find_element_by_link_text('My Saved')
+        my_saved_link.click()
+        # 4. Unsave facility using utility
+        self.unsave_facility()
+        # 3. Save facility
+        self.save_facility()

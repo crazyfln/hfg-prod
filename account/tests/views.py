@@ -14,17 +14,20 @@ from django.test.utils import override_settings
 from django.contrib.auth.hashers import make_password
 
 from app.views import *
-
+import logging
+selenium_logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
+# Only display possible problems
+selenium_logger.setLevel(logging.WARNING)
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage',
                    PIPELINE_ENABLED=False)
 class AccountTest(LiveServerTestCase):
     def setUp(self):
         # Use for functional tests that require DOM checks
-        self.browser = webdriver.PhantomJS()
+        self.browser = webdriver.Firefox()
         self.user_email = 'great@grandchild.com'
         self.user_password = 'hfg'
-        self.user = mommy.make(User,
+        self.user = mommy.make('account.User',
             username=self.user_email,
             email=self.user_email,
             # need to hash raw password

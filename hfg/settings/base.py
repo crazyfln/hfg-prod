@@ -21,6 +21,7 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
      ('Ben Beecher', 'BenBeecher@gmail.com'),
      ('Chris Weed', 'mrweed@gmail.com'),
+     ('Greg Hausheer','greg@lightmatter.com'),
 )
 
 MANAGERS = ADMINS
@@ -132,6 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.comments',
+    'django_nose',
     'mathfilters',
     'zinnia_bootstrap',
     'tagging',
@@ -194,6 +196,15 @@ AUTH_USER_MODEL = 'account.User'
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/"
 LOGOUT_URL = "/"
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'app' and 'account' apps
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=app,account',
+    '--verbosity=2',
+]
 
 
 import scss

@@ -65,7 +65,8 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
                 ('name','facility_types','capacity'),
                 ('address','vacancies'),
                 'director_email',
-                ('city','state','zipcode'),
+                ('city','state'),
+                'zipcode',
                 ('license','shown_on_home'),
                 'description_short',
                 'description_long'

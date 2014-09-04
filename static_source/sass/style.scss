@@ -25,11 +25,16 @@ $bootstrap-sass-asset-helper: false;
 @import "blog";
 @import "checkboxes";
 @import "custom_input";
+@import "alerts";
 
 
 //global rules and helper classes
 
 
+#map {
+    width: 750px;
+    height: 500px;
+}
 
 .container {
     width: 1040px !important;
@@ -139,8 +144,7 @@ h2 {
 
 .background-ghost {
     background-color: $ghost-background;
-    }
-
+}
 
 
 .padding-top-0 {

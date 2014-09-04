@@ -21,7 +21,7 @@ SEARCH_MAX_VAL_INITIAL = "9000"
 
 class SearchForm(forms.Form):
     query = forms.CharField(required=False, label='search', 
-                    widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Community Name'}))
+                    widget=forms.TextInput(attrs={'placeholder': 'Search by City, Zip, Community Name', 'autofocus':'autofocus' }))
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(
@@ -36,15 +36,20 @@ class ListPropertyForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First Name'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'Email'}))
+    phone_num = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Phone Number'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Description'}))
 
+
     def send_email(self):
-        message = self.cleaned_data['description'] + "<br/>"
-        who = self.cleaned_data['first_name']
+       
+        who_first = self.cleaned_data['first_name']
+        who_last = self.cleaned_data['last_name']
+        num = self.cleaned_data['phone_num']
+        message = self.cleaned_data['description']
         send_mail(
-                subject="Home For Grandma: Listing Request from" + who,
-                message = message + "from: " + who,
-                from_email=self.cleaned_data['email'],
+                subject= "Home For Grandma: Listing Request from " + who_first,
+                message = "Message: " + message + "\n" + "From: " + who_first + " " + who_last + "\n" + num,
+                from_email = self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )
 
@@ -55,20 +60,20 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Message'}))
 
     def send_email(self):
-        message = self.cleaned_data['message'] + "<br />"
+        message = self.cleaned_data['message']
         who = self.cleaned_data['name']
-        site = self.cleaned_data['contact_phone']
+        phone = self.cleaned_data['contact_phone']
         send_mail(
-                subject="Home For Grandma: contact us message from " + who,
-                message= message + "from: " + who + "of - " + site, 
-                from_email=self.cleaned_data['email'],
+                subject = "Home For Grandma: contact us message from " + who,
+                message = "Message: " + message + "\n" + "From: " + who + "\n" + "Phone: " + phone, 
+                from_email = self.cleaned_data['email'],
                 recipient_list = [settings.CONTACT_EMAIL],
                 )
              
 
 class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
     comments = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"27"}),
+        widget=forms.Textarea(attrs={'placeholder':"Hi, I found your listing on HomeForGrandma.com and would like to schedule a visit. Thanks!", 'cols':"36"}),
         required=False
     )
     move_in_time_frame = forms.ChoiceField(
@@ -84,7 +89,7 @@ class TourRequestForm(FacilityMessageFormFieldMixin, ModelForm):
         required=False
     )
     health_description = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"27"}),
+        widget=forms.Textarea(attrs={'placeholder':"Can you describe the health of the resident?", 'cols':"36"}),
         required=False
     )
     desired_city = forms.CharField(

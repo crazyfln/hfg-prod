@@ -1,0 +1,18 @@
+.alert {
+    position:absolute;
+    margin-top: 100px;
+    text-align: center;
+    width:100%;
+    background-color:#008185;
+    color: #fff;
+    font-size:18px;
+    font-family: $primaryFont;
+    margin-left: 10px;
+    opacity:1;
+
+    button {
+        outline:none;
+    }
+    
+
+}

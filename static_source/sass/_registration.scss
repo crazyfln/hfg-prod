@@ -4,7 +4,13 @@
     background-color: $white;
     width: 430px;
     margin: 0 auto;
-    padding: 20px 30px 20px 30px;
+    padding: 20px 0px 20px 0px;
+
+    hr {
+        margin:1px 0 1px 0 !important;
+        height:1px;
+        background-color:#ccc;
+    }
 
 
     input {
@@ -28,11 +34,25 @@
         margin-top: 15px;
         display:block;
     }
+    //input focus for inputs in error pages, after modals
+     input:focus {
+        outline-color:$secondary;
+    }
+
+    p {
+        color:$secondary;
+    }
 
 }
 
 
 .modal {
+
+    hr {
+        margin:1px 0 1px 0 !important;
+        height:1px;
+        background-color:#ccc;
+    }
 
     .modal-header {
         border-bottom:none;
@@ -74,13 +94,15 @@
         color:$secondary;
         cursor:pointer;
     }
+    //input focus for inputs in modals
     input:focus {
-        outline:none;
-        border-color:$border;
-        box-shadow:0 0 10px $secondary;
-        z-index:-2;
+        outline-color:#008185;
+        // border-color:$border;
+        // box-shadow:0 0 10px $secondary;
+        // z-index:-2;
     }
 }
+
 
 .login-b {
     margin-left: 25px;
@@ -101,7 +123,7 @@ a.push {
     color: $dark;
     padding-left: 20px;
     // outline:none;
-    border: 1px solid $border;
+    border: none !important;
     margin-top: -1px;
     border-left:none;
     border-right:none;
@@ -116,12 +138,24 @@ a.push {
 
 
 #id_first_name, #id_last_name, #id_email, #id_password1, #id_password2, #id_username, #id_password, #id_name, #id_party_type,
-#id_new_password1, #id_new_password2, #id_old_password, #id_phone, #id_phone_number {
+#id_new_password1, #id_new_password2, #id_old_password, #id_phone_number, #id_phone_num {
     @extend %abstract-form-dimensions;
+}
+
+.non-modal-input-border {
+    border: 1px solid #DEDDDD;
 }
 
 #id_phone {
     height:40px;
+    padding-left:10px;
+
+}
+
+//overridding background property of above abstract
+#id_name, #id_email {
+    border: 1px solid $border !important;
+
 }
 
 
@@ -139,9 +173,17 @@ a.push {
     padding-left:20px;
     height:130px;
     border: 1px solid $border;
-    // outline:none;
     padding-top: 15px;
+
+
 }
+
+#id_description:focus {
+    outline-color:#008185;
+        // border-color:$border;
+        // box-shadow:0 0 10px $secondary;
+        // z-index:-2;
+    }
 
 
 // modal custom inputs below for requesting
@@ -153,6 +195,7 @@ a.push {
     border-radius: 4px;
     padding:10px 15px;
     resize:none;
+     outline-color:$secondary;
     // outline:none;
 }
 
@@ -176,15 +219,17 @@ a.push {
     }
 
     h1 {
-        font-size:12px;
-        color:$light;
+        font-size:14px;
+        color:$primary;
         margin-top:10px;
         margin-bottom:15px;
     }
 
-    hr {
-        margin: 5px;
-    }
+    // hr {
+    //     margin: 5px;
+    // }
+
+
 
     button {
         width: 259px;
@@ -210,7 +255,12 @@ a.push {
 
 #id_planned_move_date {
     @include tour-input;
+    background: image-url('img/icon_cal.png') no-repeat;
+    background-position-x: 235px;
+    background-position-y: 15px;
 }
+
+
 
 #id_desired_city {
     @include tour-input;
@@ -255,10 +305,11 @@ a.push {
 ul.errorlist {
     padding-left: 10px;
     padding-top:10px;
-    li {
 
+    li {
         list-style: none;
         color: red;
+        margin-left: 10px;
     }
 }
 
@@ -266,6 +317,7 @@ p.errors {
     color: red;
     padding-left: 10px;
     padding-top:10px;
+    margin-left:10px;
 
 }
 
@@ -280,14 +332,15 @@ p.errors {
 }
 
 #planned_move_date_holder {
+
     position:relative;
 }
 
-img.cal-icon {
-    position:absolute;
-    margin-left:-33px;
-    margin-top:13px;
-}
+// img.cal-icon {
+//     position:absolute;
+//     margin-left:-33px;
+//     margin-top:13px;
+// }
 
 p.list-prop-header {
     width:80%;

@@ -7,7 +7,15 @@ Home For Grandma
 {% block content %}
 {% load static from staticfiles %}
 <div class="home-background home-bg-image-1">
-  <div class="container" id=''>
+  <div class="container" style='position:relative;' id=''>
+
+    {% for message in messages %}   
+    <div style='' class="alert alert-success alert-dismissible" role="alert">
+      <button style=''type="button" class="close" data-dismiss="alert"><img src='{% static 'img/icon_close.png' %}'/></button>
+     {{ message }} 
+    </div>
+    {% endfor %}
+
     <div class="search-holder" style=''>
       <div class="transparent-holder"></div>
       <div class="content-holder">
@@ -43,10 +51,10 @@ Home For Grandma
 
       <center>
         <a href='{% url 'receive_reward' %}'>
-        <img src='{% static 'img/icon_gift.png' %}'/>
-        <h2>$200 gift for move-in</h2>
-        <p>Receive a $200 reward when you move into a community.</p>
-      </a>
+          <img src='{% static 'img/icon_gift.png' %}'/>
+          <h2>$200 gift for move-in</h2>
+          <p>Receive a $200 reward when you move into a community.</p>
+        </a>
       </center>
 
 
@@ -62,10 +70,10 @@ Home For Grandma
     <div class="col-xs-5">
      <center>
       <a href='{% url 'making_move' %}'>
-      <img src='{% static 'img/icon_assistance.png' %}'/>
-      <h2>Financial Assistance</h2>
-      <p>We can help with Veterans Benefits and Medi-Cal applications</p>
-    </a>
+        <img src='{% static 'img/icon_assistance.png' %}'/>
+        <h2>Financial Assistance</h2>
+        <p>We can help with Veterans Benefits and Medi-Cal applications</p>
+      </a>
     </center>
 
       <!-- <div class="desc-boxes">
@@ -112,7 +120,7 @@ Home For Grandma
         <img src='{% static 'img/icon_stock_image_call_us.jpg' %}'/>
       </div>
       <div class="col-xs-6">
-        <h1>Give us a call.</h1>
+        <h1>Give us a call</h1>
         <p>We understand looking for the perfect home for your loved one is not easy. Our experienced and knowledagble advisors are here to help. Whether you have questions on how to start your search, how to pay for assisted living, or have difficulties in finding the perfect home you are not alone. </p> 
         <p>Free Assistance</p>
         <h2>1 (800) 434-0324</h2>
@@ -152,6 +160,7 @@ Home For Grandma
       </div>
     </div>
   </center>
+
 
 
   {% endblock content %}

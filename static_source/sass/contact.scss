@@ -40,10 +40,12 @@
 
         input#id_email {
             @include contact-input;
+            border: 1px solid $border !important;
         }
 
         input#id_name {
             @include contact-input;
+            border: 1px solid $border !important;
         }
 
         textarea {

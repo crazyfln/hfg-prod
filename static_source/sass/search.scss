@@ -1,12 +1,20 @@
-
-.container.search-container-left {
-    margin-left:0px;
-    margin-right:0px;
+.search-background {
+    height:100%;
+    padding-top:75px;
 }
 
-#map-canvas {
-    width:100%;
+.container.search-container-left {
+    float:left;
+    margin-left:0px;
+    margin-right:0px;
     height:100%;
+    overflow-y:auto;
+}
+
+div#map-canvas {
+    -webkit-transform:none !important;
+    height:100%;
+
 }
 
 #search-results {

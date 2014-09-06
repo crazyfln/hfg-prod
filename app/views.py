@@ -19,6 +19,7 @@ from payments.models import Customer
 from annoying.decorators import render_to, ajax_request
 from zinnia.views.archives import EntryIndex
 from zinnia.views.entries import EntryDetail
+from pygeocoder import Geocoder
 
 from account.forms import RegistrationForm, ProfileForm
 
@@ -157,9 +158,21 @@ class Search(ListView):
                 Qquery.AND
             )
             result = result.filter(Qquery)
-            return result.filter(visibility=True).order_by('min_price')
+            result = result.filter(visibility=True).order_by('min_price')
         else:
-            return Facility.objects.all().filter(visibility=True).order_by('min_price')
+            result = Facility.objects.all().filter(visibility=True).order_by('min_price')
+        for facility in result:
+            if facility.latitude and facility.longitude:
+                continue
+            elif facility.address and facility.city:
+                address = "{0}, {1}".format(facility.address, facility.city)
+                if Geocoder.geocode(address).valid_address:
+                    coordinates = Geocoder.geocode(address).coordinates
+                    facility.latitude, facility.longitude = coordinates[0],coordinates[1]
+                    facility.save()
+
+        return result
+
 
 class Contact(FormView):
     form_class = ContactForm

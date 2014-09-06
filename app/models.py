@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from account.models import User, HoldingGroup
 
 import datetime
+from pygeocoder import Geocoder
 
 from util.util import file_url
 from .facility_message_mixin import FacilityMessageModelFieldMixin
@@ -73,6 +74,11 @@ class Facility(TimeStampedModel):
         vacancies_at_init = getattr(self, 'vacancies_at_init')
         if not vacancies_at_init == self.vacancies:
             self.vacancies_updated = datetime.datetime.now()
+
+        if not (self.latitude and self.longitude) and (self.address and self.city):
+            coords = self.geocode()
+            print coords
+            self.latitude, self.longitude = coords[0], coords[1]
         super(Facility, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -127,6 +133,10 @@ class Facility(TimeStampedModel):
         else:
             string = "Vacancies updated {0} days ago".format(str(time_since.days))
         return string
+
+    def geocode(self):
+        address = "{0}, {1}".format(self.address, self.city)    
+        return Geocoder.geocode(address).coordinates
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)

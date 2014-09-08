@@ -3,7 +3,7 @@
 <div class="col-xs-4">
 
   <a href="{{ facility.get_absolute_url }}" class="listing-link">
-    <div class="listing-preview" data-lat="{{ facility.latitude }}" data-long="{{ facility.longitude }}" id="{{ facility.slug }}">
+    <div class="listing-preview" {% if facility.locationCoord %}data-lat="{{ facility.locationCoord.x }}" data-long="{{ facility.locationCoord.y }}"{% else %} data-lat='none' data-long='none' {% endif %} id="{{ facility.slug }}">
       {% if user.is_authenticated %}
         <div class="heart-holder" data-url="{% url 'favorite' facility.slug %}" data-logged_in='yes' data-toggle="tooltip" data-placement="top" title="Save to favorites">
           <img class='heart-hearted'{% if not user in facility.favorited_by.all %}style="display:none"{% endif %} src="{% static 'img/icon_hearted_orange.png' %}"/>

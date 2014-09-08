@@ -8,20 +8,32 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Deleting field 'Facility.latitude'
+        db.delete_column(u'app_facility', 'latitude')
 
-        # Changing field 'Facility.latitude'
-        db.alter_column(u'app_facility', 'latitude', self.gf('django.db.models.fields.FloatField')(null=True))
+        # Deleting field 'Facility.longitude'
+        db.delete_column(u'app_facility', 'longitude')
 
-        # Changing field 'Facility.longitude'
-        db.alter_column(u'app_facility', 'longitude', self.gf('django.db.models.fields.FloatField')(null=True))
+        # Adding field 'Facility.locationCoord'
+        db.add_column(u'app_facility', 'locationCoord',
+                      self.gf('django.contrib.gis.db.models.fields.PointField')(default='POINT(0.0 0.0)', null=True, blank=True),
+                      keep_default=False)
+
 
     def backwards(self, orm):
+        # Adding field 'Facility.latitude'
+        db.add_column(u'app_facility', 'latitude',
+                      self.gf('django.db.models.fields.IntegerField')(default=0, blank=True),
+                      keep_default=False)
 
-        # Changing field 'Facility.latitude'
-        db.alter_column(u'app_facility', 'latitude', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=11, decimal_places=8))
+        # Adding field 'Facility.longitude'
+        db.add_column(u'app_facility', 'longitude',
+                      self.gf('django.db.models.fields.IntegerField')(default=0, blank=True),
+                      keep_default=False)
 
-        # Changing field 'Facility.longitude'
-        db.alter_column(u'app_facility', 'longitude', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=11, decimal_places=8))
+        # Deleting field 'Facility.locationCoord'
+        db.delete_column(u'app_facility', 'locationCoord')
+
 
     models = {
         u'account.holdinggroup': {
@@ -113,9 +125,8 @@ class Migration(SchemaMigration):
             'holding_group': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.HoldingGroup']", 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'languages': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'facilities'", 'blank': 'True', 'to': u"orm['app.Language']"}),
-            'latitude': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'license': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
-            'longitude': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'locationCoord': ('django.contrib.gis.db.models.fields.PointField', [], {'default': "'POINT(0.0 0.0)'", 'null': 'True', 'blank': 'True'}),
             'manager_note': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'null': 'True', 'blank': 'True'}),
             'medication_level_1_cost': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'medication_level_2_cost': ('django.db.models.fields.IntegerField', [], {'default': '0'}),

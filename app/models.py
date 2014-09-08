@@ -1,8 +1,9 @@
-from django.db import models
+from django.contrib.gis.db import models
 
 from model_utils.models import TimeStampedModel
 from django_extensions.db.models import AutoSlugField
 from django.core.urlresolvers import reverse
+from django.contrib.gis.geos import *
 
 from account.models import User, HoldingGroup
 
@@ -29,8 +30,8 @@ class Facility(TimeStampedModel):
     address = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=2, blank=True)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
+    locationCoord = models.PointField(srid=4326, blank=True, null=True, default='POINT(0.0 0.0)')
+    objects = models.GeoManager()
     shown_on_home = models.BooleanField(default=False)
     description_short = models.CharField(max_length=140, blank=True)
     description_long = models.CharField(max_length=1000, blank=True)
@@ -75,10 +76,9 @@ class Facility(TimeStampedModel):
         if not vacancies_at_init == self.vacancies:
             self.vacancies_updated = datetime.datetime.now()
 
-        if not (self.latitude and self.longitude) and (self.address and self.city):
+        if not self.locationCoord and (self.address and self.city):
             coords = self.geocode()
-            print coords
-            self.latitude, self.longitude = coords[0], coords[1]
+            self.locationCoord = Point(coords[0], coords[1])
         super(Facility, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

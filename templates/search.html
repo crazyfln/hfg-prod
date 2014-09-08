@@ -73,7 +73,9 @@ Search | Home For Grandma
 
     results = [
       {% for result in object_list %}
-      [{{ result.latitude }},{{ result.longitude }}, "{{ result.name }}", "{{ result.slug }}"],
+        {% if result.locationCoord %}
+          [{{ result.locationCoord.x }},{{ result.locationCoord.y }}, "{{ result.name }}", "{{ result.slug }}"],
+        {% endif %}
       {% endfor %}
     ];
 
@@ -117,12 +119,17 @@ Search | Home For Grandma
       })(marker, i));
     }
     $('.listing-preview').hover(function() {
-      $(this).delay(500).queue(function(){
-        var latLong = new google.maps.LatLng(parseFloat($(this).data('lat')), parseFloat($(this).data('long')))
-        map.panTo(latLong);
-      });
+      $this = $(this)
+      latCoord = $this.data('lat');
+      longCoord = $this.data('long');
+      if (latCoord != 'none' && longCoord != 'none') {
+        $this.delay(500).queue(function(){
+          var latLong = new google.maps.LatLng(parseFloat(latCoord), parseFloat(longCoord))
+          map.panTo(latLong);
+        });
+      }
     },function() {
-      $(this).finish();
+      $this.finish();
     });
 
     $('#myonoffswitch').change(function() {

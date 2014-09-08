@@ -10,7 +10,7 @@ Home For Grandma Search
 
 {% block content %}
 <div class="background-beige search-background">
-  <div class="container search-container-left">
+  <div id='searchbox-and-results' class="container search-container-left padder-80">
     {% include 'snippets/searchbox.html' with form=form %}
     <div id="search-results ">
       {% for listing in object_list %}
@@ -46,12 +46,14 @@ Home For Grandma Search
     </div>
   </div>
 
-  <div id='map-canvas'>
+  <div id='map-canvas' class='fadeInRight'>
 
   </div>
 </div>
 
 {% endblock content %}
+{% block main_footer %}
+{% endblock main_footer %}
 {% block body_media %}
 
   <script type="text/javascript"
@@ -71,12 +73,12 @@ Home For Grandma Search
 
     results = [
       {% for result in object_list %}
-      [{{ result.latitude }},{{ result.longitude }}, "{{ result.name }}"],
+      [{{ result.latitude }},{{ result.longitude }}, "{{ result.name }}", "{{ result.slug }}"],
       {% endfor %}
     ];
 
     var mapOptions = {
-      zoom: 15,
+      zoom: 5,
       {% if object_list %}
       center: new google.maps.LatLng(results[0][0], results[0][1]),
       {% else %}
@@ -101,10 +103,16 @@ Home For Grandma Search
       });
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          console.log(marker.getPosition());
           map.panTo(marker.getPosition());
-          infowindow.setContent(results[i][2]);
           infowindow.open(map, marker);
+          matchingResult = $("#" + results[i][3])
+          $('.container').animate({
+              scrollTop: matchingResult.offset().top
+          }, 500);
+          matchingResult.addClass('glow-result')
+          setTimeout(function () { 
+            matchingResult.removeClass('glow-result');
+          }, 500);
         }
       })(marker, i));
     }
@@ -117,6 +125,21 @@ Home For Grandma Search
       $(this).finish();
     });
 
+    $('#myonoffswitch').change(function() {
+      var map = $('#map-canvas')
+      var searchbox = $('#searchbox-and-results')
+      var background = $('.background-beige')
+      if( $(this).is(':checked') ){
+        map.show()
+        searchbox.addClass('search-container-left')
+        background.addClass('search-background')
+      }
+      else {
+        map.hide();
+        searchbox.removeClass('search-container-left')
+        background.removeClass('search-background')
+      }
+    });
 }
 
 </script>

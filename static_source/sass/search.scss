@@ -1,20 +1,26 @@
 .search-background {
     height:100%;
-    padding-top:75px;
+    overflow:hidden;
 }
 
-.container.search-container-left {
+#searchbox-and-results.container.search-container-left {
     float:left;
     margin-left:0px;
     margin-right:0px;
     height:100%;
     overflow-y:auto;
+    width: 1055px !important;
 }
 
 div#map-canvas {
-    -webkit-transform:none !important;
     height:100%;
+    padding-top:80px;
 
+}
+
+.glow-result {
+    -webkit-box-shadow:0 0 20px $secondary; 
+    -moz-box-shadow: 0 0 20px blue;  box-shadow:0 0 20px $secondary;
 }
 
 #search-results {

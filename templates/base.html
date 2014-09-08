@@ -88,9 +88,11 @@
     {% endblock content %}
 
 
+    {% block main_footer %}
     <div id="main-footer"></div>
     <!-- </div> /container -->
     {% include "footer.html" %}
+    {% endblock main_footer %}
     {% compressed_js 'vendor' %}
     {% compressed_js 'app' %}
     {% block body_media %}

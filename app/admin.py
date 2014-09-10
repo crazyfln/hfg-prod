@@ -78,8 +78,6 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
         ("Fields not in wires", {
             'fields':(
                 'min_price',
-                'latitude',
-                'longitude',
                 'phone'
                 )}),
         ("Faciity Information", {

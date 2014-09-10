@@ -1,9 +1,11 @@
 .search-background {
     height:100%;
-    overflow:hidden;
+    padding-top:80px;
+//    overflow:hidden;
 }
 
 #searchbox-and-results.container.search-container-left {
+    position:relative;
     float:left;
     margin-left:0px;
     margin-right:0px;
@@ -12,9 +14,12 @@
     width: 1055px !important;
 }
 
+.no-map {
+    padding-top:80px;
+}
+
 div#map-canvas {
     height:100%;
-    padding-top:80px;
 
 }
 

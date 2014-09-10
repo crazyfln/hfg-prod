@@ -57,7 +57,7 @@ Search | Home For Grandma
 {% block body_media %}
 
   <script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key={{ settings.GOOGLE_MAPS_API_KEY }}"></script>
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
   <script>
     min_val = $('#id_min_value').attr('value');
     if (min_val == undefined){

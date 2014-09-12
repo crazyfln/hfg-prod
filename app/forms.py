@@ -12,6 +12,7 @@ from django.forms.extras.widgets import SelectDateWidget
 
 from django.utils.translation import ugettext_lazy as _
 from ajax_select import make_ajax_field
+from pygeocoder import Geocoder
 
 from .models import *
 from .facility_message_mixin import field_choices, field_choices_empty, FacilityMessageFormFieldMixin
@@ -134,6 +135,14 @@ class FacilityAdminForm(ModelForm):
         widgets = {
             'description_long':forms.Textarea,
         }
+
+    def clean(self):
+        cleaned_data = super(FacilityAdminForm, self).clean()
+        address = "{0}, {1}".format(cleaned_data.get('address'), cleaned_data.get('city'))
+        if not Geocoder.geocode(address).valid_address:
+            raise forms.ValidationError("Google does not recognize your address and city combination as a valid address")
+
+        return cleaned_data
 
     def clean_phone(self):
         data = self.cleaned_data['phone']

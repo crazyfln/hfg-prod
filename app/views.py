@@ -125,6 +125,7 @@ class Search(ListView):
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
         context['form'] = SearchForm(self.request.GET)
+        context['google_maps_api_key'] = settings.GOOGLE_MAPS_API_KEY
         context['real_min_val'] = SEARCH_MIN_VAL_INITIAL
         context['real_max_val'] = SEARCH_MAX_VAL_INITIAL
         return context
@@ -157,9 +158,12 @@ class Search(ListView):
                 Qquery.AND
             )
             result = result.filter(Qquery)
-            return result.filter(visibility=True).order_by('min_price')
+            result = result.filter(visibility=True).order_by('min_price')
         else:
-            return Facility.objects.all().filter(visibility=True).order_by('min_price')
+            result = Facility.objects.all().filter(visibility=True).order_by('min_price')
+
+        return result
+
 
 class Contact(FormView):
     form_class = ContactForm

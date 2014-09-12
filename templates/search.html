@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}
-Home For Grandma Search
+Search | Home For Grandma 
 {% endblock title %}
+{% block SEO %}
+ <meta name="description" content="This is test Content">
+{% endblock SEO %}
 {% load static %}
 {% block extra_head %}
 <link href="{% static 'slider/css/slider.css' %}" rel="stylesheet">
@@ -9,8 +12,8 @@ Home For Grandma Search
 
 
 {% block content %}
-<div class="background-beige">
-<div class="container padder-100">
+<div class="background-beige search-background">
+  <div id='searchbox-and-results' class="container search-container-left">
     {% include 'snippets/searchbox.html' with form=form %}
     <div id="search-results ">
       {% for listing in object_list %}
@@ -21,8 +24,8 @@ Home For Grandma Search
         {% if forloop.counter|divisibleby:"3" or forloop.last %}
           </div>
         {% endif %}
-        {% empty %}
-        <center><h2 class='empty'>We are busy adding thousands of listing to our website. We’re sorry, your search didn’t return any of our currently listed communities. Our advisors can still help give us a call at 1(800) 434-0324.</h2></center>
+      {% empty %}
+          <center><h2 class='empty'>We are busy adding thousands of listing to our website. We’re sorry, your search didn’t return any of our currently listed communities. Our advisors can still help give us a call at 1(800) 434-0324.</h2></center>
       {% endfor %}
       {% if is_paginated %}
         <div class="pagination">
@@ -42,13 +45,22 @@ Home For Grandma Search
             {% endif %}
           </span>
         </div>
-    {% endif %}
+      {% endif %}
     </div>
-</div>
+  </div>
+
+  <div id='map-canvas' class='fadeInRight'>
+
+  </div>
 </div>
 
 {% endblock content %}
+{% block main_footer %}
+{% endblock main_footer %}
 {% block body_media %}
+
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
   <script>
     min_val = $('#id_min_value').attr('value');
     if (min_val == undefined){
@@ -59,6 +71,108 @@ Home For Grandma Search
       max_val = {{ real_max_val }};
     }
 
-  </script>
+    $.fn.scrollTo = function( target, options, callback ){
+      if(typeof options == 'function' && arguments.length == 2){ callback = options; options = target; }
+      var settings = $.extend({
+        scrollTarget  : target,
+        offsetTop     : 50,
+        duration      : 500,
+        easing        : 'swing'
+      }, options);
+      return this.each(function(){
+        var scrollPane = $(this);
+        var scrollTarget = (typeof settings.scrollTarget == "number") ? settings.scrollTarget : $(settings.scrollTarget);
+        var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
+        scrollPane.animate({scrollTop : scrollY }, parseInt(settings.duration), settings.easing, function(){
+          if (typeof callback == 'function') { callback.call(this); }
+        });
+      });
+    }
 
+    google.maps.event.addDomListener(window, 'load', init);
+    function init() {
+
+    results = [
+      {% for result in object_list %}
+        {% if result.locationCoord %}
+          [{{ result.locationCoord.x }},{{ result.locationCoord.y }}, "{{ result.name }}", "{{ result.slug }}"],
+        {% endif %}
+      {% endfor %}
+    ];
+
+    var mapOptions = {
+      zoom: 5,
+      {% if object_list %}
+      center: new google.maps.LatLng(results[0][0], results[0][1]),
+      {% else %}
+      center: new google.maps.LatLng(53.385873, -1.471471),
+      {% endif %}
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      styles: [{"featureType":"water","stylers":[{"saturation":43},{"lightness":-11},{"hue":"#0088ff"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"hue":"#ff0000"},{"saturation":-100},{"lightness":99}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#808080"},{"lightness":54}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"color":"#ece2d9"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#ccdca1"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#767676"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#b8cb93"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]},{"featureType":"poi.sports_complex","stylers":[{"visibility":"on"}]},{"featureType":"poi.medical","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","stylers":[{"visibility":"simplified"}]}]
+    };
+    
+
+    var mapElement = document.getElementById('map-canvas');
+    var map = new google.maps.Map(mapElement, mapOptions);
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+    var previousScrollElement;
+
+    for (i = 0; i < results.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(results[i][0], results[i][1]),
+        map: map
+      });
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          map.panTo(marker.getPosition());
+          infowindow.open(map, marker);
+          matchingResult = $("#" + results[i][3]);
+          matchingResult.addClass('glow-result');
+          parentDiv = $('#searchbox-and-results'); 
+          parentDiv.scrollTo(matchingResult, {offsetTop:'100'});
+          setTimeout(function () { 
+            matchingResult.removeClass('glow-result');
+          }, 1000);
+        }
+      })(marker, i));
+    }
+    $('.listing-preview').hover(function() {
+      $this = $(this)
+      latCoord = $this.data('lat');
+      longCoord = $this.data('long');
+      if (latCoord != 'none' && longCoord != 'none') {
+        $this.delay(500).queue(function(){
+          var latLong = new google.maps.LatLng(parseFloat(latCoord), parseFloat(longCoord))
+          map.panTo(latLong);
+        });
+      }
+    },function() {
+      $(this).finish();
+    });
+
+    $('#myonoffswitch').change(function() {
+      var map = $('#map-canvas')
+      var searchbox = $('#searchbox-and-results');
+      var background = $('.background-beige');
+      if( $(this).is(':checked') ){
+        map.fadeIn(1000)
+        searchbox.addClass('search-container-left');
+        searchbox.removeClass('no-map');
+        background.addClass('search-background');
+      }
+      else {
+        map.fadeOut(1000);
+        setTimeout(function () { 
+          searchbox.removeClass('search-container-left');
+          searchbox.addClass('no-map');
+          background.removeClass('search-background');
+        }, 1000);
+      }
+    });
+}
+
+</script>
 {% endblock body_media %}

@@ -1,12 +1,14 @@
-from django.db import models
+from django.contrib.gis.db import models
 
 from model_utils.models import TimeStampedModel
 from django_extensions.db.models import AutoSlugField
 from django.core.urlresolvers import reverse
+from django.contrib.gis.geos import *
 
 from account.models import User, HoldingGroup
 
 import datetime
+from pygeocoder import Geocoder
 
 from util.util import file_url
 from .facility_message_mixin import FacilityMessageModelFieldMixin
@@ -28,8 +30,8 @@ class Facility(TimeStampedModel):
     address = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=2, blank=True)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
-    latitude = models.IntegerField(blank=True, default=0)
-    longitude = models.IntegerField(blank=True, default=0)
+    locationCoord = models.PointField(srid=4326, blank=True, null=True, default='POINT(0.0 0.0)')
+    objects = models.GeoManager()
     shown_on_home = models.BooleanField(default=False)
     description_short = models.CharField(max_length=140, blank=True)
     description_long = models.CharField(max_length=1000, blank=True)
@@ -73,6 +75,10 @@ class Facility(TimeStampedModel):
         vacancies_at_init = getattr(self, 'vacancies_at_init')
         if not vacancies_at_init == self.vacancies:
             self.vacancies_updated = datetime.datetime.now()
+
+        if not self.locationCoord and (self.address and self.city):
+            coords = self.geocode()
+            self.locationCoord = Point(coords[0], coords[1])
         super(Facility, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -127,6 +133,10 @@ class Facility(TimeStampedModel):
         else:
             string = "Vacancies updated {0} days ago".format(str(time_since.days))
         return string
+
+    def geocode(self):
+        address = "{0}, {1}".format(self.address, self.city)    
+        return Geocoder.geocode(address).coordinates
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)

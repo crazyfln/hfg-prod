@@ -89,5 +89,3 @@ TEMPLATE_LOADERS = (
         'django.template.loaders.app_directories.Loader',
     )),
 )
-GEOS_LIBRARY_PATH = "{}/libgeos_c.so".format("/app/.gis/geos/lib")
-GDAL_LIBRARY_PATH = "{}/libgdal.so".format("/app/.gis/gdal/lib")

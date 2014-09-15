@@ -81,4 +81,3 @@ pygeocoder==1.2.5
 #OPTIONAL TOOLS
 #whoosh
 #django-haystack
-geos

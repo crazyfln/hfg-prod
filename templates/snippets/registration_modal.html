@@ -1,5 +1,5 @@
 
-<form action="{% url 'registration_register' %}?next={{ next }}" method="POST">
+<form id='registration-form' data-normal-url="{% url 'registration_register' %}?next={{ next }}" {% if facility_slug %} data-get-phone-url="{% url 'registration_and' facility_slug=facility_slug phone_or_tour='phone'%}?next={{ next }}" data-tour-request-url="{% url 'registration_and' facility_slug=facility_slug phone_or_tour='tour' %}?next={{ next }}"  {% endif %} method="POST">
   <div class="modal fade" id="Registration-Modal-1" tabindex="-1" role=".modal" aria-labelledby="Registration-ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <center>

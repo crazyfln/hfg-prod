@@ -10,7 +10,7 @@
   <div class="registration-box">
     <center> <h3>Register</h3></center>
 
-    <form action='/account/register/{% if next %}?next={{ next }}{% endif %}' method="POST">
+    <form action='{{ request.get_full_path }}{% if next %}?next={{ next }}{% endif %}' method="POST">
       {% csrf_token %}
 
 

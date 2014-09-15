@@ -76,9 +76,13 @@ class Facility(TimeStampedModel):
         if not vacancies_at_init == self.vacancies:
             self.vacancies_updated = datetime.datetime.now()
 
-        if not self.locationCoord and (self.address and self.city):
-            coords = self.geocode()
+        parts = [self.address, self.city, self.state, self.zipcode]
+        address = self.geocode_address(parts)
+        try:
+            coords = self.geocode(address)
             self.locationCoord = Point(coords[0], coords[1])
+        except:
+            pass
         super(Facility, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -134,8 +138,15 @@ class Facility(TimeStampedModel):
             string = "Vacancies updated {0} days ago".format(str(time_since.days))
         return string
 
-    def geocode(self):
-        address = "{0}, {1}".format(self.address, self.city)    
+    def geocode_address(self, address_parts):
+        base_str = "{0}, "
+        address = ""
+        for part in address_parts:
+            if part:
+                address += base_str.format(part)
+        return address
+        
+    def geocode(self, address):
         return Geocoder.geocode(address).coordinates
 
 class FacilityFee(TimeStampedModel):
@@ -159,6 +170,7 @@ class FacilityMessage(TimeStampedModel, FacilityMessageModelFieldMixin):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
 
+    comments = models.CharField(max_length=500, blank=True, null=True)
     read_by_manager = models.BooleanField(default=False)
     read_by_provider = models.BooleanField(default=False)
     replied_by = models.CharField(max_length=20, blank=True)

@@ -38,8 +38,7 @@ class UserPermissionSaveMixin(object):
             instance.save()
         return instance
 
-class UserCreationForm(UserPermissionSaveMixin, DjangoUserCreationForm):
-    permissions = forms.ChoiceField(choices=PERMISSION_CHOICES)
+class UserCreationForm(DjangoUserCreationForm):
     email = forms.EmailField(label=_("E-mail"), required=True)
     password1 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password"))
@@ -84,7 +83,7 @@ class UserCreationForm(UserPermissionSaveMixin, DjangoUserCreationForm):
     class Meta:
         model = User
 
-class RegistrationAdminForm(UserPermissionSaveMixin, ModelForm):
+class RegistrationAdminForm(ModelForm):
     holding_group = make_ajax_field(User, 'holding_group', 'holding_group', help_text=None)
 
     class Meta:
@@ -102,13 +101,15 @@ class UserAdmin(EditButtonMixin, DeleteButtonMixin, reversion.VersionAdmin, Djan
             'fields':( 
                 'is_superuser',
                 'holding_group',
-                ('pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi'),
-                ('care_bathing','care_diabetic','care_medical_assistance','care_toileting','care_memory_issues','care_diagnosed_memory','care_combinative','care_wandering'),
+                ('pay_private_pay','pay_longterm_care','pay_veterans_benefits'),
+                ('pay_medicare','pay_medicaid','pay_ssi'),
+                ('care_bathing','care_diabetic','care_medical_assistance'),
+                ('care_toileting','care_memory_issues','care_diagnosed_memory'),
+                ('care_combinative','care_wandering'),
                 ('first_name','last_name'),
                 ('email','budget'),
                 ('phone','searching_for'),
                 'health_description',
-                'comments',
                 'planned_move_date'
            ) 
         }),

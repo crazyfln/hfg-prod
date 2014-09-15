@@ -20,7 +20,7 @@ Search | Home For Grandma
         {% if forloop.counter0|divisibleby:"3" %}
           <div class="row">
         {% endif %}
-        {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
+        {% include 'snippets/listing_preview.html' with user=request.user facility=listing search_query=request.GET.urlencode %}
         {% if forloop.counter|divisibleby:"3" or forloop.last %}
           </div>
         {% endif %}
@@ -100,13 +100,16 @@ Search | Home For Grandma
       {% endfor %}
     ];
 
+    if (results.length == 0) {
+      center = [34.05, -118.25]
+    }
+    else {
+      center = [results[0][0], results[0][1]]
+    }
+    console.log(center)
     var mapOptions = {
       zoom: 5,
-      {% if object_list %}
-      center: new google.maps.LatLng(results[0][0], results[0][1]),
-      {% else %}
-      center: new google.maps.LatLng(53.385873, -1.471471),
-      {% endif %}
+      center: new google.maps.LatLng(center[0], center[1]),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: [{"featureType":"water","stylers":[{"saturation":43},{"lightness":-11},{"hue":"#0088ff"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"hue":"#ff0000"},{"saturation":-100},{"lightness":99}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#808080"},{"lightness":54}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"color":"#ece2d9"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#ccdca1"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#767676"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#b8cb93"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]},{"featureType":"poi.sports_complex","stylers":[{"visibility":"on"}]},{"featureType":"poi.medical","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","stylers":[{"visibility":"simplified"}]}]
     };
@@ -117,27 +120,29 @@ Search | Home For Grandma
 
     var infowindow = new google.maps.InfoWindow();
 
-    var marker, i;
-    var previousScrollElement;
+    if (!(results.length == 0)){
+      var marker, i;
+      var previousScrollElement;
 
-    for (i = 0; i < results.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(results[i][0], results[i][1]),
-        map: map
-      });
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          map.panTo(marker.getPosition());
-          infowindow.open(map, marker);
-          matchingResult = $("#" + results[i][3]);
-          matchingResult.addClass('glow-result');
-          parentDiv = $('#searchbox-and-results'); 
-          parentDiv.scrollTo(matchingResult, {offsetTop:'100'});
-          setTimeout(function () { 
-            matchingResult.removeClass('glow-result');
-          }, 1000);
-        }
-      })(marker, i));
+      for (i = 0; i < results.length; i++) {  
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(results[i][0], results[i][1]),
+          map: map
+        });
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            map.panTo(marker.getPosition());
+            infowindow.open(map, marker);
+            matchingResult = $("#" + results[i][3]);
+            matchingResult.addClass('glow-result');
+            parentDiv = $('#searchbox-and-results'); 
+            parentDiv.scrollTo(matchingResult, {offsetTop:'100'});
+            setTimeout(function () { 
+              matchingResult.removeClass('glow-result');
+            }, 1000);
+          }
+        })(marker, i));
+      }
     }
     $('.listing-preview').hover(function() {
       $this = $(this)

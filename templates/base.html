@@ -61,7 +61,7 @@
       </div>
     </div>
     {% if facility_name %}
-    {% include 'snippets/registration_modal.html' with next=request.get_full_path facility_name=facility_name %}
+    {% include 'snippets/registration_modal.html' with next=request.get_full_path facility_name=facility_name facility_slug=facility_slug %}
     {% else %}
     {% include 'snippets/registration_modal.html' with next=request.get_full_path %}
     {% endif %}

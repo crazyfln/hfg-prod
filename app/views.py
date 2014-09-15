@@ -64,6 +64,7 @@ class Profile(UpdateView):
 class FacilityDetail(DetailView):
     model = Facility
     template_name = 'facility_detail.html'
+    open_tour_request = False
 
     def get_object(self, queryset=None):
         self.object = super(FacilityDetail, self).get_object(queryset)
@@ -76,7 +77,8 @@ class FacilityDetail(DetailView):
         context = super(FacilityDetail, self).get_context_data(**kwargs)
         context['all_conditions'] = Condition.objects.all()
         context['all_amenities'] = Amenity.objects.all()
-        context['all_languages'] = Language.objects.all()
+        if self.open_tour_request:
+            context['open_tour_request'] = True
 
         if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
             context['tour_request_form'] = TourRequestForm(user=self.request.user)
@@ -85,6 +87,7 @@ class FacilityDetail(DetailView):
 
         if not self.request.user.is_authenticated():
             context['facility_name'] = self.object.name
+            context['facility_slug'] = self.object.slug
 
         return context
 

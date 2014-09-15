@@ -12,7 +12,7 @@
 <div class="facility-detail">
     <div class="container padder-100">
         <div class="facility-top">
-          <a class='back' href="{% url 'search' %}"> <span><</span> Back to Search</a>
+          <a class='back' href="{% url 'search' %}?{{ request.GET.urlencode }}"> <span><</span> Back to Search</a>
           <p class='name'>{{ object.name }}</p>
           <p class='address'>{{ object.address }} {{ object.city }}, {{ object.state }} {{ object.zipcode }}</p>
           {% for type in object.facility_types.all %}
@@ -198,17 +198,18 @@
               </div>
               <div class="row">
                 <div class="col-xs-5">
-                    {% for language in all_languages %}
                     <p>
-                        {% if language in object.languages.all %}
+                        <img src='{% static 'img/icon_small_check.png' %}'/>
+                        <span class='item-included margin-left-10'>English</span>
+                    </p>
+                      
+                  {% for language in object.languages.all %}
+                    <p>
                         <!-- if this facility handles this type of condition -->
                         <img src='{% static 'img/icon_small_check.png' %}'/>
                         <span class='item-included margin-left-10'>{{ language.name }}</span>
-                        {% else %}
-                        <span class='item-not-included margin-left-26'>{{ language.name }}</span>
-                        {% endif %}
                     </p>
-                    {% endfor %}
+                  {% endfor %}
                 </div>
               </div>
             {% endif %}
@@ -240,11 +241,11 @@
             <div class="clear"></div>
 
             {% if tour_request_form %} <!-- User is logged in and has not submitted a tour request to this facility -->
-              <button class='button-orange' data-toggle="modal" data-target="#tour-modal-1">Request A tour</button>
+              <button id="tour-request-button" class='button-orange' data-toggle="modal" data-target="#tour-modal-1">Request A tour</button>
             {% elif user.is_authenticated %} <!-- User is logged in and has already submitted a tour request -->
-              <button class='tour-button-inactive' >Request A tour</button>
+              <button id="tour-request-button" class='tour-button-inactive' >Request A tour</button>
             {% else %} <!-- User is not logged in -->
-              <button class='button-orange' data-toggle="modal" data-target='#Registration-Modal-1'> Request A tour</button>
+              <button id="tour-request-button" class='button-orange'> Request A tour</button>
             {% endif %}
 
             <p class='desc-medium'>How to get a $200 Reward for  using <br> Home For Grandma</p>
@@ -276,8 +277,20 @@ $("#show-number-button").click(function() {
   {% elif user.is_authenticated %}
     return false;
   {% else %}
+    getPhoneRegistration();
     $('#Registration-Modal-1').modal('show')
   {% endif %}
 });
+{% if not user.is_authenticated %}
+$('#tour-request-button').click(function() {
+  tourRequestRegistration();
+  $('#Registration-Modal-1').modal('show');
+});
+{% endif %}
+{% if open_tour_request and tour_request_form %}
+$(document).ready(function(){
+  $('#tour-modal-1').modal('show')
+});
+{% endif %}
 </script>
 {% endblock body_media %}

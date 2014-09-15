@@ -54,7 +54,7 @@ class ShownOnHomeFilter(admin.SimpleListFilter):
 
 class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.ModelAdmin):
     form = FacilityAdminForm
-    list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group', 'get_visibility', 'get_director_email']
+    list_display = ['edit','note','delete','pk','name','created','modified','city','state','holding_group', 'get_visibility', 'get_director_email', 'get_min_price']
     list_filter = (ShownOnHomeFilter,)
     search_fields = ['name', 'city', 'state']
     fieldsets = (
@@ -107,9 +107,13 @@ class FacilityAdmin(EditButtonMixin, NoteButtonMixin, DeleteButtonMixin, admin.M
         }
         url = url + "?" + urllib.urlencode(query)
         return '<a href="{0}">{1}</a>'.format(url, display)
-
     get_visibility.short_description = "Published"
     get_visibility.allow_tags = True
+    
+    def get_min_price(self, obj):
+        return "$" + str(obj.min_price) if obj.min_price else "Call"
+    get_min_price.short_description = "Price"
+
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
@@ -133,7 +137,7 @@ class UnreadFilter(admin.SimpleListFilter):
 
 
 class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
-    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_read_by_manager', 'get_replied']
+    list_display = ['created','get_holding_group','facility','get_user_full_name', 'message','get_tried_to_call','get_read_by_manager', 'get_replied']
     actions = ['make_read', 'make_unread', 'send_to_facility', 'unsend_to_facility']
     ordering = ['read_by_manager','-modified']
     list_filter = (UnreadFilter,)
@@ -158,8 +162,16 @@ class FacilityMessageAdmin(admin.ModelAdmin, ListStyleAdminMixin):
     get_holding_group.short_description = "Account"
 
     def get_user_full_name(self, obj):
-        return obj.user.get_full_name()
+        meta = User.objects.model._meta
+        return list_button(self,meta,'change',obj.user.get_full_name(),obj_id=obj.user.id)
     get_user_full_name.short_description = "Sender Name"
+    get_user_full_name.allow_tags = True
+
+    def get_tried_to_call(self, obj):
+        phone_request = PhoneRequest.objects.filter(user=obj.user, facility=obj.facility)
+        return True if phone_request else False
+    get_tried_to_call.short_description = "Tried to call"
+    get_tried_to_call.boolean = True
 
     
     #Actions

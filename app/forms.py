@@ -138,9 +138,19 @@ class FacilityAdminForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(FacilityAdminForm, self).clean()
-        address = "{0}, {1}".format(cleaned_data.get('address'), cleaned_data.get('city'))
-        if not Geocoder.geocode(address).valid_address:
-            raise forms.ValidationError("Google does not recognize your address and city combination as a valid address")
+        base_str = "{0}, "
+        address = ""
+        address_parts = [cleaned_data.get('address'), cleaned_data.get('city'), cleaned_data.get('state'), cleaned_data.get('zipcode')]
+        for part in address_parts:
+            if part:
+                address += base_str.format(part)
+        if not address == "":
+            error = forms.ValidationError("Google does not recognize your address, city, state or zipcode combination as a valid address")
+            try:
+                if not Geocoder.geocode(address).valid_address:
+                    raise error
+            except:
+                raise error
 
         return cleaned_data
 

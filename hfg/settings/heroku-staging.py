@@ -91,5 +91,5 @@ TEMPLATE_LOADERS = (
         'django.template.loaders.app_directories.Loader',
     )),
 )
-GEOS_LIBRARY_PATH = "{}/libgeos_c.so".format(environ.get('GEOS_LIBRARY_PATH'))
-GDAL_LIBRARY_PATH = "{}/libgdal.so".format(environ.get('GDAL_LIBRARY_PATH'))
+GEOS_LIBRARY_PATH = "/app/vendor/gdal/1.11.0/lib/libgeos_c.so"
+GDAL_LIBRARY_PATH = "/app/vendor/geos/3.4.1/lib/libgdal.so"

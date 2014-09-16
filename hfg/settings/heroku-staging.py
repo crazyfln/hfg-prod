@@ -92,4 +92,4 @@ TEMPLATE_LOADERS = (
     )),
 )
 GEOS_LIBRARY_PATH = "/app/vendor/geos/3.4.1/lib/libgeos_c.so"
-GDAL_LIBRARY_PATH = "/app/vendor/gdal/1.11.0/lib/libgdal.so"
+#GDAL_LIBRARY_PATH = "/app/vendor/gdal/1.11.0/lib/libgdal.so"

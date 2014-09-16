@@ -82,7 +82,6 @@ AWS_SECRET_ACCESS_KEY = get_env_setting('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = get_env_setting('AWS_STORAGE_BUCKET_NAME')
 
 GOOGLE_MAPS_API_KEY = "AIzaSyBGOyfx3wDOtntO4wG3PU-ce98pvSculQA"
-
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', (

@@ -12,8 +12,11 @@ from pygeocoder import Geocoder
 
 from util.util import file_url
 from .facility_message_mixin import FacilityMessageModelFieldMixin
-from urllib import quote_plus 
+from urllib import quote_plus
 
+from django.conf import Settings
+
+GEOCODE_API_KEY = Settings.GOOGLE_MAPS_API_KEY
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites", blank=True)
@@ -117,7 +120,7 @@ class Facility(TimeStampedModel):
     def get_vacancy_status(self):
         return "Vacancies" if self.vacancies > 0 else "No Vacancies"
 
-    def get_min_price(self): 
+    def get_min_price(self):
         return "$" + str(self.min_price) if self.min_price else "Call"
 
     def get_encoded_address(self):
@@ -135,8 +138,8 @@ class Facility(TimeStampedModel):
         return string
 
     def geocode(self):
-        address = "{0}, {1}".format(self.address, self.city)    
-        return Geocoder.geocode(address).coordinates
+        address = "{0}, {1}".format(self.address, self.city)
+        return Geocoder(GEOCODE_API_KEY).geocode(address).coordinates
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)
@@ -227,7 +230,7 @@ class FacilityRoom(TimeStampedModel):
 
     def get_area(self):
         return str(self.area) + " sq ft" if self.area else None
-        
+
     def __unicode__(self):
         return str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk)
 

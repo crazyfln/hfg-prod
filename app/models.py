@@ -14,9 +14,9 @@ from util.util import file_url
 from .facility_message_mixin import FacilityMessageModelFieldMixin
 from urllib import quote_plus
 
-from django.conf import Settings
+from django.conf import settings
 
-GEOCODE_API_KEY = Settings.GOOGLE_MAPS_API_KEY
+GEOCODE_API_KEY = settings.GOOGLE_MAPS_API_KEY
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites", blank=True)

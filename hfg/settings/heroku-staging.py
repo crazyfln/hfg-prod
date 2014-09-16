@@ -83,7 +83,6 @@ AWS_STORAGE_BUCKET_NAME = get_env_setting('AWS_STORAGE_BUCKET_NAME')
 
 GOOGLE_MAPS_API_KEY = "AIzaSyBGOyfx3wDOtntO4wG3PU-ce98pvSculQA"
 
-
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', (
@@ -91,5 +90,5 @@ TEMPLATE_LOADERS = (
         'django.template.loaders.app_directories.Loader',
     )),
 )
-GEOS_LIBRARY_PATH = "/app/vendor/geos/3.4.1/lib/libgeos_c.so"
-#GDAL_LIBRARY_PATH = "/app/vendor/gdal/1.11.0/lib/libgdal.so"
+GEOS_LIBRARY_PATH = "{}/libgeos_c.so".format(environ.get('GEOS_LIBRARY_PATH'))
+GDAL_LIBRARY_PATH = "{}/libgdal.so".format(environ.get('GDAL_LIBRARY_PATH'))

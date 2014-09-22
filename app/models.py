@@ -141,10 +141,16 @@ class Facility(TimeStampedModel):
             string = "Vacancies updated {0} days ago".format(str(time_since.days))
         return string
 
-
-    def geocode(self):
-        address = "{0}, {1}".format(self.address, self.city)
-        return Geocoder(GEOCODE_API_KEY).geocode(address).coordinates
+    def geocode_address(self, address_parts):
+        base_str = "{0}, "
+        address = ""
+        for part in address_parts:
+            if part:
+                address += base_str.format(part)
+        return address
+        
+    def geocode(self, address):
+        return Geocoder.geocode(address).coordinates 
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)

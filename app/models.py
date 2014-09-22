@@ -150,7 +150,8 @@ class Facility(TimeStampedModel):
         return address
         
     def geocode(self, address):
-        return Geocoder.geocode(address).coordinates 
+        geo_coder = Geocoder(api_key=settings.GOOGLE_MAPS_API_KEY)
+        return geo_coder.geocode(address).coordinates 
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)

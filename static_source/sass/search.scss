@@ -1,10 +1,56 @@
+.search-background {
+    height:100%;
+    padding-top:70px;
+//    overflow:hidden;
+}
 
+#searchbox-and-results.container.search-container-left {
+    position:relative;
+    float:left;
+    margin-left:0px;
+    margin-right:0px;
+    height:100%;
+    overflow-y:auto;
+    width: 1055px !important;
+}
 
+.no-map {
+    padding-top:70px;
+}
 #search-results {
+    margin-top:310px;
 
     h2.empty {
         color: $secondary;
         margin-top:80px;
+    }
+}
+div#map-canvas {
+    height:100%;
+
+}
+
+.glow-result {
+    -webkit-box-shadow:0 0 20px $secondary; 
+    -moz-box-shadow: 0 0 20px blue;  box-shadow:0 0 20px $secondary;
+}
+.infoBox {
+    padding:15px;
+    background-color:$beige-background;
+    color:$primary;
+    font-size:20px;
+    .map-box-link {
+        color:$primary;
+    }
+    .map-box-link:hover {
+        text-decoration:none;
+    }
+    .map-box-content {
+        .map-box-title {
+        }
+        .map-box-price {
+            color:$secondary;
+        }
     }
 }
 
@@ -35,10 +81,16 @@
 
 .searchbox {
     background-color: $beige-background;
-
+    position:fixed;
+    width: 1010px;
+    z-index:1000;
+    padding-top:10px;
     hr {
         background-color: #DFDDD7;
         height: 1px;
+    }
+    hr#searchbox-bottom-hr {
+        margin-bottom:0px;
     }
 
     button {

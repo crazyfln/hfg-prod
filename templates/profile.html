@@ -2,6 +2,9 @@
 {% block title %}
 My Profile
 {% endblock title %}
+{% block SEO %}
+ <meta name="description" content="This is test Content">
+{% endblock SEO %}
 {% load static from staticfiles %}
 {% block bodyid %}
   id="beige-body"
@@ -200,11 +203,9 @@ My Profile
           </tr>
           <tr>
             <td>{{ form.health_description.label_tag }}</td>
-            <td>{{ form.comments.label_tag }}</td>
           </tr>
           <tr>
             <td>{{ form.health_description }}</td>
-            <td>{{ form.comments }}</td>
           </tr>
         </table>           
 <!-- need to add

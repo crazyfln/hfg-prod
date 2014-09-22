@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.comments',
+    'django.contrib.gis',
     'django_nose',
     'mathfilters',
     'zinnia_bootstrap',

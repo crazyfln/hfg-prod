@@ -1,17 +1,22 @@
-from django.db import models
+from django.contrib.gis.db import models
 
 from model_utils.models import TimeStampedModel
 from django_extensions.db.models import AutoSlugField
 from django.core.urlresolvers import reverse
+from django.contrib.gis.geos import *
 
 from account.models import User, HoldingGroup
 
 import datetime
+from pygeocoder import Geocoder
 
 from util.util import file_url
 from .facility_message_mixin import FacilityMessageModelFieldMixin
-from urllib import quote_plus 
+from urllib import quote_plus
 
+from django.conf import settings
+
+GEOCODE_API_KEY = settings.GOOGLE_MAPS_API_KEY
 class Facility(TimeStampedModel):
     name = models.CharField(max_length=50)
     favorited_by = models.ManyToManyField(User, through='Favorite', related_name="favorites", blank=True)
@@ -28,8 +33,8 @@ class Facility(TimeStampedModel):
     address = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=2, blank=True)
     slug = AutoSlugField(populate_from=['name', 'zipcode'])
-    latitude = models.IntegerField(blank=True, default=0)
-    longitude = models.IntegerField(blank=True, default=0)
+    locationCoord = models.PointField(srid=4326, blank=True, null=True, default='POINT(0.0 0.0)')
+    objects = models.GeoManager()
     shown_on_home = models.BooleanField(default=False)
     description_short = models.CharField(max_length=140, blank=True)
     description_long = models.CharField(max_length=1000, blank=True)
@@ -73,6 +78,14 @@ class Facility(TimeStampedModel):
         vacancies_at_init = getattr(self, 'vacancies_at_init')
         if not vacancies_at_init == self.vacancies:
             self.vacancies_updated = datetime.datetime.now()
+
+        parts = [self.address, self.city, self.state, self.zipcode]
+        address = self.geocode_address(parts)
+        try:
+            coords = self.geocode(address)
+            self.locationCoord = Point(coords[0], coords[1])
+        except:
+            pass
         super(Facility, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -111,7 +124,7 @@ class Facility(TimeStampedModel):
     def get_vacancy_status(self):
         return "Vacancies" if self.vacancies > 0 else "No Vacancies"
 
-    def get_min_price(self): 
+    def get_min_price(self):
         return "$" + str(self.min_price) if self.min_price else "Call"
 
     def get_encoded_address(self):
@@ -127,6 +140,11 @@ class Facility(TimeStampedModel):
         else:
             string = "Vacancies updated {0} days ago".format(str(time_since.days))
         return string
+
+
+    def geocode(self):
+        address = "{0}, {1}".format(self.address, self.city)
+        return Geocoder(GEOCODE_API_KEY).geocode(address).coordinates
 
 class FacilityFee(TimeStampedModel):
     facility = models.ForeignKey(Facility)
@@ -149,6 +167,7 @@ class FacilityMessage(TimeStampedModel, FacilityMessageModelFieldMixin):
     user = models.ForeignKey(User)
     facility = models.ForeignKey(Facility)
 
+    comments = models.CharField(max_length=500, blank=True, null=True)
     read_by_manager = models.BooleanField(default=False)
     read_by_provider = models.BooleanField(default=False)
     replied_by = models.CharField(max_length=20, blank=True)
@@ -217,7 +236,7 @@ class FacilityRoom(TimeStampedModel):
 
     def get_area(self):
         return str(self.area) + " sq ft" if self.area else None
-        
+
     def __unicode__(self):
         return str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk)
 

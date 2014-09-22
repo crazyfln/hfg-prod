@@ -64,6 +64,7 @@ class Profile(UpdateView):
 class FacilityDetail(DetailView):
     model = Facility
     template_name = 'facility_detail.html'
+    open_tour_request = False
 
     def get_object(self, queryset=None):
         self.object = super(FacilityDetail, self).get_object(queryset)
@@ -76,7 +77,8 @@ class FacilityDetail(DetailView):
         context = super(FacilityDetail, self).get_context_data(**kwargs)
         context['all_conditions'] = Condition.objects.all()
         context['all_amenities'] = Amenity.objects.all()
-        context['all_languages'] = Language.objects.all()
+        if self.open_tour_request:
+            context['open_tour_request'] = True
 
         if self.request.user.is_authenticated() and not FacilityMessage.objects.filter(user=self.request.user, facility=self.object).exists():
             context['tour_request_form'] = TourRequestForm(user=self.request.user)
@@ -85,6 +87,7 @@ class FacilityDetail(DetailView):
 
         if not self.request.user.is_authenticated():
             context['facility_name'] = self.object.name
+            context['facility_slug'] = self.object.slug
 
         return context
 
@@ -124,9 +127,15 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        context['form'] = SearchForm(self.request.GET)
+        initial_form_dict = self.request.GET.copy()
+        if len(self.request.GET) == 0:
+            initial_form_dict['show_map'] = True
+        context['form'] = SearchForm(initial_form_dict)
+        context['google_maps_api_key'] = settings.GOOGLE_MAPS_API_KEY
         context['real_min_val'] = SEARCH_MIN_VAL_INITIAL
         context['real_max_val'] = SEARCH_MAX_VAL_INITIAL
+        if context['form'].is_valid():
+            context['show_map'] = context['form'].cleaned_data.get('show_map')
         return context
 
     def get_queryset(self):
@@ -157,9 +166,12 @@ class Search(ListView):
                 Qquery.AND
             )
             result = result.filter(Qquery)
-            return result.filter(visibility=True).order_by('min_price')
+            result = result.filter(visibility=True).order_by('min_price')
         else:
-            return Facility.objects.all().filter(visibility=True).order_by('min_price')
+            result = Facility.objects.all().filter(visibility=True).order_by('min_price')
+
+        return result
+
 
 class Contact(FormView):
     form_class = ContactForm

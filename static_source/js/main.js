@@ -1,11 +1,31 @@
-$(document).ready(function(){
-
-  submitParentForm = function() {
+submitParentForm = function() {
     form = $(this).closest('form');
     form.submit();
-  };  
+};  
 
-  $('#id_room_type').change(submitParentForm) ;
+normalRegistration = function() {
+    form = $('#registration-form');
+    url = form.data('normal-url');
+    form.attr('action',url);
+}
+getPhoneRegistration = function() {
+    form = $('#registration-form');
+    url = form.data('get-phone-url');
+    form.attr('action', url);
+}
+tourRequestRegistration = function() {
+    form = $('#registration-form');
+    url = form.data('tour-request-url');
+    form.attr('action', url);
+}
+
+$(document).ready(function(){
+
+  $('.normal-registration-button').on('click', function() {
+        normalRegistration();
+        $('#Registration-Modal-1').modal('show');
+  });
+  $('#id_room_type').change(submitParentForm);
   $('#id_facility_type').change(submitParentForm);
   $('#searchfield-amenities input').change(submitParentForm);
 
@@ -26,18 +46,21 @@ $(document).ready(function(){
   var bgImageNumber = 3 // how many bg classes in index.scss
   var bgIndex = 2 // which bg to display next
   var oldIndex = 1 // the default home-bg-image- class specified in html
+  var NextImg = new Image() 
+  NextImg.src = '/static/img/home-background-' + bgIndex + '.jpg'
 
   window.setInterval(function() {
-    if (bgIndex > bgImageNumber) {
-      bgIndex = 1;
-    };
-    $('.home-background').animate({ opacity:.9}, function() {
-        $(this).removeClass('home-bg-image-' + oldIndex).addClass('home-bg-image-' + bgIndex).animate({ opacity:1})
+    $('.home-background').animate({ opacity:.5}, function() {
+        $(this).removeClass('home-bg-image-' + oldIndex).addClass('home-bg-image-' + bgIndex).animate({ opacity:1, duration:5000})
         oldIndex = bgIndex
         bgIndex++    
+        if (bgIndex > bgImageNumber) {
+          bgIndex = 1;
+        };
+        NextImg.src = 'static/img/home-background-' + bgIndex + '.jpg'
     });
 
-  }, 5000)
+  }, 10000)
 
   $('.count').click(function() {
     $('#facility-carousel').show()
@@ -145,7 +168,6 @@ $(document).ready(function(){
         return false;
     });
 
-
-    $('#id_planned_move_date').datepicker();
-
+    dateField = $('#id_planned_move_date')
+    dateField.datepicker({dateFormat: 'mm-dd-y'});
   });

@@ -95,7 +95,7 @@ class ProfileForm(FacilityMessageFormFieldMixin, ModelForm):
     class Meta:
         model = User
         fields = ('first_name','last_name','email','phone', \
-            'budget', 'conditions', 'searching_for','health_description','comments','resident_first_name','preferred_contact', 'planned_move_date', \
+            'budget', 'conditions', 'searching_for','health_description','resident_first_name','preferred_contact', 'planned_move_date', \
             'pay_private_pay','pay_longterm_care','pay_veterans_benefits','pay_medicare','pay_medicaid','pay_ssi', \
             'care_bathing','care_diabetic','care_medical_assistance','care_medical_assistance','care_toileting','care_memory_issues','care_diagnosed_memory','care_combinative','care_wandering')
 

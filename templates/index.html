@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block title %}
-Home For Grandma
+Senior Homes & Residential Care Facilities | Home For Grandma
 {% endblock title %}
+{% block SEO %}
+ <meta name="description" content="This is test Content">
+{% endblock SEO %}
 
 
 {% block content %}
@@ -11,7 +14,7 @@ Home For Grandma
 
     {% for message in messages %}   
     <div style='' class="alert alert-success alert-dismissible" role="alert">
-      <button style='margin-left: 10px;'type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <button style=''type="button" class="close" data-dismiss="alert"><img src='{% static 'img/icon_close.png' %}'/></button>
      {{ message }} 
     </div>
     {% endfor %}
@@ -160,6 +163,7 @@ Home For Grandma
       </div>
     </div>
   </center>
+
 
 
   {% endblock content %}

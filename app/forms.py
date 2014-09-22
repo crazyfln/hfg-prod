@@ -12,6 +12,7 @@ from django.forms.extras.widgets import SelectDateWidget
 
 from django.utils.translation import ugettext_lazy as _
 from ajax_select import make_ajax_field
+from pygeocoder import Geocoder
 
 from .models import *
 from .facility_message_mixin import field_choices, field_choices_empty, FacilityMessageFormFieldMixin
@@ -25,12 +26,21 @@ class SearchForm(forms.Form):
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(
-            widget=forms.CheckboxSelectMultiple(attrs={'id':'id_amenities'}), 
-            queryset=Amenity.objects.all(), 
-            required=False
+        widget=forms.CheckboxSelectMultiple(attrs={'id':'id_amenities'}), 
+        queryset=Amenity.objects.all(), 
+        required=False
+    )
+    show_map = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'id':'myonoffswitch','class':'onoffswitch-checkbox'}),
+        initial=True,
+        required=False
     )
     min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
     max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
+
+    def __init__(self, *args, **kwargs):
+        super(SearchForm, self).__init__(*args, **kwargs)
+        self.fields['show_map'].initial = True
 
 class ListPropertyForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First Name'}))
@@ -134,6 +144,24 @@ class FacilityAdminForm(ModelForm):
         widgets = {
             'description_long':forms.Textarea,
         }
+
+    def clean(self):
+        cleaned_data = super(FacilityAdminForm, self).clean()
+        base_str = "{0}, "
+        address = ""
+        address_parts = [cleaned_data.get('address'), cleaned_data.get('city'), cleaned_data.get('state'), cleaned_data.get('zipcode')]
+        for part in address_parts:
+            if part:
+                address += base_str.format(part)
+        if not address == "":
+            error = forms.ValidationError("Google does not recognize your address, city, state or zipcode combination as a valid address")
+            try:
+                if not Geocoder.geocode(address).valid_address:
+                    raise error
+            except:
+                raise error
+
+        return cleaned_data
 
     def clean_phone(self):
         data = self.cleaned_data['phone']

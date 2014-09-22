@@ -6,7 +6,7 @@ CONTACT_EMAIL = 'greg@lightmatter.com'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE':'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'hfg',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'hfg',
@@ -79,6 +79,8 @@ SECRET_KEY = "&)y$vgj8lzxlexal31dcd(^ua(0yf95)f^b@$=*to5s)*eznxq"
 
 STRIPE_PUBLIC_KEY = ""
 STRIPE_SECRET_KEY = ""
+
+GOOGLE_MAPS_API_KEY = 'AIzaSyBkALfG9TkfOTDoWdEKqSfWid12Q2uOrhk'
 
 # settings for tests to pass consistently
 SOUTH_TESTS_MIGRATE = True

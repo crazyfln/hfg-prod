@@ -6,6 +6,7 @@ PIPELINE_CSS = {
         'source_filenames': (
             'sass/style.scss',
             'css/vendor/jquery-ui.min.css',
+            'css/vendor/animate.css',
         ),
         'output_filename': 'css/screen.css',
         'variant': 'datauri',

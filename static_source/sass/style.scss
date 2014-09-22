@@ -31,7 +31,10 @@ $bootstrap-sass-asset-helper: false;
 //global rules and helper classes
 
 
-
+#map {
+    width: 750px;
+    height: 500px;
+}
 
 .container {
     width: 1040px !important;
@@ -40,7 +43,7 @@ $bootstrap-sass-asset-helper: false;
 }
 
 body {
-   min-width: 1040px !important;
+ min-width: 1040px !important;
 }
 
 #beige-body {
@@ -111,6 +114,10 @@ h2 {
 
 .margin-top-80 {
     margin-top: 80px; 
+}
+
+.margin-top-70 {
+    margin-top: 70px; 
 }
 
 .padder-top-40 {

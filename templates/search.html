@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
+
+{% load thumbnail %}
+
 {% block title %}
-Home For Grandma Search
+Search | Home For Grandma 
 {% endblock title %}
+{% block SEO %}
+ <meta name="description" content="This is test Content">
+{% endblock SEO %}
 {% load static %}
 {% block extra_head %}
 <link href="{% static 'slider/css/slider.css' %}" rel="stylesheet">
@@ -9,20 +15,20 @@ Home For Grandma Search
 
 
 {% block content %}
-<div class="background-beige">
-<div class="container padder-100">
+      <div class="background-beige {% if show_map %}search-background{% endif %}">
+  <div id='searchbox-and-results' class="container {% if show_map %}search-container-left{% else %}no-map{% endif %}">
     {% include 'snippets/searchbox.html' with form=form %}
-    <div id="search-results ">
+    <div id="search-results">
       {% for listing in object_list %}
         {% if forloop.counter0|divisibleby:"3" %}
           <div class="row">
         {% endif %}
-        {% include 'snippets/listing_preview.html' with user=request.user facility=listing %}
+        {% include 'snippets/listing_preview.html' with user=request.user facility=listing search_query=request.GET.urlencode %}
         {% if forloop.counter|divisibleby:"3" or forloop.last %}
           </div>
         {% endif %}
-        {% empty %}
-        <center><h2 class='empty'>We are busy adding thousands of listing to our website. We’re sorry, your search didn’t return any of our currently listed communities. Our advisors can still help give us a call at 1(800) 434-0324.</h2></center>
+      {% empty %}
+          <center><h2 class='empty'>We are busy adding thousands of listing to our website. We’re sorry, your search didn’t return any of our currently listed communities. Our advisors can still help give us a call at 1(800) 434-0324.</h2></center>
       {% endfor %}
       {% if is_paginated %}
         <div class="pagination">
@@ -42,13 +48,23 @@ Home For Grandma Search
             {% endif %}
           </span>
         </div>
-    {% endif %}
+      {% endif %}
     </div>
-</div>
+  </div>
+
+  <div id='map-canvas' class='fadeInRight'>
+
+  </div>
 </div>
 
 {% endblock content %}
+{% block main_footer %}
+{% endblock main_footer %}
 {% block body_media %}
+
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
+  <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
   <script>
     min_val = $('#id_min_value').attr('value');
     if (min_val == undefined){
@@ -59,6 +75,141 @@ Home For Grandma Search
       max_val = {{ real_max_val }};
     }
 
-  </script>
+    var map;
+    var markers = new Array();
 
+    createMap = function() {
+      results = [
+        {% for result in object_list %}
+          {% if result.locationCoord %}
+          [{{ result.locationCoord.x }},{{ result.locationCoord.y }}, "{{ result.name }}", "{{ result.slug }}", "{{ result.get_featured_image.image|thumbnail_url:'listing_preview' }}", "{{ result.get_min_price }}", "{% url 'facility_details' result.slug %}"],
+          {% endif %}
+        {% endfor %}
+      ];
+
+      if (results.length == 0) {
+        center = [34.05, -118.25]
+      }
+      else {
+        center = [results[0][0], results[0][1]]
+      }
+      var mapOptions = {
+        zoom: 5,
+        center: new google.maps.LatLng(center[0], center[1]),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        styles: [{"featureType":"water","stylers":[{"saturation":43},{"lightness":-11},{"hue":"#0088ff"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"hue":"#ff0000"},{"saturation":-100},{"lightness":99}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#808080"},{"lightness":54}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"color":"#ece2d9"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#ccdca1"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#767676"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#b8cb93"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]},{"featureType":"poi.sports_complex","stylers":[{"visibility":"on"}]},{"featureType":"poi.medical","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","stylers":[{"visibility":"simplified"}]}]
+    };
+      var mapElement = document.getElementById('map-canvas');
+      map = new google.maps.Map(mapElement, mapOptions);
+
+      var infowindow = new google.maps.InfoWindow();
+      var infoWindows = new Array();
+      var queryString = "?" + "{{ request.GET.urlencode }}"
+
+      if (!(results.length == 0)){
+        var marker, i;
+        var latlngbounds = new google.maps.LatLngBounds();
+        for (i = 0; i < results.length; i++) {  
+          var googleCoords = new google.maps.LatLng(results[i][0],results[i][1]);
+          latlngbounds.extend(googleCoords);
+          var url = results[i][6] + queryString
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(results[i][0], results[i][1]),
+            map: map,
+            slug: results[i][3],
+            url: url
+          });
+          markers.push(marker)
+          var infoWindowContent = 
+            "<a class='map-box-link' href='" + url + "'>" +
+              "<div class='map-box-content'>" +
+                "<div class='map-box-photo'>" +
+                  "<img src='" + results[i][4] + "'/>" +
+                "</div>" +
+                "<div class='map-box-title'>" +
+                  results[i][2] +
+                "</div>" +
+                "<div class='map-box-price'>" +
+                  results[i][5] +
+                "</div>" +
+              "</div>" +
+            "</a>"
+          var newInfoWindow = new InfoBox({content:infoWindowContent});
+          marker['infowindow'] = newInfoWindow; 
+          infoWindows.push(newInfoWindow);
+
+          google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+            return function() {
+              for (var t=0; t<infoWindows.length; t++) {
+                infoWindows[t].close();
+              }
+              this['infowindow'].open(map, marker);
+            }
+          })(marker, i));
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              window.location.href = this.url;
+            }
+          })(marker, i));
+        }
+        map.fitBounds(latlngbounds);
+      }
+    }
+    
+    var map_created;
+    var thismarker
+    $('.listing-preview').hover(function() {
+      if (map_created){ 
+        $this = $(this)
+        for (i = 0; i < results.length; i++) {  
+          if (markers[i]['slug'] == $this.attr('id')){
+            thismarker = markers[i]
+            thismarker.setAnimation(google.maps.Animation.BOUNCE); 
+          } 
+        }
+      }
+    },function() {
+      if (map_created){ 
+        $this = $(this)
+        for (i = 0; i < results.length; i++) {  
+          if (markers[i]['slug'] == $this.attr('id')){
+            thismarker.setAnimation(null);
+          }
+        }
+      }
+    });
+
+    var mapElement = $('#map-canvas')
+    var searchbox = $('#searchbox-and-results');
+    var background = $('.background-beige');
+    {% if show_map %}
+      createMap();
+      map_created = true;
+    {% else %}
+      map_created = false; 
+    {% endif %}
+
+    $('#myonoffswitch').change(function() {
+      if( $(this).is(':checked') ){
+        if (!map_created){
+          createMap();
+          map_created = true;
+        }
+        mapElement.fadeIn(1000)
+        searchbox.addClass('search-container-left');
+        searchbox.removeClass('no-map');
+        background.addClass('search-background');
+      }
+      else {
+        mapElement.fadeOut(1000);
+        setTimeout(function () { 
+          searchbox.removeClass('search-container-left');
+          searchbox.addClass('no-map');
+          background.removeClass('search-background');
+        }, 1000);
+      }
+    });
+
+</script>
 {% endblock body_media %}

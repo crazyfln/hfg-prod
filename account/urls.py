@@ -6,6 +6,7 @@ from .forms import AuthenticationForm
 
 
 urlpatterns = patterns('',
+    url(r'^register/(?P<facility_slug>[-\w]+)/(?P<phone_or_tour>[-\w]+)/$', RegistrationView.as_view(), name='registration_and'),
     url(r'^register/$', RegistrationView.as_view(), name='registration_register'),
     (r'^login/$', 'django.contrib.auth.views.login', {'authentication_form': AuthenticationForm, 'template_name': 'registration/login.html',}),
     (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),

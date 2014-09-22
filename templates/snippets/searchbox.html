@@ -12,7 +12,8 @@
       <div class="clear"></div>
     </div>
     <div class="onoffswitch" style="">
-      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+      <!-- <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked> -->
+      {{ form.show_map }}
       <label class="onoffswitch-label " for="myonoffswitch">
         <span class="onoffswitch-inner"></span>
         <span class="onoffswitch-switch"></span>
@@ -57,12 +58,12 @@
       {% endfor %}
       <div class="clear"></div>
     </div>
-    <hr>
     <div id="searchfield-hiddenvalues">
       {{ form.min_value }}
       {{ form.max_value }}
     </div>
 
   </form>
+  <hr id='searchbox-bottom-hr'>
 </div>
 

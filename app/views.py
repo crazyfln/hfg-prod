@@ -127,10 +127,15 @@ class Search(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Search, self).get_context_data(**kwargs)
-        context['form'] = SearchForm(self.request.GET)
+        initial_form_dict = self.request.GET.copy()
+        if len(self.request.GET) == 0:
+            initial_form_dict['show_map'] = True
+        context['form'] = SearchForm(initial_form_dict)
         context['google_maps_api_key'] = settings.GOOGLE_MAPS_API_KEY
         context['real_min_val'] = SEARCH_MIN_VAL_INITIAL
         context['real_max_val'] = SEARCH_MAX_VAL_INITIAL
+        if context['form'].is_valid():
+            context['show_map'] = context['form'].cleaned_data.get('show_map')
         return context
 
     def get_queryset(self):

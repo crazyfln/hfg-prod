@@ -26,12 +26,21 @@ class SearchForm(forms.Form):
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), empty_label="All", required=False)
     facility_type = forms.ModelChoiceField(queryset=FacilityType.objects.all(), empty_label="All", required=False)
     amenities = forms.ModelMultipleChoiceField(
-            widget=forms.CheckboxSelectMultiple(attrs={'id':'id_amenities'}), 
-            queryset=Amenity.objects.all(), 
-            required=False
+        widget=forms.CheckboxSelectMultiple(attrs={'id':'id_amenities'}), 
+        queryset=Amenity.objects.all(), 
+        required=False
+    )
+    show_map = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'id':'myonoffswitch','class':'onoffswitch-checkbox'}),
+        initial=True,
+        required=False
     )
     min_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MIN_VAL_INITIAL)
     max_value = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=SEARCH_MAX_VAL_INITIAL)
+
+    def __init__(self, *args, **kwargs):
+        super(SearchForm, self).__init__(*args, **kwargs)
+        self.fields['show_map'].initial = True
 
 class ListPropertyForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First Name'}))

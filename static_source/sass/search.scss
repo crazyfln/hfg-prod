@@ -79,6 +79,8 @@ div#map-canvas {
     -webkit-appearance: none;
 }
 
+
+
 .searchbox {
     background-color: $beige-background;
     position:fixed;
@@ -321,6 +323,7 @@ div#searchfield-amenities {
     height:55px;
     background-color:transparent;
     margin-top:30px;
+    position:relative;
 
     .searchfield-facility_type-holder {
         @extend .select-holder-mixin;

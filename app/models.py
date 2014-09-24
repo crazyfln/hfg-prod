@@ -68,7 +68,7 @@ class Facility(TimeStampedModel):
         verbose_name_plural = "Listing Management"
 
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     def __init__(self, *args, **kwargs):
         super(Facility, self).__init__(*args, **kwargs)
@@ -159,13 +159,13 @@ class FacilityFee(TimeStampedModel):
     cost = models.IntegerField()
 
     def __unicode__(self):
-        return self.facility.name + "-" + self.fee.name
+        return unicode(self.facility.name + "-" + self.fee.name)
 
 class Fee(TimeStampedModel):
     name = models.CharField(max_length=50)
 
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     class Meta:
         verbose_name_plural = "Types of Additional Fees"
@@ -191,7 +191,7 @@ class FacilityMessage(TimeStampedModel, FacilityMessageModelFieldMixin):
         user.save()
 
     def __unicode__(self):
-        return "-".join([str(self.facility.name), str(self.user.get_full_name()), str(self.created.date())])
+        return unicode("-".join([str(self.facility.name), str(self.user.get_full_name()), str(self.created.date())]))
 
     class Meta:
         verbose_name = "Message"
@@ -202,7 +202,7 @@ class FacilityType(TimeStampedModel):
     name = models.CharField(max_length=50)
 
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     class Meta:
         verbose_name_plural = "Types of Facilities"
@@ -211,7 +211,7 @@ class Language(TimeStampedModel):
     name = models.CharField(max_length=40)
 
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     class Meta:
         verbose_name_plural = "Types of Languages"
@@ -221,7 +221,7 @@ class Condition(TimeStampedModel):
     users = models.ManyToManyField('account.User', blank=True, related_name="conditions")
 
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     class Meta:
         verbose_name_plural = "Types of Conditions"
@@ -230,7 +230,7 @@ class Amenity(TimeStampedModel):
     name = models.CharField(max_length=40)
 
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     class Meta:
         verbose_name_plural = "Types of Amenities"
@@ -245,13 +245,13 @@ class FacilityRoom(TimeStampedModel):
         return str(self.area) + " sq ft" if self.area else None
 
     def __unicode__(self):
-        return str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk)
+        return unicode(str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk))
 
 class RoomType(TimeStampedModel):
     name = models.CharField(max_length=30)
 
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     class Meta:
         verbose_name_plural = "Types of Rooms"
@@ -290,7 +290,8 @@ class Invoice(TimeStampedModel):
     manager_note = models.CharField(max_length=1000, blank=True, null=True)
 
     def __unicode__(self):
-        return str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date())
+        return unicode(str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date()))
+
     class Meta:
         verbose_name = "Claim"
         verbose_name_plural = "Income Management"
@@ -304,4 +305,4 @@ class PhoneRequest(TimeStampedModel):
     facility = models.ForeignKey(Facility)
 
     def __unicode__(self):
-        return str(self.facility) + ":" + str(self.user.get_full_name) + " at: " + str(self.created)
+        return unicode(str(self.facility) + ":" + str(self.user.get_full_name) + " at: " + str(self.created))

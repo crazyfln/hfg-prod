@@ -125,10 +125,10 @@ class Facility(TimeStampedModel):
         return "Vacancies" if self.vacancies > 0 else "No Vacancies"
 
     def get_min_price(self):
-        return "$" + str(self.min_price) if self.min_price else "Call"
+        return "$" + unicode(self.min_price) if self.min_price else "Call"
 
     def get_encoded_address(self):
-        return quote_plus(unicode(",".join([unicode(self.address), unicode(self.city), unicode(self.state), unicode(self.zipcode)])))
+        return quote_plus(",".join([unicode(self.address), unicode(self.city), unicode(self.state), unicode(self.zipcode)]))
 
     def get_days_since_vacancies_updated(self):
         now = datetime.datetime.now()
@@ -138,7 +138,7 @@ class Facility(TimeStampedModel):
         elif time_since.days == 1:
             string = "Vacancies updated yesterday"
         else:
-            string = "Vacancies updated {0} days ago".format(str(time_since.days))
+            string = "Vacancies updated {0} days ago".format(unicode(time_since.days))
         return string
 
     def geocode_address(self, address_parts):
@@ -191,7 +191,7 @@ class FacilityMessage(TimeStampedModel, FacilityMessageModelFieldMixin):
         user.save()
 
     def __unicode__(self):
-        return unicode("-".join([str(self.facility.name), str(self.user.get_full_name()), str(self.created.date())]))
+        return unicode("-".join([unicode(self.facility.name), unicode(self.user.get_full_name()), unicode(self.created.date())]))
 
     class Meta:
         verbose_name = "Message"
@@ -242,10 +242,10 @@ class FacilityRoom(TimeStampedModel):
     starting_price = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
 
     def get_area(self):
-        return str(self.area) + " sq ft" if self.area else None
+        return unicode(self.area) + " sq ft" if self.area else None
 
     def __unicode__(self):
-        return unicode(str(self.facility) + '-' + str(self.room_type) + '-' + str(self.pk))
+        return unicode(self.facility) + '-' + unicode(self.room_type) + '-' + unicode(self.pk)
 
 class RoomType(TimeStampedModel):
     name = models.CharField(max_length=30)
@@ -290,7 +290,7 @@ class Invoice(TimeStampedModel):
     manager_note = models.CharField(max_length=1000, blank=True, null=True)
 
     def __unicode__(self):
-        return unicode(str(self.facility) + "-" + self.resident_name + "-" + str(self.billed_on.date()))
+        return unicode(self.facility) + "-" + unicode(self.resident_name) + "-" + unicode(self.billed_on.date())
 
     class Meta:
         verbose_name = "Claim"
@@ -305,4 +305,4 @@ class PhoneRequest(TimeStampedModel):
     facility = models.ForeignKey(Facility)
 
     def __unicode__(self):
-        return unicode(str(self.facility) + ":" + str(self.user.get_full_name) + " at: " + str(self.created))
+        return unicode(self.facility) + ":" + unicode(self.user.get_full_name) + " at: " + unicode(self.created)

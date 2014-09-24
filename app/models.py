@@ -79,7 +79,7 @@ class Facility(TimeStampedModel):
         if not vacancies_at_init == self.vacancies:
             self.vacancies_updated = datetime.datetime.now()
 
-        parts = [self.address, self.city, self.state, self.zipcode]
+        parts = [unicode(self.address), unicode(self.city), unicode(self.state), unicode(self.zipcode)]
         address = self.geocode_address(parts)
         try:
             coords = self.geocode(address)

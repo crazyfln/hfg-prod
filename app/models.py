@@ -146,6 +146,7 @@ class Facility(TimeStampedModel):
         address = ""
         for part in address_parts:
             if part:
+                part = part.lstrip( unicode( codecs.BOM_UTF8, "utf8" ) )
                 address += base_str.format(part)
         return address
         

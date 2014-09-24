@@ -8,6 +8,7 @@ from django.contrib.gis.geos import *
 from account.models import User, HoldingGroup
 
 import datetime
+import codecs
 from pygeocoder import Geocoder
 
 from util.util import file_url

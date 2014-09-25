@@ -143,8 +143,8 @@ class Facility(TimeStampedModel):
         return string
 
     def geocode_address(self, address_parts):
-        base_str = "{0}, "
-        address = ""
+        base_str = u"{0}, "
+        address = u""
         for part in address_parts:
             if part:
                 part = part.lstrip( unicode( codecs.BOM_UTF8, "utf8" ) )
